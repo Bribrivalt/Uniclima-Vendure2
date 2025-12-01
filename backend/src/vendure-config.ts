@@ -78,12 +78,13 @@ export const config: VendureConfig = {
             handlers: defaultEmailHandlers,
             templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
             globalTemplateVars: {
-                // The following variables will change depending on your storefront implementation.
-                // Here we are assuming a storefront running at http://localhost:8080.
-                fromAddress: '"example" <noreply@example.com>',
-                verifyEmailAddressUrl: 'http://localhost:8080/verify',
-                passwordResetUrl: 'http://localhost:8080/password-reset',
-                changeEmailAddressUrl: 'http://localhost:8080/verify-email-address-change'
+                // Configuración personalizada para Uniclima
+                // Frontend en desarrollo: http://localhost:3000
+                // Frontend en producción: https://uniclima.es (cambiar cuando se despliegue)
+                fromAddress: '"Uniclima Solutions" <pedidos@uniclima.es>',
+                verifyEmailAddressUrl: 'http://localhost:3000/cuenta/verificar-email',
+                passwordResetUrl: 'http://localhost:3000/cuenta/resetear-password',
+                changeEmailAddressUrl: 'http://localhost:3000/cuenta/cambiar-email'
             },
         }),
         DashboardPlugin.init({
