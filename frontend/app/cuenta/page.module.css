@@ -1,0 +1,132 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-8) var(--spacing-4);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-8);
+    padding-bottom: var(--spacing-6);
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.header h1 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: #333;
+    margin: 0;
+}
+
+.logoutButton {
+    padding: var(--spacing-3) var(--spacing-6);
+    background: transparent;
+    border: 2px solid #cc0000;
+    border-radius: var(--border-radius-md);
+    color: #cc0000;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.logoutButton:hover {
+    background: #cc0000;
+    color: white;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+}
+
+.section {
+    background: white;
+    padding: var(--spacing-6);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section h2 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: #333;
+    margin: 0 0 var(--spacing-6) 0;
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-6);
+}
+
+.infoItem label {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: #666;
+    margin-bottom: var(--spacing-2);
+}
+
+.infoItem p {
+    font-size: var(--font-size-base);
+    color: #333;
+    margin: 0;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-4);
+}
+
+.actionCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-6);
+    background: #f5f5f5;
+    border-radius: var(--border-radius-md);
+    text-decoration: none;
+    color: #333;
+    transition: all var(--transition-base);
+}
+
+.actionCard:hover {
+    background: #cc0000;
+    color: white;
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.3);
+}
+
+.actionCard svg {
+    color: #cc0000;
+    transition: color var(--transition-base);
+}
+
+.actionCard:hover svg {
+    color: white;
+}
+
+.actionCard span {
+    font-weight: var(--font-weight-medium);
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: var(--spacing-4);
+        align-items: flex-start;
+    }
+
+    .infoGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        grid-template-columns: 1fr;
+    }
+}
