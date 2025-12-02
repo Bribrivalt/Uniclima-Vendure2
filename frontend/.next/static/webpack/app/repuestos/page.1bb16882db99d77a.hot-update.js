@@ -1,0 +1,21 @@
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+self["webpackHotUpdate_N_E"]("app/repuestos/page",{
+
+/***/ "(app-pages-browser)/./app/repuestos/page.module.css":
+/*!***************************************!*\
+  !*** ./app/repuestos/page.module.css ***!
+  \***************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+eval(__webpack_require__.ts("// extracted by mini-css-extract-plugin\nmodule.exports = {\"container\":\"page_container__iV_It\",\"header\":\"page_header__TH5vc\",\"title\":\"page_title__0pEkT\",\"subtitle\":\"page_subtitle__KthMk\",\"controls\":\"page_controls__1aT4o\",\"searchWrapper\":\"page_searchWrapper__wzbcB\",\"stats\":\"page_stats__DsLp6\",\"count\":\"page_count__O9ilf\",\"loading\":\"page_loading__Yct2v\",\"spinner\":\"page_spinner__ie2dR\",\"spin\":\"page_spin__S6CoM\",\"error\":\"page_error__FZQ3R\",\"grid\":\"page_grid__DxLpb\",\"empty\":\"page_empty__fjF07\",\"emptyIcon\":\"page_emptyIcon__eiN0M\",\"emptyTitle\":\"page_emptyTitle__MguDd\",\"emptyText\":\"page_emptyText__1L_oT\"};\n    if(true) {\n      // 1764674396042\n      var cssReload = __webpack_require__(/*! ./node_modules/next/dist/compiled/mini-css-extract-plugin/hmr/hotModuleReplacement.js */ \"(app-pages-browser)/./node_modules/next/dist/compiled/mini-css-extract-plugin/hmr/hotModuleReplacement.js\")(module.id, {\"publicPath\":\"/_next/\",\"esModule\":false,\"locals\":true});\n      module.hot.dispose(cssReload);\n      \n    }\n  \nmodule.exports.__checksum = \"9c1657f90a31\"\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwcC1wYWdlcy1icm93c2VyKS8uL2FwcC9yZXB1ZXN0b3MvcGFnZS5tb2R1bGUuY3NzIiwibWFwcGluZ3MiOiJBQUFBO0FBQ0Esa0JBQWtCO0FBQ2xCLE9BQU8sSUFBVTtBQUNqQjtBQUNBLHNCQUFzQixtQkFBTyxDQUFDLHdNQUE4SSxjQUFjLHNEQUFzRDtBQUNoUCxNQUFNLFVBQVU7QUFDaEI7QUFDQTtBQUNBO0FBQ0EseUJBQXlCIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vX05fRS8uL2FwcC9yZXB1ZXN0b3MvcGFnZS5tb2R1bGUuY3NzP2M1YWEiXSwic291cmNlc0NvbnRlbnQiOlsiLy8gZXh0cmFjdGVkIGJ5IG1pbmktY3NzLWV4dHJhY3QtcGx1Z2luXG5tb2R1bGUuZXhwb3J0cyA9IHtcImNvbnRhaW5lclwiOlwicGFnZV9jb250YWluZXJfX2lWX0l0XCIsXCJoZWFkZXJcIjpcInBhZ2VfaGVhZGVyX19USDV2Y1wiLFwidGl0bGVcIjpcInBhZ2VfdGl0bGVfXzBwRWtUXCIsXCJzdWJ0aXRsZVwiOlwicGFnZV9zdWJ0aXRsZV9fS3RoTWtcIixcImNvbnRyb2xzXCI6XCJwYWdlX2NvbnRyb2xzX18xYVQ0b1wiLFwic2VhcmNoV3JhcHBlclwiOlwicGFnZV9zZWFyY2hXcmFwcGVyX193emJjQlwiLFwic3RhdHNcIjpcInBhZ2Vfc3RhdHNfX0RzTHA2XCIsXCJjb3VudFwiOlwicGFnZV9jb3VudF9fTzlpbGZcIixcImxvYWRpbmdcIjpcInBhZ2VfbG9hZGluZ19fWWN0MnZcIixcInNwaW5uZXJcIjpcInBhZ2Vfc3Bpbm5lcl9faWUyZFJcIixcInNwaW5cIjpcInBhZ2Vfc3Bpbl9fUzZDb01cIixcImVycm9yXCI6XCJwYWdlX2Vycm9yX19GWlEzUlwiLFwiZ3JpZFwiOlwicGFnZV9ncmlkX19EeExwYlwiLFwiZW1wdHlcIjpcInBhZ2VfZW1wdHlfX2ZqRjA3XCIsXCJlbXB0eUljb25cIjpcInBhZ2VfZW1wdHlJY29uX19laU4wTVwiLFwiZW1wdHlUaXRsZVwiOlwicGFnZV9lbXB0eVRpdGxlX19NZ3VEZFwiLFwiZW1wdHlUZXh0XCI6XCJwYWdlX2VtcHR5VGV4dF9fMUxfb1RcIn07XG4gICAgaWYobW9kdWxlLmhvdCkge1xuICAgICAgLy8gMTc2NDY3NDM5NjA0MlxuICAgICAgdmFyIGNzc1JlbG9hZCA9IHJlcXVpcmUoXCIvVXNlcnMvYnJpYW5haWJyYWhpbS9Eb3dubG9hZHMvVW5pY2xpbWEtVmVuZHVyZS9mcm9udGVuZC9ub2RlX21vZHVsZXMvbmV4dC9kaXN0L2NvbXBpbGVkL21pbmktY3NzLWV4dHJhY3QtcGx1Z2luL2htci9ob3RNb2R1bGVSZXBsYWNlbWVudC5qc1wiKShtb2R1bGUuaWQsIHtcInB1YmxpY1BhdGhcIjpcIi9fbmV4dC9cIixcImVzTW9kdWxlXCI6ZmFsc2UsXCJsb2NhbHNcIjp0cnVlfSk7XG4gICAgICBtb2R1bGUuaG90LmRpc3Bvc2UoY3NzUmVsb2FkKTtcbiAgICAgIFxuICAgIH1cbiAgXG5tb2R1bGUuZXhwb3J0cy5fX2NoZWNrc3VtID0gXCI5YzE2NTdmOTBhMzFcIlxuIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(app-pages-browser)/./app/repuestos/page.module.css\n"));
+
+/***/ })
+
+});

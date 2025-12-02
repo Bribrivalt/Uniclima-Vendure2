@@ -1,0 +1,465 @@
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./components/core/Input.module.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+.Input_container__f4ozZ {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.Input_fullWidth__T9HjX {
+    width: 100%;
+}
+
+/* ========================================
+   LABEL
+   ======================================== */
+
+.Input_label__zDPGR {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    display: block;
+}
+
+.Input_required__XWkTH {
+    color: var(--color-error);
+    margin-left: var(--spacing-1);
+}
+
+/* ========================================
+   INPUT WRAPPER
+   ======================================== */
+
+.Input_inputWrapper__CarmD {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.Input_icon__kM4hx {
+    position: absolute;
+    left: var(--spacing-4);
+    display: flex;
+    align-items: center;
+    color: var(--color-text-tertiary);
+    pointer-events: none;
+}
+
+/* ========================================
+   INPUT
+   ======================================== */
+
+.Input_input__Oa6BE {
+    width: 100%;
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: var(--font-size-base);
+    font-family: var(--font-family-base);
+    color: var(--color-text-primary);
+    background-color: var(--color-surface);
+    border: var(--border-width-thin) solid var(--color-border-light);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+    outline: none;
+}
+
+.Input_input__Oa6BE.Input_withIcon__ABPOM {
+    padding-left: calc(var(--spacing-4) * 2 + 20px);
+}
+
+.Input_input__Oa6BE::placeholder {
+    color: var(--color-text-tertiary);
+}
+
+/* Estados */
+.Input_input__Oa6BE:hover:not(:disabled) {
+    border-color: var(--color-border);
+}
+
+.Input_input__Oa6BE:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-alpha-10);
+}
+
+.Input_input__Oa6BE:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--color-background-elevated);
+}
+
+/* Error state */
+.Input_input__Oa6BE.Input_error__C4Ult {
+    border-color: var(--color-error);
+}
+
+.Input_input__Oa6BE.Input_error__C4Ult:focus {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* ========================================
+   MENSAJES DE AYUDA Y ERROR
+   ======================================== */
+
+.Input_helperText__g_FDo,
+.Input_errorText__eGt3R {
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+.Input_helperText__g_FDo {
+    color: var(--color-text-tertiary);
+}
+
+.Input_errorText__eGt3R {
+    color: var(--color-error);
+}
+
+/* ========================================
+   TIPOS ESPECÍFICOS
+   ======================================== */
+
+/* Input de tipo number */
+.Input_input__Oa6BE[type='number']::-webkit-inner-spin-button,
+.Input_input__Oa6BE[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.Input_input__Oa6BE[type='number'] {
+    -moz-appearance: textfield;
+}
+
+/* Input de tipo search */
+.Input_input__Oa6BE[type='search']::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./components/core/Button.module.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************/
+.Button_button__aAsxM {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-medium);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    border: var(--border-width-base) solid transparent;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.Button_button__aAsxM:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.Button_button__aAsxM:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   VARIANTES
+   ======================================== */
+
+/* Primary - Rojo sólido */
+.Button_primary__orUEm {
+    background-color: var(--color-primary);
+    color: var(--color-text-primary);
+    border-color: var(--color-primary);
+}
+
+.Button_primary__orUEm:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary);
+}
+
+.Button_primary__orUEm:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Secondary - Borde rojo, fondo transparente */
+.Button_secondary__QApQ3 {
+    background-color: transparent;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.Button_secondary__QApQ3:hover:not(:disabled) {
+    background-color: var(--color-primary);
+    color: var(--color-text-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary);
+}
+
+.Button_secondary__QApQ3:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Outline - Borde gris, fondo transparente */
+.Button_outline__X3lPc {
+    background-color: transparent;
+    color: var(--color-text-primary);
+    border-color: var(--color-border);
+}
+
+.Button_outline__X3lPc:hover:not(:disabled) {
+    background-color: var(--color-surface);
+    border-color: var(--color-text-secondary);
+}
+
+/* ========================================
+   TAMAÑOS
+   ======================================== */
+
+.Button_sm__Jvy_j {
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-sm);
+}
+
+.Button_md__GGuf8 {
+    padding: var(--spacing-3) var(--spacing-6);
+    font-size: var(--font-size-base);
+}
+
+.Button_lg__VpsKd {
+    padding: var(--spacing-4) var(--spacing-8);
+    font-size: var(--font-size-lg);
+}
+
+/* ========================================
+   MODIFICADORES
+   ======================================== */
+
+.Button_fullWidth__6gkv9 {
+    width: 100%;
+}
+
+.Button_loading__gsLpB {
+    position: relative;
+    pointer-events: none;
+}
+
+.Button_loadingText__EBLzk {
+    opacity: 0.7;
+}
+
+/* Spinner de carga */
+.Button_spinner__Ezs10 {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: Button_spin__aKxX2 0.6s linear infinite;
+}
+
+@keyframes Button_spin__aKxX2 {
+    to {
+        transform: rotate(360deg);
+    }
+}
+/*!************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./app/registro/page.module.css ***!
+  \************************************************************************************************************************************************************************************************************************************************************************/
+/* ========================================
+   REGISTRO PAGE - Estilo WooCommerce
+   ======================================== */
+
+.page_pageContainer__uS0jq {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-8) var(--spacing-4);
+    background-color: #f5f5f5;
+}
+
+.page_contentWrapper__AtA9U {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* ========================================
+   TABS (Acceder / Registro)
+   ======================================== */
+
+.page_tabs__Nou5Z {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #fafafa;
+}
+
+.page_tab__dBTEB {
+    flex: 1 1;
+    padding: var(--spacing-4) var(--spacing-6);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: #666;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-decoration: none;
+    text-align: center;
+    border-bottom: 3px solid transparent;
+}
+
+.page_tab__dBTEB:hover {
+    color: #cc0000;
+    background-color: #fff;
+}
+
+.page_tabActive__EVirs {
+    color: #cc0000;
+    background-color: #fff;
+    border-bottom-color: #cc0000;
+}
+
+/* ========================================
+   FORM CONTAINER
+   ======================================== */
+
+.page_formContainer__Zoioy {
+    padding: var(--spacing-8) var(--spacing-6);
+}
+
+.page_title__EPIkv {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: #333;
+    margin: 0 0 var(--spacing-2) 0;
+    text-align: center;
+}
+
+.page_subtitle__OrYow {
+    font-size: var(--font-size-sm);
+    color: #666;
+    margin: 0 0 var(--spacing-6) 0;
+    text-align: center;
+}
+
+/* ========================================
+   ALERTS
+   ======================================== */
+
+.page_errorAlert__5cP4Q,
+.page_successAlert__tjJ1d {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3) var(--spacing-4);
+    border-radius: var(--border-radius-base);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-6);
+}
+
+.page_errorAlert__5cP4Q {
+    background-color: #fee;
+    border: 1px solid #fcc;
+    color: #c00;
+}
+
+.page_successAlert__tjJ1d {
+    background-color: #efe;
+    border: 1px solid #cfc;
+    color: #060;
+}
+
+.page_errorIcon__pLk3k,
+.page_successIcon__j739w {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* ========================================
+   FORM
+   ======================================== */
+
+.page_form__XXiSa {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-5);
+}
+
+.page_formRow__TB9Ad {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--spacing-4);
+    gap: var(--spacing-4);
+}
+
+/* ========================================
+   LOGIN PROMPT
+   ======================================== */
+
+.page_loginPrompt__pxEs_ {
+    margin-top: var(--spacing-6);
+    padding-top: var(--spacing-6);
+    border-top: 1px solid #e0e0e0;
+    text-align: center;
+}
+
+.page_loginPrompt__pxEs_ p {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: #666;
+}
+
+.page_loginLink___os9E {
+    color: #cc0000;
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: color var(--transition-base);
+}
+
+.page_loginLink___os9E:hover {
+    color: #e30000;
+    text-decoration: underline;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 640px) {
+    .page_pageContainer__uS0jq {
+        padding: var(--spacing-4) var(--spacing-2);
+    }
+
+    .page_contentWrapper__AtA9U {
+        max-width: 100%;
+    }
+
+    .page_formContainer__Zoioy {
+        padding: var(--spacing-6) var(--spacing-4);
+    }
+
+    .page_title__EPIkv {
+        font-size: var(--font-size-xl);
+    }
+
+    .page_formRow__TB9Ad {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-5);
+    }
+
+    .page_tab__dBTEB {
+        padding: var(--spacing-3) var(--spacing-4);
+        font-size: var(--font-size-sm);
+    }
+}
