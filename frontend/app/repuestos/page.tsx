@@ -6,6 +6,7 @@ import { GET_PRODUCTS } from '@/lib/vendure/queries/products';
 import { ProductCard } from '@/components/product/ProductCard';
 import { ProductSearch } from '@/components/product/ProductSearch';
 import { ProductSort, SortOption } from '@/components/product/ProductSort';
+import { ProductPagination } from '@/components/product/ProductPagination';
 import { Product } from '@/lib/types/product';
 import styles from './page.module.css';
 
@@ -16,9 +17,12 @@ interface ProductsData {
     };
 }
 
+const ITEMS_PER_PAGE = 12;
+
 export default function RepuestosPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [sortOption, setSortOption] = useState<SortOption>('name-asc');
+    const [currentPage, setCurrentPage] = useState(1);
 
     // Convertir sortOption a formato Vendure
     const getSortVariables = useCallback(() => {
@@ -36,12 +40,17 @@ export default function RepuestosPage() {
         }
     }, [sortOption]);
 
+    // Resetear página cuando cambia la búsqueda o el ordenamiento
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery, sortOption]);
+
     // Query de productos con Apollo Client
     const { data, loading, error } = useQuery<ProductsData>(GET_PRODUCTS, {
         variables: {
             options: {
-                take: 50,
-                skip: 0,
+                take: ITEMS_PER_PAGE,
+                skip: (currentPage - 1) * ITEMS_PER_PAGE,
                 filter: searchQuery
                     ? {
                         name: {
@@ -57,6 +66,7 @@ export default function RepuestosPage() {
 
     const products = data?.products.items || [];
     const totalItems = data?.products.totalItems || 0;
+    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
     return (
         <div className={styles.container}>
@@ -116,11 +126,20 @@ export default function RepuestosPage() {
 
             {/* Products Grid */}
             {!loading && !error && products.length > 0 && (
-                <div className={styles.grid}>
-                    {products.map((product) => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
-                </div>
+                <>
+                    <div className={styles.grid}>
+                        {products.map((product) => (
+                            <ProductCard key={product.id} product={product} />
+                        ))}
+                    </div>
+
+                    {/* Pagination */}
+                    <ProductPagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={setCurrentPage}
+                    />
+                </>
             )}
 
             {/* Empty State */}

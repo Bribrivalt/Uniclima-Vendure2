@@ -1,0 +1,124 @@
+/* ========================================
+   PAGINATION
+   ======================================== */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    margin-top: var(--spacing-8);
+    padding: var(--spacing-6) 0;
+}
+
+/* ========================================
+   NAVIGATION BUTTONS
+   ======================================== */
+
+.navButton {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-4);
+    border: 2px solid #e0e0e0;
+    border-radius: var(--border-radius-md);
+    background: white;
+    color: #333;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.navButton:hover:not(:disabled) {
+    border-color: #cc0000;
+    color: #cc0000;
+    background: #fff5f5;
+}
+
+.navButton:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.navText {
+    display: inline;
+}
+
+/* ========================================
+   PAGE NUMBERS
+   ======================================== */
+
+.pages {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+}
+
+.pageButton {
+    min-width: 40px;
+    height: 40px;
+    padding: var(--spacing-2);
+    border: 2px solid #e0e0e0;
+    border-radius: var(--border-radius-md);
+    background: white;
+    color: #333;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.pageButton:hover {
+    border-color: #cc0000;
+    color: #cc0000;
+    background: #fff5f5;
+}
+
+.pageButton.active {
+    border-color: #cc0000;
+    background: #cc0000;
+    color: white;
+}
+
+.pageButton.active:hover {
+    background: #e30000;
+    border-color: #e30000;
+}
+
+.ellipsis {
+    padding: var(--spacing-2);
+    color: #999;
+    font-weight: var(--font-weight-medium);
+    user-select: none;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 640px) {
+    .pagination {
+        gap: var(--spacing-1);
+    }
+
+    .navButton {
+        padding: var(--spacing-2) var(--spacing-3);
+        font-size: var(--font-size-xs);
+    }
+
+    .navText {
+        display: none;
+    }
+
+    .pageButton {
+        min-width: 36px;
+        height: 36px;
+        font-size: var(--font-size-xs);
+    }
+
+    /* Ocultar algunos números en móvil para ahorrar espacio */
+    .pages {
+        gap: 2px;
+    }
+}
