@@ -13,3 +13,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .vercel
+pgadmin-data/
+dist/
+.env
+.env.local
+docker/postgres/*
+*.log
