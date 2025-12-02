@@ -1,0 +1,40 @@
+/**
+ * ShippingForm Component Styles
+ * Formulario de dirección de envío
+ */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4, 1rem);
+}
+
+.title {
+    font-size: var(--font-size-lg, 1.125rem);
+    font-weight: var(--font-weight-semibold, 600);
+    color: var(--color-text-primary, #FFFFFF);
+    margin-bottom: var(--spacing-2, 0.5rem);
+}
+
+.row {
+    width: 100%;
+}
+
+.rowGroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-4, 1rem);
+}
+
+.actions {
+    margin-top: var(--spacing-4, 1rem);
+    padding-top: var(--spacing-4, 1rem);
+    border-top: 1px solid var(--color-border-light, #374151);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .rowGroup {
+        grid-template-columns: 1fr;
+    }
+}
