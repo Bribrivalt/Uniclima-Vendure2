@@ -1,2 +1,8 @@
 node_modules
 db-data/
+pgadmin-data/
+dist/
+.env
+.env.local
+docker/postgres/*
+*.log
