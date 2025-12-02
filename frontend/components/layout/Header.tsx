@@ -51,9 +51,10 @@ export default function Header() {
                     {/* Menú de navegación */}
                     <div className={styles.menu}>
                         <Link href="/" className={styles.menuLink}>Inicio</Link>
+                        <Link href="/productos" className={styles.menuLink}>Productos</Link>
                         <Link href="/servicios" className={styles.menuLink}>Servicios</Link>
                         <Link href="/repuestos" className={styles.menuLink}>Repuestos</Link>
-                        <Link href="/blog" className={styles.menuLink}>Blog</Link>
+                        <Link href="/conocenos" className={styles.menuLink}>Conócenos</Link>
                         <Link href="/contacto" className={styles.menuLink}>Contacto</Link>
                     </div>
 
