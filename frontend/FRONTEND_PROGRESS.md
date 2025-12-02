@@ -1,6 +1,6 @@
 # 📋 PROGRESO FRONTEND - Uniclima Vendure
 
-**Rama:** `feature/frontend-ui-experience`  
+**Rama:** `feature/frontend-ui-experience`
 **Última actualización:** 2024-12-02
 
 ---
@@ -11,6 +11,12 @@
 - [x] Limpieza de `.next/` del tracking de git
 - [x] Actualización de `.gitignore`
 - [x] Verificación de estructura del proyecto
+
+### 2.1-2.2 Sistema de diseño y componentes core ✅
+- [x] Design Tokens (CSS)
+- [x] Theme default
+- [x] Button, Input, Card, Alert
+- [x] Modal, Dropdown, Tabs, Skeleton
 
 ---
 
@@ -25,11 +31,10 @@
 | Input component | ✅ | `components/core/Input.tsx` |
 | Card component | ✅ | `components/core/Card.tsx` |
 | Alert component | ✅ | `components/core/Alert.tsx` |
-| Container component | 🔄 | En progreso |
-| Modal component | ⏳ | Pendiente |
-| Dropdown component | ⏳ | Pendiente |
-| Tabs component | ⏳ | Pendiente |
-| Skeleton/Loading | ⏳ | Pendiente |
+| Modal component | ✅ | `components/core/Modal.tsx` |
+| Dropdown component | ✅ | `components/core/Dropdown.tsx` |
+| Tabs component | ✅ | `components/core/Tabs.tsx` |
+| Skeleton/Loading | ✅ | `components/core/Skeleton.tsx` |
 
 ### 2.3-2.6 Componentes de producto, carrito, checkout y auth
 | Tarea | Estado | Notas |
@@ -133,6 +138,8 @@ frontend/
 
 | Fecha | Commit | Descripción |
 |-------|--------|-------------|
+| 2024-12-02 | `c5e809b` | feat(core): agregar componentes Modal, Skeleton, Tabs y Dropdown |
+| 2024-12-02 | `401584c` | docs: agregar documento de progreso del frontend |
 | 2024-12-02 | `4726491` | chore: limpieza repositorio - eliminar .next/ del tracking |
 
 ---
