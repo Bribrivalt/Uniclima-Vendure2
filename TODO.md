@@ -140,23 +140,35 @@
   - [x] Responsive design (mobile/tablet/desktop)
   - [x] **Frontend running on http://localhost:3000**
 
+### ✅ Completado en sesión actual
+
+- [x] **Custom Fields HVAC (Backend)**
+  - [x] `potenciaKw` - Potencia en kW
+  - [x] `frigorias` - Frigorías/hora
+  - [x] `claseEnergetica` - Clase energética (A+++, A++, etc.)
+  - [x] `refrigerante` - Tipo de refrigerante (R32, R410A, etc.)
+  - [x] `wifi` - WiFi integrado
+  - [x] `garantiaAnos` - Años de garantía
+  - [x] `dimensionesUnidadInterior/Exterior` - Dimensiones
+  - [x] `nivelSonoro` - Nivel sonoro en dB
+
+- [x] **Páginas Adicionales**
+  - [x] `/productos` - Productos page (con filtros de categoría y marca)
+  - [x] `/servicios` - Servicios page (con tarjetas, precios y CTA)
+  - [x] `/conocenos` - Conócenos/About page (timeline, equipo, valores)
+  - [x] `/login` - Login page
+  - [x] `/registro` - Registro page
+
 ### 🔄 Pendiente para próxima sesión
 
-- [ ] **Páginas Adicionales**
-  - [ ] `/productos` - Productos page
-  - [ ] `/servicios` - Servicios page
-  - [ ] `/conocenos` - Conócenos/About page
-  - [ ] `/login` - Login page
-  - [ ] `/registro` - Registro page
+- [x] **Integración Vendure GraphQL**
+  - [x] Crear Apollo Client configurado
+  - [x] Definir queries básicas (GET_ACTIVE_CUSTOMER, GET_PRODUCTS)
+  - [x] Definir mutations auth (REGISTER_CUSTOMER, LOGIN, LOGOUT)
+  - [x] Implementar formularios de autenticación
 
-- [ ] **Integración Vendure GraphQL**
-  - [ ] Crear Apollo Client configurado
-  - [ ] Definir queries básicas (GET_ACTIVE_CUSTOMER, GET_PRODUCTS)
-  - [ ] Definir mutations auth (REGISTER_CUSTOMER, LOGIN, LOGOUT)
-  - [ ] Implementar formularios de autenticación
-
-- [ ] **Backend Configuration (cuando tengas BD)**
-  - [ ] Añadir Custom Fields para productos HVAC
+- [x] **Backend Configuration**
+  - [x] Añadir Custom Fields para productos HVAC
   - [ ] Crear Facets (Marca, Tipo, Potencia, Clase Energética)
   - [ ] Crear Collections (Categorías)
   - [ ] Script de importación masiva desde WooCommerce/PrestaShop MySQL
