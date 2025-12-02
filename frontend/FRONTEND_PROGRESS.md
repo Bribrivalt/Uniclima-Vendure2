@@ -24,6 +24,12 @@
 - [x] CheckoutSteps, ShippingForm, OrderSummary
 - [x] ProtectedRoute, withAuth HOC
 
+### 2.7-2.10 Páginas principales, secundarias, legales y cuenta ✅
+- [x] Home, Repuestos, Carrito, Login, Registro, Cuenta
+- [x] Checkout page
+- [x] Páginas legales (Privacidad, Términos, Cookies)
+- [x] Contacto
+
 ---
 
 ## 📊 ESTADO DE TAREAS
@@ -67,8 +73,11 @@
 | Registro page | ✅ | `app/registro/page.tsx` |
 | Cuenta page | ✅ | `app/cuenta/page.tsx` |
 | Test components page | ✅ | `app/test-components/page.tsx` |
-| Páginas legales | ⏳ | Pendiente |
-| Checkout page | ⏳ | Pendiente |
+| Checkout page | ✅ | `app/checkout/page.tsx` |
+| Privacidad | ✅ | `app/privacidad/page.tsx` |
+| Términos | ✅ | `app/terminos/page.tsx` |
+| Cookies | ✅ | `app/cookies/page.tsx` |
+| Contacto | ✅ | `app/contacto/page.tsx` |
 
 ### 2.11 Integración GraphQL
 | Tarea | Estado | Notas |
@@ -146,6 +155,8 @@ frontend/
 
 | Fecha | Commit | Descripción |
 |-------|--------|-------------|
+| 2024-12-02 | `5910007` | feat(pages): agregar páginas checkout, contacto y legales |
+| 2024-12-02 | `14aae70` | docs: actualizar progreso - componentes checkout completados |
 | 2024-12-02 | `f306349` | feat(checkout): agregar componentes CheckoutSteps, ShippingForm y OrderSummary |
 | 2024-12-02 | `4a3e994` | docs: actualizar progreso - componentes core completados |
 | 2024-12-02 | `c5e809b` | feat(core): agregar componentes Modal, Skeleton, Tabs y Dropdown |
