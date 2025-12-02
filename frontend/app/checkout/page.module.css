@@ -1,0 +1,176 @@
+/**
+ * Checkout Page Styles
+ */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-6, 1.5rem) var(--spacing-4, 1rem);
+}
+
+.title {
+    font-size: var(--font-size-3xl, 1.875rem);
+    font-weight: var(--font-weight-bold, 700);
+    color: var(--color-text-primary, #FFFFFF);
+    margin-bottom: var(--spacing-6, 1.5rem);
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: var(--spacing-6, 1.5rem);
+    margin-top: var(--spacing-6, 1.5rem);
+}
+
+.mainContent {
+    background-color: var(--color-background-elevated, #1F2937);
+    border-radius: var(--border-radius-lg, 0.75rem);
+    border: 1px solid var(--color-border-light, #374151);
+    padding: var(--spacing-6, 1.5rem);
+}
+
+.sidebar {
+    position: sticky;
+    top: var(--spacing-4, 1rem);
+    height: fit-content;
+}
+
+/* Step titles */
+.stepTitle {
+    font-size: var(--font-size-lg, 1.125rem);
+    font-weight: var(--font-weight-semibold, 600);
+    color: var(--color-text-primary, #FFFFFF);
+    margin-bottom: var(--spacing-4, 1rem);
+}
+
+/* Payment step */
+.paymentStep {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4, 1rem);
+}
+
+.paymentMethods {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3, 0.75rem);
+}
+
+.paymentOption {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3, 0.75rem);
+    padding: var(--spacing-4, 1rem);
+    background-color: var(--color-surface, #374151);
+    border: 2px solid var(--color-border, #4B5563);
+    border-radius: var(--border-radius-md, 0.5rem);
+    cursor: pointer;
+    transition: all var(--transition-fast, 150ms);
+}
+
+.paymentOption:hover {
+    border-color: var(--color-text-tertiary, #9CA3AF);
+}
+
+.paymentOption:has(input:checked) {
+    border-color: var(--color-primary, #DC2626);
+    background-color: var(--color-primary-alpha-10, rgba(220, 38, 38, 0.1));
+}
+
+.paymentOption input {
+    accent-color: var(--color-primary, #DC2626);
+}
+
+.paymentLabel {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2, 0.5rem);
+    font-size: var(--font-size-sm, 0.875rem);
+    color: var(--color-text-primary, #FFFFFF);
+}
+
+.cardForm {
+    padding: var(--spacing-4, 1rem);
+    background-color: var(--color-surface, #374151);
+    border-radius: var(--border-radius-md, 0.5rem);
+}
+
+.cardInfo {
+    font-size: var(--font-size-sm, 0.875rem);
+    color: var(--color-text-secondary, #D1D5DB);
+    text-align: center;
+}
+
+/* Confirmation step */
+.confirmationStep {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4, 1rem);
+}
+
+.confirmationSection {
+    padding: var(--spacing-4, 1rem);
+    background-color: var(--color-surface, #374151);
+    border-radius: var(--border-radius-md, 0.5rem);
+}
+
+.confirmationSection h4 {
+    font-size: var(--font-size-sm, 0.875rem);
+    font-weight: var(--font-weight-semibold, 600);
+    color: var(--color-text-primary, #FFFFFF);
+    margin-bottom: var(--spacing-2, 0.5rem);
+}
+
+.addressSummary {
+    font-size: var(--font-size-sm, 0.875rem);
+    color: var(--color-text-secondary, #D1D5DB);
+    line-height: var(--line-height-relaxed, 1.75);
+}
+
+.addressSummary p {
+    margin: 0;
+}
+
+/* Step actions */
+.stepActions {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-4, 1rem);
+    margin-top: var(--spacing-4, 1rem);
+    padding-top: var(--spacing-4, 1rem);
+    border-top: 1px solid var(--color-border-light, #374151);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: var(--spacing-4, 1rem);
+    }
+
+    .title {
+        font-size: var(--font-size-2xl, 1.5rem);
+    }
+
+    .mainContent {
+        padding: var(--spacing-4, 1rem);
+    }
+
+    .stepActions {
+        flex-direction: column;
+    }
+
+    .stepActions>* {
+        width: 100%;
+    }
+}

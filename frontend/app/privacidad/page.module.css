@@ -1,0 +1,93 @@
+/**
+ * Legal Pages Styles
+ * Compartido entre privacidad, términos y cookies
+ */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-8, 2rem) var(--spacing-4, 1rem);
+}
+
+.title {
+    font-size: var(--font-size-4xl, 2.25rem);
+    font-weight: var(--font-weight-bold, 700);
+    color: var(--color-text-primary, #FFFFFF);
+    margin-bottom: var(--spacing-2, 0.5rem);
+}
+
+.updated {
+    font-size: var(--font-size-sm, 0.875rem);
+    color: var(--color-text-tertiary, #9CA3AF);
+    margin-bottom: var(--spacing-8, 2rem);
+}
+
+.section {
+    margin-bottom: var(--spacing-8, 2rem);
+}
+
+.section h2 {
+    font-size: var(--font-size-xl, 1.25rem);
+    font-weight: var(--font-weight-semibold, 600);
+    color: var(--color-text-primary, #FFFFFF);
+    margin-bottom: var(--spacing-4, 1rem);
+    padding-bottom: var(--spacing-2, 0.5rem);
+    border-bottom: 1px solid var(--color-border-light, #374151);
+}
+
+.section p {
+    font-size: var(--font-size-base, 1rem);
+    color: var(--color-text-secondary, #D1D5DB);
+    line-height: var(--line-height-relaxed, 1.75);
+    margin-bottom: var(--spacing-4, 1rem);
+}
+
+.section ul {
+    list-style: disc;
+    padding-left: var(--spacing-6, 1.5rem);
+    margin-bottom: var(--spacing-4, 1rem);
+}
+
+.section ul li {
+    font-size: var(--font-size-base, 1rem);
+    color: var(--color-text-secondary, #D1D5DB);
+    line-height: var(--line-height-relaxed, 1.75);
+    margin-bottom: var(--spacing-2, 0.5rem);
+}
+
+.section a {
+    color: var(--color-primary, #DC2626);
+    text-decoration: none;
+    transition: color var(--transition-fast, 150ms);
+}
+
+.section a:hover {
+    color: var(--color-primary-light, #EF4444);
+    text-decoration: underline;
+}
+
+.address {
+    font-style: normal;
+    font-size: var(--font-size-base, 1rem);
+    color: var(--color-text-secondary, #D1D5DB);
+    line-height: var(--line-height-relaxed, 1.75);
+    background-color: var(--color-background-elevated, #1F2937);
+    padding: var(--spacing-4, 1rem);
+    border-radius: var(--border-radius-md, 0.5rem);
+    border: 1px solid var(--color-border-light, #374151);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .container {
+        padding: var(--spacing-4, 1rem);
+    }
+
+    .title {
+        font-size: var(--font-size-2xl, 1.5rem);
+    }
+
+    .section h2 {
+        font-size: var(--font-size-lg, 1.125rem);
+    }
+}

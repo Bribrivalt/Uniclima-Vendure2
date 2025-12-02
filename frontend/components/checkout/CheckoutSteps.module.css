@@ -1,0 +1,160 @@
+/**
+ * CheckoutSteps Component Styles
+ * Indicador de progreso para el checkout
+ */
+
+/* Container */
+.container {
+    width: 100%;
+    padding: var(--spacing-4, 1rem);
+    background-color: var(--color-background-elevated, #1F2937);
+    border-radius: var(--border-radius-lg, 0.75rem);
+    border: 1px solid var(--color-border-light, #374151);
+}
+
+/* Steps wrapper */
+.steps {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+/* Individual step */
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.step.clickable {
+    cursor: pointer;
+}
+
+.step.clickable:hover .stepIndicator {
+    transform: scale(1.1);
+}
+
+.step.clickable:focus {
+    outline: none;
+}
+
+.step.clickable:focus .stepIndicator {
+    box-shadow: 0 0 0 3px var(--color-primary-alpha-20, rgba(220, 38, 38, 0.2));
+}
+
+/* Step indicator (circle) */
+.stepIndicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius-full, 9999px);
+    background-color: var(--color-surface, #374151);
+    border: 2px solid var(--color-border, #4B5563);
+    color: var(--color-text-tertiary, #9CA3AF);
+    font-size: var(--font-size-sm, 0.875rem);
+    font-weight: var(--font-weight-semibold, 600);
+    transition: all var(--transition-base, 200ms);
+    z-index: 1;
+}
+
+/* Current step */
+.step.current .stepIndicator {
+    background-color: var(--color-primary, #DC2626);
+    border-color: var(--color-primary, #DC2626);
+    color: var(--color-text-primary, #FFFFFF);
+    box-shadow: var(--shadow-primary, 0 4px 14px 0 rgba(220, 38, 38, 0.39));
+}
+
+/* Completed step */
+.step.completed .stepIndicator {
+    background-color: var(--color-success, #10B981);
+    border-color: var(--color-success, #10B981);
+    color: var(--color-text-primary, #FFFFFF);
+}
+
+/* Step content */
+.stepContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: var(--spacing-2, 0.5rem);
+    text-align: center;
+}
+
+.stepLabel {
+    font-size: var(--font-size-sm, 0.875rem);
+    font-weight: var(--font-weight-medium, 500);
+    color: var(--color-text-tertiary, #9CA3AF);
+    transition: color var(--transition-fast, 150ms);
+}
+
+.step.current .stepLabel,
+.step.completed .stepLabel {
+    color: var(--color-text-primary, #FFFFFF);
+}
+
+.stepDescription {
+    font-size: var(--font-size-xs, 0.75rem);
+    color: var(--color-text-disabled, #6B7280);
+    margin-top: var(--spacing-1, 0.25rem);
+}
+
+.step.current .stepDescription {
+    color: var(--color-text-secondary, #D1D5DB);
+}
+
+/* Connector line */
+.connector {
+    flex: 1;
+    height: 2px;
+    background-color: var(--color-border, #4B5563);
+    margin-top: 20px;
+    /* Half of indicator height */
+    margin-left: calc(-1 * var(--spacing-2, 0.5rem));
+    margin-right: calc(-1 * var(--spacing-2, 0.5rem));
+    transition: background-color var(--transition-base, 200ms);
+}
+
+.connectorCompleted {
+    background-color: var(--color-success, #10B981);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .container {
+        padding: var(--spacing-3, 0.75rem);
+    }
+
+    .stepIndicator {
+        width: 32px;
+        height: 32px;
+        font-size: var(--font-size-xs, 0.75rem);
+    }
+
+    .stepLabel {
+        font-size: var(--font-size-xs, 0.75rem);
+    }
+
+    .stepDescription {
+        display: none;
+    }
+
+    .connector {
+        margin-top: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stepContent {
+        display: none;
+    }
+
+    .stepIndicator {
+        width: 36px;
+        height: 36px;
+    }
+}

@@ -24,6 +24,17 @@ export const GET_PRODUCTS = gql`
           priceWithTax
           sku
           stockLevel
+          customFields {
+            potenciaKw
+            frigorias
+            claseEnergetica
+            refrigerante
+            wifi
+            garantiaAnos
+            dimensionesUnidadInterior
+            dimensionesUnidadExterior
+            nivelSonoro
+          }
         }
         customFields {
           modoVenta
@@ -78,6 +89,17 @@ export const GET_PRODUCT_BY_SLUG = gql`
         priceWithTax
         sku
         stockLevel
+        customFields {
+          potenciaKw
+          frigorias
+          claseEnergetica
+          refrigerante
+          wifi
+          garantiaAnos
+          dimensionesUnidadInterior
+          dimensionesUnidadExterior
+          nivelSonoro
+        }
       }
       customFields {
         modoVenta

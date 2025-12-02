@@ -1,0 +1,182 @@
+/**
+ * Contact Page Styles
+ */
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--spacing-8, 2rem) var(--spacing-4, 1rem);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: var(--spacing-8, 2rem);
+}
+
+.title {
+    font-size: var(--font-size-4xl, 2.25rem);
+    font-weight: var(--font-weight-bold, 700);
+    color: var(--color-text-primary, #FFFFFF);
+    margin-bottom: var(--spacing-2, 0.5rem);
+}
+
+.subtitle {
+    font-size: var(--font-size-lg, 1.125rem);
+    color: var(--color-text-secondary, #D1D5DB);
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: var(--spacing-6, 1.5rem);
+}
+
+/* Form Section */
+.formSection {
+    background-color: var(--color-background-elevated, #1F2937);
+    border-radius: var(--border-radius-lg, 0.75rem);
+    border: 1px solid var(--color-border-light, #374151);
+    padding: var(--spacing-6, 1.5rem);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4, 1rem);
+}
+
+.row {
+    width: 100%;
+}
+
+.rowGroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-4, 1rem);
+}
+
+.label {
+    display: block;
+    font-size: var(--font-size-sm, 0.875rem);
+    font-weight: var(--font-weight-medium, 500);
+    color: var(--color-text-secondary, #D1D5DB);
+    margin-bottom: var(--spacing-1, 0.25rem);
+}
+
+.required {
+    color: var(--color-primary, #DC2626);
+}
+
+.textarea {
+    width: 100%;
+    padding: var(--spacing-3, 0.75rem);
+    font-size: var(--font-size-sm, 0.875rem);
+    font-family: inherit;
+    color: var(--color-text-primary, #FFFFFF);
+    background-color: var(--color-background-elevated, #1F2937);
+    border: 1px solid var(--color-border, #4B5563);
+    border-radius: var(--border-radius-md, 0.5rem);
+    resize: vertical;
+    min-height: 120px;
+    transition: border-color var(--transition-fast, 150ms);
+}
+
+.textarea:focus {
+    outline: none;
+    border-color: var(--color-primary, #DC2626);
+}
+
+.textarea::placeholder {
+    color: var(--color-text-tertiary, #9CA3AF);
+}
+
+/* Info Section */
+.infoSection {
+    position: sticky;
+    top: var(--spacing-4, 1rem);
+    height: fit-content;
+}
+
+.infoCard {
+    background-color: var(--color-background-elevated, #1F2937);
+    border-radius: var(--border-radius-lg, 0.75rem);
+    border: 1px solid var(--color-border-light, #374151);
+    padding: var(--spacing-6, 1.5rem);
+}
+
+.infoCard h3 {
+    font-size: var(--font-size-lg, 1.125rem);
+    font-weight: var(--font-weight-semibold, 600);
+    color: var(--color-text-primary, #FFFFFF);
+    margin-bottom: var(--spacing-6, 1.5rem);
+    padding-bottom: var(--spacing-3, 0.75rem);
+    border-bottom: 1px solid var(--color-border-light, #374151);
+}
+
+.infoItem {
+    display: flex;
+    gap: var(--spacing-3, 0.75rem);
+    margin-bottom: var(--spacing-4, 1rem);
+}
+
+.infoItem:last-child {
+    margin-bottom: 0;
+}
+
+.infoItem svg {
+    flex-shrink: 0;
+    color: var(--color-primary, #DC2626);
+}
+
+.infoItem strong {
+    display: block;
+    font-size: var(--font-size-sm, 0.875rem);
+    font-weight: var(--font-weight-semibold, 600);
+    color: var(--color-text-primary, #FFFFFF);
+    margin-bottom: var(--spacing-1, 0.25rem);
+}
+
+.infoItem p {
+    font-size: var(--font-size-sm, 0.875rem);
+    color: var(--color-text-secondary, #D1D5DB);
+    line-height: var(--line-height-relaxed, 1.75);
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
+
+    .infoSection {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: var(--spacing-4, 1rem);
+    }
+
+    .title {
+        font-size: var(--font-size-2xl, 1.5rem);
+    }
+
+    .subtitle {
+        font-size: var(--font-size-base, 1rem);
+    }
+
+    .formSection {
+        padding: var(--spacing-4, 1rem);
+    }
+
+    .rowGroup {
+        grid-template-columns: 1fr;
+    }
+
+    .infoCard {
+        padding: var(--spacing-4, 1rem);
+    }
+}
