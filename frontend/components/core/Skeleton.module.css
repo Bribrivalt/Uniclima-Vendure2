@@ -1,0 +1,74 @@
+/**
+ * Skeleton Component Styles
+ * Estados de carga con animación de pulso
+ */
+
+/* Base */
+.skeleton {
+    background-color: var(--color-surface, #374151);
+    border-radius: var(--border-radius-base, 0.375rem);
+}
+
+/* Animación */
+.animate {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Variantes */
+.text {
+    height: 1em;
+    width: 100%;
+    border-radius: var(--border-radius-sm, 0.25rem);
+}
+
+.circular {
+    border-radius: var(--border-radius-full, 9999px);
+}
+
+.rectangular {
+    width: 100%;
+}
+
+/* Container para múltiples líneas */
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2, 0.5rem);
+    width: 100%;
+}
+
+/* Card skeleton */
+.card {
+    background-color: var(--color-background-elevated, #1F2937);
+    border-radius: var(--border-radius-lg, 0.75rem);
+    overflow: hidden;
+    border: 1px solid var(--color-border-light, #374151);
+}
+
+.cardContent {
+    padding: var(--spacing-4, 1rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3, 0.75rem);
+}
+
+.cardFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--spacing-2, 0.5rem);
+}
