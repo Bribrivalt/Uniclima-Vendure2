@@ -1,0 +1,273 @@
+/* ========================================
+   CONTAINER
+   ======================================== */
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--spacing-8) var(--spacing-4);
+}
+
+/* ========================================
+   BREADCRUMBS
+   ======================================== */
+
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-6);
+    font-size: var(--font-size-sm);
+    color: #666;
+}
+
+.breadcrumbs a {
+    color: #666;
+    text-decoration: none;
+    transition: color var(--transition-base);
+}
+
+.breadcrumbs a:hover {
+    color: #cc0000;
+}
+
+.separator {
+    color: #ccc;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-8);
+}
+
+.title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: #333;
+    margin: 0;
+}
+
+.itemCount {
+    font-size: var(--font-size-base);
+    color: #666;
+    font-weight: var(--font-weight-medium);
+}
+
+/* ========================================
+   CONTENT
+   ======================================== */
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: var(--spacing-8);
+    align-items: start;
+}
+
+.items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.summaryWrapper {
+    /* Wrapper for sticky summary */
+}
+
+.continueLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: #666;
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    margin-top: var(--spacing-4);
+    transition: color var(--transition-base);
+}
+
+.continueLink:hover {
+    color: #cc0000;
+}
+
+/* ========================================
+   LOADING STATE
+   ======================================== */
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-16);
+    gap: var(--spacing-4);
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #cc0000;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading p {
+    font-size: var(--font-size-base);
+    color: #666;
+    margin: 0;
+}
+
+/* ========================================
+   ERROR STATE
+   ======================================== */
+
+.error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-16);
+    text-align: center;
+    gap: var(--spacing-3);
+}
+
+.error svg {
+    color: #cc0000;
+}
+
+.error h2 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: #333;
+    margin: 0;
+}
+
+.error p {
+    font-size: var(--font-size-base);
+    color: #666;
+    margin: 0;
+}
+
+.retryButton {
+    margin-top: var(--spacing-4);
+    padding: var(--spacing-3) var(--spacing-6);
+    background: #cc0000;
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.retryButton:hover {
+    background: #e30000;
+}
+
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-16);
+    text-align: center;
+}
+
+.emptyIcon {
+    color: #ccc;
+    margin-bottom: var(--spacing-4);
+}
+
+.emptyTitle {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    color: #666;
+    margin: 0 0 var(--spacing-2) 0;
+}
+
+.emptyText {
+    font-size: var(--font-size-base);
+    color: #999;
+    margin: 0 0 var(--spacing-6) 0;
+}
+
+.shopButton {
+    display: inline-block;
+    padding: var(--spacing-3) var(--spacing-8);
+    background: #cc0000;
+    color: white;
+    text-decoration: none;
+    border-radius: var(--border-radius-lg);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    transition: all var(--transition-base);
+}
+
+.shopButton:hover {
+    background: #e30000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.3);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
+
+    .summaryWrapper {
+        order: -1;
+        /* Summary first on mobile */
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-6) var(--spacing-4);
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-2);
+    }
+
+    .title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .content {
+        gap: var(--spacing-6);
+    }
+}
+
+@media (max-width: 640px) {
+    .title {
+        font-size: var(--font-size-xl);
+    }
+
+    .emptyTitle {
+        font-size: var(--font-size-xl);
+    }
+}

@@ -1,0 +1,179 @@
+/* ========================================
+   SUMMARY
+   ======================================== */
+
+.summary {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-6);
+    position: sticky;
+    top: var(--spacing-4);
+}
+
+.title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: #333;
+    margin: 0 0 var(--spacing-4) 0;
+}
+
+/* ========================================
+   DETAILS
+   ======================================== */
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.label {
+    font-size: var(--font-size-sm);
+    color: #666;
+}
+
+.value {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: #333;
+}
+
+.free {
+    color: #22c55e;
+    font-weight: var(--font-weight-bold);
+}
+
+.divider {
+    height: 1px;
+    background: #e0e0e0;
+    margin: var(--spacing-2) 0;
+}
+
+/* ========================================
+   TOTAL
+   ======================================== */
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-2);
+}
+
+.totalLabel {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: #333;
+}
+
+.totalValue {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: #cc0000;
+}
+
+/* ========================================
+   CHECKOUT BUTTON
+   ======================================== */
+
+.checkoutButton {
+    width: 100%;
+    padding: var(--spacing-4);
+    background: #cc0000;
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-lg);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+}
+
+.checkoutButton:hover:not(:disabled) {
+    background: #e30000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.3);
+}
+
+.checkoutButton:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========================================
+   INFO
+   ======================================== */
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    margin-top: var(--spacing-4);
+    padding-top: var(--spacing-4);
+    border-top: 1px solid #e0e0e0;
+}
+
+.infoItem {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--font-size-sm);
+    color: #666;
+}
+
+.infoItem svg {
+    color: #22c55e;
+    flex-shrink: 0;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .summary {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    .summary {
+        padding: var(--spacing-4);
+    }
+
+    .title {
+        font-size: var(--font-size-lg);
+    }
+
+    .totalValue {
+        font-size: var(--font-size-xl);
+    }
+}
