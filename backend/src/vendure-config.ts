@@ -4,6 +4,7 @@ import {
     DefaultSchedulerPlugin,
     DefaultSearchPlugin,
     VendureConfig,
+    LanguageCode,  // Importamos el enum de códigos de idioma
 } from '@vendure/core';
 import { defaultEmailHandlers, EmailPlugin, FileBasedTemplateLoader } from '@vendure/email-plugin';
 import { AssetServerPlugin } from '@vendure/asset-server-plugin';
@@ -57,7 +58,63 @@ export const config: VendureConfig = {
     },
     // When adding or altering custom field definitions, the database will
     // need to be updated. See the "Migrations" section in README.md.
-    customFields: {},
+    //
+    // ═══════════════════════════════════════════════════════════════════════
+    // CUSTOM FIELDS PARA PRODUCTOS HVAC (Climatización)
+    // ═══════════════════════════════════════════════════════════════════════
+    // Estos campos aparecen automáticamente en el Dashboard Admin al editar
+    // productos y están disponibles en las APIs GraphQL (shop-api y admin-api).
+    //
+    // En desarrollo (synchronize: true), los cambios se aplican automáticamente.
+    // En producción, ejecutar: npx vendure migrate
+    // ═══════════════════════════════════════════════════════════════════════
+    customFields: {
+        // Campos personalizados para la entidad Product (Producto)
+        Product: [
+            {
+                // Potencia del equipo en kilowatios (kW)
+                // Ejemplo: 2.5, 3.5, 5.0, 7.0
+                name: 'potenciaKw',
+                type: 'float',
+                label: [{ languageCode: LanguageCode.es, value: 'Potencia (kW)' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Potencia nominal del equipo en kilowatios' }],
+                nullable: true,
+                public: true, // Visible en shop-api para el frontend
+            },
+            {
+                // Capacidad de refrigeración en frigorías por hora
+                // Ejemplo: 2150, 3010, 4300
+                name: 'frigorias',
+                type: 'int',
+                label: [{ languageCode: LanguageCode.es, value: 'Frigorías/hora' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Capacidad frigorífica en frigorías por hora' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Clasificación energética según normativa europea
+                // Valores típicos: A+++, A++, A+, A, B, C
+                name: 'claseEnergetica',
+                type: 'string',
+                label: [{ languageCode: LanguageCode.es, value: 'Clase Energética' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Clasificación de eficiencia energética (A+++ a G)' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Tipo de gas refrigerante del equipo
+                // R32: Ecológico, bajo GWP (potencial calentamiento global)
+                // R410A: Común pero mayor impacto ambiental
+                // R290: Propano, muy ecológico
+                name: 'refrigerante',
+                type: 'string',
+                label: [{ languageCode: LanguageCode.es, value: 'Refrigerante' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Tipo de gas refrigerante (R32, R410A, R290)' }],
+                nullable: true,
+                public: true,
+            },
+        ],
+    },
     plugins: [
         GraphiqlPlugin.init(),
         AssetServerPlugin.init({
