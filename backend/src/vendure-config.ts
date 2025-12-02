@@ -113,6 +113,152 @@ export const config: VendureConfig = {
                 nullable: true,
                 public: true,
             },
+            // ───────────────────────────────────────────────────────────────
+            // CAMPOS ADICIONALES HVAC
+            // ───────────────────────────────────────────────────────────────
+            {
+                // WiFi integrado para control remoto
+                name: 'wifi',
+                type: 'boolean',
+                label: [{ languageCode: LanguageCode.es, value: 'WiFi Integrado' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Indica si el equipo tiene WiFi integrado para control remoto' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Años de garantía del fabricante
+                name: 'garantiaAnos',
+                type: 'int',
+                label: [{ languageCode: LanguageCode.es, value: 'Garantía (años)' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Años de garantía del fabricante' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // SEER: Eficiencia energética estacional en refrigeración
+                // Valores típicos: 6.0 - 9.0 (mayor = más eficiente)
+                name: 'seer',
+                type: 'float',
+                label: [{ languageCode: LanguageCode.es, value: 'SEER' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Eficiencia energética estacional en refrigeración' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // SCOP: Eficiencia energética estacional en calefacción
+                // Valores típicos: 3.5 - 5.5 (mayor = más eficiente)
+                name: 'scop',
+                type: 'float',
+                label: [{ languageCode: LanguageCode.es, value: 'SCOP' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Eficiencia energética estacional en calefacción' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Nivel sonoro de la unidad interior en dB(A)
+                // Valores típicos: 19-45 dB(A)
+                name: 'nivelSonoro',
+                type: 'int',
+                label: [{ languageCode: LanguageCode.es, value: 'Nivel Sonoro Interior dB(A)' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Nivel de ruido de la unidad interior en decibelios' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Nivel sonoro de la unidad exterior en dB(A)
+                // Valores típicos: 45-60 dB(A)
+                name: 'nivelSonoroExterior',
+                type: 'int',
+                label: [{ languageCode: LanguageCode.es, value: 'Nivel Sonoro Exterior dB(A)' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Nivel de ruido de la unidad exterior en decibelios' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Superficie recomendada en m²
+                // Ejemplo: "20-30 m²"
+                name: 'superficieRecomendada',
+                type: 'string',
+                label: [{ languageCode: LanguageCode.es, value: 'Superficie Recomendada' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Metros cuadrados recomendados para climatizar' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Dimensiones de la unidad interior
+                // Formato: "Alto x Ancho x Profundo" en mm
+                name: 'dimensionesUnidadInterior',
+                type: 'string',
+                label: [{ languageCode: LanguageCode.es, value: 'Dimensiones Unidad Interior' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Dimensiones Alto x Ancho x Profundo en mm' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Dimensiones de la unidad exterior
+                // Formato: "Alto x Ancho x Profundo" en mm
+                name: 'dimensionesUnidadExterior',
+                type: 'string',
+                label: [{ languageCode: LanguageCode.es, value: 'Dimensiones Unidad Exterior' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Dimensiones Alto x Ancho x Profundo en mm' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Peso de la unidad interior en kg
+                name: 'pesoUnidadInterior',
+                type: 'float',
+                label: [{ languageCode: LanguageCode.es, value: 'Peso Unidad Interior (kg)' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Peso de la unidad interior en kilogramos' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Peso de la unidad exterior en kg
+                name: 'pesoUnidadExterior',
+                type: 'float',
+                label: [{ languageCode: LanguageCode.es, value: 'Peso Unidad Exterior (kg)' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Peso de la unidad exterior en kilogramos' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Tipo de alimentación eléctrica
+                // Valores: "Monofásico 230V", "Trifásico 400V"
+                name: 'alimentacion',
+                type: 'string',
+                label: [{ languageCode: LanguageCode.es, value: 'Alimentación Eléctrica' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Tipo de alimentación eléctrica (Monofásico/Trifásico)' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Carga de refrigerante de fábrica en kg
+                name: 'cargaRefrigerante',
+                type: 'float',
+                label: [{ languageCode: LanguageCode.es, value: 'Carga Refrigerante (kg)' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Cantidad de gas refrigerante precargado en kg' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Longitud máxima de tubería en metros
+                name: 'longitudMaximaTuberia',
+                type: 'int',
+                label: [{ languageCode: LanguageCode.es, value: 'Longitud Máx. Tubería (m)' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Longitud máxima de tubería frigorífica en metros' }],
+                nullable: true,
+                public: true,
+            },
+            {
+                // Desnivel máximo permitido entre unidades en metros
+                name: 'desnivelMaximo',
+                type: 'int',
+                label: [{ languageCode: LanguageCode.es, value: 'Desnivel Máximo (m)' }],
+                description: [{ languageCode: LanguageCode.es, value: 'Desnivel máximo permitido entre unidad interior y exterior' }],
+                nullable: true,
+                public: true,
+            },
         ],
     },
     plugins: [

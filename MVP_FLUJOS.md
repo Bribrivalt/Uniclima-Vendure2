@@ -11,18 +11,29 @@ Definir las tareas mínimas necesarias para tener un e-commerce funcional de cli
 ## Fase 1.1: Datos del Producto ✅ COMPLETADO
 Prioridad: ⭐⭐⭐⭐⭐
 
-- [x] **Custom Fields HVAC implementados** (vendure-config.ts líneas 71-116)
+- [x] **Custom Fields HVAC implementados** (vendure-config.ts - 19 campos totales)
   - [x] `potenciaKw` (float) - Potencia en kW
   - [x] `frigorias` (int) - Frigorías/hora
   - [x] `claseEnergetica` (string) - A+++, A++, A+, A, B
   - [x] `refrigerante` (string) - R32, R410A, R290
   - [x] Sincronización automática en dev (synchronize: true)
 
-- [ ] **Custom Fields adicionales** (opcional para MVP+)
-  - [ ] `wifi` (boolean) - WiFi integrado
-  - [ ] `garantiaAnos` (int) - Años de garantía
-  - [ ] `seer` / `scop` (float) - Eficiencia estacional
-  - [ ] `nivelSonoro` (int) - Decibelios
+- [x] **Custom Fields adicionales** ✅ (02/12/2024)
+  - [x] `wifi` (boolean) - WiFi integrado
+  - [x] `garantiaAnos` (int) - Años de garantía
+  - [x] `seer` (float) - Eficiencia refrigeración estacional
+  - [x] `scop` (float) - Eficiencia calefacción estacional
+  - [x] `nivelSonoro` (int) - Decibelios interior
+  - [x] `nivelSonoroExterior` (int) - Decibelios exterior
+  - [x] `superficieRecomendada` (string) - m² recomendados
+  - [x] `dimensionesUnidadInterior` (string) - Alto x Ancho x Profundo
+  - [x] `dimensionesUnidadExterior` (string) - Alto x Ancho x Profundo
+  - [x] `pesoUnidadInterior` (float) - kg
+  - [x] `pesoUnidadExterior` (float) - kg
+  - [x] `alimentacion` (string) - Monofásico/Trifásico
+  - [x] `cargaRefrigerante` (float) - kg de gas
+  - [x] `longitudMaximaTuberia` (int) - metros
+  - [x] `desnivelMaximo` (int) - metros desnivel
 
 ## Fase 1.2: Categorización ✅ SCRIPTS LISTOS
 Prioridad: ⭐⭐⭐⭐⭐
@@ -44,15 +55,20 @@ Prioridad: ⭐⭐⭐⭐⭐
   - [x] Repuestos (4 subcategorías)
   - [x] Servicios (6 subcategorías)
 
-- [ ] **PENDIENTE: Ejecutar scripts en servidor**
-  - [ ] `npx ts-node scripts/seed-facets.ts`
-  - [ ] `npx ts-node scripts/seed-collections.ts`
-  - [ ] Verificar en Dashboard que se crearon
+- [x] **Scripts ejecutados en servidor** ✅ (02/12/2024)
+  - [x] `npx tsx scripts/seed-facets.ts` - 6 facets, 39 valores
+  - [x] `npx tsx scripts/seed-collections.ts` - 42 categorías
+  - [x] Verificado en Dashboard que se crearon
 
-## Fase 1.3: Configuración E-commerce (PENDIENTE)
+## Fase 1.3: Configuración E-commerce (PARCIAL)
 Prioridad: ⭐⭐⭐⭐
 
-- [ ] **Envíos básicos**
+- [x] **Impuestos configurados** ✅ (02/12/2024)
+  - [x] Zona España creada
+  - [x] IVA 21% configurado
+  - [x] Canal predeterminado con zona España
+
+- [ ] **Envíos básicos** (PENDIENTE)
   - [ ] Envío Estándar Península (50€)
   - [ ] Envío Express (100€)
   - [ ] Recogida en Tienda (Gratis)
@@ -70,13 +86,18 @@ Prioridad: ⭐⭐⭐
 - [ ] Personalizar plantilla registro de cuenta (español)
 - [ ] Configurar SMTP real (para producción)
 
-## Fase 1.5: Productos de Prueba (PENDIENTE)
+## Fase 1.5: Productos de Prueba (PARCIAL)
 Prioridad: ⭐⭐⭐
 
-- [ ] Crear 5-10 productos de ejemplo con todos los campos
-- [ ] Subir imágenes de productos de ejemplo
-- [ ] Asignar facets a productos
-- [ ] Asignar productos a collections
+- [x] **Producto de ejemplo creado** ✅ (02/12/2024)
+  - [x] Daikin Sensira TXF35C
+  - [x] Custom fields: 3.5kW, 3010 frigorías, A++, R32
+  - [x] Variante con precio: 699€ + IVA = 845.79€
+  - [x] Facets asignados: Daikin, Split Pared, R32, Inverter, Bomba de Calor
+  - [x] Collection funcionando: aparece en "Split Pared"
+
+- [ ] Crear 4-9 productos adicionales
+- [ ] Subir imágenes de productos
 
 ---
 
@@ -214,21 +235,25 @@ Prioridad: ⭐⭐⭐⭐⭐
 
 # 📅 TIMELINE MVP (3-4 Semanas restantes)
 
-## ✅ Ya Completado
+## ✅ Ya Completado (02/12/2024)
 | FLUJO 1 (Backend) | FLUJO 2 (Frontend) |
 |-------------------|-------------------|
-| ✅ Custom Fields HVAC | ⏳ Pendiente |
-| ✅ Scripts Facets | ⏳ Pendiente |
-| ✅ Scripts Collections | ⏳ Pendiente |
-| ✅ Dummy Payment | ⏳ Pendiente |
+| ✅ Custom Fields HVAC (4 campos) | ⏳ Pendiente |
+| ✅ Facets ejecutados (6 facets, 39 valores) | ⏳ Pendiente |
+| ✅ Collections ejecutadas (42 categorías) | ⏳ Pendiente |
+| ✅ IVA España 21% configurado | ⏳ Pendiente |
+| ✅ Dummy Payment configurado | ⏳ Pendiente |
 | ✅ Email Plugin config | ⏳ Pendiente |
+| ✅ Producto de prueba (Daikin + variante) | ⏳ Pendiente |
+| ✅ Collection con filtro funcionando | ⏳ Pendiente |
 
 ## Semana 1 (Próxima)
 | FLUJO 1 (Backend) | FLUJO 2 (Frontend) |
 |-------------------|-------------------|
-| Ejecutar seed facets/collections | Sistema de diseño (tokens) |
+| ~~Ejecutar seed facets/collections~~ ✅ | Sistema de diseño (tokens) |
 | Configurar envíos | Componentes core |
-| Crear productos de prueba | Layout (Header/Footer) |
+| Crear más productos de prueba | Layout (Header/Footer) |
+| Añadir Custom Fields adicionales | |
 
 ## Semana 2
 | FLUJO 1 (Backend) | FLUJO 2 (Frontend) |
