@@ -18,6 +18,21 @@ export interface ProductCustomFields {
 }
 
 /**
+ * Custom Fields de variante de producto HVAC
+ */
+export interface VariantCustomFields {
+    potenciaKw?: number;
+    frigorias?: number;
+    claseEnergetica?: string;
+    refrigerante?: string;
+    wifi?: boolean;
+    garantiaAnos?: number;
+    dimensionesUnidadInterior?: string;
+    dimensionesUnidadExterior?: string;
+    nivelSonoro?: number;
+}
+
+/**
  * Variante de producto (SKU)
  */
 export interface ProductVariant {
@@ -26,8 +41,9 @@ export interface ProductVariant {
     sku: string;
     price: number;
     priceWithTax: number;
-    currencyCode: string;
+    currencyCode?: string;
     stockLevel: string;
+    customFields?: VariantCustomFields;
 }
 
 /**
