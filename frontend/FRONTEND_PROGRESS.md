@@ -106,7 +106,7 @@
 | Cart queries | ✅ | `lib/vendure/queries/cart.ts` |
 | Cart mutations | ✅ | `lib/vendure/mutations/cart.ts` |
 | Products queries | ✅ | `lib/vendure/queries/products.ts` |
-| Order mutations | ⏳ | Pendiente |
+| Order mutations | ✅ | `lib/vendure/mutations/order.ts` |
 
 ### 2.12-2.14 Responsive, Performance y Accesibilidad
 | Tarea | Estado | Notas |
