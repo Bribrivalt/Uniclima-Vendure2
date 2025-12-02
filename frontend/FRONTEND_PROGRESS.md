@@ -18,6 +18,12 @@
 - [x] Button, Input, Card, Alert
 - [x] Modal, Dropdown, Tabs, Skeleton
 
+### 2.3-2.6 Componentes de producto, carrito, checkout y auth ✅
+- [x] ProductCard, ProductSearch, ProductSort, ProductPagination
+- [x] CartItem, CartSummary
+- [x] CheckoutSteps, ShippingForm, OrderSummary
+- [x] ProtectedRoute, withAuth HOC
+
 ---
 
 ## 📊 ESTADO DE TAREAS
@@ -47,7 +53,9 @@
 | CartItem | ✅ | `components/cart/CartItem.tsx` |
 | CartSummary | ✅ | `components/cart/CartSummary.tsx` |
 | ProtectedRoute | ✅ | `components/auth/ProtectedRoute.tsx` |
-| Checkout components | ⏳ | Pendiente |
+| CheckoutSteps | ✅ | `components/checkout/CheckoutSteps.tsx` |
+| ShippingForm | ✅ | `components/checkout/ShippingForm.tsx` |
+| OrderSummary | ✅ | `components/checkout/OrderSummary.tsx` |
 
 ### 2.7-2.10 Páginas principales, secundarias, legales y cuenta
 | Tarea | Estado | Notas |
@@ -138,6 +146,8 @@ frontend/
 
 | Fecha | Commit | Descripción |
 |-------|--------|-------------|
+| 2024-12-02 | `f306349` | feat(checkout): agregar componentes CheckoutSteps, ShippingForm y OrderSummary |
+| 2024-12-02 | `4a3e994` | docs: actualizar progreso - componentes core completados |
 | 2024-12-02 | `c5e809b` | feat(core): agregar componentes Modal, Skeleton, Tabs y Dropdown |
 | 2024-12-02 | `401584c` | docs: agregar documento de progreso del frontend |
 | 2024-12-02 | `4726491` | chore: limpieza repositorio - eliminar .next/ del tracking |
