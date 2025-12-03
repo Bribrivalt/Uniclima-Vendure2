@@ -1,0 +1,178 @@
+/**
+ * Breadcrumb Component Styles
+ * 
+ * Estilos para el componente Breadcrumb con soporte para:
+ * - Separadores personalizables
+ * - Icono de home
+ * - Estados: hover, focus, current
+ * - Colapso de items (ellipsis)
+ */
+
+/* ============================================
+   NAV - Contenedor principal
+   ============================================ */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+}
+
+/* ============================================
+   LIST - Lista de items
+   ============================================ */
+.list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-1);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================
+   ITEM - Cada item del breadcrumb
+   ============================================ */
+.item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+}
+
+/* ============================================
+   LINK - Enlace navegable
+   ============================================ */
+.link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    padding: var(--spacing-1) 0;
+}
+
+.link:hover {
+    color: var(--color-primary);
+}
+
+.link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--border-radius-sm);
+}
+
+/* ============================================
+   CURRENT - Item actual (último)
+   ============================================ */
+.current {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    padding: var(--spacing-1) 0;
+}
+
+/* ============================================
+   LABEL - Texto del item
+   ============================================ */
+.label {
+    /* Truncar texto largo */
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .label {
+        max-width: 100px;
+    }
+}
+
+/* ============================================
+   SEPARADOR
+   ============================================ */
+.separator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    color: var(--color-text-disabled);
+    flex-shrink: 0;
+}
+
+/* ============================================
+   ICONOS
+   ============================================ */
+.homeIcon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.itemIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.itemIcon svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* ============================================
+   ELLIPSIS - Items colapsados
+   ============================================ */
+.ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-tertiary);
+    padding: var(--spacing-1);
+}
+
+.ellipsisIcon {
+    width: 16px;
+    height: 16px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 640px) {
+    .breadcrumb {
+        font-size: var(--font-size-xs);
+    }
+
+    .link,
+    .current {
+        font-size: var(--font-size-xs);
+    }
+
+    .separator {
+        width: 14px;
+        height: 14px;
+    }
+
+    .homeIcon {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/* Ocultar labels intermedios en móvil muy pequeño */
+@media (max-width: 400px) {
+    .item:not(:first-child):not(:last-child) .label {
+        display: none;
+    }
+
+    .item:not(:first-child):not(:last-child)::after {
+        content: '...';
+        color: var(--color-text-tertiary);
+    }
+}
