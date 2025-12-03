@@ -68,3 +68,10 @@ export type { BreadcrumbProps, BreadcrumbItem } from './Breadcrumb';
 
 export { Accordion, AccordionItem } from './Accordion';
 export type { AccordionProps, AccordionItemProps } from './Accordion';
+
+// ============================================
+// COMPONENTES DE CONSENTIMIENTO Y PRIVACIDAD
+// ============================================
+
+export { CookieBanner } from './CookieBanner';
+export type { CookieBannerProps, CookiePreferences } from './CookieBanner';
