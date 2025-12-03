@@ -1,0 +1,54 @@
+[
+  {
+    "sku": "BCTSF24E",
+    "nombre_original": "Bomba Circuladora Thematek SF 24",
+    "nombre_mejorado": "Bomba Circuladora Thematek SF 24 para Sistemas de Calefacción",
+    "descripcion_html": "<p>La Bomba Circuladora Thematek SF 24 es un dispositivo esencial para la circulación eficiente del fluido caloportador en sistemas de calefacción residencial y comercial. Diseñada con tecnología de alta eficiencia, esta bomba ofrece un rendimiento confiable y un bajo consumo energético. Su construcción robusta y duradera la hace ideal para una amplia gama de aplicaciones, desde calefacción por radiadores hasta sistemas de suelo radiante. Con características avanzadas como control de velocidad variable y protección contra bloqueo, la Bomba Circuladora Thematek SF 24 garantiza una distribución uniforme del calor y maximiza el ahorro de energía.</p>",
+    "marca": "Thematek",
+    "categoria": "Calefacción",
+    "subcategoria": "Bombas Circuladoras",
+    "tipo_producto": "Equipo Completo",
+    "posible_ean": "Verificar con proveedor",
+    "custom_fields": {
+      "potenciaKw": 0.24,
+      "alimentacion": "230V/50Hz",
+      "garantiaAnos": 2
+    },
+    "palabras_clave": [
+      "bomba circuladora",
+      "calefacción",
+      "radiadores",
+      "suelo radiante",
+      "alta eficiencia",
+      "bajo consumo"
+    ],
+    "compatibilidad": "Compatible con una amplia gama de sistemas de calefacción residencial y comercial.",
+    "notas_tecnicas": "Esta bomba circuladora se recomienda para sistemas de calefacción de hasta 24 kW de potencia."
+  },
+  {
+    "sku": "CFCE-20EN",
+    "nombre_original": "Caudalímetro Caldera Fagor CE-20E N",
+    "nombre_mejorado": "Caudalímetro Electrónico para Caldera Fagor CE-20E N",
+    "descripcion_html": "<p>El Caudalímetro Electrónico para Caldera Fagor CE-20E N es un dispositivo diseñado para medir y monitorear el flujo de agua en calderas de calefacción central. Cuenta con una conexión de 1/2\" NPT y es compatible con los modelos de calderas Fagor CE-20E N. Este caudalímetro permite un control preciso del caudal, lo que ayuda a optimizar el rendimiento y la eficiencia de la caldera. Su diseño robusto y resistente a la intemperie lo hace ideal para su uso en aplicaciones de calefacción residencial y comercial.</p>",
+    "marca": "Fagor",
+    "categoria": "Calefacción",
+    "subcategoria": "Accesorios de Caldera",
+    "tipo_producto": "Repuesto",
+    "posible_ean": "Verificar con proveedor",
+    "custom_fields": {
+      "potenciaKw": null,
+      "alimentacion": null,
+      "garantiaAnos": 2
+    },
+    "palabras_clave": [
+      "caudalímetro",
+      "caldera",
+      "Fagor",
+      "CE-20E N",
+      "control de flujo",
+      "calefacción"
+    ],
+    "compatibilidad": "Modelos de caldera Fagor CE-20E N",
+    "notas_tecnicas": "Instalación y calibración deben ser realizadas por personal calificado."
+  }
+]
