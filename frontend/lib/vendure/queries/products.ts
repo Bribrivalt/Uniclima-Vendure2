@@ -24,20 +24,21 @@ export const GET_PRODUCTS = gql`
           priceWithTax
           sku
           stockLevel
-          customFields {
-            potenciaKw
-            frigorias
-            claseEnergetica
-            refrigerante
-            wifi
-            garantiaAnos
-            dimensionesUnidadInterior
-            dimensionesUnidadExterior
-            nivelSonoro
-          }
         }
         customFields {
-          modoVenta
+          potenciaKw
+          frigorias
+          claseEnergetica
+          refrigerante
+          wifi
+          garantiaAnos
+          nivelSonoroInterior
+          nivelSonoroExterior
+          dimensionesInterior
+          dimensionesExterior
+          superficieRecomendada
+          seer
+          scop
         }
       }
       totalItems
@@ -89,20 +90,27 @@ export const GET_PRODUCT_BY_SLUG = gql`
         priceWithTax
         sku
         stockLevel
-        customFields {
-          potenciaKw
-          frigorias
-          claseEnergetica
-          refrigerante
-          wifi
-          garantiaAnos
-          dimensionesUnidadInterior
-          dimensionesUnidadExterior
-          nivelSonoro
-        }
       }
       customFields {
-        modoVenta
+        potenciaKw
+        frigorias
+        claseEnergetica
+        refrigerante
+        wifi
+        garantiaAnos
+        nivelSonoroInterior
+        nivelSonoroExterior
+        dimensionesInterior
+        dimensionesExterior
+        superficieRecomendada
+        seer
+        scop
+        pesoUnidadInterior
+        pesoUnidadExterior
+        alimentacion
+        cargaRefrigerante
+        longitudMaximaTuberia
+        desnivelMaximo
       }
     }
   }

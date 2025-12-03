@@ -82,6 +82,8 @@ services:
       - /app/node_modules
       - /app/.next
     environment:
-      - NEXT_PUBLIC_API_URL=http://backend:3001/shop-api
+      # IMPORTANTE: Usar localhost porque el navegador se ejecuta fuera de Docker
+      # y necesita conectarse al puerto expuesto en el host
+      - NEXT_PUBLIC_VENDURE_SHOP_API=http://localhost:3001/shop-api
     depends_on:
       - backend

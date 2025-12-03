@@ -11,25 +11,41 @@
 export type ModoVenta = 'compra_directa' | 'solicitar_presupuesto';
 
 /**
- * Custom Fields del producto configurados en Vendure
+ * Custom Fields del producto HVAC configurados en Vendure
  */
 export interface ProductCustomFields {
-    modoVenta: ModoVenta;
-}
-
-/**
- * Custom Fields de variante de producto HVAC
- */
-export interface VariantCustomFields {
+    modoVenta?: ModoVenta;
+    // Campos técnicos HVAC
     potenciaKw?: number;
     frigorias?: number;
     claseEnergetica?: string;
     refrigerante?: string;
     wifi?: boolean;
     garantiaAnos?: number;
-    dimensionesUnidadInterior?: string;
-    dimensionesUnidadExterior?: string;
-    nivelSonoro?: number;
+    // Eficiencia energética
+    seer?: number;
+    scop?: number;
+    // Nivel sonoro
+    nivelSonoroInterior?: number;
+    nivelSonoroExterior?: number;
+    // Dimensiones
+    superficieRecomendada?: string;
+    dimensionesInterior?: string;
+    dimensionesExterior?: string;
+    pesoUnidadInterior?: number;
+    pesoUnidadExterior?: number;
+    // Instalación
+    alimentacion?: string;
+    cargaRefrigerante?: number;
+    longitudMaximaTuberia?: number;
+    desnivelMaximo?: number;
+}
+
+/**
+ * Custom Fields de variante de producto (vacío por ahora)
+ */
+export interface VariantCustomFields {
+    // Los campos HVAC están en Product, no en ProductVariant
 }
 
 /**
