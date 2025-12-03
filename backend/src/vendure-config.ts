@@ -121,6 +121,7 @@ export const config: VendureConfig = {
                 description: [{ languageCode: LanguageCode.es, value: 'Años de garantía del fabricante' }],
                 nullable: true,
                 ui: { component: 'number-form-input', min: 0, max: 10 },
+                public: true,
             },
             {
                 // SEER: Eficiencia energética estacional en refrigeración
@@ -142,11 +143,13 @@ export const config: VendureConfig = {
             },
             {
                 // Nivel sonoro de la unidad interior en dB(A)
+                // Valores típicos: 19-45 dB(A)
                 name: 'nivelSonoroInterior',
                 type: 'int',
                 label: [{ languageCode: LanguageCode.es, value: 'Nivel Sonoro Interior dB(A)' }],
                 description: [{ languageCode: LanguageCode.es, value: 'Nivel de ruido de la unidad interior en decibelios' }],
                 nullable: true,
+                ui: { component: 'number-form-input', min: 0, max: 100 },
                 public: true,
             },
             {
@@ -156,6 +159,7 @@ export const config: VendureConfig = {
                 label: [{ languageCode: LanguageCode.es, value: 'Nivel Sonoro Exterior dB(A)' }],
                 description: [{ languageCode: LanguageCode.es, value: 'Nivel de ruido de la unidad exterior en decibelios' }],
                 nullable: true,
+                ui: { component: 'number-form-input', min: 0, max: 100 },
                 public: true,
             },
             {
@@ -170,6 +174,8 @@ export const config: VendureConfig = {
             {
                 // Dimensiones de la unidad interior
                 name: 'dimensionesUnidadInterior',
+                // Formato: "Alto x Ancho x Profundo" en mm
+                name: 'dimensionesInterior',
                 type: 'string',
                 label: [{ languageCode: LanguageCode.es, value: 'Dimensiones Unidad Interior' }],
                 description: [{ languageCode: LanguageCode.es, value: 'Dimensiones Alto x Ancho x Profundo en mm' }],
@@ -179,6 +185,8 @@ export const config: VendureConfig = {
             {
                 // Dimensiones de la unidad exterior
                 name: 'dimensionesUnidadExterior',
+                // Formato: "Alto x Ancho x Profundo" en mm
+                name: 'dimensionesExterior',
                 type: 'string',
                 label: [{ languageCode: LanguageCode.es, value: 'Dimensiones Unidad Exterior' }],
                 description: [{ languageCode: LanguageCode.es, value: 'Dimensiones Alto x Ancho x Profundo en mm' }],
