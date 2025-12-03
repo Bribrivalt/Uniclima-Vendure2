@@ -5,7 +5,6 @@ import {
     DefaultSearchPlugin,
     VendureConfig,
     LanguageCode,
-    LanguageCode,  // Importamos el enum de códigos de idioma
 } from '@vendure/core';
 import { defaultEmailHandlers, EmailPlugin, FileBasedTemplateLoader } from '@vendure/email-plugin';
 import { AssetServerPlugin } from '@vendure/asset-server-plugin';
@@ -57,67 +56,6 @@ export const config: VendureConfig = {
     paymentOptions: {
         paymentMethodHandlers: [dummyPaymentHandler],
     },
-    // When adding or altering custom field definitions, the database will
-    // need to be updated. See the "Migrations" section in README.md.
-    customFields: {
-        ProductVariant: [
-            {
-                name: 'potenciaKw',
-                type: 'float',
-                label: [{ languageCode: LanguageCode.es, value: 'Potencia (kW)' }],
-                description: [{ languageCode: LanguageCode.es, value: 'Potencia del equipo en kilovatios' }],
-                nullable: true,
-                ui: { component: 'number-form-input', min: 0, max: 100, step: 0.1 },
-            },
-            {
-                name: 'frigorias',
-                type: 'int',
-                label: [{ languageCode: LanguageCode.es, value: 'Frigorías/hora' }],
-                description: [{ languageCode: LanguageCode.es, value: 'Capacidad de refrigeración en frigorías por hora' }],
-                nullable: true,
-                ui: { component: 'number-form-input', min: 0, max: 50000 },
-            },
-            {
-                name: 'claseEnergetica',
-                type: 'string',
-                label: [{ languageCode: LanguageCode.es, value: 'Clase Energética' }],
-                description: [{ languageCode: LanguageCode.es, value: 'Clasificación energética del equipo' }],
-                nullable: true,
-                options: [
-                    { value: 'A+++' },
-                    { value: 'A++' },
-                    { value: 'A+' },
-                    { value: 'A' },
-                    { value: 'B' },
-                    { value: 'C' },
-                    { value: 'D' },
-                ],
-                ui: { component: 'select-form-input' },
-            },
-            {
-                name: 'refrigerante',
-                type: 'string',
-                label: [{ languageCode: LanguageCode.es, value: 'Tipo de Refrigerante' }],
-                description: [{ languageCode: LanguageCode.es, value: 'Gas refrigerante utilizado por el equipo' }],
-                nullable: true,
-                options: [
-                    { value: 'R32' },
-                    { value: 'R410A' },
-                    { value: 'R290' },
-                    { value: 'R134a' },
-                    { value: 'R407C' },
-                ],
-                ui: { component: 'select-form-input' },
-            },
-            {
-                name: 'wifi',
-                type: 'boolean',
-                label: [{ languageCode: LanguageCode.es, value: 'WiFi Integrado' }],
-                description: [{ languageCode: LanguageCode.es, value: 'Indica si el equipo tiene conectividad WiFi integrada' }],
-                defaultValue: false,
-            },
-            {
-    //
     // ═══════════════════════════════════════════════════════════════════════
     // CUSTOM FIELDS PARA PRODUCTOS HVAC (Climatización)
     // ═══════════════════════════════════════════════════════════════════════
@@ -132,17 +70,15 @@ export const config: VendureConfig = {
         Product: [
             {
                 // Potencia del equipo en kilowatios (kW)
-                // Ejemplo: 2.5, 3.5, 5.0, 7.0
                 name: 'potenciaKw',
                 type: 'float',
                 label: [{ languageCode: LanguageCode.es, value: 'Potencia (kW)' }],
                 description: [{ languageCode: LanguageCode.es, value: 'Potencia nominal del equipo en kilowatios' }],
                 nullable: true,
-                public: true, // Visible en shop-api para el frontend
+                public: true,
             },
             {
                 // Capacidad de refrigeración en frigorías por hora
-                // Ejemplo: 2150, 3010, 4300
                 name: 'frigorias',
                 type: 'int',
                 label: [{ languageCode: LanguageCode.es, value: 'Frigorías/hora' }],
@@ -152,7 +88,6 @@ export const config: VendureConfig = {
             },
             {
                 // Clasificación energética según normativa europea
-                // Valores típicos: A+++, A++, A+, A, B, C
                 name: 'claseEnergetica',
                 type: 'string',
                 label: [{ languageCode: LanguageCode.es, value: 'Clase Energética' }],
@@ -162,9 +97,6 @@ export const config: VendureConfig = {
             },
             {
                 // Tipo de gas refrigerante del equipo
-                // R32: Ecológico, bajo GWP (potencial calentamiento global)
-                // R410A: Común pero mayor impacto ambiental
-                // R290: Propano, muy ecológico
                 name: 'refrigerante',
                 type: 'string',
                 label: [{ languageCode: LanguageCode.es, value: 'Refrigerante' }],
@@ -172,9 +104,6 @@ export const config: VendureConfig = {
                 nullable: true,
                 public: true,
             },
-            // ───────────────────────────────────────────────────────────────
-            // CAMPOS ADICIONALES HVAC
-            // ───────────────────────────────────────────────────────────────
             {
                 // WiFi integrado para control remoto
                 name: 'wifi',
@@ -194,31 +123,7 @@ export const config: VendureConfig = {
                 ui: { component: 'number-form-input', min: 0, max: 10 },
             },
             {
-                name: 'dimensionesUnidadInterior',
-                type: 'string',
-                label: [{ languageCode: LanguageCode.es, value: 'Dimensiones Unidad Interior' }],
-                description: [{ languageCode: LanguageCode.es, value: 'Dimensiones de la unidad interior (Alto x Ancho x Fondo en mm)' }],
-                nullable: true,
-            },
-            {
-                name: 'dimensionesUnidadExterior',
-                type: 'string',
-                label: [{ languageCode: LanguageCode.es, value: 'Dimensiones Unidad Exterior' }],
-                description: [{ languageCode: LanguageCode.es, value: 'Dimensiones de la unidad exterior (Alto x Ancho x Fondo en mm)' }],
-                nullable: true,
-            },
-            {
-                name: 'nivelSonoro',
-                type: 'int',
-                label: [{ languageCode: LanguageCode.es, value: 'Nivel Sonoro (dB)' }],
-                description: [{ languageCode: LanguageCode.es, value: 'Nivel de ruido en decibelios' }],
-                nullable: true,
-                ui: { component: 'number-form-input', min: 0, max: 100 },
-                public: true,
-            },
-            {
                 // SEER: Eficiencia energética estacional en refrigeración
-                // Valores típicos: 6.0 - 9.0 (mayor = más eficiente)
                 name: 'seer',
                 type: 'float',
                 label: [{ languageCode: LanguageCode.es, value: 'SEER' }],
@@ -228,7 +133,6 @@ export const config: VendureConfig = {
             },
             {
                 // SCOP: Eficiencia energética estacional en calefacción
-                // Valores típicos: 3.5 - 5.5 (mayor = más eficiente)
                 name: 'scop',
                 type: 'float',
                 label: [{ languageCode: LanguageCode.es, value: 'SCOP' }],
@@ -238,8 +142,7 @@ export const config: VendureConfig = {
             },
             {
                 // Nivel sonoro de la unidad interior en dB(A)
-                // Valores típicos: 19-45 dB(A)
-                name: 'nivelSonoro',
+                name: 'nivelSonoroInterior',
                 type: 'int',
                 label: [{ languageCode: LanguageCode.es, value: 'Nivel Sonoro Interior dB(A)' }],
                 description: [{ languageCode: LanguageCode.es, value: 'Nivel de ruido de la unidad interior en decibelios' }],
@@ -248,7 +151,6 @@ export const config: VendureConfig = {
             },
             {
                 // Nivel sonoro de la unidad exterior en dB(A)
-                // Valores típicos: 45-60 dB(A)
                 name: 'nivelSonoroExterior',
                 type: 'int',
                 label: [{ languageCode: LanguageCode.es, value: 'Nivel Sonoro Exterior dB(A)' }],
@@ -258,7 +160,6 @@ export const config: VendureConfig = {
             },
             {
                 // Superficie recomendada en m²
-                // Ejemplo: "20-30 m²"
                 name: 'superficieRecomendada',
                 type: 'string',
                 label: [{ languageCode: LanguageCode.es, value: 'Superficie Recomendada' }],
@@ -268,7 +169,6 @@ export const config: VendureConfig = {
             },
             {
                 // Dimensiones de la unidad interior
-                // Formato: "Alto x Ancho x Profundo" en mm
                 name: 'dimensionesUnidadInterior',
                 type: 'string',
                 label: [{ languageCode: LanguageCode.es, value: 'Dimensiones Unidad Interior' }],
@@ -278,7 +178,6 @@ export const config: VendureConfig = {
             },
             {
                 // Dimensiones de la unidad exterior
-                // Formato: "Alto x Ancho x Profundo" en mm
                 name: 'dimensionesUnidadExterior',
                 type: 'string',
                 label: [{ languageCode: LanguageCode.es, value: 'Dimensiones Unidad Exterior' }],
@@ -306,7 +205,6 @@ export const config: VendureConfig = {
             },
             {
                 // Tipo de alimentación eléctrica
-                // Valores: "Monofásico 230V", "Trifásico 400V"
                 name: 'alimentacion',
                 type: 'string',
                 label: [{ languageCode: LanguageCode.es, value: 'Alimentación Eléctrica' }],
@@ -364,8 +262,6 @@ export const config: VendureConfig = {
             templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
             globalTemplateVars: {
                 // Configuración personalizada para Uniclima
-                // Frontend en desarrollo: http://localhost:3000
-                // Frontend en producción: https://uniclima.es (cambiar cuando se despliegue)
                 fromAddress: '"Uniclima Solutions" <pedidos@uniclima.es>',
                 verifyEmailAddressUrl: 'http://localhost:3000/cuenta/verificar-email',
                 passwordResetUrl: 'http://localhost:3000/cuenta/resetear-password',

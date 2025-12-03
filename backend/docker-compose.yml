@@ -13,8 +13,8 @@ services:
             - "6543:5432"
         environment:
             POSTGRES_DB: vendure
-            POSTGRES_USER: 
-            POSTGRES_PASSWORD: 
+            POSTGRES_USER: vendure
+            POSTGRES_PASSWORD: vendure
         labels:
             - "io.vendure.create.name=app"
 
@@ -25,8 +25,8 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: 'ROOT'
             MYSQL_DATABASE: vendure
-            MYSQL_USER: 
-            MYSQL_PASSWORD: 
+            MYSQL_USER:
+            MYSQL_PASSWORD:
         ports:
             - "4306:3306"
         labels:
@@ -39,8 +39,8 @@ services:
         environment:
             MARIADB_ROOT_PASSWORD: 'ROOT'
             MARIADB_DATABASE: vendure
-            MARIADB_USER: 
-            MARIADB_PASSWORD: 
+            MARIADB_USER:
+            MARIADB_PASSWORD:
         ports:
             - "3306:3306"
         labels:
