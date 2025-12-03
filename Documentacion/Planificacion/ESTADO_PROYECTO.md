@@ -47,6 +47,7 @@
 ### Backend
 - 🔄 Subir imágenes reales de productos
 - 🔄 Crear más productos (objetivo: 20-30)
+- ✅ **POC Enriquecimiento con IA** - Script funcional con Claude API
 
 ### Frontend
 - 🔄 Conectar catálogo con datos reales
@@ -103,7 +104,7 @@
 | Archivos | ~50 | ~80 |
 | Componentes | N/A | 25+ |
 | Páginas | N/A | 15+ |
-| Scripts | 8 | N/A |
+| Scripts | 9 | N/A |
 
 ### Datos
 | Entidad | Cantidad |
