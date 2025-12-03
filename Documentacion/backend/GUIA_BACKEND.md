@@ -242,6 +242,7 @@ npx tsx scripts/NOMBRE_SCRIPT.ts
 | `seed-tax-config.ts` | Configura IVA 21% España |
 | `update-product-images.ts` | Actualiza imágenes de productos |
 | `cleanup-duplicate-facets.ts` | Limpia facets duplicados |
+| `enrich-products-ai.ts` | **🤖 Enriquece productos con Claude AI** |
 
 ### Orden de Ejecución Recomendado
 ```bash
@@ -259,7 +260,67 @@ npx tsx scripts/seed-shipping-methods.ts
 
 # 5. Productos de ejemplo
 npx tsx scripts/seed-products-hvac.ts
+
+# 6. (Opcional) Enriquecer productos con IA
+npx tsx scripts/enrich-products-ai.ts
 ```
+
+---
+
+## Enriquecimiento de Productos con IA
+
+### Descripción
+Script que usa Claude API para enriquecer automáticamente productos a partir de SKU + nombre básico.
+
+### Funcionalidad
+A partir de datos mínimos (SKU + nombre), genera automáticamente:
+- ✅ Descripción HTML profesional
+- ✅ Marca detectada
+- ✅ Categoría y subcategoría
+- ✅ Tipo de producto (equipo completo, repuesto, accesorio)
+- ✅ Custom fields relevantes (potencia, alimentación, garantía)
+- ✅ Palabras clave para SEO
+- ✅ Notas de compatibilidad
+
+### Requisitos
+```bash
+# En backend/.env añadir:
+ANTHROPIC_API_KEY=tu-api-key-de-anthropic
+```
+
+### Ejecución
+```bash
+cd backend
+npx tsx scripts/enrich-products-ai.ts
+```
+
+### Salida
+El script genera `backend/enriched-products-poc.json` con los productos enriquecidos.
+
+### Ejemplo de Resultado
+```json
+{
+  "sku": "BCTSF24E",
+  "nombre_original": "Bomba Circuladora Thematek SF 24",
+  "nombre_mejorado": "Bomba Circuladora Thematek SF 24 para Sistemas de Calefacción",
+  "descripcion_html": "<p>La Bomba Circuladora Thematek SF 24...</p>",
+  "marca": "Thematek",
+  "categoria": "Calefacción",
+  "subcategoria": "Bombas Circuladoras",
+  "tipo_producto": "Equipo Completo",
+  "custom_fields": {
+    "potenciaKw": 0.24,
+    "alimentacion": "230V/50Hz",
+    "garantiaAnos": 2
+  },
+  "palabras_clave": ["bomba circuladora", "calefacción", "radiadores"]
+}
+```
+
+### Próximos Pasos
+1. Integrar con importación desde CSV de WooCommerce
+2. Añadir búsqueda de EAN por APIs externas
+3. Añadir descarga automática de imágenes de catálogo
 
 ---
 
