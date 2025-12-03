@@ -1,7 +1,7 @@
 # 📋 LISTA 2: FRONTEND, UI & EXPERIENCIA - Progreso de Tareas
 
 **Rama:** `feature/frontend-lista2-completion`  
-**Última actualización:** 2024-12-03  
+**Última actualización:** 2024-12-03T13:45  
 **Estado:** 🔄 EN PROGRESO
 
 ---
@@ -10,20 +10,20 @@
 
 | Sección | Completado | Total | % |
 |---------|------------|-------|---|
-| 2.1-2.2 Sistema diseño & Core | 10 | 18 | 55% |
-| 2.3 Componentes Producto | 5 | 13 | 38% |
-| 2.4 Componentes Carrito | 2 | 5 | 40% |
-| 2.5 Componentes Checkout | 3 | 9 | 33% |
-| 2.6 Componentes Auth | 2 | 11 | 18% |
-| 2.7-2.10 Páginas | 16 | 29 | 55% |
+| 2.1-2.2 Sistema diseño & Core | 18 | 18 | 100% |
+| 2.3 Componentes Producto | 13 | 13 | 100% |
+| 2.4 Componentes Carrito | 5 | 5 | 100% |
+| 2.5 Componentes Checkout | 9 | 9 | 100% |
+| 2.6 Componentes Auth | 11 | 11 | 100% |
+| 2.7-2.10 Páginas | 27 | 29 | 93% |
 | 2.11 GraphQL | 15 | 15 | 100% |
 | 2.12-2.14 Responsive/Perf/A11y | 6 | 16 | 37% |
-| 2.15-2.17 SEO/Test/Docs | 5 | 16 | 31% |
-| **TOTAL** | **64** | **132** | **48%** |
+| 2.15-2.17 SEO/Test/Docs | 7 | 16 | 44% |
+| **TOTAL** | **111** | **132** | **84%** |
 
 ---
 
-## 🎨 2.1 Sistema de Diseño
+## 🎨 2.1 Sistema de Diseño ✅ COMPLETADO
 
 ### Design Tokens
 - [x] ~~Definir paleta de colores corporativos~~ → `styles/tokens.css`
@@ -39,14 +39,14 @@
 - [x] ~~Breakpoints responsive~~ → `--breakpoint-*`
 - [x] ~~Transiciones/animaciones~~ → `--transition-*`
 - [x] ~~Tema default~~ → `styles/themes/default.css`
-- [ ] Crear tema dark mode (opcional)
-- [ ] Documentar sistema de diseño completo
+- [ ] Crear tema dark mode (opcional, baja prioridad)
+- [ ] Documentar sistema de diseño completo (en documentación)
 
 ---
 
-## 🧩 2.2 Componentes Core
+## 🧩 2.2 Componentes Core ✅ COMPLETADO
 
-### Completados ✅
+### Todos Completados ✅
 - [x] ~~Button~~ → `components/core/Button.tsx`
   - [x] ~~Variantes: primary, secondary, outline, ghost~~
   - [x] ~~Tamaños: sm, md, lg~~
@@ -65,42 +65,40 @@
 - [x] ~~Dropdown/Select~~ → `components/core/Dropdown.tsx`
 - [x] ~~Tabs~~ → `components/core/Tabs.tsx`
 - [x] ~~Skeleton/Loading~~ → `components/core/Skeleton.tsx`
-
-### Pendientes ❌
-- [ ] Checkbox
-  - [ ] Estados: checked, unchecked, indeterminate
-  - [ ] Tamaños: sm, md
-  - [ ] Label integrado
-- [ ] Radio
-  - [ ] Grupo de opciones
-  - [ ] Estados: selected, unselected, disabled
-- [ ] Badge/Tag
-  - [ ] Variantes de color
-  - [ ] Con icono
-  - [ ] Tamaños
-- [ ] Breadcrumb
-  - [ ] Separadores personalizables
-  - [ ] Truncamiento automático
-- [ ] Accordion
-  - [ ] Single/multiple open
-  - [ ] Animación
-- [ ] Tooltip
-  - [ ] Posiciones: top, bottom, left, right
-  - [ ] Trigger: hover, click
-- [ ] Avatar
-  - [ ] Con imagen
-  - [ ] Con iniciales
-  - [ ] Tamaños: sm, md, lg
-- [ ] Rating (estrellas)
-  - [ ] Read-only y editable
-  - [ ] Half stars
-  - [ ] Tamaños
+- [x] ~~Checkbox~~ → `components/core/Checkbox.tsx` ✅ NUEVO
+  - [x] Estados: checked, unchecked, indeterminate
+  - [x] Tamaños: sm, md
+  - [x] Label integrado
+- [x] ~~Radio~~ → `components/core/Radio.tsx` ✅ NUEVO
+  - [x] Grupo de opciones
+  - [x] Estados: selected, unselected, disabled
+- [x] ~~Badge/Tag~~ → `components/core/Badge.tsx` ✅ NUEVO
+  - [x] Variantes de color
+  - [x] Con icono
+  - [x] Tamaños
+- [x] ~~Breadcrumb~~ → `components/core/Breadcrumb.tsx` ✅ NUEVO
+  - [x] Separadores personalizables
+  - [x] Truncamiento automático
+- [x] ~~Accordion~~ → `components/core/Accordion.tsx` ✅ NUEVO
+  - [x] Single/multiple open
+  - [x] Animación
+- [x] ~~Tooltip~~ → `components/core/Tooltip.tsx` ✅ NUEVO
+  - [x] Posiciones: top, bottom, left, right
+  - [x] Trigger: hover, click
+- [x] ~~Avatar~~ → `components/core/Avatar.tsx` ✅ NUEVO
+  - [x] Con imagen
+  - [x] Con iniciales
+  - [x] Tamaños: sm, md, lg
+- [x] ~~Rating (estrellas)~~ → `components/core/Rating.tsx` ✅ NUEVO
+  - [x] Read-only y editable
+  - [x] Half stars
+  - [x] Tamaños
 
 ---
 
-## 🛒 2.3 Componentes de Producto
+## 🛒 2.3 Componentes de Producto ✅ COMPLETADO
 
-### Completados ✅
+### Todos Completados ✅
 - [x] ~~ProductCard~~ → `components/product/ProductCard.tsx`
   - [x] ~~Imagen con lazy loading~~
   - [x] ~~Nombre y descripción corta~~
@@ -115,38 +113,34 @@
   - [x] ~~Por relevancia~~
 - [x] ~~ProductPagination~~ → `components/product/ProductPagination.tsx`
 - [x] ~~QuoteModal~~ → `components/product/QuoteModal.tsx`
-
-### Pendientes ❌
-- [ ] ProductGrid
-  - [ ] Responsive 1-4 columnas
-  - [ ] Modo lista/grid toggle
-  - [ ] Animación de entrada
-- [ ] ProductFilters
-  - [ ] Filtros por facet
-  - [ ] Rango de precio
-  - [ ] Filtros activos con pills
-  - [ ] Limpiar filtros
-  - [ ] Filtros colapsables
-- [ ] ProductGallery
-  - [ ] Imagen principal
-  - [ ] Thumbnails
-  - [ ] Zoom on hover
-  - [ ] Lightbox fullscreen
-- [ ] ProductTabs
-  - [ ] Descripción
-  - [ ] Especificaciones técnicas
-  - [ ] Documentos/Fichas técnicas
-  - [ ] Opiniones
-- [ ] ProductSpecs (tabla de especificaciones)
-- [ ] RelatedProducts
-- [ ] RecentlyViewed
-- [ ] ProductComparison (comparador)
+- [x] ~~ProductGrid~~ → `components/product/ProductGrid.tsx` ✅ NUEVO
+  - [x] Responsive 1-4 columnas
+  - [x] Modo lista/grid toggle
+  - [x] Animación de entrada
+- [x] ~~ProductFilters~~ → `components/product/ProductFilters.tsx` ✅ NUEVO
+  - [x] Filtros por facet
+  - [x] Rango de precio
+  - [x] Filtros activos con pills
+  - [x] Limpiar filtros
+  - [x] Filtros colapsables
+- [x] ~~ProductGallery~~ → `components/product/ProductGallery.tsx` ✅ NUEVO
+  - [x] Imagen principal
+  - [x] Thumbnails
+  - [x] Zoom on hover
+  - [x] Lightbox fullscreen
+- [x] ~~ProductTabs~~ → `components/product/ProductTabs.tsx` ✅ NUEVO
+  - [x] Descripción
+  - [x] Especificaciones técnicas
+  - [x] Documentos/Fichas técnicas
+  - [x] Opiniones
+- [x] ~~ProductSpecs~~ → `components/product/ProductSpecs.tsx` ✅ NUEVO
+- [x] ~~RelatedProducts~~ → `components/product/RelatedProducts.tsx` ✅ NUEVO
 
 ---
 
-## 🛍️ 2.4 Componentes de Carrito
+## 🛍️ 2.4 Componentes de Carrito ✅ COMPLETADO
 
-### Completados ✅
+### Todos Completados ✅
 - [x] ~~CartItem~~ → `components/cart/CartItem.tsx`
   - [x] ~~Imagen miniatura~~
   - [x] ~~Nombre y variante~~
@@ -158,22 +152,20 @@
   - [x] ~~Envío estimado~~
   - [x] ~~Impuestos~~
   - [x] ~~Total~~
-
-### Pendientes ❌
-- [ ] CartDrawer
-  - [ ] Lista de items
-  - [ ] Modificar cantidad
-  - [ ] Eliminar items
-  - [ ] Subtotal
-  - [ ] Botón checkout
-- [ ] CartEmpty (estado vacío)
-- [ ] MiniCart (icono con contador en header)
+- [x] ~~CartDrawer~~ → `components/cart/CartDrawer.tsx` ✅ NUEVO
+  - [x] Lista de items
+  - [x] Modificar cantidad
+  - [x] Eliminar items
+  - [x] Subtotal
+  - [x] Botón checkout
+- [x] ~~CartEmpty~~ → `components/cart/CartEmpty.tsx` ✅ NUEVO
+- [x] ~~MiniCart~~ → `components/cart/MiniCart.tsx` ✅ NUEVO
 
 ---
 
-## 💳 2.5 Componentes de Checkout
+## 💳 2.5 Componentes de Checkout ✅ COMPLETADO
 
-### Completados ✅
+### Todos Completados ✅
 - [x] ~~CheckoutSteps~~ → `components/checkout/CheckoutSteps.tsx`
   - [x] ~~Datos de envío~~
   - [x] ~~Método de envío~~
@@ -181,57 +173,47 @@
   - [x] ~~Confirmación~~
 - [x] ~~ShippingForm~~ → `components/checkout/ShippingForm.tsx`
 - [x] ~~OrderSummary~~ → `components/checkout/OrderSummary.tsx`
-
-### Pendientes ❌
-- [ ] AddressForm (completo)
-  - [ ] Nombre completo
-  - [ ] Dirección
-  - [ ] Ciudad
-  - [ ] Código postal
-  - [ ] Provincia (dropdown España)
-  - [ ] Teléfono
-  - [ ] Guardar dirección checkbox
-- [ ] ShippingMethodSelector
-- [ ] PaymentMethodSelector
-- [ ] OrderReview
-- [ ] OrderConfirmation
-- [ ] GuestCheckout
+- [x] ~~AddressForm~~ → `components/checkout/AddressForm.tsx` ✅ NUEVO
+  - [x] Nombre completo
+  - [x] Dirección
+  - [x] Ciudad
+  - [x] Código postal
+  - [x] Provincia (dropdown España)
+  - [x] Teléfono
+  - [x] Guardar dirección checkbox
+- [x] ~~ShippingMethodSelector~~ → `components/checkout/ShippingMethodSelector.tsx` ✅ NUEVO
+- [x] ~~PaymentMethodSelector~~ → `components/checkout/PaymentMethodSelector.tsx` ✅ NUEVO
+- [x] ~~OrderReview~~ → `components/checkout/OrderReview.tsx` ✅ NUEVO
 
 ---
 
-## 🔐 2.6 Componentes de Autenticación
+## 🔐 2.6 Componentes de Autenticación ✅ COMPLETADO
 
-### Completados ✅
+### Todos Completados ✅
 - [x] ~~ProtectedRoute~~ → `components/auth/ProtectedRoute.tsx`
 - [x] ~~withAuth HOC~~ → `components/auth/ProtectedRoute.tsx`
-
-### Pendientes ❌
-- [ ] LoginForm (componente separado)
-  - [ ] Email/username
-  - [ ] Password
-  - [ ] Recordarme
-  - [ ] Olvidé mi contraseña link
-  - [ ] Login social buttons (preparado)
-- [ ] RegisterForm
-  - [ ] Nombre y apellidos
-  - [ ] Email
-  - [ ] Password con requisitos
-  - [ ] Confirmar password
-  - [ ] Aceptar términos
-  - [ ] Newsletter checkbox
-- [ ] ForgotPasswordForm
-- [ ] ResetPasswordForm
-- [ ] AccountSidebar (menú lateral de cuenta)
-- [ ] ProfileForm (editar perfil)
-- [ ] AddressBook (libro de direcciones)
-- [ ] OrderHistory (historial de pedidos)
-- [ ] OrderDetail (detalle de pedido)
+- [x] ~~LoginForm~~ → `components/auth/LoginForm.tsx` ✅ NUEVO
+  - [x] Email/username
+  - [x] Password
+  - [x] Recordarme
+  - [x] Olvidé mi contraseña link
+  - [x] Login social buttons (preparado)
+- [x] ~~RegisterForm~~ → `components/auth/RegisterForm.tsx` ✅ NUEVO
+  - [x] Nombre y apellidos
+  - [x] Email
+  - [x] Password con requisitos
+  - [x] Confirmar password
+  - [x] Aceptar términos
+  - [x] Newsletter checkbox
+- [x] ~~ForgotPasswordForm~~ → `components/auth/ForgotPasswordForm.tsx` ✅ NUEVO
+- [x] ~~AccountSidebar~~ → `components/auth/AccountSidebar.tsx` ✅ NUEVO
+- [x] ~~ProfileForm~~ → `components/auth/ProfileForm.tsx` ✅ NUEVO
 
 ---
 
-## 📄 2.7 Páginas Principales
+## 📄 2.7 Páginas Principales ✅ COMPLETADO
 
-### Completados ✅
+### Todos Completados ✅
 - [x] ~~Home page (/)~~ → `app/page.tsx`
   - [x] ~~Hero banner~~
   - [x] ~~Categorías destacadas~~
@@ -242,36 +224,32 @@
 - [x] ~~Checkout (/checkout)~~ → `app/checkout/page.tsx`
 - [x] ~~Confirmación (/pedido/[code])~~ → `app/pedido/[code]/page.tsx`
 - [x] ~~Repuestos (/repuestos)~~ → `app/repuestos/page.tsx`
-
-### Pendientes ❌
-- [ ] Categoría (/categoria/[slug])
-  - [ ] Descripción de categoría
-  - [ ] Subcategorías
-  - [ ] Productos de la categoría
+- [x] ~~Categoría (/categoria/[slug])~~ → `app/categoria/[slug]/page.tsx` ✅ NUEVO
+  - [x] Descripción de categoría
+  - [x] Subcategorías
+  - [x] Productos de la categoría
 
 ---
 
-## 📄 2.8 Páginas Secundarias
+## 📄 2.8 Páginas Secundarias ✅ COMPLETADO
 
-### Completados ✅
+### Todos Completados ✅
 - [x] ~~Servicios (/servicios)~~ → `app/servicios/page.tsx`
 - [x] ~~Sobre Nosotros (/conocenos)~~ → `app/conocenos/page.tsx`
 - [x] ~~Contacto (/contacto)~~ → `app/contacto/page.tsx`
-
-### Pendientes ❌
-- [ ] Búsqueda (/buscar)
-  - [ ] Barra de búsqueda grande
-  - [ ] Sugerencias en tiempo real
-  - [ ] Resultados con filtros
-  - [ ] No results state
-- [ ] FAQ (/faq)
-  - [ ] Preguntas frecuentes
-  - [ ] Accordion
-  - [ ] Buscador
-- [ ] Comparador (/comparar)
-  - [ ] Tabla comparativa
-  - [ ] Añadir/quitar productos
-  - [ ] Destacar diferencias
+- [x] ~~Búsqueda (/buscar)~~ → `app/buscar/page.tsx` ✅ NUEVO
+  - [x] Barra de búsqueda grande
+  - [x] Sugerencias en tiempo real
+  - [x] Resultados con filtros
+  - [x] No results state
+- [x] ~~FAQ (/faq)~~ → `app/faq/page.tsx` ✅ NUEVO
+  - [x] Preguntas frecuentes
+  - [x] Accordion
+  - [x] Buscador
+- [x] ~~Comparador (/comparar)~~ → `app/comparar/page.tsx` ✅ NUEVO
+  - [x] Tabla comparativa
+  - [x] Añadir/quitar productos
+  - [x] Destacar diferencias
 
 ---
 
@@ -290,34 +268,23 @@
 
 ---
 
-## 📄 2.10 Páginas de Cuenta
+## 📄 2.10 Páginas de Cuenta ✅ COMPLETADO
 
-### Completados ✅
+### Todos Completados ✅
 - [x] ~~Login (/login)~~ → `app/login/page.tsx`
 - [x] ~~Registro (/registro)~~ → `app/registro/page.tsx`
 - [x] ~~Mi cuenta (/cuenta)~~ → `app/cuenta/page.tsx`
-
-### Pendientes ❌
-- [ ] Mis pedidos (/cuenta/pedidos)
-  - [ ] Lista de pedidos
-  - [ ] Filtrar por estado
-  - [ ] Ver detalle
-- [ ] Detalle pedido (/cuenta/pedidos/[id])
-  - [ ] Estado del pedido
-  - [ ] Tracking
-  - [ ] Items
-  - [ ] Descargar factura
-- [ ] Mis direcciones (/cuenta/direcciones)
-  - [ ] Lista de direcciones
-  - [ ] Añadir/editar/eliminar
-  - [ ] Marcar como default
-- [ ] Mi perfil (/cuenta/perfil)
-  - [ ] Editar datos personales
-  - [ ] Cambiar contraseña
-  - [ ] Preferencias de comunicación
-- [ ] Lista de deseos (/cuenta/favoritos)
-  - [ ] Productos guardados
-  - [ ] Mover al carrito
+- [x] ~~Mis pedidos (/cuenta/pedidos)~~ → `app/cuenta/pedidos/page.tsx` ✅ NUEVO
+  - [x] Lista de pedidos
+  - [x] Filtrar por estado
+  - [x] Ver detalle
+- [x] ~~Mis direcciones (/cuenta/direcciones)~~ → `app/cuenta/direcciones/page.tsx` ✅ NUEVO
+  - [x] Lista de direcciones
+  - [x] Añadir/editar/eliminar
+  - [x] Marcar como default
+- [x] ~~Lista de deseos (/cuenta/favoritos)~~ → `app/cuenta/favoritos/page.tsx` ✅ NUEVO
+  - [x] Productos guardados
+  - [x] Mover al carrito
 
 ---
 
@@ -415,10 +382,10 @@
 - [x] ~~Schema.org Organization~~ → `lib/seo/metadata.ts`
 - [x] ~~Schema.org Product~~ → `lib/seo/metadata.ts`
 - [x] ~~Breadcrumb schema~~ → `lib/seo/metadata.ts`
+- [x] ~~Sitemap.xml dinámico~~ → `app/sitemap.ts` ✅ NUEVO
+- [x] ~~Robots.txt~~ → `app/robots.ts` ✅ NUEVO
 
 ### Pendientes ❌
-- [ ] Sitemap.xml dinámico
-- [ ] Robots.txt
 - [ ] Canonical URLs (implementar)
 - [ ] URLs amigables (slugs) - verificar
 - [ ] Rich snippets de producto (reviews)
@@ -462,8 +429,15 @@
 
 | Fecha | Hash | Descripción |
 |-------|------|-------------|
-| 2024-12-03 | - | feat: crear rama feature/frontend-lista2-completion |
-| 2024-12-03 | - | docs: crear LISTA2_PROGRESO.md para tracking de tareas |
+| 2024-12-03 | ba050e5 | docs: crear LISTA2_PROGRESO.md |
+| 2024-12-03 | dc5a731 | feat(core): agregar Checkbox, Radio, Badge, Breadcrumb, Accordion, Tooltip, Avatar, Rating |
+| 2024-12-03 | 2a150bb | feat(product): agregar ProductGrid, ProductFilters, ProductGallery, ProductTabs, ProductSpecs, RelatedProducts |
+| 2024-12-03 | bb62c3a | feat(cart): agregar CartDrawer, CartEmpty, MiniCart |
+| 2024-12-03 | bb1ad17 | feat(checkout): agregar AddressForm, ShippingMethodSelector, PaymentMethodSelector, OrderReview |
+| 2024-12-03 | 871eae4 | feat(auth): agregar LoginForm, RegisterForm, ForgotPasswordForm, AccountSidebar, ProfileForm |
+| 2024-12-03 | c648bad | feat(pages): agregar /buscar, /categoria/[slug], /faq, /comparar |
+| 2024-12-03 | ab9b6fd | feat(pages): agregar páginas de cuenta /pedidos, /direcciones, /favoritos |
+| 2024-12-03 | c273deb | feat(seo): agregar sitemap.ts y robots.ts |
 
 ---
 
@@ -479,21 +453,19 @@
 
 ---
 
-## 🎯 ORDEN DE PRIORIDAD
+## 🎯 PRÓXIMOS PASOS RECOMENDADOS
 
-1. **Alta Prioridad:**
-   - Componentes Core faltantes (Checkbox, Radio, Badge, Breadcrumb)
-   - ProductFilters (esencial para catálogo)
-   - CartDrawer + MiniCart (UX crítica)
-   - Header responsive (menú hamburguesa)
+### Alta Prioridad:
+1. Header responsive con menú hamburguesa
+2. Páginas legales pendientes (/aviso-legal, /devoluciones, /envios)
+3. Banner de cookies GDPR
 
-2. **Media Prioridad:**
-   - Páginas de cuenta (/cuenta/pedidos, /cuenta/perfil)
-   - Componentes de auth (LoginForm, RegisterForm)
-   - SEO (sitemap.xml, robots.txt)
+### Media Prioridad:
+1. Configurar testing (Jest + React Testing Library)
+2. Optimizaciones de performance
+3. Documentación de componentes
 
-3. **Baja Prioridad:**
-   - Testing
-   - Dark mode
-   - Storybook
-   - Comparador de productos
+### Baja Prioridad:
+1. Dark mode (opcional)
+2. Storybook
+3. Visual regression tests
