@@ -70,17 +70,15 @@ export const config: VendureConfig = {
         Product: [
             {
                 // Potencia del equipo en kilowatios (kW)
-                // Ejemplo: 2.5, 3.5, 5.0, 7.0
                 name: 'potenciaKw',
                 type: 'float',
                 label: [{ languageCode: LanguageCode.es, value: 'Potencia (kW)' }],
                 description: [{ languageCode: LanguageCode.es, value: 'Potencia nominal del equipo en kilowatios' }],
                 nullable: true,
-                public: true, // Visible en shop-api para el frontend
+                public: true,
             },
             {
                 // Capacidad de refrigeración en frigorías por hora
-                // Ejemplo: 2150, 3010, 4300
                 name: 'frigorias',
                 type: 'int',
                 label: [{ languageCode: LanguageCode.es, value: 'Frigorías/hora' }],
@@ -90,7 +88,6 @@ export const config: VendureConfig = {
             },
             {
                 // Clasificación energética según normativa europea
-                // Valores típicos: A+++, A++, A+, A, B, C
                 name: 'claseEnergetica',
                 type: 'string',
                 label: [{ languageCode: LanguageCode.es, value: 'Clase Energética' }],
@@ -100,9 +97,6 @@ export const config: VendureConfig = {
             },
             {
                 // Tipo de gas refrigerante del equipo
-                // R32: Ecológico, bajo GWP (potencial calentamiento global)
-                // R410A: Común pero mayor impacto ambiental
-                // R290: Propano, muy ecológico
                 name: 'refrigerante',
                 type: 'string',
                 label: [{ languageCode: LanguageCode.es, value: 'Refrigerante' }],
@@ -131,7 +125,6 @@ export const config: VendureConfig = {
             },
             {
                 // SEER: Eficiencia energética estacional en refrigeración
-                // Valores típicos: 6.0 - 9.0 (mayor = más eficiente)
                 name: 'seer',
                 type: 'float',
                 label: [{ languageCode: LanguageCode.es, value: 'SEER' }],
@@ -141,7 +134,6 @@ export const config: VendureConfig = {
             },
             {
                 // SCOP: Eficiencia energética estacional en calefacción
-                // Valores típicos: 3.5 - 5.5 (mayor = más eficiente)
                 name: 'scop',
                 type: 'float',
                 label: [{ languageCode: LanguageCode.es, value: 'SCOP' }],
@@ -162,7 +154,6 @@ export const config: VendureConfig = {
             },
             {
                 // Nivel sonoro de la unidad exterior en dB(A)
-                // Valores típicos: 45-60 dB(A)
                 name: 'nivelSonoroExterior',
                 type: 'int',
                 label: [{ languageCode: LanguageCode.es, value: 'Nivel Sonoro Exterior dB(A)' }],
@@ -173,7 +164,6 @@ export const config: VendureConfig = {
             },
             {
                 // Superficie recomendada en m²
-                // Ejemplo: "20-30 m²"
                 name: 'superficieRecomendada',
                 type: 'string',
                 label: [{ languageCode: LanguageCode.es, value: 'Superficie Recomendada' }],
@@ -183,6 +173,7 @@ export const config: VendureConfig = {
             },
             {
                 // Dimensiones de la unidad interior
+                name: 'dimensionesUnidadInterior',
                 // Formato: "Alto x Ancho x Profundo" en mm
                 name: 'dimensionesInterior',
                 type: 'string',
@@ -193,6 +184,7 @@ export const config: VendureConfig = {
             },
             {
                 // Dimensiones de la unidad exterior
+                name: 'dimensionesUnidadExterior',
                 // Formato: "Alto x Ancho x Profundo" en mm
                 name: 'dimensionesExterior',
                 type: 'string',
@@ -221,7 +213,6 @@ export const config: VendureConfig = {
             },
             {
                 // Tipo de alimentación eléctrica
-                // Valores: "Monofásico 230V", "Trifásico 400V"
                 name: 'alimentacion',
                 type: 'string',
                 label: [{ languageCode: LanguageCode.es, value: 'Alimentación Eléctrica' }],
@@ -279,8 +270,6 @@ export const config: VendureConfig = {
             templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
             globalTemplateVars: {
                 // Configuración personalizada para Uniclima
-                // Frontend en desarrollo: http://localhost:3000
-                // Frontend en producción: https://uniclima.es (cambiar cuando se despliegue)
                 fromAddress: '"Uniclima Solutions" <pedidos@uniclima.es>',
                 verifyEmailAddressUrl: 'http://localhost:3000/cuenta/verificar-email',
                 passwordResetUrl: 'http://localhost:3000/cuenta/resetear-password',

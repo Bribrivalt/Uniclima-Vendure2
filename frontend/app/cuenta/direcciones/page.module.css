@@ -1,0 +1,218 @@
+/**
+ * DireccionesPage.module.css
+ * 
+ * Estilos para la página de gestión de direcciones.
+ * Utiliza design tokens para consistencia visual.
+ */
+
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-6);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    margin-bottom: var(--spacing-4);
+}
+
+/* Layout con sidebar */
+.layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--spacing-8);
+}
+
+/* Contenido principal */
+.main {
+    min-width: 0;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+    flex-wrap: wrap;
+}
+
+.title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-gray-900);
+    margin: 0 0 var(--spacing-1) 0;
+}
+
+.subtitle {
+    font-size: var(--text-base);
+    color: var(--color-gray-600);
+    margin: 0;
+}
+
+/* Alert */
+.alert {
+    margin-bottom: var(--spacing-4);
+}
+
+/* Loading */
+.loading {
+    text-align: center;
+    padding: var(--spacing-8);
+    color: var(--color-gray-600);
+}
+
+/* Estado vacío */
+.emptyState {
+    text-align: center;
+    padding: var(--spacing-12) var(--spacing-4);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+}
+
+.emptyIcon {
+    font-size: 64px;
+    margin-bottom: var(--spacing-4);
+}
+
+.emptyState h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-900);
+    margin: 0 0 var(--spacing-2) 0;
+}
+
+.emptyState p {
+    font-size: var(--text-base);
+    color: var(--color-gray-600);
+    margin: 0 0 var(--spacing-6) 0;
+}
+
+/* Grid de direcciones */
+.addressGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-4);
+}
+
+/* Card de dirección */
+.addressCard {
+    position: relative;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-4);
+    transition: box-shadow var(--transition-fast);
+}
+
+.addressCard:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.defaultCard {
+    border-color: var(--color-primary);
+    border-width: 2px;
+}
+
+.defaultBadge {
+    position: absolute;
+    top: var(--spacing-3);
+    right: var(--spacing-3);
+    padding: var(--spacing-1) var(--spacing-2);
+    background: var(--color-primary);
+    color: var(--color-white);
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    border-radius: var(--radius-full);
+}
+
+/* Contenido de dirección */
+.addressContent {
+    margin-bottom: var(--spacing-4);
+}
+
+.name {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-900);
+    margin: 0 0 var(--spacing-1) 0;
+}
+
+.company {
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+    margin: 0 0 var(--spacing-2) 0;
+}
+
+.street,
+.location,
+.country,
+.phone {
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+    margin: 0 0 var(--spacing-1) 0;
+    line-height: 1.5;
+}
+
+.phone {
+    margin-top: var(--spacing-2);
+    color: var(--color-gray-600);
+}
+
+/* Acciones de dirección */
+.addressActions {
+    display: flex;
+    gap: var(--spacing-2);
+    flex-wrap: wrap;
+    padding-top: var(--spacing-3);
+    border-top: 1px solid var(--color-gray-200);
+}
+
+.actionBtn {
+    background: none;
+    border: none;
+    padding: var(--spacing-1) var(--spacing-2);
+    font-size: var(--text-sm);
+    color: var(--color-primary);
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.actionBtn:hover {
+    color: var(--color-primary-600);
+    text-decoration: underline;
+}
+
+.deleteBtn {
+    color: var(--color-error);
+}
+
+.deleteBtn:hover {
+    color: var(--color-error-600);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-4);
+    }
+
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .title {
+        font-size: var(--text-xl);
+    }
+
+    .addressGrid {
+        grid-template-columns: 1fr;
+    }
+}

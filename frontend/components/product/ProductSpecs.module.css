@@ -1,0 +1,374 @@
+/**
+ * ProductSpecs.module.css
+ * Estilos para el componente de especificaciones técnicas del producto
+ * Soporta variantes: table, grid, list y modo compacto
+ */
+
+/* ============================================
+   CONTENEDOR PRINCIPAL
+   ============================================ */
+
+.container {
+    width: 100%;
+}
+
+.title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--spacing-lg) 0;
+}
+
+/* ============================================
+   LISTA DE ESPECIFICACIONES - VARIANTE TABLE
+   ============================================ */
+
+.specsList {
+    margin: 0;
+    padding: 0;
+}
+
+.variant-table {
+    display: flex;
+    flex-direction: column;
+}
+
+.variant-table .specRow {
+    display: flex;
+    align-items: flex-start;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.variant-table .specRow:last-child {
+    border-bottom: none;
+}
+
+.variant-table .specLabel {
+    flex: 0 0 40%;
+    min-width: 150px;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.variant-table .specValue {
+    flex: 1;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+/* ============================================
+   LISTA DE ESPECIFICACIONES - VARIANTE GRID
+   ============================================ */
+
+.variant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.variant-grid .specRow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xs);
+    padding: var(--spacing-md);
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--border-radius-md);
+}
+
+.variant-grid .specLabel {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
+    margin: 0;
+}
+
+.variant-grid .specValue {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+/* ============================================
+   LISTA DE ESPECIFICACIONES - VARIANTE LIST
+   ============================================ */
+
+.variant-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.variant-list .specRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--border-radius-sm);
+}
+
+.variant-list .specRow:nth-child(odd) {
+    background-color: transparent;
+}
+
+.variant-list .specLabel {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+.variant-list .specValue {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    text-align: right;
+    margin: 0;
+}
+
+/* ============================================
+   ELEMENTOS COMPARTIDOS
+   ============================================ */
+
+.specIcon {
+    font-size: var(--font-size-lg);
+    line-height: 1;
+}
+
+.infoIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    color: var(--color-text-tertiary);
+    cursor: help;
+    transition: color var(--transition-fast);
+}
+
+.infoIcon:hover {
+    color: var(--color-primary);
+}
+
+.infoIcon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.specUnit {
+    color: var(--color-text-tertiary);
+    font-size: 0.9em;
+}
+
+/* ============================================
+   GRUPOS DE ESPECIFICACIONES
+   ============================================ */
+
+.groupsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.group {
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+}
+
+/* Header del grupo (no colapsable) */
+.group>.groupTitle {
+    padding: var(--spacing-md) var(--spacing-lg);
+    margin: 0;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* Header del grupo colapsable */
+.groupHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--color-bg-secondary);
+    border: none;
+    border-bottom: 1px solid transparent;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.groupHeader:hover {
+    background-color: var(--color-bg-hover);
+}
+
+.groupHeader:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+}
+
+.groupHeader.expanded {
+    border-bottom-color: var(--color-border);
+}
+
+.groupHeader .groupTitle {
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+}
+
+.groupChevron {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--color-text-tertiary);
+    transition: transform var(--transition-normal);
+}
+
+.groupChevron svg {
+    width: 20px;
+    height: 20px;
+    transition: transform var(--transition-normal);
+}
+
+/* Contenido del grupo */
+.groupContent {
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: none;
+}
+
+.groupContent.expanded {
+    display: block;
+}
+
+.group>.specsList {
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
+/* ============================================
+   VERSIÓN COMPACTA
+   ============================================ */
+
+.compactContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.compactSpec {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--border-radius-sm);
+    min-width: 80px;
+}
+
+.compactLabel {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+}
+
+.compactValue {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+}
+
+.compactUnit {
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-secondary);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .variant-table .specRow {
+        flex-direction: column;
+        gap: var(--spacing-2xs);
+    }
+
+    .variant-table .specLabel {
+        flex: none;
+        min-width: 0;
+    }
+
+    .variant-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .variant-list .specRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-2xs);
+    }
+
+    .variant-list .specValue {
+        text-align: left;
+    }
+
+    .groupHeader,
+    .group>.groupTitle,
+    .groupContent,
+    .group>.specsList {
+        padding-left: var(--spacing-md);
+        padding-right: var(--spacing-md);
+    }
+
+    .compactContainer {
+        gap: var(--spacing-xs);
+    }
+
+    .compactSpec {
+        min-width: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .variant-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .compactContainer {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: var(--spacing-xs);
+    }
+
+    .compactContainer::-webkit-scrollbar {
+        display: none;
+    }
+
+    .compactSpec {
+        flex-shrink: 0;
+    }
+}

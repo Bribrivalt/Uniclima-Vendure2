@@ -1,0 +1,275 @@
+/**
+ * PedidosPage.module.css
+ * 
+ * Estilos para la página de historial de pedidos.
+ * Utiliza design tokens para consistencia visual.
+ */
+
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-6);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    margin-bottom: var(--spacing-4);
+}
+
+/* Layout con sidebar */
+.layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--spacing-8);
+}
+
+.sidebar {
+    /* Estilos del sidebar vienen del componente */
+}
+
+/* Contenido principal */
+.main {
+    min-width: 0;
+}
+
+/* Header */
+.header {
+    margin-bottom: var(--spacing-6);
+}
+
+.title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-gray-900);
+    margin: 0 0 var(--spacing-2) 0;
+}
+
+.subtitle {
+    font-size: var(--text-base);
+    color: var(--color-gray-600);
+    margin: 0;
+}
+
+/* Loading */
+.loading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+/* Estado vacío */
+.emptyState {
+    text-align: center;
+    padding: var(--spacing-12) var(--spacing-4);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+}
+
+.emptyIcon {
+    font-size: 64px;
+    margin-bottom: var(--spacing-4);
+}
+
+.emptyState h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-900);
+    margin: 0 0 var(--spacing-2) 0;
+}
+
+.emptyState p {
+    font-size: var(--text-base);
+    color: var(--color-gray-600);
+    margin: 0 0 var(--spacing-6) 0;
+}
+
+.shopLink {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-3) var(--spacing-6);
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: var(--font-medium);
+    transition: background var(--transition-fast);
+}
+
+.shopLink:hover {
+    background: var(--color-primary-600);
+}
+
+/* Lista de pedidos */
+.orderList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+/* Card de pedido */
+.orderCard {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+/* Header del pedido */
+.orderHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-4);
+    background: var(--color-gray-50);
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.orderInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+
+.orderCode {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-900);
+}
+
+.orderDate {
+    font-size: var(--text-xs);
+    color: var(--color-gray-500);
+}
+
+/* Items del pedido */
+.orderItems {
+    padding: var(--spacing-4);
+}
+
+.orderItem {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-2) 0;
+}
+
+.orderItem:not(:last-child) {
+    border-bottom: 1px solid var(--color-gray-100);
+}
+
+.itemImage {
+    width: 48px;
+    height: 48px;
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.itemImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.itemInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.itemName {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-gray-900);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.itemQty {
+    font-size: var(--text-xs);
+    color: var(--color-gray-500);
+}
+
+.itemPrice {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-900);
+    white-space: nowrap;
+}
+
+.moreItems {
+    font-size: var(--text-sm);
+    color: var(--color-gray-500);
+    margin: var(--spacing-2) 0 0 0;
+}
+
+/* Footer del pedido */
+.orderFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-4);
+    background: var(--color-gray-50);
+    border-top: 1px solid var(--color-gray-200);
+}
+
+.orderTotal {
+    display: flex;
+    gap: var(--spacing-2);
+    font-size: var(--text-sm);
+    color: var(--color-gray-600);
+}
+
+.orderTotal strong {
+    color: var(--color-gray-900);
+}
+
+.viewDetails {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.viewDetails:hover {
+    text-decoration: underline;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-4);
+    }
+
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        order: 1;
+    }
+
+    .main {
+        order: 0;
+    }
+
+    .title {
+        font-size: var(--text-xl);
+    }
+
+    .orderHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-2);
+    }
+
+    .orderFooter {
+        flex-direction: column;
+        gap: var(--spacing-3);
+        align-items: stretch;
+        text-align: center;
+    }
+}
