@@ -46,6 +46,12 @@
 - [ ] Verificar precios y stock
 - [ ] Configurar filtros automáticos en Collections
 
+### Fase 6.5: Enriquecimiento con IA (POC Completada ✅)
+- [x] Script de enriquecimiento con Claude AI
+- [x] Generación automática de descripciones, categorías, custom fields
+- [ ] Integrar con importación masiva desde WooCommerce
+- [ ] Escalar a +3000 productos del catálogo
+
 ---
 
 ## 📝 PENDIENTE
@@ -118,8 +124,9 @@
 ### Esta Semana
 1. ~~Métodos de envío~~ ✅
 2. ~~Productos HVAC~~ ✅
-3. Subir imágenes reales
-4. Verificar que frontend puede consumir datos
+3. ~~POC Enriquecimiento con IA~~ ✅
+4. Subir imágenes reales (pendiente de catálogo)
+5. Verificar que frontend puede consumir datos
 
 ### Próxima Semana
 1. Configurar filtros automáticos en Collections
@@ -149,6 +156,9 @@ npx tsx scripts/seed-products-hvac.ts
 # Utilidades
 npx tsx scripts/cleanup-duplicate-facets.ts
 npx tsx scripts/update-product-images.ts
+
+# Enriquecimiento con IA (requiere ANTHROPIC_API_KEY en .env)
+npx tsx scripts/enrich-products-ai.ts
 ```
 
 ---
