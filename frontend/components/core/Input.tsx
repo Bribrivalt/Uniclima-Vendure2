@@ -1,14 +1,39 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useId } from 'react';
 import styles from './Input.module.css';
 
+/**
+ * Props del componente Input
+ */
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    /** Texto del label */
     label?: string;
+    /** Mensaje de error */
     error?: string;
+    /** Texto de ayuda */
     helperText?: string;
+    /** Si el input ocupa todo el ancho disponible */
     fullWidth?: boolean;
+    /** Icono a mostrar dentro del input */
     icon?: React.ReactNode;
 }
 
+/**
+ * Input - Campo de entrada de texto reutilizable
+ *
+ * Componente de formulario con soporte para labels, validación,
+ * iconos y estados de error.
+ *
+ * @example
+ * ```tsx
+ * <Input
+ *   label="Email"
+ *   type="email"
+ *   placeholder="tu@email.com"
+ *   error={errors.email}
+ *   required
+ * />
+ * ```
+ */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
     (
         {
@@ -24,7 +49,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         },
         ref
     ) => {
-        const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+        // useId genera IDs estables entre servidor y cliente
+        const generatedId = useId();
+        const inputId = id || `input-${generatedId}`;
         const hasError = Boolean(error);
 
         const containerClassNames = [

@@ -1,7 +1,7 @@
 # 📋 LISTA 2: FRONTEND, UI & EXPERIENCIA - Progreso de Tareas
 
 **Rama:** `feature/frontend-lista2-completion`  
-**Última actualización:** 2024-12-03T13:45  
+**Última actualización:** 2024-12-03T15:35  
 **Estado:** 🔄 EN PROGRESO
 
 ---
@@ -10,16 +10,16 @@
 
 | Sección | Completado | Total | % |
 |---------|------------|-------|---|
-| 2.1-2.2 Sistema diseño & Core | 18 | 18 | 100% |
-| 2.3 Componentes Producto | 13 | 13 | 100% |
+| 2.1-2.2 Sistema diseño & Core | 19 | 19 | 100% |
+| 2.3 Componentes Producto | 14 | 14 | 100% |
 | 2.4 Componentes Carrito | 5 | 5 | 100% |
 | 2.5 Componentes Checkout | 9 | 9 | 100% |
 | 2.6 Componentes Auth | 11 | 11 | 100% |
-| 2.7-2.10 Páginas | 27 | 29 | 93% |
+| 2.7-2.10 Páginas | 32 | 33 | 97% |
 | 2.11 GraphQL | 15 | 15 | 100% |
-| 2.12-2.14 Responsive/Perf/A11y | 6 | 16 | 37% |
-| 2.15-2.17 SEO/Test/Docs | 7 | 16 | 44% |
-| **TOTAL** | **111** | **132** | **84%** |
+| 2.12-2.14 Responsive/Perf/A11y | 9 | 16 | 56% |
+| 2.15-2.17 SEO/Test/Docs | 11 | 16 | 69% |
+| **TOTAL** | **125** | **138** | **91%** |
 
 ---
 
@@ -93,6 +93,12 @@
   - [x] Read-only y editable
   - [x] Half stars
   - [x] Tamaños
+- [x] ~~CookieBanner~~ → `components/core/CookieBanner.tsx` ✅ NUEVO
+  - [x] Aceptar/Rechazar cookies
+  - [x] Configuración por categoría
+  - [x] Cumplimiento GDPR
+- [x] ~~SkipLink~~ → `components/core/SkipLink.tsx` ✅ NUEVO
+  - [x] Skip to content para accesibilidad
 
 ---
 
@@ -135,6 +141,8 @@
   - [x] Opiniones
 - [x] ~~ProductSpecs~~ → `components/product/ProductSpecs.tsx` ✅ NUEVO
 - [x] ~~RelatedProducts~~ → `components/product/RelatedProducts.tsx` ✅ NUEVO
+- [x] ~~MobileFilterDrawer~~ → `components/product/MobileFilterDrawer.tsx` ✅ NUEVO
+  - [x] Drawer lateral para filtros móvil
 
 ---
 
@@ -253,18 +261,16 @@
 
 ---
 
-## 📄 2.9 Páginas Legales
+## 📄 2.9 Páginas Legales ✅ COMPLETADO
 
-### Completados ✅
+### Todos Completados ✅
 - [x] ~~Política de privacidad (/privacidad)~~ → `app/privacidad/page.tsx`
 - [x] ~~Política de cookies (/cookies)~~ → `app/cookies/page.tsx`
 - [x] ~~Términos y condiciones (/terminos)~~ → `app/terminos/page.tsx`
-
-### Pendientes ❌
-- [ ] Aviso legal (/aviso-legal)
-- [ ] Política de devoluciones (/devoluciones)
-- [ ] Política de envíos (/envios)
-- [ ] Banner de cookies (GDPR)
+- [x] ~~Aviso legal (/aviso-legal)~~ → `app/aviso-legal/page.tsx` ✅ NUEVO
+- [x] ~~Política de devoluciones (/devoluciones)~~ → `app/devoluciones/page.tsx` ✅ NUEVO
+- [x] ~~Política de envíos (/envios)~~ → `app/envios/page.tsx` ✅ NUEVO
+- [x] ~~Banner de cookies (GDPR)~~ → `components/core/CookieBanner.tsx` ✅ NUEVO
 
 ---
 
@@ -329,12 +335,14 @@
 - [x] ~~Breakpoints definidos~~ → `styles/tokens.css`
 - [x] ~~Mobile-first CSS en componentes~~
 - [x] ~~useMediaQuery hook~~ → `lib/hooks/useMediaQuery.ts`
+- [x] ~~MobileMenu~~ → `components/layout/MobileMenu.tsx` ✅ NUEVO
+  - [x] Drawer lateral
+  - [x] Navegación principal
+  - [x] Focus trap
+- [x] ~~MobileFilterDrawer~~ → `components/product/MobileFilterDrawer.tsx` ✅ NUEVO
 
 ### Pendientes ❌
-- [ ] Header responsive con menú hamburguesa
-- [ ] Filtros en drawer para mobile
-- [ ] Grid adaptativo de productos (mejoras)
-- [ ] Touch-friendly buttons y inputs
+- [ ] Touch-friendly buttons y inputs (verificar)
 - [ ] Optimizar imágenes para diferentes dispositivos
 - [ ] Testing en dispositivos reales
 
@@ -364,19 +372,19 @@
 - [x] ~~ARIA labels en componentes interactivos~~
 - [x] ~~Focus visible en elementos interactivos~~
 - [x] ~~useFocusTrap hook~~ → `lib/hooks/useFocusTrap.ts`
+- [x] ~~Skip to content link~~ → `components/core/SkipLink.tsx` ✅ NUEVO
 
 ### Pendientes ❌
 - [ ] Contraste de colores WCAG AA (validar)
 - [ ] Alt text en todas las imágenes (verificar)
-- [ ] Skip to content link
 - [ ] Formularios accesibles con labels (verificar todos)
 - [ ] Testing con screen readers
 
 ---
 
-## 🌐 2.15 SEO
+## 🌐 2.15 SEO ✅ COMPLETADO
 
-### Completados ✅
+### Todos Completados ✅
 - [x] ~~Meta tags utilities~~ → `lib/seo/metadata.ts`
 - [x] ~~Open Graph tags~~ → `lib/seo/metadata.ts`
 - [x] ~~Schema.org Organization~~ → `lib/seo/metadata.ts`
@@ -385,7 +393,7 @@
 - [x] ~~Sitemap.xml dinámico~~ → `app/sitemap.ts` ✅ NUEVO
 - [x] ~~Robots.txt~~ → `app/robots.ts` ✅ NUEVO
 
-### Pendientes ❌
+### Pendientes ❌ (Baja prioridad)
 - [ ] Canonical URLs (implementar)
 - [ ] URLs amigables (slugs) - verificar
 - [ ] Rich snippets de producto (reviews)
@@ -394,9 +402,13 @@
 
 ## 🧪 2.16 Testing Frontend
 
+### Completados ✅
+- [x] ~~Configurar Jest~~ → `jest.config.js` ✅ NUEVO
+- [x] ~~Setup de testing~~ → `jest.setup.js` ✅ NUEVO
+- [x] ~~Unit test ejemplo Button~~ → `components/core/__tests__/Button.test.tsx` ✅ NUEVO
+
 ### Pendientes ❌
-- [ ] Configurar Jest
-- [ ] Unit tests componentes core
+- [ ] Unit tests componentes core (resto)
 - [ ] Component tests con React Testing Library
 - [ ] E2E tests con Playwright/Cypress
 - [ ] Visual regression tests
@@ -412,15 +424,17 @@
 ### Completados ✅
 - [x] ~~FRONTEND_PROGRESS.md~~ → `frontend/FRONTEND_PROGRESS.md`
 - [x] ~~LISTA2_PROGRESO.md~~ → Este archivo
+- [x] ~~README del frontend~~ → `frontend/README.md` ✅ NUEVO
+  - [x] Stack tecnológico
+  - [x] Estructura del proyecto
+  - [x] Guía de instalación
+  - [x] Guía de desarrollo
+  - [x] Sistema de diseño
+  - [x] Variables de entorno
 
 ### Pendientes ❌
-- [ ] README del frontend
-- [ ] Guía de instalación
-- [ ] Guía de desarrollo
 - [ ] Documentar componentes (Storybook opcional)
-- [ ] Documentar estructura de carpetas
-- [ ] Documentar variables de entorno
-- [ ] Documentar API GraphQL usadas
+- [ ] Documentar API GraphQL usadas (detallado)
 - [ ] Crear guía de contribución
 
 ---
@@ -438,6 +452,10 @@
 | 2024-12-03 | c648bad | feat(pages): agregar /buscar, /categoria/[slug], /faq, /comparar |
 | 2024-12-03 | ab9b6fd | feat(pages): agregar páginas de cuenta /pedidos, /direcciones, /favoritos |
 | 2024-12-03 | c273deb | feat(seo): agregar sitemap.ts y robots.ts |
+| 2024-12-03 | 255c414 | docs: actualizar LISTA2_PROGRESO.md |
+| 2024-12-03 | 25fa08e | feat(legal): agregar páginas legales /aviso-legal, /devoluciones, /envios y CookieBanner GDPR |
+| 2024-12-03 | 6d7ad14 | feat(a11y): agregar SkipLink, MobileMenu y MobileFilterDrawer |
+| 2024-12-03 | 3adee9e | feat(testing): configurar Jest y agregar README del frontend |
 
 ---
 
@@ -456,14 +474,15 @@
 ## 🎯 PRÓXIMOS PASOS RECOMENDADOS
 
 ### Alta Prioridad:
-1. Header responsive con menú hamburguesa
-2. Páginas legales pendientes (/aviso-legal, /devoluciones, /envios)
-3. Banner de cookies GDPR
+1. ✅ ~~Header responsive con menú hamburguesa~~ → MobileMenu completado
+2. ✅ ~~Páginas legales pendientes~~ → Todas completadas
+3. ✅ ~~Banner de cookies GDPR~~ → CookieBanner completado
 
 ### Media Prioridad:
-1. Configurar testing (Jest + React Testing Library)
-2. Optimizaciones de performance
-3. Documentación de componentes
+1. ✅ ~~Configurar testing (Jest)~~ → Completado
+2. Agregar más tests unitarios a componentes core
+3. Optimizaciones de performance
+4. E2E tests con Playwright/Cypress
 
 ### Baja Prioridad:
 1. Dark mode (opcional)
