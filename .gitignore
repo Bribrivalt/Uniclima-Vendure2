@@ -18,3 +18,4 @@ docker/postgres/*
 # Next.js
 .next/
 out/
+backend/.env  
