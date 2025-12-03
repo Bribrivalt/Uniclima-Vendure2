@@ -20,6 +20,7 @@ export { ProductGallery } from './ProductGallery';
 export { ProductTabs } from './ProductTabs';
 export { ProductSpecs, ProductSpecsCompact } from './ProductSpecs';
 export { RelatedProducts, RelatedProductsSkeleton } from './RelatedProducts';
+export { MobileFilterDrawer } from './MobileFilterDrawer';
 
 // Tipos existentes
 export type { ProductButtonProps } from './ProductButton';
@@ -51,3 +52,8 @@ export type {
     ProductSpecsCompactProps
 } from './ProductSpecs';
 export type { RelatedProductsProps } from './RelatedProducts';
+export type {
+    MobileFilterDrawerProps,
+    FilterOption as MobileFilterOption,
+    FilterGroup as MobileFilterGroup
+} from './MobileFilterDrawer';

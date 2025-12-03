@@ -75,3 +75,10 @@ export type { AccordionProps, AccordionItemProps } from './Accordion';
 
 export { CookieBanner } from './CookieBanner';
 export type { CookieBannerProps, CookiePreferences } from './CookieBanner';
+
+// ============================================
+// COMPONENTES DE ACCESIBILIDAD
+// ============================================
+
+export { SkipLink } from './SkipLink';
+export type { SkipLinkProps } from './SkipLink';
