@@ -1,6 +1,12 @@
 /**
  * Product Types - Uniclima
- * Tipos TypeScript para productos de Vendure con customFields
+ *
+ * Tipos TypeScript para productos de Vendure con customFields HVAC.
+ * Estos tipos deben coincidir exactamente con los campos definidos
+ * en backend/src/vendure-config.ts
+ *
+ * @author Frontend Team
+ * @version 1.1.0
  */
 
 /**
@@ -12,32 +18,93 @@ export type ModoVenta = 'compra_directa' | 'solicitar_presupuesto';
 
 /**
  * Custom Fields del producto HVAC configurados en Vendure
+ *
+ * Estos campos coinciden con los definidos en vendure-config.ts:
+ * - potenciaKw: Potencia nominal en kilowatios
+ * - frigorias: Capacidad frigorífica en frigorías/hora
+ * - claseEnergetica: Clasificación de eficiencia energética (A+++ a G)
+ * - refrigerante: Tipo de gas refrigerante (R32, R410A, R290)
+ * - wifi: Si el equipo tiene WiFi integrado
+ * - garantiaAnos: Años de garantía del fabricante
+ * - seer: Eficiencia energética estacional en refrigeración
+ * - scop: Eficiencia energética estacional en calefacción
+ * - nivelSonoroInterior: Nivel de ruido unidad interior en dB(A)
+ * - nivelSonoroExterior: Nivel de ruido unidad exterior en dB(A)
+ * - superficieRecomendada: Metros cuadrados recomendados
+ * - dimensionesInterior: Dimensiones unidad interior (Alto x Ancho x Profundo mm)
+ * - dimensionesExterior: Dimensiones unidad exterior (Alto x Ancho x Profundo mm)
+ * - pesoUnidadInterior: Peso unidad interior en kg
+ * - pesoUnidadExterior: Peso unidad exterior en kg
+ * - alimentacion: Tipo de alimentación eléctrica (Monofásico/Trifásico)
+ * - cargaRefrigerante: Cantidad de gas refrigerante precargado en kg
+ * - longitudMaximaTuberia: Longitud máxima de tubería frigorífica en metros
+ * - desnivelMaximo: Desnivel máximo permitido entre unidades en metros
  */
 export interface ProductCustomFields {
+    /** Modo de venta: compra directa o solicitar presupuesto */
     modoVenta?: ModoVenta;
-    // Campos técnicos HVAC
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // CAMPOS TÉCNICOS BÁSICOS
+    // ═══════════════════════════════════════════════════════════════════════
+
+    /** Potencia nominal del equipo en kilowatios (kW) */
     potenciaKw?: number;
+    /** Capacidad frigorífica en frigorías por hora */
     frigorias?: number;
+    /** Clasificación de eficiencia energética (A+++ a G) */
     claseEnergetica?: string;
+    /** Tipo de gas refrigerante (R32, R410A, R290) */
     refrigerante?: string;
+    /** Indica si el equipo tiene WiFi integrado para control remoto */
     wifi?: boolean;
+    /** Años de garantía del fabricante (0-10) */
     garantiaAnos?: number;
-    // Eficiencia energética
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // EFICIENCIA ENERGÉTICA
+    // ═══════════════════════════════════════════════════════════════════════
+
+    /** SEER: Eficiencia energética estacional en refrigeración */
     seer?: number;
+    /** SCOP: Eficiencia energética estacional en calefacción */
     scop?: number;
-    // Nivel sonoro
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // NIVEL SONORO
+    // ═══════════════════════════════════════════════════════════════════════
+
+    /** Nivel de ruido de la unidad interior en decibelios dB(A) */
     nivelSonoroInterior?: number;
+    /** Nivel de ruido de la unidad exterior en decibelios dB(A) */
     nivelSonoroExterior?: number;
-    // Dimensiones
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // DIMENSIONES Y PESO
+    // ═══════════════════════════════════════════════════════════════════════
+
+    /** Metros cuadrados recomendados para climatizar */
     superficieRecomendada?: string;
+    /** Dimensiones unidad interior: Alto x Ancho x Profundo en mm */
     dimensionesInterior?: string;
+    /** Dimensiones unidad exterior: Alto x Ancho x Profundo en mm */
     dimensionesExterior?: string;
+    /** Peso de la unidad interior en kilogramos */
     pesoUnidadInterior?: number;
+    /** Peso de la unidad exterior en kilogramos */
     pesoUnidadExterior?: number;
-    // Instalación
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // INSTALACIÓN
+    // ═══════════════════════════════════════════════════════════════════════
+
+    /** Tipo de alimentación eléctrica (Monofásico/Trifásico) */
     alimentacion?: string;
+    /** Cantidad de gas refrigerante precargado en kg */
     cargaRefrigerante?: number;
+    /** Longitud máxima de tubería frigorífica en metros */
     longitudMaximaTuberia?: number;
+    /** Desnivel máximo permitido entre unidad interior y exterior en metros */
     desnivelMaximo?: number;
 }
 

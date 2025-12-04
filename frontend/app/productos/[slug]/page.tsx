@@ -1,41 +1,87 @@
+/**
+ * Página de Detalle de Producto - /productos/[slug]
+ *
+ * Esta página muestra todos los detalles de un producto HVAC incluyendo:
+ * - Galería de imágenes con thumbnails
+ * - Información de precio y stock
+ * - Selector de variantes (si hay más de una)
+ * - Botón de añadir al carrito o solicitar presupuesto
+ * - Especificaciones técnicas HVAC completas
+ *
+ * Los custom fields HVAC vienen del Product (no de la variante)
+ * y coinciden con los definidos en backend/vendure-config.ts
+ *
+ * @author Frontend Team
+ * @version 1.1.0
+ */
 'use client';
 
 import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { GET_PRODUCT_BY_SLUG } from '@/lib/vendure/queries/products';
 import { ADD_ITEM_TO_ORDER } from '@/lib/vendure/mutations/cart';
+import { GET_ACTIVE_ORDER } from '@/lib/vendure/queries/cart';
 import { Product } from '@/lib/types/product';
 import { Button } from '@/components/core/Button';
 import { Alert } from '@/components/core/Alert';
+import { useToast } from '@/components/ui/Toast';
 import styles from './page.module.css';
 
+/**
+ * Interfaz para la respuesta de la query GET_PRODUCT_BY_SLUG
+ */
 interface ProductData {
     product: Product | null;
 }
 
+/**
+ * Componente de página de detalle de producto
+ * Obtiene el producto por slug y muestra toda su información
+ */
 export default function ProductDetailPage() {
+    // Obtener slug de la URL
     const params = useParams();
     const slug = params.slug as string;
 
+    // Estados del componente
     const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [selectedImage, setSelectedImage] = useState(0);
     const [addedToCart, setAddedToCart] = useState(false);
 
+    // Hook de toast para notificaciones
+    const { showToast } = useToast();
+
+    // Query para obtener el producto por slug
     const { data, loading, error } = useQuery<ProductData>(GET_PRODUCT_BY_SLUG, {
         variables: { slug },
         skip: !slug,
     });
 
+    // Mutation para añadir al carrito con actualización de caché
     const [addToCart, { loading: addingToCart }] = useMutation(ADD_ITEM_TO_ORDER, {
-        onCompleted: () => {
+        // Refetch del carrito activo para actualizar contador en header
+        refetchQueries: [{ query: GET_ACTIVE_ORDER }],
+        onCompleted: (data) => {
+            // Verificar si hubo error en la respuesta
+            if (data?.addItemToOrder?.errorCode) {
+                showToast(data.addItemToOrder.message || 'Error al añadir al carrito', 'error');
+                return;
+            }
             setAddedToCart(true);
+            showToast('¡Producto añadido al carrito!', 'success');
             setTimeout(() => setAddedToCart(false), 3000);
+        },
+        onError: (error) => {
+            console.error('Error al añadir al carrito:', error);
+            showToast('Error al añadir al carrito', 'error');
         },
     });
 
+    // Estado de carga
     if (loading) {
         return (
             <div className={styles.loading}>
@@ -45,6 +91,7 @@ export default function ProductDetailPage() {
         );
     }
 
+    // Estado de error o producto no encontrado
     if (error || !data?.product) {
         return (
             <div className={styles.error}>
@@ -57,12 +104,18 @@ export default function ProductDetailPage() {
         );
     }
 
+    // Extraer datos del producto
     const product = data.product;
     const selectedVariant = product.variants[selectedVariantIndex];
+    // Combinar imagen destacada con las demás imágenes
     const allImages = product.featuredAsset
         ? [product.featuredAsset, ...(product.assets || [])]
         : product.assets || [];
 
+    /**
+     * Handler para añadir producto al carrito
+     * Usa la variante seleccionada y la cantidad especificada
+     */
     const handleAddToCart = async () => {
         if (!selectedVariant) return;
 
@@ -74,6 +127,11 @@ export default function ProductDetailPage() {
         });
     };
 
+    /**
+     * Formatea un precio en céntimos a formato de moneda EUR
+     * @param price - Precio en céntimos
+     * @returns Precio formateado (ej: "1.299,00 €")
+     */
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat('es-ES', {
             style: 'currency',
@@ -81,8 +139,10 @@ export default function ProductDetailPage() {
         }).format(price / 100);
     };
 
-    const customFields = selectedVariant?.customFields;
-    const isQuoteOnly = product.customFields?.modoVenta === 'solicitar_presupuesto';
+    // IMPORTANTE: Los custom fields HVAC están en product.customFields, NO en variant.customFields
+    const customFields = product.customFields;
+    // Modo de venta: compra directa o solicitar presupuesto
+    const isQuoteOnly = customFields?.modoVenta === 'solicitar_presupuesto';
 
     return (
         <div className={styles.container}>
@@ -237,11 +297,18 @@ export default function ProductDetailPage() {
                 </div>
             </div>
 
-            {/* Technical Specs */}
-            {customFields && Object.values(customFields).some(v => v !== null && v !== undefined) && (
+            {/* ════════════════════════════════════════════════════════════════════════
+                ESPECIFICACIONES TÉCNICAS HVAC
+                Los nombres de campos coinciden con backend/vendure-config.ts
+                ════════════════════════════════════════════════════════════════════════ */}
+            {customFields && (
                 <section className={styles.specsSection}>
                     <h2 className={styles.specsTitle}>Especificaciones Técnicas</h2>
                     <div className={styles.specsGrid}>
+
+                        {/* ─────────────────────────────────────────────────────────────
+                            RENDIMIENTO Y CAPACIDAD
+                            ───────────────────────────────────────────────────────────── */}
                         {customFields.potenciaKw && (
                             <div className={styles.specItem}>
                                 <span className={styles.specLabel}>Potencia</span>
@@ -254,6 +321,16 @@ export default function ProductDetailPage() {
                                 <span className={styles.specValue}>{customFields.frigorias.toLocaleString('es-ES')} frig/h</span>
                             </div>
                         )}
+                        {customFields.superficieRecomendada && (
+                            <div className={styles.specItem}>
+                                <span className={styles.specLabel}>Superficie Recomendada</span>
+                                <span className={styles.specValue}>{customFields.superficieRecomendada}</span>
+                            </div>
+                        )}
+
+                        {/* ─────────────────────────────────────────────────────────────
+                            EFICIENCIA ENERGÉTICA
+                            ───────────────────────────────────────────────────────────── */}
                         {customFields.claseEnergetica && (
                             <div className={styles.specItem}>
                                 <span className={styles.specLabel}>Clase Energética</span>
@@ -262,6 +339,22 @@ export default function ProductDetailPage() {
                                 </span>
                             </div>
                         )}
+                        {customFields.seer && (
+                            <div className={styles.specItem}>
+                                <span className={styles.specLabel}>SEER (Refrigeración)</span>
+                                <span className={styles.specValue}>{customFields.seer}</span>
+                            </div>
+                        )}
+                        {customFields.scop && (
+                            <div className={styles.specItem}>
+                                <span className={styles.specLabel}>SCOP (Calefacción)</span>
+                                <span className={styles.specValue}>{customFields.scop}</span>
+                            </div>
+                        )}
+
+                        {/* ─────────────────────────────────────────────────────────────
+                            REFRIGERANTE Y CARACTERÍSTICAS
+                            ───────────────────────────────────────────────────────────── */}
                         {customFields.refrigerante && (
                             <div className={styles.specItem}>
                                 <span className={styles.specLabel}>Refrigerante</span>
@@ -270,9 +363,9 @@ export default function ProductDetailPage() {
                         )}
                         {customFields.wifi !== undefined && (
                             <div className={styles.specItem}>
-                                <span className={styles.specLabel}>WiFi</span>
+                                <span className={styles.specLabel}>WiFi Integrado</span>
                                 <span className={styles.specValue}>
-                                    {customFields.wifi ? 'Sí' : 'No'}
+                                    {customFields.wifi ? '✓ Sí' : '✗ No'}
                                 </span>
                             </div>
                         )}
@@ -282,29 +375,83 @@ export default function ProductDetailPage() {
                                 <span className={styles.specValue}>{customFields.garantiaAnos} años</span>
                             </div>
                         )}
-                        {customFields.nivelSonoro && (
+
+                        {/* ─────────────────────────────────────────────────────────────
+                            NIVEL SONORO (nombres correctos del backend)
+                            ───────────────────────────────────────────────────────────── */}
+                        {customFields.nivelSonoroInterior && (
                             <div className={styles.specItem}>
-                                <span className={styles.specLabel}>Nivel Sonoro</span>
-                                <span className={styles.specValue}>{customFields.nivelSonoro} dB</span>
+                                <span className={styles.specLabel}>Nivel Sonoro Interior</span>
+                                <span className={styles.specValue}>{customFields.nivelSonoroInterior} dB(A)</span>
                             </div>
                         )}
-                        {customFields.dimensionesUnidadInterior && (
+                        {customFields.nivelSonoroExterior && (
                             <div className={styles.specItem}>
-                                <span className={styles.specLabel}>Unidad Interior</span>
-                                <span className={styles.specValue}>{customFields.dimensionesUnidadInterior}</span>
+                                <span className={styles.specLabel}>Nivel Sonoro Exterior</span>
+                                <span className={styles.specValue}>{customFields.nivelSonoroExterior} dB(A)</span>
                             </div>
                         )}
-                        {customFields.dimensionesUnidadExterior && (
+
+                        {/* ─────────────────────────────────────────────────────────────
+                            DIMENSIONES Y PESO (nombres correctos del backend)
+                            ───────────────────────────────────────────────────────────── */}
+                        {customFields.dimensionesInterior && (
                             <div className={styles.specItem}>
-                                <span className={styles.specLabel}>Unidad Exterior</span>
-                                <span className={styles.specValue}>{customFields.dimensionesUnidadExterior}</span>
+                                <span className={styles.specLabel}>Dimensiones U. Interior</span>
+                                <span className={styles.specValue}>{customFields.dimensionesInterior}</span>
+                            </div>
+                        )}
+                        {customFields.dimensionesExterior && (
+                            <div className={styles.specItem}>
+                                <span className={styles.specLabel}>Dimensiones U. Exterior</span>
+                                <span className={styles.specValue}>{customFields.dimensionesExterior}</span>
+                            </div>
+                        )}
+                        {customFields.pesoUnidadInterior && (
+                            <div className={styles.specItem}>
+                                <span className={styles.specLabel}>Peso U. Interior</span>
+                                <span className={styles.specValue}>{customFields.pesoUnidadInterior} kg</span>
+                            </div>
+                        )}
+                        {customFields.pesoUnidadExterior && (
+                            <div className={styles.specItem}>
+                                <span className={styles.specLabel}>Peso U. Exterior</span>
+                                <span className={styles.specValue}>{customFields.pesoUnidadExterior} kg</span>
+                            </div>
+                        )}
+
+                        {/* ─────────────────────────────────────────────────────────────
+                            INSTALACIÓN
+                            ───────────────────────────────────────────────────────────── */}
+                        {customFields.alimentacion && (
+                            <div className={styles.specItem}>
+                                <span className={styles.specLabel}>Alimentación</span>
+                                <span className={styles.specValue}>{customFields.alimentacion}</span>
+                            </div>
+                        )}
+                        {customFields.cargaRefrigerante && (
+                            <div className={styles.specItem}>
+                                <span className={styles.specLabel}>Carga Refrigerante</span>
+                                <span className={styles.specValue}>{customFields.cargaRefrigerante} kg</span>
+                            </div>
+                        )}
+                        {customFields.longitudMaximaTuberia && (
+                            <div className={styles.specItem}>
+                                <span className={styles.specLabel}>Long. Máx. Tubería</span>
+                                <span className={styles.specValue}>{customFields.longitudMaximaTuberia} m</span>
+                            </div>
+                        )}
+                        {customFields.desnivelMaximo && (
+                            <div className={styles.specItem}>
+                                <span className={styles.specLabel}>Desnivel Máximo</span>
+                                <span className={styles.specValue}>{customFields.desnivelMaximo} m</span>
                             </div>
                         )}
                     </div>
                 </section>
             )}
 
-            {/* Back to products */}
+            {/* Enlace para volver al catálogo */}
             <div className={styles.backSection}>
                 <Link href="/productos" className={styles.backLink}>
                     ← Volver a productos

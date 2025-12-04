@@ -2,14 +2,21 @@ import { gql } from '@apollo/client';
 
 /**
  * Query para obtener lista de productos con opciones de filtrado, búsqueda y paginación
- * 
- * Opciones de filtrado disponibles:
+ *
+ * Esta query se conecta con el backend de Vendure para obtener:
+ * - Lista paginada de productos
+ * - Total de productos disponibles
+ * - Datos completos incluyendo custom fields HVAC
+ *
+ * Opciones de filtrado disponibles (ProductListOptions):
  * - filter.name.contains: Búsqueda por nombre
  * - filter.facetValueIds: Filtrar por facets (marca, tipo, características, etc.)
  * - sort: Ordenamiento (name, price, createdAt)
  * - take: Número de productos a obtener
  * - skip: Offset para paginación
- * 
+ *
+ * Los custom fields HVAC coinciden con los definidos en backend/vendure-config.ts
+ *
  * @param {ProductListOptions} options - Opciones de filtrado y paginación
  * @returns Lista de productos con sus variantes, custom fields y total de items
  */
@@ -45,6 +52,7 @@ export const GET_PRODUCTS = gql`
             name
           }
         }
+        # Custom fields HVAC - nombres exactos del backend
         customFields {
           potenciaKw
           frigorias
@@ -52,13 +60,13 @@ export const GET_PRODUCTS = gql`
           refrigerante
           wifi
           garantiaAnos
-          nivelSonoroInterior
-          nivelSonoroExterior
-          dimensionesInterior
-          dimensionesExterior
-          superficieRecomendada
           seer
           scop
+          nivelSonoroInterior
+          nivelSonoroExterior
+          superficieRecomendada
+          dimensionesInterior
+          dimensionesExterior
         }
       }
       totalItems
@@ -121,6 +129,20 @@ export const GET_FACETS = gql`
 
 /**
  * Query para obtener un producto individual por slug
+ *
+ * Esta query obtiene todos los detalles de un producto específico,
+ * incluyendo todos los custom fields HVAC para mostrar en la página de detalle.
+ *
+ * Los custom fields coinciden exactamente con los definidos en backend/vendure-config.ts:
+ * - Campos básicos: potenciaKw, frigorias, claseEnergetica, refrigerante, wifi, garantiaAnos
+ * - Eficiencia: seer, scop
+ * - Sonoro: nivelSonoroInterior, nivelSonoroExterior
+ * - Dimensiones: superficieRecomendada, dimensionesInterior, dimensionesExterior
+ * - Peso: pesoUnidadInterior, pesoUnidadExterior
+ * - Instalación: alimentacion, cargaRefrigerante, longitudMaximaTuberia, desnivelMaximo
+ *
+ * @param {string} slug - Slug único del producto
+ * @returns Producto completo con todos los custom fields
  */
 export const GET_PRODUCT_BY_SLUG = gql`
   query GetProductBySlug($slug: String!) {
@@ -145,22 +167,39 @@ export const GET_PRODUCT_BY_SLUG = gql`
         sku
         stockLevel
       }
+      facetValues {
+        id
+        code
+        name
+        facet {
+          id
+          code
+          name
+        }
+      }
+      # Custom fields HVAC - todos los campos disponibles
       customFields {
+        # Campos básicos
         potenciaKw
         frigorias
         claseEnergetica
         refrigerante
         wifi
         garantiaAnos
-        nivelSonoroInterior
-        nivelSonoroExterior
-        dimensionesInterior
-        dimensionesExterior
-        superficieRecomendada
+        # Eficiencia energética
         seer
         scop
+        # Nivel sonoro (nombres correctos del backend)
+        nivelSonoroInterior
+        nivelSonoroExterior
+        # Dimensiones y superficie
+        superficieRecomendada
+        dimensionesInterior
+        dimensionesExterior
+        # Peso de unidades
         pesoUnidadInterior
         pesoUnidadExterior
+        # Instalación
         alimentacion
         cargaRefrigerante
         longitudMaximaTuberia
