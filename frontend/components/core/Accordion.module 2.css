@@ -1,0 +1,208 @@
+/**
+ * Accordion Component Styles
+ * 
+ * Estilos para el componente Accordion con soporte para:
+ * - Animación de apertura/cierre
+ * - Estados: expanded, disabled
+ * - Personalización de iconos
+ */
+
+/* ============================================
+   ACCORDION - Contenedor principal
+   ============================================ */
+.accordion {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+}
+
+/* ============================================
+   ITEM - Cada item del accordion
+   ============================================ */
+.item {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+.item.disabled {
+    opacity: 0.5;
+}
+
+/* ============================================
+   HEADER - Botón de toggle
+   ============================================ */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--spacing-4);
+    background-color: var(--color-background-elevated);
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-family-base);
+    transition: background-color var(--transition-fast);
+}
+
+.header:hover:not(:disabled) {
+    background-color: var(--color-surface);
+}
+
+.header:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+}
+
+.header:disabled {
+    cursor: not-allowed;
+}
+
+/* Item expandido */
+.expanded .header {
+    background-color: var(--color-surface);
+}
+
+/* ============================================
+   TITLE - Título del item
+   ============================================ */
+.title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    flex: 1;
+}
+
+.expanded .title {
+    color: var(--color-primary);
+}
+
+.disabled .title {
+    color: var(--color-text-disabled);
+}
+
+/* ============================================
+   ICON - Icono de toggle
+   ============================================ */
+.iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: var(--spacing-3);
+}
+
+.chevron {
+    width: 20px;
+    height: 20px;
+    color: var(--color-text-tertiary);
+    transition: transform var(--transition-base);
+}
+
+.chevronExpanded {
+    transform: rotate(180deg);
+}
+
+.expanded .chevron {
+    color: var(--color-primary);
+}
+
+/* ============================================
+   PANEL - Contenido desplegable
+   ============================================ */
+.panel {
+    overflow: hidden;
+    transition: max-height var(--transition-base);
+}
+
+.panel[hidden] {
+    display: none;
+}
+
+/* ============================================
+   CONTENT - Contenido interno del panel
+   ============================================ */
+.content {
+    padding: var(--spacing-4);
+    padding-top: 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+}
+
+.content p {
+    margin: 0;
+}
+
+.content p+p {
+    margin-top: var(--spacing-3);
+}
+
+.content ul,
+.content ol {
+    margin: var(--spacing-2) 0;
+    padding-left: var(--spacing-5);
+}
+
+.content li {
+    margin-bottom: var(--spacing-1);
+}
+
+/* ============================================
+   VARIANTES - Sin bordes externos
+   ============================================ */
+.accordion.borderless {
+    border: none;
+    border-radius: 0;
+}
+
+.borderless .item {
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.borderless .item:last-child {
+    border-bottom: none;
+}
+
+.borderless .header {
+    background-color: transparent;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.borderless .header:hover:not(:disabled) {
+    background-color: transparent;
+}
+
+.borderless .content {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .header {
+        padding: var(--spacing-3);
+    }
+
+    .title {
+        font-size: var(--font-size-sm);
+    }
+
+    .content {
+        padding: var(--spacing-3);
+        padding-top: 0;
+    }
+
+    .chevron {
+        width: 18px;
+        height: 18px;
+    }
+}

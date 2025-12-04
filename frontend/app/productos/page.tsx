@@ -1,15 +1,33 @@
+/**
+ * Página de Catálogo de Productos - /productos
+ * 
+ * Esta página muestra el catálogo completo de productos HVAC conectado
+ * con el backend de Vendure. Incluye:
+ * - Búsqueda en tiempo real
+ * - Filtros por categoría y marca
+ * - Ordenamiento (nombre, precio)
+ * - Paginación
+ * - Estados de carga, error y vacío
+ * 
+ * @author Frontend Team
+ * @version 1.0.0
+ */
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_PRODUCTS } from '@/lib/vendure/queries/products';
+import { GET_PRODUCTS, GET_FACETS } from '@/lib/vendure/queries/products';
 import { ProductCard } from '@/components/product/ProductCard';
 import { ProductSearch } from '@/components/product/ProductSearch';
 import { ProductSort, SortOption } from '@/components/product/ProductSort';
 import { ProductPagination } from '@/components/product/ProductPagination';
+import { ProductFilters, FilterGroup, ActiveFilters } from '@/components/product/ProductFilters';
 import { Product } from '@/lib/types/product';
 import styles from './page.module.css';
 
+/**
+ * Interfaz para la respuesta de la query GET_PRODUCTS
+ */
 interface ProductsData {
     products: {
         items: Product[];
@@ -17,9 +35,20 @@ interface ProductsData {
     };
 }
 
+/**
+ * Número de productos a mostrar por página
+ * @constant
+ */
 const ITEMS_PER_PAGE = 12;
 
-// Categorías de productos HVAC
+
+/**
+ * Categorías de productos HVAC
+ * TODO: En el futuro, estas categorías se cargarán dinámicamente desde Vendure
+ * usando la query GET_COLLECTIONS para obtener las colecciones reales del backend
+ * 
+ * @constant
+ */
 const CATEGORIES = [
     { id: 'all', name: 'Todos' },
     { id: 'split', name: 'Split Pared' },
@@ -30,7 +59,13 @@ const CATEGORIES = [
     { id: 'calderas', name: 'Calderas' },
 ];
 
-// Marcas de climatización
+/**
+ * Marcas de climatización
+ * TODO: En el futuro, estas marcas se cargarán dinámicamente desde Vendure
+ * usando Facets para obtener las marcas reales disponibles en el catálogo
+ * 
+ * @constant
+ */
 const BRANDS = [
     { id: 'all', name: 'Todas las marcas' },
     { id: 'daikin', name: 'Daikin' },
@@ -41,14 +76,70 @@ const BRANDS = [
     { id: 'panasonic', name: 'Panasonic' },
 ];
 
+
+/**
+ * Componente principal de la página de productos
+ * 
+ * Maneja:
+ * - Estado de búsqueda, ordenamiento y paginación
+ * - Filtros por categoría y marca
+ * - Conexión con Apollo Client para obtener datos de Vendure
+ * - Estados de carga, error y vacío
+ * 
+ * @returns {JSX.Element} Página de catálogo de productos
+ */
 export default function ProductosPage() {
+    // ========================================
+    // ESTADOS DEL COMPONENTE
+    // ========================================
+
+    /**
+     * Query de búsqueda ingresada por el usuario
+     * Se usa para filtrar productos por nombre
+     */
     const [searchQuery, setSearchQuery] = useState('');
+
+    /**
+     * Opción de ordenamiento seleccionada
+     * Opciones: 'name-asc', 'name-desc', 'price-asc', 'price-desc'
+     */
     const [sortOption, setSortOption] = useState<SortOption>('name-asc');
+
+    /**
+     * Página actual de la paginación (1-indexed)
+     */
     const [currentPage, setCurrentPage] = useState(1);
+
+    /**
+     * Filtros activos seleccionados por el usuario
+     * Estructura: { [facetCode]: [facetValueId1, facetValueId2, ...] }
+     */
+    const [activeFilters, setActiveFilters] = useState<ActiveFilters>({});
+
+    /**
+     * Categoría seleccionada para filtrar
+     * TODO: Conectar con Collections de Vendure
+     */
     const [selectedCategory, setSelectedCategory] = useState('all');
+
+    /**
+     * Marca seleccionada para filtrar
+     * TODO: Conectar con Facets de Vendure
+     */
     const [selectedBrand, setSelectedBrand] = useState('all');
 
-    // Convertir sortOption a formato Vendure
+    // ========================================
+    // FUNCIONES AUXILIARES
+    // ========================================
+
+    /**
+     * Convierte la opción de ordenamiento del frontend al formato de Vendure
+     * 
+     * @returns {Object} Objeto con el campo y dirección de ordenamiento para Vendure
+     * @example
+     * // Para 'price-asc' retorna { price: 'ASC' }
+     * // Para 'name-desc' retorna { name: 'DESC' }
+     */
     const getSortVariables = useCallback(() => {
         switch (sortOption) {
             case 'name-asc':
@@ -64,33 +155,155 @@ export default function ProductosPage() {
         }
     }, [sortOption]);
 
-    // Resetear página cuando cambia la búsqueda o el ordenamiento
+    /**
+     * Efecto para resetear la página a 1 cuando cambian los filtros o búsqueda
+     * Esto asegura que el usuario siempre vea la primera página de resultados
+     * cuando hace una nueva búsqueda o cambia filtros
+     */
     useEffect(() => {
         setCurrentPage(1);
-    }, [searchQuery, sortOption, selectedCategory, selectedBrand]);
+    }, [searchQuery, sortOption, selectedCategory, selectedBrand, activeFilters]);
 
-    // Query de productos con Apollo Client
+
+    // ========================================
+    // QUERY DE FACETS - CARGAR FILTROS DISPONIBLES
+    // ========================================
+
+    /**
+     * Query para obtener facets (filtros) disponibles desde Vendure
+     * Los facets incluyen: Marca, Tipo de Producto, Clase Energética, etc.
+     */
+    const { data: facetsData, loading: facetsLoading } = useQuery(GET_FACETS);
+
+    /**
+     * Transformar facets de Vendure al formato FilterGroup para ProductFilters
+     * 
+     * Convierte los facets del backend en grupos de filtros con sus opciones
+     * Ejemplo: Facet "Marca" -> FilterGroup con opciones [Daikin, Mitsubishi, etc.]
+     */
+    const filterGroups = useMemo<FilterGroup[]>(() => {
+        if (!facetsData?.facets?.items) return [];
+
+        return facetsData.facets.items.map((facet: any) => ({
+            id: facet.code,
+            name: facet.name,
+            type: 'checkbox' as const,
+            options: facet.values.map((value: any) => ({
+                value: value.id,
+                label: value.name,
+                // TODO: Agregar conteo de productos por facet value
+                // count: value.productCount
+            })),
+        }));
+    }, [facetsData]);
+
+    /**
+     * Extraer IDs de facet values seleccionados para enviar a la query de productos
+     * Convierte { marca: ['1', '2'], tipo: ['3'] } -> ['1', '2', '3']
+     */
+    const selectedFacetValueIds = useMemo(() => {
+        return Object.values(activeFilters)
+            .filter(value => Array.isArray(value))
+            .flat() as string[];
+    }, [activeFilters]);
+
+
+    // ========================================
+    // QUERY DE APOLLO CLIENT - CONEXIÓN CON VENDURE
+    // ========================================
+
+    /**
+     * Query de productos usando Apollo Client
+     * 
+     * Esta query se conecta con el backend de Vendure para obtener:
+     * - Lista paginada de productos
+     * - Total de productos disponibles
+     * - Datos completos de cada producto (nombre, precio, imagen, custom fields HVAC)
+     * 
+     * Variables enviadas a Vendure:
+     * - take: Número de productos por página
+     * - skip: Offset para paginación (calculado desde currentPage)
+     * - filter.name.contains: Filtro de búsqueda por nombre (opcional)
+     * - filter.facetValueIds: Filtros por facets seleccionados (marca, tipo, etc.)
+     * - sort: Ordenamiento (nombre o precio, ASC o DESC)
+     * 
+     * Política de caché: 'cache-and-network'
+     * - Primero muestra datos del caché si existen
+     * - Luego hace la petición al servidor para actualizar
+     * - Esto mejora la UX mostrando datos inmediatamente
+     */
     const { data, loading, error } = useQuery<ProductsData>(GET_PRODUCTS, {
         variables: {
             options: {
+                // Paginación: tomar X productos
                 take: ITEMS_PER_PAGE,
+
+                // Paginación: saltar los productos de páginas anteriores
+                // Ejemplo: Página 2 con 12 items/página = skip 12 productos
                 skip: (currentPage - 1) * ITEMS_PER_PAGE,
-                filter: searchQuery
-                    ? {
+
+                // Filtros combinados
+                filter: {
+                    // Búsqueda por nombre (solo si hay query)
+                    ...(searchQuery && {
                         name: {
                             contains: searchQuery,
                         },
-                    }
-                    : undefined,
+                    }),
+                    // Filtros por facets seleccionados (marca, tipo, características, etc.)
+                    ...(selectedFacetValueIds.length > 0 && {
+                        facetValueIds: selectedFacetValueIds,
+                    }),
+                },
+
+                // Ordenamiento convertido al formato de Vendure
                 sort: getSortVariables(),
             },
         },
+        // Estrategia de caché: mostrar caché primero, luego actualizar desde red
         fetchPolicy: 'cache-and-network',
     });
 
+    // ========================================
+    // EXTRACCIÓN DE DATOS DE LA RESPUESTA
+    // ========================================
+
+    /**
+     * Array de productos obtenidos de Vendure
+     * Si no hay datos aún, retorna array vacío para evitar errores
+     */
     const products = data?.products.items || [];
+
+    /**
+     * Número total de productos que coinciden con los filtros
+     * Se usa para calcular el número de páginas en la paginación
+     */
     const totalItems = data?.products.totalItems || 0;
+
+    /**
+     * Número total de páginas calculado desde el total de items
+     * Math.ceil redondea hacia arriba para incluir la última página parcial
+     */
     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+    // ========================================
+    // ESTADO PARA DRAWER DE FILTROS EN MÓVIL
+    // ========================================
+
+    /**
+     * Estado para controlar si el drawer de filtros está abierto (solo móvil)
+     */
+    const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+
+    /**
+     * Contar filtros activos para mostrar en el botón móvil
+     */
+    const activeFilterCount = Object.values(activeFilters).reduce((count, value) => {
+        if (Array.isArray(value)) {
+            return count + value.length;
+        }
+        return count + 1;
+    }, 0);
 
     return (
         <div className={styles.container}>
@@ -105,60 +318,50 @@ export default function ProductosPage() {
             </div>
 
             <div className={styles.mainContent}>
-                {/* Sidebar con filtros */}
-                <aside className={styles.sidebar}>
-                    <div className={styles.filterSection}>
-                        <h3 className={styles.filterTitle}>Categorías</h3>
-                        <ul className={styles.filterList}>
-                            {CATEGORIES.map((category) => (
-                                <li key={category.id}>
-                                    <button
-                                        className={`${styles.filterButton} ${selectedCategory === category.id ? styles.filterButtonActive : ''
-                                            }`}
-                                        onClick={() => setSelectedCategory(category.id)}
-                                    >
-                                        {category.name}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                {/* Sidebar con filtros dinámicos (desktop) */}
+                <ProductFilters
+                    filterGroups={filterGroups}
+                    activeFilters={activeFilters}
+                    onFilterChange={setActiveFilters}
+                    onClearFilters={() => setActiveFilters({})}
+                    className={styles.sidebar}
+                />
 
-                    <div className={styles.filterSection}>
-                        <h3 className={styles.filterTitle}>Marcas</h3>
-                        <ul className={styles.filterList}>
-                            {BRANDS.map((brand) => (
-                                <li key={brand.id}>
-                                    <button
-                                        className={`${styles.filterButton} ${selectedBrand === brand.id ? styles.filterButtonActive : ''
-                                            }`}
-                                        onClick={() => setSelectedBrand(brand.id)}
-                                    >
-                                        {brand.name}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* Banner de oferta */}
-                    <div className={styles.offerBanner}>
-                        <span className={styles.offerBadge}>Oferta</span>
-                        <h4 className={styles.offerTitle}>Instalación incluida</h4>
-                        <p className={styles.offerText}>
-                            En equipos seleccionados. Consulta condiciones.
-                        </p>
-                    </div>
-                </aside>
+                {/* Drawer de filtros para móvil */}
+                <ProductFilters
+                    filterGroups={filterGroups}
+                    activeFilters={activeFilters}
+                    onFilterChange={setActiveFilters}
+                    onClearFilters={() => setActiveFilters({})}
+                    asDrawer
+                    isOpen={isFilterDrawerOpen}
+                    onClose={() => setIsFilterDrawerOpen(false)}
+                />
 
                 {/* Contenido principal */}
                 <main className={styles.content}>
-                    {/* Search and Sort */}
+                    {/* Barra de controles: Búsqueda, Filtros móvil y Ordenamiento */}
                     <div className={styles.controls}>
                         <div className={styles.searchWrapper}>
                             <ProductSearch onSearch={setSearchQuery} />
                         </div>
-                        <ProductSort value={sortOption} onChange={setSortOption} />
+
+                        {/* Botón de filtros para móvil */}
+                        <button
+                            className={styles.mobileFilterButton}
+                            onClick={() => setIsFilterDrawerOpen(true)}
+                            aria-label="Abrir filtros"
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" />
+                            </svg>
+                            <span>Filtros</span>
+                            {activeFilterCount > 0 && (
+                                <span className={styles.filterBadge}>{activeFilterCount}</span>
+                            )}
+                        </button>
+
+                        <ProductSort value={sortOption} onChange={(value) => setSortOption(value as SortOption)} />
                     </div>
 
                     {/* Stats */}

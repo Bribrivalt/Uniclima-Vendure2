@@ -45,6 +45,7 @@
     transform: scale(1.05);
 }
 
+/* Badge de stock bajo (esquina superior derecha) */
 .badge {
     position: absolute;
     top: var(--spacing-3);
@@ -56,6 +57,50 @@
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-bold);
     z-index: 1;
+}
+
+/* Badge de clase energética (esquina superior izquierda) */
+.energyBadge {
+    position: absolute;
+    top: var(--spacing-3);
+    left: var(--spacing-3);
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    color: white;
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Colores según clase energética */
+.energyAPlusPlus,
+.energyAPlusPlusPlus {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+.energyAPlus {
+    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+}
+
+.energyA {
+    background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+}
+
+.energyB {
+    background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+}
+
+.energyC {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+}
+
+.energyD,
+.energyE,
+.energyF,
+.energyG {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
 }
 
 /* ========================================
@@ -86,6 +131,44 @@
 
 .titleLink:hover .title {
     color: #cc0000;
+}
+
+/* ========================================
+   SPECS HVAC
+   ======================================== */
+
+.specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    margin-top: var(--spacing-1);
+}
+
+.spec {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    padding: var(--spacing-1) var(--spacing-2);
+    background: #f5f5f5;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-xs);
+    color: #666;
+    font-weight: var(--font-weight-medium);
+}
+
+.spec svg {
+    flex-shrink: 0;
+    color: #999;
+}
+
+/* WiFi spec con color especial */
+.specWifi {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.specWifi svg {
+    color: #0284c7;
 }
 
 .description {
@@ -139,5 +222,21 @@
 
     .description {
         font-size: var(--font-size-xs);
+    }
+
+    /* Specs más compactos en móvil */
+    .specs {
+        gap: var(--spacing-1);
+    }
+
+    .spec {
+        padding: 2px var(--spacing-1);
+        font-size: 10px;
+    }
+
+    /* Badge de energía más pequeño en móvil */
+    .energyBadge {
+        padding: 2px var(--spacing-1);
+        font-size: 10px;
     }
 }

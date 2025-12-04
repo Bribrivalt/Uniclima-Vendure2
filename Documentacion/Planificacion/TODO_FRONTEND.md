@@ -1,7 +1,7 @@
 # 📋 TODO Frontend - Uniclima Vendure
 
-**Desarrollador:** Frontend  
-**Última actualización:** 03/12/2025
+**Desarrollador:** Frontend
+**Última actualización:** 04/12/2025 15:30
 
 > 🔗 = Punto de confluencia con Backend (necesitas datos del backend)
 
@@ -29,16 +29,19 @@
 - [x] Dropdown
 - [x] Tabs
 - [x] Skeleton/Loading
+- [x] Toast (notificaciones)
 
 ### Fase 4: Componentes de Producto
-- [x] ProductCard
+- [x] ProductCard (con specs HVAC: clase energética, potencia, WiFi)
 - [x] ProductSearch
 - [x] ProductSort
 - [x] ProductPagination
+- [x] ProductFilters (con facets dinámicos de Vendure)
+- [x] ProductButton (compra directa / solicitar presupuesto)
 - [x] QuoteModal
 
 ### Fase 5: Componentes de Carrito
-- [x] CartItem
+- [x] CartItem (con enlace a producto, variantes)
 - [x] CartSummary
 
 ### Fase 6: Componentes de Checkout
@@ -50,7 +53,7 @@
 - [x] ProtectedRoute
 
 ### Fase 8: Layout
-- [x] Header
+- [x] Header (con dropdown de categorías desde Collections)
 - [x] Footer
 - [x] TopBar
 
@@ -70,10 +73,10 @@
 
 ### Fase 11: Integración GraphQL
 - [x] Queries de auth
-- [x] Queries de cart
-- [x] Queries de products 🔗
+- [x] Queries de cart (GET_ACTIVE_ORDER)
+- [x] Queries de products (GET_PRODUCTS, GET_PRODUCT_BY_SLUG, GET_FACETS, GET_COLLECTIONS) 🔗
 - [x] Mutations de auth
-- [x] Mutations de cart
+- [x] Mutations de cart (ADD_ITEM_TO_ORDER, ADJUST_ORDER_LINE, REMOVE_ORDER_LINE)
 - [x] Mutations de order
 
 ### Fase 12: Hooks y Utilidades
@@ -81,37 +84,39 @@
 - [x] useFocusTrap
 - [x] Metadata SEO utils
 
----
-
-## 🔄 EN PROGRESO
-
 ### Fase 13: Catálogo de Productos 🔗
-- [ ] Página catálogo (/productos) con datos reales
-- [ ] Detalle de producto (/productos/[slug])
-- [ ] Mostrar Custom Fields HVAC (specs técnicas)
-- [ ] Filtros por Facets funcionando
-- [ ] Navegación por Collections
+- [x] Página catálogo (/productos) con datos reales de Vendure
+- [x] Detalle de producto (/productos/[slug]) con todos los custom fields
+- [x] Mostrar Custom Fields HVAC (specs técnicas completas)
+- [x] Filtros por Facets funcionando (dinámicos desde Vendure)
+- [x] Navegación por Collections (dropdown en Header)
+- [x] Botón de filtros para móvil con drawer
+
+### Fase 14: Funcionalidad de Carrito 🔗
+- [x] Añadir al carrito funcional (desde ProductCard y detalle)
+- [x] Modificar cantidades (página /carrito)
+- [x] Eliminar del carrito (página /carrito)
+- [x] Contador en Header (usando GET_ACTIVE_ORDER)
+- [x] MiniCart drawer (CartDrawer integrado en Header)
+- [x] Persistencia de sesión (vendure-token en localStorage)
+
+### Fase 15: Checkout Completo 🔗
+- [x] Formulario de dirección funcional (validación completa)
+- [x] Selector de método de envío (desde eligibleShippingMethods)
+- [x] Página de confirmación del pedido
+- [ ] Integración Stripe (pendiente configuración backend)
+
+### Fase 18: Home Page
+- [x] Hero banner (gradiente, stats, CTAs)
+- [x] Categorías destacadas (desde Collections de Vendure)
+- [x] Productos destacados (desde GET_PRODUCTS)
+- [x] Sección de características/beneficios
+- [x] Banner de marcas
+- [x] CTA final con contacto
 
 ---
 
 ## 📝 PENDIENTE
-
-### Fase 14: Funcionalidad de Carrito 🔗
-| Tarea | Prioridad | Dependencia Backend |
-|-------|-----------|---------------------|
-| Añadir al carrito funcional | Alta | Productos creados ✅ |
-| Modificar cantidades | Alta | - |
-| Eliminar del carrito | Alta | - |
-| MiniCart en Header | Media | - |
-| Persistencia de sesión | Alta | - |
-
-### Fase 15: Checkout Completo 🔗
-| Tarea | Prioridad | Dependencia Backend |
-|-------|-----------|---------------------|
-| Formulario de dirección funcional | Alta | - |
-| Selector de método de envío | Alta | Envíos configurados ✅ |
-| Integración Stripe | Alta | Stripe configurado (pendiente) |
-| Página de confirmación | Alta | - |
 
 ### Fase 16: Área de Cliente
 | Tarea | Prioridad |
@@ -130,22 +135,39 @@
 | Vistos recientemente | Baja |
 | Comparador de productos | Baja |
 
-### Fase 18: Home Page
+### Fase 16: Área de Cliente
 | Tarea | Prioridad |
 |-------|-----------|
-| Hero banner | Media |
-| Categorías destacadas | Media |
-| Productos destacados | Media |
-| Marcas carousel | Baja |
+| Historial de pedidos | Media |
+| Detalle de pedido | Media |
+| Libro de direcciones | Media |
+| Editar perfil | Baja |
+| Cambiar contraseña | Baja |
 
-### Fase 19: Búsqueda
+### Fase 17: Mejoras de Catálogo
+| Tarea | Prioridad |
+|-------|-----------|
+| Galería de imágenes con zoom | Media |
+| Productos relacionados | Baja |
+| Vistos recientemente | Baja |
+| Comparador de productos | Baja |
+
+### Fase 19: Integración Stripe 🔗
+| Tarea | Prioridad | Dependencia Backend |
+|-------|-----------|---------------------|
+| Conectar con Stripe Elements | Alta | Stripe configurado en backend |
+| Página de procesamiento de pago | Alta | Stripe configurado en backend |
+| Manejo de errores de pago | Alta | - |
+| Confirmación post-pago | Alta | - |
+
+### Fase 20: Búsqueda
 | Tarea | Prioridad |
 |-------|-----------|
 | Búsqueda con sugerencias | Media |
 | Página de resultados | Media |
 | Filtros en resultados | Media |
 
-### Fase 20: SEO y Performance
+### Fase 21: SEO y Performance
 | Tarea | Prioridad |
 |-------|-----------|
 | Meta tags dinámicos | Alta |
@@ -154,7 +176,7 @@
 | Lazy loading imágenes | Media |
 | ISR para productos | Media |
 
-### Fase 21: Accesibilidad
+### Fase 22: Accesibilidad
 | Tarea | Prioridad |
 |-------|-----------|
 | ARIA labels completos | Media |
@@ -186,16 +208,20 @@
 
 ## 📊 PRIORIDADES SEMANALES
 
-### Esta Semana
-1. Conectar catálogo con datos reales del backend 🔗
-2. Mostrar custom fields HVAC en detalle de producto
-3. Implementar filtros por facets
-4. Carrito funcional (añadir, modificar, eliminar)
+### Completado Esta Semana ✅
+1. ~~Conectar catálogo con datos reales del backend~~ ✅
+2. ~~Mostrar custom fields HVAC en detalle de producto~~ ✅
+3. ~~Implementar filtros por facets~~ ✅
+4. ~~Carrito funcional (añadir, modificar, eliminar)~~ ✅
+5. ~~MiniCart drawer integrado en Header~~ ✅
+6. ~~Persistencia de sesión del carrito~~ ✅
+7. ~~Checkout completo (hasta pago)~~ ✅
+8. ~~Home page mejorada~~ ✅
 
 ### Próxima Semana
-1. Checkout completo (hasta pago dummy)
+1. Integración con Stripe (cuando backend lo configure) 🔗
 2. Área de cliente básica
-3. Persistencia de sesión
+3. Mejoras de SEO
 
 ### Antes de Producción
 1. Integrar Stripe cuando backend lo tenga listo 🔗
@@ -286,4 +312,4 @@ Cuando necesites datos que no están disponibles:
 
 ---
 
-*Última actualización: 03/12/2025*
+*Última actualización: 04/12/2025 15:30*

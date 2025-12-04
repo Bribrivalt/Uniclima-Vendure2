@@ -50,12 +50,31 @@
     gap: var(--spacing-2);
 }
 
+/* Enlace al nombre del producto - mejora accesibilidad */
+.nameLink {
+    text-decoration: none;
+    color: inherit;
+    transition: color var(--transition-base);
+}
+
+.nameLink:hover {
+    color: #cc0000;
+}
+
 .name {
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-semibold);
     color: #333;
     margin: 0;
     line-height: 1.3;
+}
+
+/* Nombre de la variante (si difiere del producto) */
+.variant {
+    font-size: var(--font-size-sm);
+    color: #666;
+    margin: 0;
+    font-style: italic;
 }
 
 .sku {

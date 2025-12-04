@@ -436,6 +436,18 @@
 }
 
 /* ========================================
+   PRODUCTOS RELACIONADOS
+   Seccion de productos relacionados usando RelatedProducts
+   ======================================== */
+
+.relatedSection {
+    margin-top: var(--spacing-12);
+    margin-bottom: var(--spacing-8);
+    padding-top: var(--spacing-8);
+    border-top: 1px solid #e0e0e0;
+}
+
+/* ========================================
    BACK SECTION
    ======================================== */
 

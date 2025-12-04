@@ -173,7 +173,6 @@ export const config: VendureConfig = {
             },
             {
                 // Dimensiones de la unidad interior
-                name: 'dimensionesUnidadInterior',
                 // Formato: "Alto x Ancho x Profundo" en mm
                 name: 'dimensionesInterior',
                 type: 'string',
@@ -184,7 +183,6 @@ export const config: VendureConfig = {
             },
             {
                 // Dimensiones de la unidad exterior
-                name: 'dimensionesUnidadExterior',
                 // Formato: "Alto x Ancho x Profundo" en mm
                 name: 'dimensionesExterior',
                 type: 'string',
