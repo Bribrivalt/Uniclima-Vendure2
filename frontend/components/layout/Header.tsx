@@ -1,3 +1,17 @@
+/**
+ * Header Component - Uniclima
+ *
+ * Barra de navegación principal con:
+ * - Logo de la marca
+ * - Menú de navegación con dropdown de categorías
+ * - Botones de usuario, búsqueda y carrito
+ * - Contador de items en el carrito
+ *
+ * Las categorías se cargan dinámicamente desde Vendure Collections.
+ *
+ * @author Frontend Team
+ * @version 1.1.0
+ */
 'use client';
 
 import Link from 'next/link';
@@ -5,37 +19,72 @@ import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { useQuery } from '@apollo/client';
 import { GET_ACTIVE_ORDER } from '@/lib/vendure/queries/cart';
+import { GET_COLLECTIONS } from '@/lib/vendure/queries/products';
 import styles from './Header.module.css';
 
+/**
+ * Interfaz para una Collection de Vendure
+ */
+interface Collection {
+    id: string;
+    name: string;
+    slug: string;
+    featuredAsset?: {
+        id: string;
+        preview: string;
+    };
+}
+
+/**
+ * Componente Header principal
+ * Incluye navegación, categorías dinámicas y acciones de usuario
+ */
 export default function Header() {
     const { currentUser, isAuthenticated, logout } = useAuth();
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    // Estado para dropdown de usuario
+    const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+    // Estado para dropdown de categorías (Productos)
+    const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+    // Referencia para cerrar dropdowns al hacer click fuera
+    const userDropdownRef = useRef<HTMLDivElement>(null);
+    const categoriesDropdownRef = useRef<HTMLDivElement>(null);
 
-    // Obtener carrito activo para mostrar contador
+    // Query para obtener carrito activo y mostrar contador
     const { data: cartData } = useQuery(GET_ACTIVE_ORDER);
     const cartItemCount = cartData?.activeOrder?.totalQuantity || 0;
 
-    // Cerrar dropdown al hacer click fuera
+    // Query para obtener categorías (Collections) desde Vendure
+    const { data: collectionsData } = useQuery(GET_COLLECTIONS);
+    const collections: Collection[] = collectionsData?.collections?.items || [];
+
+    // Cerrar dropdowns al hacer click fuera
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsDropdownOpen(false);
+            // Cerrar dropdown de usuario
+            if (userDropdownRef.current && !userDropdownRef.current.contains(event.target as Node)) {
+                setIsUserDropdownOpen(false);
+            }
+            // Cerrar dropdown de categorías
+            if (categoriesDropdownRef.current && !categoriesDropdownRef.current.contains(event.target as Node)) {
+                setIsCategoriesOpen(false);
             }
         };
 
-        if (isDropdownOpen) {
+        if (isUserDropdownOpen || isCategoriesOpen) {
             document.addEventListener('mousedown', handleClickOutside);
         }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isDropdownOpen]);
+    }, [isUserDropdownOpen, isCategoriesOpen]);
 
+    /**
+     * Handler para cerrar sesión
+     */
     const handleLogout = async () => {
         await logout();
-        setIsDropdownOpen(false);
+        setIsUserDropdownOpen(false);
     };
 
     return (
@@ -48,10 +97,82 @@ export default function Header() {
                         <span className={styles.logoText}>Uniclima</span>
                     </Link>
 
-                    {/* Menú de navegación */}
+                    {/* Menú de navegación principal */}
                     <div className={styles.menu}>
                         <Link href="/" className={styles.menuLink}>Inicio</Link>
-                        <Link href="/productos" className={styles.menuLink}>Productos</Link>
+
+                        {/* Dropdown de Productos/Categorías */}
+                        <div
+                            className={styles.menuDropdown}
+                            ref={categoriesDropdownRef}
+                            onMouseEnter={() => setIsCategoriesOpen(true)}
+                            onMouseLeave={() => setIsCategoriesOpen(false)}
+                        >
+                            <Link href="/productos" className={styles.menuLink}>
+                                Productos
+                                <svg
+                                    width="12"
+                                    height="12"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    className={`${styles.menuChevron} ${isCategoriesOpen ? styles.menuChevronOpen : ''}`}
+                                >
+                                    <path d="M6 9l6 6 6-6" />
+                                </svg>
+                            </Link>
+
+                            {/* Dropdown de categorías */}
+                            {isCategoriesOpen && collections.length > 0 && (
+                                <div className={styles.categoriesDropdown}>
+                                    <div className={styles.categoriesGrid}>
+                                        {/* Ver todos los productos */}
+                                        <Link
+                                            href="/productos"
+                                            className={styles.categoryItem}
+                                            onClick={() => setIsCategoriesOpen(false)}
+                                        >
+                                            <div className={styles.categoryIcon}>
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <rect x="3" y="3" width="7" height="7" />
+                                                    <rect x="14" y="3" width="7" height="7" />
+                                                    <rect x="14" y="14" width="7" height="7" />
+                                                    <rect x="3" y="14" width="7" height="7" />
+                                                </svg>
+                                            </div>
+                                            <span>Ver Todo</span>
+                                        </Link>
+
+                                        {/* Categorías desde Vendure */}
+                                        {collections.map((collection) => (
+                                            <Link
+                                                key={collection.id}
+                                                href={`/productos?collection=${collection.slug}`}
+                                                className={styles.categoryItem}
+                                                onClick={() => setIsCategoriesOpen(false)}
+                                            >
+                                                {collection.featuredAsset ? (
+                                                    <img
+                                                        src={collection.featuredAsset.preview}
+                                                        alt={collection.name}
+                                                        className={styles.categoryImage}
+                                                    />
+                                                ) : (
+                                                    <div className={styles.categoryIcon}>
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                                                        </svg>
+                                                    </div>
+                                                )}
+                                                <span>{collection.name}</span>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
                         <Link href="/servicios" className={styles.menuLink}>Servicios</Link>
                         <Link href="/repuestos" className={styles.menuLink}>Repuestos</Link>
                         <Link href="/conocenos" className={styles.menuLink}>Conócenos</Link>
@@ -62,11 +183,11 @@ export default function Header() {
                     <div className={styles.actions}>
                         {/* Usuario / Login */}
                         {isAuthenticated && currentUser ? (
-                            <div className={styles.userMenu} ref={dropdownRef}>
+                            <div className={styles.userMenu} ref={userDropdownRef}>
                                 <button
                                     className={styles.iconButton}
-                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    aria-expanded={isDropdownOpen}
+                                    onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                                    aria-expanded={isUserDropdownOpen}
                                     aria-haspopup="true"
                                     aria-label="Mi cuenta"
                                 >
@@ -75,7 +196,7 @@ export default function Header() {
                                     </svg>
                                 </button>
 
-                                {isDropdownOpen && (
+                                {isUserDropdownOpen && (
                                     <div className={styles.dropdown}>
                                         <div className={styles.dropdownHeader}>
                                             <strong>{currentUser.firstName} {currentUser.lastName}</strong>
