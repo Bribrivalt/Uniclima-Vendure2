@@ -1,9 +1,22 @@
+/**
+ * Auth Context - Contexto de autenticación para Uniclima
+ *
+ * Proporciona:
+ * - Estado del usuario actual
+ * - Métodos de login, logout y registro
+ * - Verificación de autenticación
+ * - Limpieza de sesión del carrito al cerrar sesión
+ *
+ * @author Frontend Team
+ * @version 1.1.0
+ */
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { LOGIN_MUTATION, LOGOUT_MUTATION, REGISTER_MUTATION } from './vendure/mutations/auth';
 import { GET_ACTIVE_CUSTOMER } from './vendure/queries/auth';
+import { clearVendureSession } from './vendure/client';
 
 // ========================================
 // TIPOS
@@ -161,18 +174,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     /**
      * Logout de usuario
+     *
+     * Realiza:
+     * 1. Mutation de logout en Vendure
+     * 2. Limpia el estado del usuario
+     * 3. Limpia todos los tokens de sesión (auth + carrito)
+     *
+     * Nota: El carrito se limpia porque puede contener datos del usuario
      */
     const logout = useCallback(async () => {
         try {
+            // Llamar al endpoint de logout de Vendure
             await logoutMutation();
+            // Limpiar estado del usuario
             setCurrentUser(null);
-
-            // Limpiar localStorage si hay token guardado
-            if (typeof window !== 'undefined') {
-                localStorage.removeItem('vendure-auth-token');
-            }
+            // Limpiar todos los tokens de sesión (auth + vendure-token)
+            clearVendureSession();
         } catch (error) {
             console.error('Error en logout:', error);
+            // Aún así limpiar los datos locales
+            setCurrentUser(null);
+            clearVendureSession();
         }
     }, [logoutMutation]);
 
