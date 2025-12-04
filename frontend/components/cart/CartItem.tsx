@@ -1,24 +1,55 @@
+/**
+ * CartItem Component - Uniclima
+ *
+ * Muestra un producto individual en el carrito de compras.
+ * Permite modificar la cantidad y eliminar el producto.
+ *
+ * La estructura de datos viene de la query GET_ACTIVE_ORDER de Vendure,
+ * donde la imagen está en productVariant.product.featuredAsset
+ *
+ * @author Frontend Team
+ * @version 1.1.0
+ */
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import styles from './CartItem.module.css';
 
+/**
+ * Interfaz que representa una línea de pedido del carrito
+ * Debe coincidir con la estructura de GET_ACTIVE_ORDER query
+ */
 export interface OrderLine {
+    /** ID único de la línea de pedido */
     id: string;
+    /** Cantidad de unidades del producto */
+    quantity: number;
+    /** Precio unitario sin impuestos (en céntimos) */
+    unitPrice: number;
+    /** Precio unitario con impuestos (en céntimos) */
+    unitPriceWithTax: number;
+    /** Precio total de la línea sin impuestos (en céntimos) */
+    linePrice: number;
+    /** Precio total de la línea con impuestos (en céntimos) */
+    linePriceWithTax: number;
+    /** Información de la variante del producto */
     productVariant: {
         id: string;
         name: string;
         sku: string;
-        price: number;
-        priceWithTax: number;
-        featuredAsset?: {
-            preview: string;
+        /** Información del producto padre (contiene la imagen) */
+        product: {
+            id: string;
+            name: string;
+            slug: string;
+            featuredAsset?: {
+                id: string;
+                preview: string;
+            };
         };
     };
-    quantity: number;
-    linePrice: number;
-    linePriceWithTax: number;
 }
 
 export interface CartItemProps {
@@ -53,14 +84,19 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
         }
     };
 
-    const imageUrl = item.productVariant.featuredAsset?.preview || '/placeholder-product.png';
-    const unitPrice = (item.productVariant.priceWithTax / 100).toFixed(2);
+    // Obtener la imagen del producto padre (product.featuredAsset, no productVariant.featuredAsset)
+    const imageUrl = item.productVariant.product.featuredAsset?.preview || '/placeholder-product.png';
+    // El precio unitario viene de unitPriceWithTax en la línea de pedido
+    const unitPrice = (item.unitPriceWithTax / 100).toFixed(2);
+    // Subtotal de la línea (cantidad * precio unitario)
     const subtotal = (item.linePriceWithTax / 100).toFixed(2);
+    // Slug del producto para el enlace
+    const productSlug = item.productVariant.product.slug;
 
     return (
         <div className={`${styles.cartItem} ${loading || isRemoving ? styles.loading : ''}`}>
-            {/* Imagen */}
-            <div className={styles.imageWrapper}>
+            {/* Imagen con enlace al producto */}
+            <Link href={`/productos/${productSlug}`} className={styles.imageWrapper}>
                 <Image
                     src={imageUrl}
                     alt={item.productVariant.name}
@@ -68,12 +104,18 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
                     className={styles.image}
                     sizes="120px"
                 />
-            </div>
+            </Link>
 
-            {/* Información del producto */}
+            {/* Información del producto con enlace */}
             <div className={styles.info}>
-                <h3 className={styles.name}>{item.productVariant.name}</h3>
-                <p className={styles.sku}>SKU: {item.productVariant.sku}</p>
+                <Link href={`/productos/${productSlug}`} className={styles.nameLink}>
+                    <h3 className={styles.name}>{item.productVariant.product.name}</h3>
+                </Link>
+                {/* Mostrar nombre de variante si es diferente al producto */}
+                {item.productVariant.name !== item.productVariant.product.name && (
+                    <p className={styles.variant}>{item.productVariant.name}</p>
+                )}
+                <p className={styles.sku}>REF: {item.productVariant.sku}</p>
                 <p className={styles.price}>{unitPrice}€ / unidad</p>
             </div>
 
