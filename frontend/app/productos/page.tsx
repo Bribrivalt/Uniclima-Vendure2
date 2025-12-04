@@ -1,3 +1,17 @@
+/**
+ * Página de Catálogo de Productos - /productos
+ * 
+ * Esta página muestra el catálogo completo de productos HVAC conectado
+ * con el backend de Vendure. Incluye:
+ * - Búsqueda en tiempo real
+ * - Filtros por categoría y marca
+ * - Ordenamiento (nombre, precio)
+ * - Paginación
+ * - Estados de carga, error y vacío
+ * 
+ * @author Frontend Team
+ * @version 1.0.0
+ */
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -10,6 +24,9 @@ import { ProductPagination } from '@/components/product/ProductPagination';
 import { Product } from '@/lib/types/product';
 import styles from './page.module.css';
 
+/**
+ * Interfaz para la respuesta de la query GET_PRODUCTS
+ */
 interface ProductsData {
     products: {
         items: Product[];
@@ -17,9 +34,20 @@ interface ProductsData {
     };
 }
 
+/**
+ * Número de productos a mostrar por página
+ * @constant
+ */
 const ITEMS_PER_PAGE = 12;
 
-// Categorías de productos HVAC
+
+/**
+ * Categorías de productos HVAC
+ * TODO: En el futuro, estas categorías se cargarán dinámicamente desde Vendure
+ * usando la query GET_COLLECTIONS para obtener las colecciones reales del backend
+ * 
+ * @constant
+ */
 const CATEGORIES = [
     { id: 'all', name: 'Todos' },
     { id: 'split', name: 'Split Pared' },
@@ -30,7 +58,13 @@ const CATEGORIES = [
     { id: 'calderas', name: 'Calderas' },
 ];
 
-// Marcas de climatización
+/**
+ * Marcas de climatización
+ * TODO: En el futuro, estas marcas se cargarán dinámicamente desde Vendure
+ * usando Facets para obtener las marcas reales disponibles en el catálogo
+ * 
+ * @constant
+ */
 const BRANDS = [
     { id: 'all', name: 'Todas las marcas' },
     { id: 'daikin', name: 'Daikin' },
@@ -41,14 +75,64 @@ const BRANDS = [
     { id: 'panasonic', name: 'Panasonic' },
 ];
 
+
+/**
+ * Componente principal de la página de productos
+ * 
+ * Maneja:
+ * - Estado de búsqueda, ordenamiento y paginación
+ * - Filtros por categoría y marca
+ * - Conexión con Apollo Client para obtener datos de Vendure
+ * - Estados de carga, error y vacío
+ * 
+ * @returns {JSX.Element} Página de catálogo de productos
+ */
 export default function ProductosPage() {
+    // ========================================
+    // ESTADOS DEL COMPONENTE
+    // ========================================
+
+    /**
+     * Query de búsqueda ingresada por el usuario
+     * Se usa para filtrar productos por nombre
+     */
     const [searchQuery, setSearchQuery] = useState('');
+
+    /**
+     * Opción de ordenamiento seleccionada
+     * Opciones: 'name-asc', 'name-desc', 'price-asc', 'price-desc'
+     */
     const [sortOption, setSortOption] = useState<SortOption>('name-asc');
+
+    /**
+     * Página actual de la paginación (1-indexed)
+     */
     const [currentPage, setCurrentPage] = useState(1);
+
+    /**
+     * Categoría seleccionada para filtrar
+     * TODO: Conectar con Collections de Vendure
+     */
     const [selectedCategory, setSelectedCategory] = useState('all');
+
+    /**
+     * Marca seleccionada para filtrar
+     * TODO: Conectar con Facets de Vendure
+     */
     const [selectedBrand, setSelectedBrand] = useState('all');
 
-    // Convertir sortOption a formato Vendure
+    // ========================================
+    // FUNCIONES AUXILIARES
+    // ========================================
+
+    /**
+     * Convierte la opción de ordenamiento del frontend al formato de Vendure
+     * 
+     * @returns {Object} Objeto con el campo y dirección de ordenamiento para Vendure
+     * @example
+     * // Para 'price-asc' retorna { price: 'ASC' }
+     * // Para 'name-desc' retorna { name: 'DESC' }
+     */
     const getSortVariables = useCallback(() => {
         switch (sortOption) {
             case 'name-asc':
@@ -64,17 +148,51 @@ export default function ProductosPage() {
         }
     }, [sortOption]);
 
-    // Resetear página cuando cambia la búsqueda o el ordenamiento
+    /**
+     * Efecto para resetear la página a 1 cuando cambian los filtros o búsqueda
+     * Esto asegura que el usuario siempre vea la primera página de resultados
+     * cuando hace una nueva búsqueda o cambia filtros
+     */
     useEffect(() => {
         setCurrentPage(1);
     }, [searchQuery, sortOption, selectedCategory, selectedBrand]);
 
-    // Query de productos con Apollo Client
+
+    // ========================================
+    // QUERY DE APOLLO CLIENT - CONEXIÓN CON VENDURE
+    // ========================================
+
+    /**
+     * Query de productos usando Apollo Client
+     * 
+     * Esta query se conecta con el backend de Vendure para obtener:
+     * - Lista paginada de productos
+     * - Total de productos disponibles
+     * - Datos completos de cada producto (nombre, precio, imagen, custom fields HVAC)
+     * 
+     * Variables enviadas a Vendure:
+     * - take: Número de productos por página
+     * - skip: Offset para paginación (calculado desde currentPage)
+     * - filter: Filtro de búsqueda por nombre (opcional)
+     * - sort: Ordenamiento (nombre o precio, ASC o DESC)
+     * 
+     * Política de caché: 'cache-and-network'
+     * - Primero muestra datos del caché si existen
+     * - Luego hace la petición al servidor para actualizar
+     * - Esto mejora la UX mostrando datos inmediatamente
+     */
     const { data, loading, error } = useQuery<ProductsData>(GET_PRODUCTS, {
         variables: {
             options: {
+                // Paginación: tomar X productos
                 take: ITEMS_PER_PAGE,
+
+                // Paginación: saltar los productos de páginas anteriores
+                // Ejemplo: Página 2 con 12 items/página = skip 12 productos
                 skip: (currentPage - 1) * ITEMS_PER_PAGE,
+
+                // Filtro de búsqueda (solo si hay query)
+                // Busca productos cuyo nombre contenga el texto ingresado
                 filter: searchQuery
                     ? {
                         name: {
@@ -82,14 +200,35 @@ export default function ProductosPage() {
                         },
                     }
                     : undefined,
+
+                // Ordenamiento convertido al formato de Vendure
                 sort: getSortVariables(),
             },
         },
+        // Estrategia de caché: mostrar caché primero, luego actualizar desde red
         fetchPolicy: 'cache-and-network',
     });
 
+    // ========================================
+    // EXTRACCIÓN DE DATOS DE LA RESPUESTA
+    // ========================================
+
+    /**
+     * Array de productos obtenidos de Vendure
+     * Si no hay datos aún, retorna array vacío para evitar errores
+     */
     const products = data?.products.items || [];
+
+    /**
+     * Número total de productos que coinciden con los filtros
+     * Se usa para calcular el número de páginas en la paginación
+     */
     const totalItems = data?.products.totalItems || 0;
+
+    /**
+     * Número total de páginas calculado desde el total de items
+     * Math.ceil redondea hacia arriba para incluir la última página parcial
+     */
     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
     return (
