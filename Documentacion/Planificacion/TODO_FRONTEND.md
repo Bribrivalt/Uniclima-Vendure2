@@ -1,7 +1,7 @@
 # 📋 TODO Frontend - Uniclima Vendure
 
 **Desarrollador:** Frontend
-**Última actualización:** 04/12/2025
+**Última actualización:** 04/12/2025 15:30
 
 > 🔗 = Punto de confluencia con Backend (necesitas datos del backend)
 
@@ -97,20 +97,26 @@
 - [x] Modificar cantidades (página /carrito)
 - [x] Eliminar del carrito (página /carrito)
 - [x] Contador en Header (usando GET_ACTIVE_ORDER)
-- [ ] MiniCart drawer opcional
-- [ ] Persistencia de sesión (cookies/tokens)
+- [x] MiniCart drawer (CartDrawer integrado en Header)
+- [x] Persistencia de sesión (vendure-token en localStorage)
+
+### Fase 15: Checkout Completo 🔗
+- [x] Formulario de dirección funcional (validación completa)
+- [x] Selector de método de envío (desde eligibleShippingMethods)
+- [x] Página de confirmación del pedido
+- [ ] Integración Stripe (pendiente configuración backend)
+
+### Fase 18: Home Page
+- [x] Hero banner (gradiente, stats, CTAs)
+- [x] Categorías destacadas (desde Collections de Vendure)
+- [x] Productos destacados (desde GET_PRODUCTS)
+- [x] Sección de características/beneficios
+- [x] Banner de marcas
+- [x] CTA final con contacto
 
 ---
 
 ## 📝 PENDIENTE
-
-### Fase 15: Checkout Completo 🔗
-| Tarea | Prioridad | Dependencia Backend |
-|-------|-----------|---------------------|
-| Formulario de dirección funcional | Alta | - |
-| Selector de método de envío | Alta | Envíos configurados ✅ |
-| Integración Stripe | Alta | Stripe configurado (pendiente) |
-| Página de confirmación | Alta | - |
 
 ### Fase 16: Área de Cliente
 | Tarea | Prioridad |
@@ -129,22 +135,39 @@
 | Vistos recientemente | Baja |
 | Comparador de productos | Baja |
 
-### Fase 18: Home Page
+### Fase 16: Área de Cliente
 | Tarea | Prioridad |
 |-------|-----------|
-| Hero banner | Media |
-| Categorías destacadas | Media |
-| Productos destacados | Media |
-| Marcas carousel | Baja |
+| Historial de pedidos | Media |
+| Detalle de pedido | Media |
+| Libro de direcciones | Media |
+| Editar perfil | Baja |
+| Cambiar contraseña | Baja |
 
-### Fase 19: Búsqueda
+### Fase 17: Mejoras de Catálogo
+| Tarea | Prioridad |
+|-------|-----------|
+| Galería de imágenes con zoom | Media |
+| Productos relacionados | Baja |
+| Vistos recientemente | Baja |
+| Comparador de productos | Baja |
+
+### Fase 19: Integración Stripe 🔗
+| Tarea | Prioridad | Dependencia Backend |
+|-------|-----------|---------------------|
+| Conectar con Stripe Elements | Alta | Stripe configurado en backend |
+| Página de procesamiento de pago | Alta | Stripe configurado en backend |
+| Manejo de errores de pago | Alta | - |
+| Confirmación post-pago | Alta | - |
+
+### Fase 20: Búsqueda
 | Tarea | Prioridad |
 |-------|-----------|
 | Búsqueda con sugerencias | Media |
 | Página de resultados | Media |
 | Filtros en resultados | Media |
 
-### Fase 20: SEO y Performance
+### Fase 21: SEO y Performance
 | Tarea | Prioridad |
 |-------|-----------|
 | Meta tags dinámicos | Alta |
@@ -153,7 +176,7 @@
 | Lazy loading imágenes | Media |
 | ISR para productos | Media |
 
-### Fase 21: Accesibilidad
+### Fase 22: Accesibilidad
 | Tarea | Prioridad |
 |-------|-----------|
 | ARIA labels completos | Media |
@@ -185,16 +208,20 @@
 
 ## 📊 PRIORIDADES SEMANALES
 
-### Esta Semana
-1. Conectar catálogo con datos reales del backend 🔗
-2. Mostrar custom fields HVAC en detalle de producto
-3. Implementar filtros por facets
-4. Carrito funcional (añadir, modificar, eliminar)
+### Completado Esta Semana ✅
+1. ~~Conectar catálogo con datos reales del backend~~ ✅
+2. ~~Mostrar custom fields HVAC en detalle de producto~~ ✅
+3. ~~Implementar filtros por facets~~ ✅
+4. ~~Carrito funcional (añadir, modificar, eliminar)~~ ✅
+5. ~~MiniCart drawer integrado en Header~~ ✅
+6. ~~Persistencia de sesión del carrito~~ ✅
+7. ~~Checkout completo (hasta pago)~~ ✅
+8. ~~Home page mejorada~~ ✅
 
 ### Próxima Semana
-1. Checkout completo (hasta pago dummy)
+1. Integración con Stripe (cuando backend lo configure) 🔗
 2. Área de cliente básica
-3. Persistencia de sesión
+3. Mejoras de SEO
 
 ### Antes de Producción
 1. Integrar Stripe cuando backend lo tenga listo 🔗
@@ -285,4 +312,4 @@ Cuando necesites datos que no están disponibles:
 
 ---
 
-*Última actualización: 03/12/2025*
+*Última actualización: 04/12/2025 15:30*
