@@ -1,0 +1,303 @@
+/**
+ * CartEmpty.module.css
+ * Estilos para el estado vacío del carrito
+ * Incluye variantes: default, compact, inline
+ */
+
+/* ============================================
+   CONTENEDOR PRINCIPAL
+   ============================================ */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--spacing-2xl);
+}
+
+/* ============================================
+   VARIANTES
+   ============================================ */
+
+.variant-default {
+    padding: var(--spacing-3xl) var(--spacing-xl);
+    min-height: 400px;
+}
+
+.variant-compact {
+    padding: var(--spacing-xl) var(--spacing-md);
+    min-height: 250px;
+}
+
+.variant-inline {
+    flex-direction: row;
+    text-align: left;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--border-radius-lg);
+}
+
+.variant-inline .illustration {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+}
+
+.variant-inline .content {
+    flex: 1;
+}
+
+.variant-inline .title {
+    font-size: var(--font-size-md);
+    margin-bottom: var(--spacing-2xs);
+}
+
+.variant-inline .description {
+    font-size: var(--font-size-sm);
+}
+
+.variant-inline .actionButton {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: var(--font-size-sm);
+}
+
+/* ============================================
+   ILUSTRACIÓN
+   ============================================ */
+
+.illustration {
+    width: 120px;
+    height: 120px;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.6;
+}
+
+.illustration svg {
+    width: 100%;
+    height: 100%;
+}
+
+.variant-compact .illustration {
+    width: 80px;
+    height: 80px;
+    margin-bottom: var(--spacing-md);
+}
+
+/* ============================================
+   CONTENIDO
+   ============================================ */
+
+.content {
+    max-width: 360px;
+    margin-bottom: var(--spacing-lg);
+}
+
+.title {
+    margin: 0 0 var(--spacing-sm) 0;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.description {
+    margin: 0;
+    font-size: var(--font-size-md);
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+}
+
+.variant-compact .title {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-xs);
+}
+
+.variant-compact .description {
+    font-size: var(--font-size-sm);
+}
+
+/* ============================================
+   BOTÓN DE ACCIÓN
+   ============================================ */
+
+.actionButton {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background-color: var(--color-primary);
+    color: white;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-fast);
+    margin-bottom: var(--spacing-lg);
+}
+
+.actionButton:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-1px);
+}
+
+.actionButton:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.actionIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    transition: transform var(--transition-fast);
+}
+
+.actionIcon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.actionButton:hover .actionIcon {
+    transform: translateX(4px);
+}
+
+.variant-compact .actionButton {
+    margin-bottom: 0;
+}
+
+/* ============================================
+   SUGERENCIAS
+   ============================================ */
+
+.suggestions {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-border-light);
+}
+
+.suggestionsLabel {
+    margin: 0 0 var(--spacing-sm) 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+}
+
+.suggestionsLinks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-xs);
+}
+
+.suggestionLink {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    border-radius: var(--border-radius-full);
+    transition: all var(--transition-fast);
+}
+
+.suggestionLink:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+/* ============================================
+   BENEFICIOS
+   ============================================ */
+
+.benefits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--color-border-light);
+}
+
+.benefit {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+.benefitIcon {
+    font-size: var(--font-size-lg);
+}
+
+.benefitText {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .variant-default {
+        padding: var(--spacing-xl);
+        min-height: 300px;
+    }
+
+    .illustration {
+        width: 100px;
+        height: 100px;
+    }
+
+    .title {
+        font-size: var(--font-size-lg);
+    }
+
+    .description {
+        font-size: var(--font-size-sm);
+    }
+
+    .benefits {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .variant-inline {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .variant-inline .illustration {
+        margin-bottom: var(--spacing-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: var(--spacing-lg);
+    }
+
+    .variant-default {
+        padding: var(--spacing-lg);
+        min-height: 250px;
+    }
+
+    .illustration {
+        width: 80px;
+        height: 80px;
+    }
+
+    .suggestionsLinks {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .suggestionLink {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -1,8 +1,26 @@
+/**
+ * Estilos para pagina Mi Cuenta con layout de tabs
+ *
+ * Layout: Sidebar izquierdo con navegacion + contenido principal derecho
+ * Responsive: En movil el sidebar se convierte en tabs horizontales
+ *
+ * @version 2.0.0
+ */
+
+/* ========================================
+   CONTENEDOR PRINCIPAL
+   ======================================== */
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: var(--spacing-8) var(--spacing-4);
+    min-height: calc(100vh - 200px);
 }
+
+/* ========================================
+   HEADER CON TITULO Y LOGOUT
+   ======================================== */
 
 .header {
     display: flex;
@@ -13,10 +31,22 @@
     border-bottom: 2px solid #e0e0e0;
 }
 
-.header h1 {
+.headerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+
+.title {
     font-size: var(--font-size-3xl);
     font-weight: var(--font-weight-bold);
     color: #333;
+    margin: 0;
+}
+
+.welcome {
+    font-size: var(--font-size-base);
+    color: #666;
     margin: 0;
 }
 
@@ -36,37 +66,157 @@
     color: white;
 }
 
-.content {
-    display: flex;
-    flex-direction: column;
+/* ========================================
+   LAYOUT PRINCIPAL (SIDEBAR + MAIN)
+   ======================================== */
+
+.layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
     gap: var(--spacing-8);
+    align-items: start;
 }
 
-.section {
+/* ========================================
+   SIDEBAR CON NAVEGACION DE TABS
+   ======================================== */
+
+.sidebar {
+    position: sticky;
+    top: var(--spacing-8);
+}
+
+.tabNav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
     background: white;
-    padding: var(--spacing-6);
+    padding: var(--spacing-4);
     border-radius: var(--border-radius-lg);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.section h2 {
+.tabButton {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-4);
+    background: transparent;
+    border: none;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: #666;
+    text-align: left;
+    width: 100%;
+}
+
+.tabButton:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+.tabButton svg {
+    flex-shrink: 0;
+    color: inherit;
+}
+
+.tabButtonActive {
+    background: #cc0000;
+    color: white;
+}
+
+.tabButtonActive:hover {
+    background: #b30000;
+    color: white;
+}
+
+/* ========================================
+   CONTENIDO PRINCIPAL
+   ======================================== */
+
+.main {
+    background: white;
+    padding: var(--spacing-6);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    min-height: 400px;
+}
+
+.tabContent {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   HEADER DE SECCION
+   ======================================== */
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-6);
+    padding-bottom: var(--spacing-4);
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.sectionHeader h2 {
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-semibold);
     color: #333;
-    margin: 0 0 var(--spacing-6) 0;
+    margin: 0;
 }
+
+.viewAllLink {
+    color: #cc0000;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: color var(--transition-base);
+}
+
+.viewAllLink:hover {
+    color: #990000;
+    text-decoration: underline;
+}
+
+/* ========================================
+   GRID DE INFORMACION
+   ======================================== */
 
 .infoGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: var(--spacing-6);
+}
+
+.infoItem {
+    padding: var(--spacing-4);
+    background: #f9f9f9;
+    border-radius: var(--border-radius-md);
 }
 
 .infoItem label {
     display: block;
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    color: #666;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     margin-bottom: var(--spacing-2);
 }
 
@@ -74,59 +224,313 @@
     font-size: var(--font-size-base);
     color: #333;
     margin: 0;
-}
-
-.actions {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-4);
-}
-
-.actionCard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-3);
-    padding: var(--spacing-6);
-    background: #f5f5f5;
-    border-radius: var(--border-radius-md);
-    text-decoration: none;
-    color: #333;
-    transition: all var(--transition-base);
-}
-
-.actionCard:hover {
-    background: #cc0000;
-    color: white;
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.3);
-}
-
-.actionCard svg {
-    color: #cc0000;
-    transition: color var(--transition-base);
-}
-
-.actionCard:hover svg {
-    color: white;
-}
-
-.actionCard span {
     font-weight: var(--font-weight-medium);
 }
 
+/* ========================================
+   FORMULARIOS
+   ======================================== */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-4);
+}
+
+.formRowSingle {
+    max-width: 400px;
+}
+
+.formActions {
+    display: flex;
+    gap: var(--spacing-3);
+    margin-top: var(--spacing-4);
+    padding-top: var(--spacing-4);
+    border-top: 1px solid #e0e0e0;
+}
+
+/* ========================================
+   LISTA DE PEDIDOS
+   ======================================== */
+
+.ordersList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.orderItem {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4);
+    background: #f9f9f9;
+    border-radius: var(--border-radius-md);
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--transition-base);
+}
+
+.orderItem:hover {
+    background: #f0f0f0;
+    transform: translateX(4px);
+}
+
+.orderInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+
+.orderCode {
+    font-weight: var(--font-weight-semibold);
+    color: #333;
+}
+
+.orderDate {
+    font-size: var(--font-size-sm);
+    color: #666;
+}
+
+.orderStatus {
+    padding: var(--spacing-1) var(--spacing-3);
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+}
+
+.orderTotal {
+    font-weight: var(--font-weight-bold);
+    color: #333;
+}
+
+/* ========================================
+   GRID DE DIRECCIONES
+   ======================================== */
+
+.addressesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-4);
+}
+
+.addressCard {
+    padding: var(--spacing-4);
+    background: #f9f9f9;
+    border-radius: var(--border-radius-md);
+    border: 1px solid #e0e0e0;
+}
+
+.addressBadges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-3);
+}
+
+.badge {
+    padding: var(--spacing-1) var(--spacing-2);
+    background: #cc0000;
+    color: white;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+}
+
+.addressName {
+    font-weight: var(--font-weight-semibold);
+    color: #333;
+    margin: 0 0 var(--spacing-2) 0;
+}
+
+.addressCard p {
+    font-size: var(--font-size-sm);
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.addressActions {
+    display: flex;
+    gap: var(--spacing-3);
+    margin-top: var(--spacing-4);
+    padding-top: var(--spacing-3);
+    border-top: 1px solid #e0e0e0;
+}
+
+.addressBtn {
+    background: transparent;
+    border: none;
+    color: #cc0000;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    padding: 0;
+    transition: color var(--transition-base);
+}
+
+.addressBtn:hover {
+    color: #990000;
+    text-decoration: underline;
+}
+
+/* ========================================
+   ESTADOS VACIOS Y CARGA
+   ======================================== */
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-12);
+    color: #666;
+    gap: var(--spacing-4);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e0e0e0;
+    border-top-color: #cc0000;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.emptyState {
+    text-align: center;
+    padding: var(--spacing-12);
+    color: #666;
+}
+
+.emptyState p {
+    margin: 0 0 var(--spacing-4) 0;
+}
+
+.emptyHint {
+    font-size: var(--font-size-sm);
+    color: #999;
+}
+
+.shopLink {
+    display: inline-block;
+    margin-top: var(--spacing-4);
+    padding: var(--spacing-3) var(--spacing-6);
+    background: #cc0000;
+    color: white;
+    text-decoration: none;
+    border-radius: var(--border-radius-md);
+    font-weight: var(--font-weight-medium);
+    transition: background var(--transition-base);
+}
+
+.shopLink:hover {
+    background: #990000;
+}
+
+/* ========================================
+   RESPONSIVE: TABLET
+   ======================================== */
+
+@media (max-width: 992px) {
+    .layout {
+        grid-template-columns: 220px 1fr;
+        gap: var(--spacing-6);
+    }
+
+    .formRow {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ========================================
+   RESPONSIVE: MOVIL
+   ======================================== */
+
 @media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-4);
+    }
+
     .header {
         flex-direction: column;
         gap: var(--spacing-4);
         align-items: flex-start;
     }
 
+    .layout {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-4);
+    }
+
+    .sidebar {
+        position: static;
+    }
+
+    .tabNav {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: var(--spacing-2);
+        gap: var(--spacing-1);
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tabButton {
+        flex-direction: column;
+        padding: var(--spacing-3);
+        min-width: 80px;
+        text-align: center;
+        gap: var(--spacing-1);
+    }
+
+    .tabButton span {
+        font-size: var(--font-size-xs);
+    }
+
+    .main {
+        padding: var(--spacing-4);
+    }
+
+    .sectionHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-3);
+    }
+
     .infoGrid {
         grid-template-columns: 1fr;
     }
 
-    .actions {
+    .orderItem {
         grid-template-columns: 1fr;
+        gap: var(--spacing-2);
+    }
+
+    .orderStatus,
+    .orderTotal {
+        justify-self: start;
+    }
+
+    .addressesGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .formRowSingle {
+        max-width: 100%;
     }
 }

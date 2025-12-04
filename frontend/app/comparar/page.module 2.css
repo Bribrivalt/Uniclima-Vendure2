@@ -1,0 +1,295 @@
+/**
+ * CompararPage.module.css
+ * 
+ * Estilos para la página de comparación de productos.
+ * Utiliza design tokens para consistencia visual.
+ */
+
+/* Contenedor principal */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--spacing-6);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    margin-bottom: var(--spacing-4);
+}
+
+/* Header */
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+}
+
+.title {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--color-gray-900);
+    margin: 0;
+}
+
+.subtitle {
+    font-size: var(--text-base);
+    color: var(--color-gray-600);
+    margin: 0;
+    flex: 1;
+}
+
+/* Loading */
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-16) var(--spacing-4);
+    gap: var(--spacing-4);
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--color-gray-200);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Empty state */
+.emptyState {
+    text-align: center;
+    padding: var(--spacing-16) var(--spacing-4);
+}
+
+.emptyIcon {
+    font-size: 80px;
+    margin-bottom: var(--spacing-4);
+}
+
+.emptyState h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-gray-900);
+    margin: 0 0 var(--spacing-2) 0;
+}
+
+.emptyState p {
+    font-size: var(--text-base);
+    color: var(--color-gray-600);
+    margin: 0 0 var(--spacing-6) 0;
+}
+
+/* Tabla de comparación */
+.tableWrapper {
+    overflow-x: auto;
+    margin-bottom: var(--spacing-6);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.table {
+    width: 100%;
+    min-width: 800px;
+    border-collapse: collapse;
+    background: var(--color-white);
+}
+
+.table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--color-white);
+}
+
+.table th,
+.table td {
+    padding: var(--spacing-4);
+    text-align: left;
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.labelCell {
+    width: 180px;
+    min-width: 180px;
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-700);
+    background: var(--color-gray-50);
+}
+
+.productCell {
+    min-width: 220px;
+    vertical-align: top;
+}
+
+.productHeader {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+/* Botón eliminar */
+.removeButton {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-gray-100);
+    border: none;
+    border-radius: 50%;
+    color: var(--color-gray-600);
+    font-size: var(--text-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.removeButton:hover {
+    background: var(--color-error);
+    color: var(--color-white);
+}
+
+/* Imagen del producto */
+.productImage {
+    width: 100%;
+    height: 120px;
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.productImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Nombre del producto */
+.productName {
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.productName a {
+    color: var(--color-gray-900);
+    text-decoration: none;
+}
+
+.productName a:hover {
+    color: var(--color-primary);
+}
+
+/* Precio */
+.productPrice {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    flex-wrap: wrap;
+}
+
+.price {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-primary);
+}
+
+.originalPrice {
+    font-size: var(--text-sm);
+    color: var(--color-gray-400);
+    text-decoration: line-through;
+}
+
+/* Stock */
+.productStock {
+    font-size: var(--text-xs);
+}
+
+.inStock {
+    color: var(--color-success);
+    font-weight: var(--font-medium);
+}
+
+.outOfStock {
+    color: var(--color-error);
+    font-weight: var(--font-medium);
+}
+
+/* Celdas de valor */
+.valueCell {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-gray-700);
+}
+
+.bestValue {
+    background: var(--color-success-50);
+    color: var(--color-success-700);
+    font-weight: var(--font-semibold);
+}
+
+/* Screen reader only */
+.srOnly {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Añadir más productos */
+.addMore {
+    text-align: center;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-4);
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .title {
+        font-size: var(--text-2xl);
+    }
+
+    .labelCell {
+        width: 120px;
+        min-width: 120px;
+        font-size: var(--text-xs);
+    }
+
+    .productCell {
+        min-width: 180px;
+    }
+
+    .productImage {
+        height: 80px;
+    }
+
+    .productName {
+        font-size: var(--text-xs);
+    }
+}

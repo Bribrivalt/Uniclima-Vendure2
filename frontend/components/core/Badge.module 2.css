@@ -1,0 +1,317 @@
+/**
+ * Badge Component Styles
+ * 
+ * Estilos para el componente Badge con soporte para:
+ * - Variantes de color: default, primary, success, warning, error, info
+ * - Tamaños: sm, md, lg
+ * - Estilos: solid, outline, subtle
+ * - Estados: hover, focus, interactive
+ */
+
+/* ============================================
+   BASE - Estilos base del badge
+   ============================================ */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
+    white-space: nowrap;
+    border-radius: var(--border-radius-sm);
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast);
+}
+
+/* Forma de píldora */
+.badge.pill {
+    border-radius: var(--border-radius-full);
+}
+
+/* ============================================
+   TAMAÑOS
+   ============================================ */
+.sm {
+    font-size: var(--font-size-xs);
+    padding: 2px 6px;
+}
+
+.md {
+    font-size: var(--font-size-xs);
+    padding: 4px 8px;
+}
+
+.lg {
+    font-size: var(--font-size-sm);
+    padding: 6px 12px;
+}
+
+/* ============================================
+   VARIANTES DE COLOR - SOLID (default)
+   ============================================ */
+
+/* Default */
+.default.solid {
+    background-color: var(--color-surface);
+    color: var(--color-text-secondary);
+}
+
+/* Primary */
+.primary.solid {
+    background-color: var(--color-primary);
+    color: var(--color-text-primary);
+}
+
+/* Success */
+.success.solid {
+    background-color: var(--color-success);
+    color: var(--color-text-primary);
+}
+
+/* Warning */
+.warning.solid {
+    background-color: var(--color-warning);
+    color: #000;
+}
+
+/* Error */
+.error.solid {
+    background-color: var(--color-error);
+    color: var(--color-text-primary);
+}
+
+/* Info */
+.info.solid {
+    background-color: var(--color-info);
+    color: var(--color-text-primary);
+}
+
+/* ============================================
+   VARIANTES DE COLOR - OUTLINE
+   ============================================ */
+
+/* Default */
+.default.outline {
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+}
+
+/* Primary */
+.primary.outline {
+    background-color: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+}
+
+/* Success */
+.success.outline {
+    background-color: transparent;
+    border: 1px solid var(--color-success);
+    color: var(--color-success);
+}
+
+/* Warning */
+.warning.outline {
+    background-color: transparent;
+    border: 1px solid var(--color-warning);
+    color: var(--color-warning);
+}
+
+/* Error */
+.error.outline {
+    background-color: transparent;
+    border: 1px solid var(--color-error);
+    color: var(--color-error);
+}
+
+/* Info */
+.info.outline {
+    background-color: transparent;
+    border: 1px solid var(--color-info);
+    color: var(--color-info);
+}
+
+/* ============================================
+   VARIANTES DE COLOR - SUBTLE
+   ============================================ */
+
+/* Default */
+.default.subtle {
+    background-color: var(--color-surface);
+    color: var(--color-text-secondary);
+}
+
+/* Primary */
+.primary.subtle {
+    background-color: var(--color-primary-alpha-20);
+    color: var(--color-primary-light);
+}
+
+/* Success */
+.success.subtle {
+    background-color: rgba(16, 185, 129, 0.2);
+    color: var(--color-success);
+}
+
+/* Warning */
+.warning.subtle {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: var(--color-warning);
+}
+
+/* Error */
+.error.subtle {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: var(--color-error);
+}
+
+/* Info */
+.info.subtle {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: var(--color-info);
+}
+
+/* ============================================
+   ESTADO INTERACTIVO
+   ============================================ */
+.interactive {
+    cursor: pointer;
+    border: none;
+}
+
+.interactive:hover {
+    opacity: 0.9;
+}
+
+.interactive:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.interactive:active {
+    transform: scale(0.98);
+}
+
+/* ============================================
+   ELEMENTOS INTERNOS
+   ============================================ */
+
+/* Punto indicador */
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--border-radius-full);
+    background-color: currentColor;
+    flex-shrink: 0;
+}
+
+.sm .dot {
+    width: 5px;
+    height: 5px;
+}
+
+.lg .dot {
+    width: 8px;
+    height: 8px;
+}
+
+/* Icono */
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.icon svg {
+    width: 12px;
+    height: 12px;
+}
+
+.sm .icon svg {
+    width: 10px;
+    height: 10px;
+}
+
+.lg .icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Contenido */
+.content {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* ============================================
+   BOTÓN DE ELIMINAR
+   ============================================ */
+.removeButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: var(--spacing-1);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: currentColor;
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+    border-radius: var(--border-radius-full);
+}
+
+.removeButton:hover {
+    opacity: 1;
+}
+
+.removeButton:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 1px;
+}
+
+.removeIcon {
+    width: 10px;
+    height: 10px;
+}
+
+.sm .removeIcon {
+    width: 8px;
+    height: 8px;
+}
+
+.lg .removeIcon {
+    width: 12px;
+    height: 12px;
+}
+
+/* ============================================
+   BADGE GROUP
+   ============================================ */
+.group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .sm {
+        padding: 3px 8px;
+    }
+
+    .md {
+        padding: 5px 10px;
+    }
+
+    .lg {
+        padding: 7px 14px;
+    }
+}

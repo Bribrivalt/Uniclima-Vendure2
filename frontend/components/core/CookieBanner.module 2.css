@@ -1,0 +1,232 @@
+/**
+ * Estilos para el componente CookieBanner
+ * 
+ * Banner de consentimiento de cookies GDPR.
+ * Posición fija en la parte inferior de la pantalla.
+ */
+
+.banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: var(--color-white);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    border-top: 1px solid var(--color-gray-200);
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-4) var(--spacing-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.content {
+    flex: 1;
+}
+
+.title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-900);
+    margin: 0 0 var(--spacing-2) 0;
+}
+
+.description {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin: 0 0 var(--spacing-2) 0;
+}
+
+.link {
+    font-size: var(--font-size-sm);
+    color: var(--color-primary-600);
+    text-decoration: underline;
+    transition: var(--transition-base);
+}
+
+.link:hover {
+    color: var(--color-primary-700);
+}
+
+/* Acciones / Botones */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    align-items: center;
+}
+
+.settingsButton,
+.rejectButton,
+.backButton {
+    white-space: nowrap;
+}
+
+.acceptButton,
+.saveButton {
+    white-space: nowrap;
+}
+
+/* Vista de configuración de cookies */
+.cookieTypes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    margin-top: var(--spacing-4);
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: var(--spacing-2);
+}
+
+.cookieType {
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-3);
+    transition: var(--transition-base);
+}
+
+.cookieType:hover {
+    border-color: var(--color-gray-300);
+}
+
+.cookieInfo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-1);
+}
+
+.cookieLabel {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+}
+
+.checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-primary-600);
+    cursor: pointer;
+}
+
+.checkbox:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.cookieName {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-800);
+}
+
+.required {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-500);
+    font-style: italic;
+}
+
+.cookieDescription {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-600);
+    line-height: 1.5;
+    margin: 0;
+    padding-left: 26px;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .banner {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .container {
+        padding: var(--spacing-4);
+    }
+
+    .actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .actions button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cookieTypes {
+        max-height: 200px;
+    }
+}
+
+/* Tema oscuro (si se implementa) */
+@media (prefers-color-scheme: dark) {
+    /* Placeholder para tema oscuro */
+    /* Los estilos se activarían si se implementa un tema oscuro */
+}
+
+/* Animación de entrada para la vista de configuración */
+.cookieTypes {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scrollbar personalizado para la lista de cookies */
+.cookieTypes::-webkit-scrollbar {
+    width: 6px;
+}
+
+.cookieTypes::-webkit-scrollbar-track {
+    background: var(--color-gray-100);
+    border-radius: 3px;
+}
+
+.cookieTypes::-webkit-scrollbar-thumb {
+    background: var(--color-gray-300);
+    border-radius: 3px;
+}
+
+.cookieTypes::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gray-400);
+}

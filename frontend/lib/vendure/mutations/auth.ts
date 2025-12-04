@@ -95,6 +95,106 @@ export const REQUEST_PASSWORD_RESET_MUTATION = gql`
 `;
 
 /**
+ * Mutation para actualizar datos del cliente
+ */
+export const UPDATE_CUSTOMER_MUTATION = gql`
+  mutation UpdateCustomer($input: UpdateCustomerInput!) {
+    updateCustomer(input: $input) {
+      id
+      title
+      firstName
+      lastName
+      phoneNumber
+      emailAddress
+    }
+  }
+`;
+
+/**
+ * Mutation para cambiar contraseña (usuario autenticado)
+ */
+export const UPDATE_CUSTOMER_PASSWORD_MUTATION = gql`
+  ${ERROR_RESULT_FRAGMENT}
+  mutation UpdateCustomerPassword($currentPassword: String!, $newPassword: String!) {
+    updateCustomerPassword(currentPassword: $currentPassword, newPassword: $newPassword) {
+      ... on Success {
+        success
+      }
+      ... on InvalidCredentialsError {
+        ...ErrorResult
+      }
+      ... on PasswordValidationError {
+        ...ErrorResult
+      }
+      ... on NativeAuthStrategyError {
+        ...ErrorResult
+      }
+    }
+  }
+`;
+
+/**
+ * Mutation para actualizar dirección del cliente
+ */
+export const UPDATE_CUSTOMER_ADDRESS_MUTATION = gql`
+  mutation UpdateCustomerAddress($input: UpdateAddressInput!) {
+    updateCustomerAddress(input: $input) {
+      id
+      fullName
+      company
+      streetLine1
+      streetLine2
+      city
+      province
+      postalCode
+      country {
+        code
+        name
+      }
+      phoneNumber
+      defaultShippingAddress
+      defaultBillingAddress
+    }
+  }
+`;
+
+/**
+ * Mutation para crear nueva dirección del cliente
+ */
+export const CREATE_CUSTOMER_ADDRESS_MUTATION = gql`
+  mutation CreateCustomerAddress($input: CreateAddressInput!) {
+    createCustomerAddress(input: $input) {
+      id
+      fullName
+      company
+      streetLine1
+      streetLine2
+      city
+      province
+      postalCode
+      country {
+        code
+        name
+      }
+      phoneNumber
+      defaultShippingAddress
+      defaultBillingAddress
+    }
+  }
+`;
+
+/**
+ * Mutation para eliminar dirección del cliente
+ */
+export const DELETE_CUSTOMER_ADDRESS_MUTATION = gql`
+  mutation DeleteCustomerAddress($id: ID!) {
+    deleteCustomerAddress(id: $id) {
+      success
+    }
+  }
+`;
+
+/**
  * Mutation para resetear contraseña
  */
 export const RESET_PASSWORD_MUTATION = gql`
