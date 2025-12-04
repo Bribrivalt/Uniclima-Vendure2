@@ -1,18 +1,19 @@
 /**
- * Página de Detalle de Producto - /productos/[slug]
+ * Pagina de Detalle de Producto - /productos/[slug]
  *
- * Esta página muestra todos los detalles de un producto HVAC incluyendo:
- * - Galería de imágenes con thumbnails
- * - Información de precio y stock
- * - Selector de variantes (si hay más de una)
- * - Botón de añadir al carrito o solicitar presupuesto
- * - Especificaciones técnicas HVAC completas
+ * Esta pagina muestra todos los detalles de un producto HVAC incluyendo:
+ * - Galeria de imagenes con zoom y lightbox (ProductGallery)
+ * - Informacion de precio y stock
+ * - Selector de variantes (si hay mas de una)
+ * - Boton de anadir al carrito o solicitar presupuesto
+ * - Especificaciones tecnicas HVAC completas
+ * - Productos relacionados (RelatedProducts)
  *
  * Los custom fields HVAC vienen del Product (no de la variante)
  * y coinciden con los definidos en backend/vendure-config.ts
  *
  * @author Frontend Team
- * @version 1.1.0
+ * @version 2.0.0 - Integrado ProductGallery y RelatedProducts
  */
 'use client';
 
@@ -20,7 +21,7 @@ import { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
+import { gql } from '@apollo/client';
 import { GET_PRODUCT_BY_SLUG } from '@/lib/vendure/queries/products';
 import { ADD_ITEM_TO_ORDER } from '@/lib/vendure/mutations/cart';
 import { GET_ACTIVE_ORDER } from '@/lib/vendure/queries/cart';
@@ -28,7 +29,50 @@ import { Product } from '@/lib/types/product';
 import { Button } from '@/components/core/Button';
 import { Alert } from '@/components/core/Alert';
 import { useToast } from '@/components/ui/Toast';
+import { ProductGallery, GalleryImage } from '@/components/product/ProductGallery';
+import { RelatedProducts, RelatedProductsSkeleton } from '@/components/product/RelatedProducts';
 import styles from './page.module.css';
+
+/**
+ * Query para obtener productos relacionados
+ * Busca productos de la misma coleccion o con facets similares
+ */
+const GET_RELATED_PRODUCTS = gql`
+    query GetRelatedProducts($productId: ID!, $take: Int) {
+        products(options: { take: $take, filter: { id: { notEq: $productId } } }) {
+            items {
+                id
+                name
+                slug
+                description
+                featuredAsset {
+                    id
+                    preview
+                }
+                variants {
+                    id
+                    priceWithTax
+                    stockLevel
+                }
+                customFields {
+                    potenciaKw
+                    frigorias
+                    claseEnergetica
+                    wifi
+                    modoVenta
+                }
+                facetValues {
+                    id
+                    name
+                    facet {
+                        id
+                        name
+                    }
+                }
+            }
+        }
+    }
+`;
 
 /**
  * Interfaz para la respuesta de la query GET_PRODUCT_BY_SLUG
@@ -144,49 +188,43 @@ export default function ProductDetailPage() {
     // Modo de venta: compra directa o solicitar presupuesto
     const isQuoteOnly = customFields?.modoVenta === 'solicitar_presupuesto';
 
+    // Convertir imagenes a formato GalleryImage para ProductGallery
+    const galleryImages: GalleryImage[] = allImages.map((img, index) => ({
+        id: img.id,
+        src: img.preview,
+        alt: `${product.name} - Imagen ${index + 1}`,
+        thumbnail: img.preview,
+    }));
+
+    // Query para productos relacionados (excluir el producto actual)
+    const { data: relatedData, loading: loadingRelated } = useQuery(GET_RELATED_PRODUCTS, {
+        variables: { productId: product.id, take: 8 },
+        skip: !product.id,
+    });
+
+    // Filtrar productos relacionados por facets similares si es posible
+    const relatedProducts = relatedData?.products?.items || [];
+
     return (
         <div className={styles.container}>
-            {/* Breadcrumb */}
-            <nav className={styles.breadcrumb}>
+            {/* Breadcrumb - Navegacion contextual */}
+            <nav className={styles.breadcrumb} aria-label="Ruta de navegacion">
                 <Link href="/">Inicio</Link>
-                <span>/</span>
+                <span aria-hidden="true">/</span>
                 <Link href="/productos">Productos</Link>
-                <span>/</span>
-                <span className={styles.current}>{product.name}</span>
+                <span aria-hidden="true">/</span>
+                <span className={styles.current} aria-current="page">{product.name}</span>
             </nav>
 
             <div className={styles.productGrid}>
-                {/* Gallery */}
+                {/* Galeria de imagenes con zoom y lightbox */}
                 <div className={styles.gallery}>
-                    <div className={styles.mainImage}>
-                        {allImages.length > 0 ? (
-                            <img
-                                src={allImages[selectedImage]?.preview}
-                                alt={product.name}
-                                className={styles.image}
-                            />
-                        ) : (
-                            <div className={styles.noImage}>
-                                <svg width="80" height="80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                        )}
-                    </div>
-
-                    {allImages.length > 1 && (
-                        <div className={styles.thumbnails}>
-                            {allImages.map((image, index) => (
-                                <button
-                                    key={image.id}
-                                    className={`${styles.thumbnail} ${selectedImage === index ? styles.thumbnailActive : ''}`}
-                                    onClick={() => setSelectedImage(index)}
-                                >
-                                    <img src={image.preview} alt={`${product.name} ${index + 1}`} />
-                                </button>
-                            ))}
-                        </div>
-                    )}
+                    <ProductGallery
+                        images={galleryImages}
+                        productName={product.name}
+                        enableZoom={true}
+                        enableLightbox={true}
+                    />
                 </div>
 
                 {/* Product Info */}
@@ -451,7 +489,24 @@ export default function ProductDetailPage() {
                 </section>
             )}
 
-            {/* Enlace para volver al catálogo */}
+            {/* Seccion de productos relacionados */}
+            <section className={styles.relatedSection}>
+                {loadingRelated ? (
+                    <RelatedProductsSkeleton itemCount={4} />
+                ) : relatedProducts.length > 0 ? (
+                    <RelatedProducts
+                        products={relatedProducts}
+                        title="Productos relacionados"
+                        subtitle="Otros productos que podrian interesarte"
+                        maxItems={8}
+                        showNavigation={true}
+                        showDots={true}
+                        variant="carousel"
+                    />
+                ) : null}
+            </section>
+
+            {/* Enlace para volver al catalogo */}
             <div className={styles.backSection}>
                 <Link href="/productos" className={styles.backLink}>
                     ← Volver a productos
