@@ -1,7 +1,7 @@
 # 📋 TODO Frontend - Uniclima Vendure
 
-**Desarrollador:** Frontend  
-**Última actualización:** 03/12/2025
+**Desarrollador:** Frontend
+**Última actualización:** 04/12/2025
 
 > 🔗 = Punto de confluencia con Backend (necesitas datos del backend)
 
@@ -29,16 +29,19 @@
 - [x] Dropdown
 - [x] Tabs
 - [x] Skeleton/Loading
+- [x] Toast (notificaciones)
 
 ### Fase 4: Componentes de Producto
-- [x] ProductCard
+- [x] ProductCard (con specs HVAC: clase energética, potencia, WiFi)
 - [x] ProductSearch
 - [x] ProductSort
 - [x] ProductPagination
+- [x] ProductFilters (con facets dinámicos de Vendure)
+- [x] ProductButton (compra directa / solicitar presupuesto)
 - [x] QuoteModal
 
 ### Fase 5: Componentes de Carrito
-- [x] CartItem
+- [x] CartItem (con enlace a producto, variantes)
 - [x] CartSummary
 
 ### Fase 6: Componentes de Checkout
@@ -50,7 +53,7 @@
 - [x] ProtectedRoute
 
 ### Fase 8: Layout
-- [x] Header
+- [x] Header (con dropdown de categorías desde Collections)
 - [x] Footer
 - [x] TopBar
 
@@ -70,10 +73,10 @@
 
 ### Fase 11: Integración GraphQL
 - [x] Queries de auth
-- [x] Queries de cart
-- [x] Queries de products 🔗
+- [x] Queries de cart (GET_ACTIVE_ORDER)
+- [x] Queries de products (GET_PRODUCTS, GET_PRODUCT_BY_SLUG, GET_FACETS, GET_COLLECTIONS) 🔗
 - [x] Mutations de auth
-- [x] Mutations de cart
+- [x] Mutations de cart (ADD_ITEM_TO_ORDER, ADJUST_ORDER_LINE, REMOVE_ORDER_LINE)
 - [x] Mutations de order
 
 ### Fase 12: Hooks y Utilidades
@@ -81,29 +84,25 @@
 - [x] useFocusTrap
 - [x] Metadata SEO utils
 
----
-
-## 🔄 EN PROGRESO
-
 ### Fase 13: Catálogo de Productos 🔗
-- [ ] Página catálogo (/productos) con datos reales
-- [ ] Detalle de producto (/productos/[slug])
-- [ ] Mostrar Custom Fields HVAC (specs técnicas)
-- [ ] Filtros por Facets funcionando
-- [ ] Navegación por Collections
+- [x] Página catálogo (/productos) con datos reales de Vendure
+- [x] Detalle de producto (/productos/[slug]) con todos los custom fields
+- [x] Mostrar Custom Fields HVAC (specs técnicas completas)
+- [x] Filtros por Facets funcionando (dinámicos desde Vendure)
+- [x] Navegación por Collections (dropdown en Header)
+- [x] Botón de filtros para móvil con drawer
+
+### Fase 14: Funcionalidad de Carrito 🔗
+- [x] Añadir al carrito funcional (desde ProductCard y detalle)
+- [x] Modificar cantidades (página /carrito)
+- [x] Eliminar del carrito (página /carrito)
+- [x] Contador en Header (usando GET_ACTIVE_ORDER)
+- [ ] MiniCart drawer opcional
+- [ ] Persistencia de sesión (cookies/tokens)
 
 ---
 
 ## 📝 PENDIENTE
-
-### Fase 14: Funcionalidad de Carrito 🔗
-| Tarea | Prioridad | Dependencia Backend |
-|-------|-----------|---------------------|
-| Añadir al carrito funcional | Alta | Productos creados ✅ |
-| Modificar cantidades | Alta | - |
-| Eliminar del carrito | Alta | - |
-| MiniCart en Header | Media | - |
-| Persistencia de sesión | Alta | - |
 
 ### Fase 15: Checkout Completo 🔗
 | Tarea | Prioridad | Dependencia Backend |
