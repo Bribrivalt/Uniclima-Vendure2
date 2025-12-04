@@ -6,20 +6,25 @@
  * - Menú de navegación con dropdown de categorías
  * - Botones de usuario, búsqueda y carrito
  * - Contador de items en el carrito
+ * - CartDrawer integrado que se abre al hacer click en el carrito
  *
  * Las categorías se cargan dinámicamente desde Vendure Collections.
  *
  * @author Frontend Team
- * @version 1.1.0
+ * @version 1.2.0
  */
 'use client';
 
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/lib/auth-context';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_ACTIVE_ORDER } from '@/lib/vendure/queries/cart';
+import { ADJUST_ORDER_LINE, REMOVE_ORDER_LINE } from '@/lib/vendure/mutations/cart';
 import { GET_COLLECTIONS } from '@/lib/vendure/queries/products';
+import { CartDrawer } from '@/components/cart/CartDrawer';
+import { OrderLine } from '@/components/cart/CartItem';
+import { useToast } from '@/components/ui/Toast';
 import styles from './Header.module.css';
 
 /**
@@ -36,26 +41,97 @@ interface Collection {
 }
 
 /**
+ * Interfaz para la respuesta de GET_ACTIVE_ORDER
+ */
+interface ActiveOrderData {
+    activeOrder: {
+        id: string;
+        code: string;
+        totalQuantity: number;
+        subTotal: number;
+        subTotalWithTax: number;
+        total: number;
+        totalWithTax: number;
+        lines: OrderLine[];
+    } | null;
+}
+
+/**
  * Componente Header principal
- * Incluye navegación, categorías dinámicas y acciones de usuario
+ * Incluye navegación, categorías dinámicas, acciones de usuario y CartDrawer
  */
 export default function Header() {
     const { currentUser, isAuthenticated, logout } = useAuth();
+    const { showToast } = useToast();
+
     // Estado para dropdown de usuario
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
     // Estado para dropdown de categorías (Productos)
     const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+    // Estado para el drawer del carrito
+    const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+
     // Referencia para cerrar dropdowns al hacer click fuera
     const userDropdownRef = useRef<HTMLDivElement>(null);
     const categoriesDropdownRef = useRef<HTMLDivElement>(null);
 
-    // Query para obtener carrito activo y mostrar contador
-    const { data: cartData } = useQuery(GET_ACTIVE_ORDER);
-    const cartItemCount = cartData?.activeOrder?.totalQuantity || 0;
+    // Query para obtener carrito activo con todos los datos necesarios para el drawer
+    const { data: cartData, refetch: refetchCart } = useQuery<ActiveOrderData>(GET_ACTIVE_ORDER, {
+        // Usar cache-and-network para tener datos actualizados
+        fetchPolicy: 'cache-and-network',
+    });
+
+    // Extraer datos del carrito
+    const activeOrder = cartData?.activeOrder;
+    const cartItemCount = activeOrder?.totalQuantity || 0;
+    const cartItems: OrderLine[] = activeOrder?.lines || [];
+    const cartSubtotal = activeOrder?.subTotalWithTax || 0;
+    const cartTotal = activeOrder?.totalWithTax || 0;
 
     // Query para obtener categorías (Collections) desde Vendure
     const { data: collectionsData } = useQuery(GET_COLLECTIONS);
     const collections: Collection[] = collectionsData?.collections?.items || [];
+
+    // Mutation para ajustar cantidad de un producto en el carrito
+    const [adjustOrderLine, { loading: adjusting }] = useMutation(ADJUST_ORDER_LINE, {
+        onCompleted: () => {
+            refetchCart();
+        },
+        onError: (error) => {
+            console.error('Error adjusting quantity:', error);
+            showToast('Error al actualizar cantidad', 'error');
+        },
+    });
+
+    // Mutation para eliminar un producto del carrito
+    const [removeOrderLine, { loading: removing }] = useMutation(REMOVE_ORDER_LINE, {
+        onCompleted: () => {
+            refetchCart();
+            showToast('Producto eliminado del carrito', 'success');
+        },
+        onError: (error) => {
+            console.error('Error removing item:', error);
+            showToast('Error al eliminar producto', 'error');
+        },
+    });
+
+    /**
+     * Handler para actualizar la cantidad de un producto en el carrito
+     */
+    const handleUpdateQuantity = (lineId: string, quantity: number) => {
+        adjustOrderLine({
+            variables: { orderLineId: lineId, quantity },
+        });
+    };
+
+    /**
+     * Handler para eliminar un producto del carrito
+     */
+    const handleRemoveItem = (lineId: string) => {
+        removeOrderLine({
+            variables: { orderLineId: lineId },
+        });
+    };
 
     // Cerrar dropdowns al hacer click fuera
     useEffect(() => {
@@ -239,18 +315,35 @@ export default function Header() {
                             </svg>
                         </button>
 
-                        {/* Carrito con contador */}
-                        <Link href="/carrito" className={styles.cartButton} aria-label="Carrito">
+                        {/* Carrito con contador - Abre el drawer en lugar de navegar */}
+                        <button
+                            className={styles.cartButton}
+                            aria-label="Ver carrito"
+                            onClick={() => setIsCartDrawerOpen(true)}
+                        >
                             <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             {cartItemCount > 0 && (
                                 <span className={styles.cartBadge}>{cartItemCount}</span>
                             )}
-                        </Link>
+                        </button>
                     </div>
                 </nav>
             </div>
+
+            {/* CartDrawer - Panel lateral para ver/editar carrito sin cambiar de página */}
+            <CartDrawer
+                isOpen={isCartDrawerOpen}
+                onClose={() => setIsCartDrawerOpen(false)}
+                items={cartItems}
+                subtotal={cartSubtotal}
+                total={cartTotal}
+                itemCount={cartItemCount}
+                onUpdateQuantity={handleUpdateQuantity}
+                onRemoveItem={handleRemoveItem}
+                loading={adjusting || removing}
+            />
         </header>
     );
 }
