@@ -14,13 +14,14 @@
  */
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_PRODUCTS } from '@/lib/vendure/queries/products';
+import { GET_PRODUCTS, GET_FACETS } from '@/lib/vendure/queries/products';
 import { ProductCard } from '@/components/product/ProductCard';
 import { ProductSearch } from '@/components/product/ProductSearch';
 import { ProductSort, SortOption } from '@/components/product/ProductSort';
 import { ProductPagination } from '@/components/product/ProductPagination';
+import { ProductFilters, FilterGroup, ActiveFilters } from '@/components/product/ProductFilters';
 import { Product } from '@/lib/types/product';
 import styles from './page.module.css';
 
@@ -110,6 +111,12 @@ export default function ProductosPage() {
     const [currentPage, setCurrentPage] = useState(1);
 
     /**
+     * Filtros activos seleccionados por el usuario
+     * Estructura: { [facetCode]: [facetValueId1, facetValueId2, ...] }
+     */
+    const [activeFilters, setActiveFilters] = useState<ActiveFilters>({});
+
+    /**
      * Categoría seleccionada para filtrar
      * TODO: Conectar con Collections de Vendure
      */
@@ -155,7 +162,50 @@ export default function ProductosPage() {
      */
     useEffect(() => {
         setCurrentPage(1);
-    }, [searchQuery, sortOption, selectedCategory, selectedBrand]);
+    }, [searchQuery, sortOption, selectedCategory, selectedBrand, activeFilters]);
+
+
+    // ========================================
+    // QUERY DE FACETS - CARGAR FILTROS DISPONIBLES
+    // ========================================
+
+    /**
+     * Query para obtener facets (filtros) disponibles desde Vendure
+     * Los facets incluyen: Marca, Tipo de Producto, Clase Energética, etc.
+     */
+    const { data: facetsData, loading: facetsLoading } = useQuery(GET_FACETS);
+
+    /**
+     * Transformar facets de Vendure al formato FilterGroup para ProductFilters
+     * 
+     * Convierte los facets del backend en grupos de filtros con sus opciones
+     * Ejemplo: Facet "Marca" -> FilterGroup con opciones [Daikin, Mitsubishi, etc.]
+     */
+    const filterGroups = useMemo<FilterGroup[]>(() => {
+        if (!facetsData?.facets?.items) return [];
+
+        return facetsData.facets.items.map((facet: any) => ({
+            id: facet.code,
+            name: facet.name,
+            type: 'checkbox' as const,
+            options: facet.values.map((value: any) => ({
+                value: value.id,
+                label: value.name,
+                // TODO: Agregar conteo de productos por facet value
+                // count: value.productCount
+            })),
+        }));
+    }, [facetsData]);
+
+    /**
+     * Extraer IDs de facet values seleccionados para enviar a la query de productos
+     * Convierte { marca: ['1', '2'], tipo: ['3'] } -> ['1', '2', '3']
+     */
+    const selectedFacetValueIds = useMemo(() => {
+        return Object.values(activeFilters)
+            .filter(value => Array.isArray(value))
+            .flat() as string[];
+    }, [activeFilters]);
 
 
     // ========================================
@@ -173,7 +223,8 @@ export default function ProductosPage() {
      * Variables enviadas a Vendure:
      * - take: Número de productos por página
      * - skip: Offset para paginación (calculado desde currentPage)
-     * - filter: Filtro de búsqueda por nombre (opcional)
+     * - filter.name.contains: Filtro de búsqueda por nombre (opcional)
+     * - filter.facetValueIds: Filtros por facets seleccionados (marca, tipo, etc.)
      * - sort: Ordenamiento (nombre o precio, ASC o DESC)
      * 
      * Política de caché: 'cache-and-network'
@@ -191,15 +242,19 @@ export default function ProductosPage() {
                 // Ejemplo: Página 2 con 12 items/página = skip 12 productos
                 skip: (currentPage - 1) * ITEMS_PER_PAGE,
 
-                // Filtro de búsqueda (solo si hay query)
-                // Busca productos cuyo nombre contenga el texto ingresado
-                filter: searchQuery
-                    ? {
+                // Filtros combinados
+                filter: {
+                    // Búsqueda por nombre (solo si hay query)
+                    ...(searchQuery && {
                         name: {
                             contains: searchQuery,
                         },
-                    }
-                    : undefined,
+                    }),
+                    // Filtros por facets seleccionados (marca, tipo, características, etc.)
+                    ...(selectedFacetValueIds.length > 0 && {
+                        facetValueIds: selectedFacetValueIds,
+                    }),
+                },
 
                 // Ordenamiento convertido al formato de Vendure
                 sort: getSortVariables(),
