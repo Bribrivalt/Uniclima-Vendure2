@@ -1,9 +1,25 @@
+/**
+ * ProductSearch.module.css
+ * Estilos para componente de busqueda con sugerencias
+ *
+ * Incluye:
+ * - Campo de busqueda con iconos
+ * - Dropdown de sugerencias con productos
+ * - Estados de carga y hover
+ * - Navegacion por teclado destacada
+ *
+ * @version 2.0.0
+ */
+
 /* ========================================
    SEARCH WRAPPER
+   Contenedor principal con posicion relativa
+   para el dropdown de sugerencias
    ======================================== */
 
 .searchWrapper {
     width: 100%;
+    position: relative;
 }
 
 .searchContainer {
@@ -15,6 +31,7 @@
 
 /* ========================================
    SEARCH INPUT
+   Campo de entrada de busqueda
    ======================================== */
 
 .searchInput {
@@ -40,7 +57,7 @@
 }
 
 /* ========================================
-   ICONS
+   ICONS Y BOTONES
    ======================================== */
 
 .searchIcon {
@@ -48,6 +65,7 @@
     left: var(--spacing-4);
     color: #666;
     pointer-events: none;
+    z-index: 1;
 }
 
 .clearButton {
@@ -71,6 +89,193 @@
     color: #cc0000;
 }
 
+/* Boton buscar opcional */
+.searchButton {
+    position: absolute;
+    right: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-4);
+    background: #cc0000;
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.searchButton:hover {
+    background: #aa0000;
+}
+
+/* Ajustar padding cuando hay boton */
+.searchContainer:has(.searchButton) .searchInput {
+    padding-right: 100px;
+}
+
+.searchContainer:has(.searchButton) .clearButton {
+    right: 90px;
+}
+
+/* ========================================
+   DROPDOWN DE SUGERENCIAS
+   Lista de productos sugeridos
+   ======================================== */
+
+.suggestionsDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: var(--spacing-2);
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+    animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estado de carga */
+.suggestionsLoading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-4);
+    color: #666;
+    font-size: var(--font-size-sm);
+}
+
+.loadingSpinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #e0e0e0;
+    border-top-color: #cc0000;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========================================
+   ITEM DE SUGERENCIA
+   Cada producto sugerido en el dropdown
+   ======================================== */
+
+.suggestionItem {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    width: 100%;
+    padding: var(--spacing-3);
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.suggestionItem:hover,
+.suggestionSelected {
+    background: #f5f5f5;
+}
+
+.suggestionItem:not(:last-child) {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Imagen del producto */
+.suggestionImage {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    background: #f8f8f8;
+}
+
+.suggestionImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.suggestionNoImage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+}
+
+/* Info del producto */
+.suggestionInfo {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+
+.suggestionName {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.suggestionPrice {
+    font-size: var(--font-size-sm);
+    color: #cc0000;
+    font-weight: var(--font-weight-semibold);
+}
+
+/* ========================================
+   VER TODOS LOS RESULTADOS
+   Link al final del dropdown
+   ======================================== */
+
+.viewAllResults {
+    display: block;
+    width: 100%;
+    padding: var(--spacing-3);
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    background: #f9f9f9;
+    color: #cc0000;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-align: center;
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.viewAllResults:hover {
+    background: #f0f0f0;
+}
+
 /* ========================================
    RESPONSIVE
    ======================================== */
@@ -87,5 +292,26 @@
         left: var(--spacing-3);
         width: 18px;
         height: 18px;
+    }
+
+    .suggestionsDropdown {
+        position: fixed;
+        top: auto;
+        left: var(--spacing-4);
+        right: var(--spacing-4);
+        max-height: 50vh;
+    }
+
+    .suggestionItem {
+        padding: var(--spacing-2);
+    }
+
+    .suggestionImage {
+        width: 36px;
+        height: 36px;
+    }
+
+    .suggestionName {
+        font-size: var(--font-size-xs);
     }
 }

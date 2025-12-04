@@ -361,7 +361,7 @@ export default function ProductosPage() {
                             )}
                         </button>
 
-                        <ProductSort value={sortOption} onChange={setSortOption} />
+                        <ProductSort value={sortOption} onChange={(value) => setSortOption(value as SortOption)} />
                     </div>
 
                     {/* Stats */}
