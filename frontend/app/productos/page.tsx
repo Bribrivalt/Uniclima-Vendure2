@@ -286,6 +286,25 @@ export default function ProductosPage() {
      */
     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
+    // ========================================
+    // ESTADO PARA DRAWER DE FILTROS EN MÓVIL
+    // ========================================
+
+    /**
+     * Estado para controlar si el drawer de filtros está abierto (solo móvil)
+     */
+    const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+
+    /**
+     * Contar filtros activos para mostrar en el botón móvil
+     */
+    const activeFilterCount = Object.values(activeFilters).reduce((count, value) => {
+        if (Array.isArray(value)) {
+            return count + value.length;
+        }
+        return count + 1;
+    }, 0);
+
     return (
         <div className={styles.container}>
             {/* Hero Banner */}
@@ -299,59 +318,49 @@ export default function ProductosPage() {
             </div>
 
             <div className={styles.mainContent}>
-                {/* Sidebar con filtros */}
-                <aside className={styles.sidebar}>
-                    <div className={styles.filterSection}>
-                        <h3 className={styles.filterTitle}>Categorías</h3>
-                        <ul className={styles.filterList}>
-                            {CATEGORIES.map((category) => (
-                                <li key={category.id}>
-                                    <button
-                                        className={`${styles.filterButton} ${selectedCategory === category.id ? styles.filterButtonActive : ''
-                                            }`}
-                                        onClick={() => setSelectedCategory(category.id)}
-                                    >
-                                        {category.name}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                {/* Sidebar con filtros dinámicos (desktop) */}
+                <ProductFilters
+                    filterGroups={filterGroups}
+                    activeFilters={activeFilters}
+                    onFilterChange={setActiveFilters}
+                    onClearFilters={() => setActiveFilters({})}
+                    className={styles.sidebar}
+                />
 
-                    <div className={styles.filterSection}>
-                        <h3 className={styles.filterTitle}>Marcas</h3>
-                        <ul className={styles.filterList}>
-                            {BRANDS.map((brand) => (
-                                <li key={brand.id}>
-                                    <button
-                                        className={`${styles.filterButton} ${selectedBrand === brand.id ? styles.filterButtonActive : ''
-                                            }`}
-                                        onClick={() => setSelectedBrand(brand.id)}
-                                    >
-                                        {brand.name}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* Banner de oferta */}
-                    <div className={styles.offerBanner}>
-                        <span className={styles.offerBadge}>Oferta</span>
-                        <h4 className={styles.offerTitle}>Instalación incluida</h4>
-                        <p className={styles.offerText}>
-                            En equipos seleccionados. Consulta condiciones.
-                        </p>
-                    </div>
-                </aside>
+                {/* Drawer de filtros para móvil */}
+                <ProductFilters
+                    filterGroups={filterGroups}
+                    activeFilters={activeFilters}
+                    onFilterChange={setActiveFilters}
+                    onClearFilters={() => setActiveFilters({})}
+                    asDrawer
+                    isOpen={isFilterDrawerOpen}
+                    onClose={() => setIsFilterDrawerOpen(false)}
+                />
 
                 {/* Contenido principal */}
                 <main className={styles.content}>
-                    {/* Search and Sort */}
+                    {/* Barra de controles: Búsqueda, Filtros móvil y Ordenamiento */}
                     <div className={styles.controls}>
                         <div className={styles.searchWrapper}>
                             <ProductSearch onSearch={setSearchQuery} />
                         </div>
+
+                        {/* Botón de filtros para móvil */}
+                        <button
+                            className={styles.mobileFilterButton}
+                            onClick={() => setIsFilterDrawerOpen(true)}
+                            aria-label="Abrir filtros"
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" />
+                            </svg>
+                            <span>Filtros</span>
+                            {activeFilterCount > 0 && (
+                                <span className={styles.filterBadge}>{activeFilterCount}</span>
+                            )}
+                        </button>
+
                         <ProductSort value={sortOption} onChange={setSortOption} />
                     </div>
 

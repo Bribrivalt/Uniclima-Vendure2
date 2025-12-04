@@ -170,6 +170,50 @@
     flex: 1;
 }
 
+/* ========================================
+   BOTÓN DE FILTROS MÓVIL
+   ======================================== */
+
+.mobileFilterButton {
+    display: none;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-3) var(--spacing-4);
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.mobileFilterButton:hover {
+    border-color: #cc0000;
+    color: #cc0000;
+}
+
+.mobileFilterButton svg {
+    flex-shrink: 0;
+}
+
+/* Badge con contador de filtros activos */
+.filterBadge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 var(--spacing-1);
+    background: #cc0000;
+    color: white;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    border-radius: var(--radius-full);
+}
+
 .stats {
     display: flex;
     justify-content: space-between;
@@ -397,13 +441,31 @@
         padding: 0 var(--spacing-4);
     }
 
+    /* Ocultar sidebar de filtros en móvil (se usa el drawer) */
     .sidebar {
-        grid-template-columns: 1fr;
+        display: none;
+    }
+
+    /* Mostrar botón de filtros en móvil */
+    .mobileFilterButton {
+        display: flex;
     }
 
     .controls {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .searchWrapper {
+        flex: 1 1 100%;
+        order: 1;
+        margin-bottom: var(--spacing-2);
+    }
+
+    .mobileFilterButton {
+        order: 2;
+        flex: 1;
     }
 
     .grid {
