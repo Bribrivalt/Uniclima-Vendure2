@@ -62,7 +62,7 @@ export function generateProductMetadata(product: Product): Metadata {
                     alt: product.name,
                 },
             ],
-            type: 'product',
+            type: 'website',
             locale: 'es_ES',
         },
         twitter: {
