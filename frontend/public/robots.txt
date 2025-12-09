@@ -1,0 +1,23 @@
+# Robots.txt para Uniclima - Tienda HVAC
+# Permite indexacion de todas las paginas publicas
+
+User-agent: *
+Allow: /
+
+# Bloquear paginas de administracion y checkout
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /api/
+Disallow: /cuenta/
+Disallow: /carrito/
+
+# Bloquear parametros de busqueda duplicados
+Disallow: /*?sort=
+Disallow: /*?page=
+Disallow: /*?filter=
+
+# Sitemap
+Sitemap: https://uniclima.es/sitemap.xml
+
+# Crawl-delay para no sobrecargar el servidor
+Crawl-delay: 1
