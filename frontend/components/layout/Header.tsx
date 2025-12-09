@@ -16,6 +16,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { useQuery, useMutation } from '@apollo/client';
@@ -229,9 +230,11 @@ export default function Header() {
                                                 onClick={() => setIsCategoriesOpen(false)}
                                             >
                                                 {collection.featuredAsset ? (
-                                                    <img
+                                                    <Image
                                                         src={collection.featuredAsset.preview}
                                                         alt={collection.name}
+                                                        width={48}
+                                                        height={48}
                                                         className={styles.categoryImage}
                                                     />
                                                 ) : (
