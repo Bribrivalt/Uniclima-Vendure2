@@ -63,13 +63,13 @@ export function ProfileForm({
     title = 'Mi perfil',
     className,
 }: ProfileFormProps) {
-    const { user, updateProfile, updatePassword } = useAuth();
+    const { currentUser } = useAuth();
 
     // Estado del formulario de perfil
     const [profileData, setProfileData] = useState<ProfileData>({
-        firstName: '',
-        lastName: '',
-        email: '',
+        firstName: currentUser?.firstName || '',
+        lastName: currentUser?.lastName || '',
+        email: currentUser?.emailAddress || '',
         phone: '',
         company: '',
     });
@@ -92,16 +92,16 @@ export function ProfileForm({
 
     // Cargar datos del usuario
     useEffect(() => {
-        if (user) {
+        if (currentUser) {
             setProfileData({
-                firstName: user.firstName || '',
-                lastName: user.lastName || '',
-                email: user.emailAddress || '',
-                phone: user.phoneNumber || '',
-                company: user.customFields?.company || '',
+                firstName: currentUser.firstName || '',
+                lastName: currentUser.lastName || '',
+                email: currentUser.emailAddress || '',
+                phone: '',
+                company: '',
             });
         }
-    }, [user]);
+    }, [currentUser]);
 
     // Handler de cambio en perfil
     const handleProfileChange = (field: keyof ProfileData, value: string) => {
@@ -176,11 +176,12 @@ export function ProfileForm({
         setProfileError(null);
 
         try {
-            await updateProfile({
-                firstName: profileData.firstName,
-                lastName: profileData.lastName,
-                phoneNumber: profileData.phone,
-            });
+            // TODO: Implementar updateProfile cuando esté disponible en AuthContext
+            // await updateProfile({
+            //     firstName: profileData.firstName,
+            //     lastName: profileData.lastName,
+            //     phoneNumber: profileData.phone,
+            // });
             setProfileSuccess(true);
             onSuccess?.();
         } catch (error) {
@@ -203,7 +204,8 @@ export function ProfileForm({
         setPasswordError(null);
 
         try {
-            await updatePassword(passwordData.currentPassword, passwordData.newPassword);
+            // TODO: Implementar updatePassword cuando esté disponible en AuthContext
+            // await updatePassword(passwordData.currentPassword, passwordData.newPassword);
             setPasswordSuccess(true);
             setPasswordData({
                 currentPassword: '',

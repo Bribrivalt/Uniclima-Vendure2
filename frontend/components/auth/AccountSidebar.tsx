@@ -118,7 +118,7 @@ export function AccountSidebar({
     customItems,
 }: AccountSidebarProps) {
     const pathname = usePathname();
-    const { user, logout } = useAuth();
+    const { currentUser, logout } = useAuth();
 
     const navigationItems = customItems || defaultNavigationItems;
 
@@ -144,11 +144,11 @@ export function AccountSidebar({
     return (
         <aside className={containerClasses} aria-label="Navegación de cuenta">
             {/* Header con info del usuario */}
-            {(showAvatar || showUserInfo) && user && (
+            {(showAvatar || showUserInfo) && currentUser && (
                 <div className={styles.userSection}>
                     {showAvatar && (
                         <Avatar
-                            name={`${user.firstName} ${user.lastName}`}
+                            name={`${currentUser.firstName} ${currentUser.lastName}`}
                             size="lg"
                             className={styles.avatar}
                         />
@@ -156,9 +156,9 @@ export function AccountSidebar({
                     {showUserInfo && (
                         <div className={styles.userInfo}>
                             <p className={styles.userName}>
-                                {user.firstName} {user.lastName}
+                                {currentUser.firstName} {currentUser.lastName}
                             </p>
-                            <p className={styles.userEmail}>{user.emailAddress}</p>
+                            <p className={styles.userEmail}>{currentUser.emailAddress}</p>
                         </div>
                     )}
                 </div>

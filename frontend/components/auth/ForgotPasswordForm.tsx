@@ -192,7 +192,7 @@ export function ForgotPasswordForm({
                         autoComplete="email"
                         required
                         fullWidth
-                        leftIcon={<EmailIcon />}
+                        icon={<EmailIcon />}
                     />
                 </div>
 

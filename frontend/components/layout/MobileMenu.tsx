@@ -66,7 +66,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
     const closeButtonRef = useRef<HTMLButtonElement>(null);
 
     // Activar focus trap cuando el menú está abierto
-    useFocusTrap(menuRef, isOpen);
+    useFocusTrap(isOpen);
 
     /**
      * Cerrar el menú con la tecla Escape
