@@ -130,7 +130,7 @@ export default function FavoritosPage() {
                     </header>
 
                     {successMessage && (
-                        <Alert variant="success" className={styles.alert}>
+                        <Alert type="success">
                             {successMessage}
                         </Alert>
                     )}

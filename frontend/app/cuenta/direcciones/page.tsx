@@ -91,7 +91,7 @@ export default function DireccionesPage() {
     };
 
     // Guardar dirección
-    const handleSave = async (data: Record<string, unknown>) => {
+    const handleSave = async (data: any) => {
         // TODO: Llamar a Vendure mutation
         console.log('Guardando dirección:', data);
 
@@ -163,7 +163,7 @@ export default function DireccionesPage() {
                     </header>
 
                     {successMessage && (
-                        <Alert variant="success" className={styles.alert}>
+                        <Alert type="success">
                             {successMessage}
                         </Alert>
                     )}
@@ -240,6 +240,7 @@ export default function DireccionesPage() {
                 title={editingAddress ? 'Editar dirección' : 'Nueva dirección'}
             >
                 <AddressForm
+                    type="shipping"
                     initialData={editingAddress || undefined}
                     onSubmit={handleSave}
                     onCancel={() => setIsModalOpen(false)}

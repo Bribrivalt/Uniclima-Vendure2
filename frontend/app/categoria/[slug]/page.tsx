@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ProductGrid, ProductFilters, ProductSort, ProductPagination } from '@/components/product';
 import { Breadcrumb, Skeleton } from '@/components/core';
+import { Product } from '@/lib/types/product';
 import styles from './page.module.css';
 
 /**
@@ -19,24 +20,6 @@ interface Category {
     parentId?: string;
     children?: Category[];
     productCount: number;
-}
-
-/**
- * Interfaz para producto
- */
-interface Product {
-    id: string;
-    name: string;
-    slug: string;
-    description?: string;
-    price: number;
-    originalPrice?: number;
-    image?: string;
-    rating?: number;
-    reviewCount?: number;
-    inStock: boolean;
-    isNew?: boolean;
-    discount?: number;
 }
 
 /**
@@ -101,14 +84,25 @@ export default function CategoriaPage() {
                 name: `${getCategoryName(slug)} - Modelo ${i + 1}`,
                 slug: `producto-${slug}-${i + 1}`,
                 description: `Producto de alta calidad de la categoría ${getCategoryName(slug)}`,
-                price: Math.floor(Math.random() * 1500) + 300,
-                originalPrice: Math.random() > 0.7 ? Math.floor(Math.random() * 500) + 1800 : undefined,
-                image: `/images/products/placeholder-${(i % 4) + 1}.jpg`,
-                rating: 3.5 + Math.random() * 1.5,
-                reviewCount: Math.floor(Math.random() * 80) + 5,
-                inStock: Math.random() > 0.15,
-                isNew: Math.random() > 0.85,
-                discount: Math.random() > 0.7 ? Math.floor(Math.random() * 25) + 5 : undefined,
+                featuredAsset: {
+                    id: `asset-${i}`,
+                    preview: `/images/products/placeholder-${(i % 4) + 1}.jpg`,
+                    source: `/images/products/placeholder-${(i % 4) + 1}.jpg`,
+                },
+                assets: [],
+                variants: [{
+                    id: `variant-${i}`,
+                    name: `${getCategoryName(slug)} - Modelo ${i + 1}`,
+                    sku: `SKU-${slug}-${i + 1}`,
+                    price: Math.floor(Math.random() * 1500) + 300,
+                    priceWithTax: Math.floor(Math.random() * 1500) + 300,
+                    stockLevel: Math.random() > 0.15 ? 'IN_STOCK' : 'OUT_OF_STOCK',
+                }],
+                customFields: {
+                    modoVenta: 'compra_directa',
+                    potenciaKw: 2.5 + Math.random() * 3,
+                    claseEnergetica: ['A+++', 'A++', 'A+', 'A'][Math.floor(Math.random() * 4)],
+                },
             }));
 
             setCategory(mockCategory);
@@ -223,7 +217,8 @@ export default function CategoriaPage() {
                 {/* Sidebar de filtros */}
                 <aside className={styles.sidebar}>
                     <ProductFilters
-                        onClearAll={() => { }}
+                        filterGroups={[]}
+                        onClearFilters={() => { }}
                     />
                 </aside>
 
