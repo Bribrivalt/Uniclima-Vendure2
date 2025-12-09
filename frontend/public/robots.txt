@@ -1,14 +1,16 @@
-# Robots.txt para Uniclima - Tienda HVAC
-# Permite indexacion de todas las paginas publicas
+# Uniclima - Robots.txt
+# https://uniclima.com/robots.txt
 
+# Allow all crawlers
 User-agent: *
 Allow: /
 
-# Bloquear paginas de administracion y checkout
+# Disallow private areas
 Disallow: /admin/
+Disallow: /cuenta/
 Disallow: /checkout/
 Disallow: /api/
-Disallow: /cuenta/
+Disallow: /_next/
 Disallow: /carrito/
 
 # Bloquear parametros de busqueda duplicados
