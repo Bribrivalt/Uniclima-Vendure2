@@ -1,398 +1,191 @@
 /**
- * Utilidades de Metadata SEO para Uniclima
+ * Utilidades mejoradas para metadata SEO
  * 
- * Funciones helper para generar meta tags dinamicos en cada pagina.
- * Incluye soporte para:
- * - Open Graph (Facebook, LinkedIn)
+ * Genera metadata optimizada para Next.js con:
+ * - Títulos optimizados (max 60 caracteres)
+ * - Descripciones optimizadas (max 160 caracteres)
+ * - Open Graph completo
  * - Twitter Cards
- * - Structured Data (JSON-LD)
- * - Meta tags basicos
- * 
- * @module SEO/Metadata
- * @version 2.0.0
+ * - Canonical URLs
  */
 
 import { Metadata } from 'next';
+import { Product } from '@/lib/types/product';
 
-/** URL base del sitio */
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://uniclima.es';
-
-/** Configuracion por defecto del sitio */
-const SITE_CONFIG = {
-    name: 'Uniclima',
-    description: 'Tienda online de climatizacion y HVAC. Aires acondicionados, calderas y sistemas de ventilacion de las mejores marcas.',
-    locale: 'es_ES',
-    type: 'website',
-    twitterHandle: '@uniclima',
-    defaultImage: '/images/og-default.jpg',
-};
+const SITE_NAME = 'Uniclima';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://uniclima.com';
+const DEFAULT_DESCRIPTION = 'Especialistas en climatización, aires acondicionados y sistemas HVAC. Productos de calidad con garantía y servicio técnico profesional.';
 
 /**
- * Interface para datos de producto para SEO
+ * Trunca texto a una longitud máxima
  */
-export interface ProductSEOData {
-    name: string;
-    slug: string;
-    description?: string;
-    image?: string;
-    price?: number;
-    currency?: string;
-    sku?: string;
-    brand?: string;
-    availability?: 'InStock' | 'OutOfStock' | 'PreOrder';
-    category?: string;
+function truncate(text: string, maxLength: number): string {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength - 3) + '...';
 }
 
 /**
- * Interface para datos de pagina para SEO
+ * Genera metadata para página de producto
  */
-export interface PageSEOData {
-    title: string;
-    description?: string;
-    image?: string;
-    path?: string;
-    noIndex?: boolean;
-}
+export function generateProductMetadata(product: Product): Metadata {
+    const variant = product.variants[0];
+    const price = variant?.priceWithTax ? (variant.priceWithTax / 100).toFixed(2) : null;
+    const inStock = variant?.stockLevel === 'IN_STOCK';
 
-/**
- * Genera metadata base para cualquier pagina
- * 
- * @param data - Datos de la pagina
- * @returns Objeto Metadata de Next.js
- * 
- * @example
- * ```ts
- * export const metadata = generatePageMetadata({
- *   title: 'Contacto',
- *   description: 'Contacta con nosotros',
- *   path: '/contacto'
- * });
- * ```
- */
-export function generatePageMetadata(data: PageSEOData): Metadata {
-    const title = data.title
-        ? `${data.title} | ${SITE_CONFIG.name}`
-        : SITE_CONFIG.name;
+    // Título optimizado (max 60 chars)
+    const title = truncate(`${product.name} | ${SITE_NAME}`, 60);
 
-    const description = data.description || SITE_CONFIG.description;
-    const url = data.path ? `${BASE_URL}${data.path}` : BASE_URL;
-    const image = data.image || `${BASE_URL}${SITE_CONFIG.defaultImage}`;
-
-    return {
-        title,
-        description,
-        metadataBase: new URL(BASE_URL),
-        alternates: {
-            canonical: url,
-        },
-        openGraph: {
-            title,
-            description,
-            url,
-            siteName: SITE_CONFIG.name,
-            locale: SITE_CONFIG.locale,
-            type: 'website',
-            images: [
-                {
-                    url: image,
-                    width: 1200,
-                    height: 630,
-                    alt: title,
-                },
-            ],
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title,
-            description,
-            images: [image],
-            creator: SITE_CONFIG.twitterHandle,
-        },
-        robots: data.noIndex ? {
-            index: false,
-            follow: false,
-        } : {
-            index: true,
-            follow: true,
-        },
-    };
-}
-
-/**
- * Genera metadata especifica para paginas de producto
- * 
- * @param product - Datos del producto
- * @returns Objeto Metadata de Next.js
- * 
- * @example
- * ```ts
- * export async function generateMetadata({ params }) {
- *   const product = await getProduct(params.slug);
- *   return generateProductMetadata({
- *     name: product.name,
- *     slug: product.slug,
- *     description: product.description,
- *     image: product.featuredAsset?.preview,
- *     price: product.variants[0]?.priceWithTax,
- *     brand: 'Daikin'
- *   });
- * }
- * ```
- */
-export function generateProductMetadata(product: ProductSEOData): Metadata {
-    const title = `${product.name} | ${SITE_CONFIG.name}`;
+    // Descripción optimizada (max 160 chars)
     const description = product.description
-        ? product.description.replace(/<[^>]*>/g, '').substring(0, 160)
-        : `Compra ${product.name} en Uniclima. Envio rapido y garantia oficial.`;
+        ? truncate(product.description.replace(/<[^>]*>/g, ''), 160)
+        : truncate(`${product.name} - ${DEFAULT_DESCRIPTION}`, 160);
 
-    const url = `${BASE_URL}/productos/${product.slug}`;
-    const image = product.image || `${BASE_URL}${SITE_CONFIG.defaultImage}`;
+    const imageUrl = product.featuredAsset?.preview || `${SITE_URL}/og-image.jpg`;
+    const productUrl = `${SITE_URL}/productos/${product.slug}`;
 
     return {
         title,
         description,
-        metadataBase: new URL(BASE_URL),
         alternates: {
-            canonical: url,
+            canonical: productUrl,
         },
         openGraph: {
             title,
             description,
-            url,
-            siteName: SITE_CONFIG.name,
-            locale: SITE_CONFIG.locale,
-            type: 'website',
+            url: productUrl,
+            siteName: SITE_NAME,
             images: [
                 {
-                    url: image,
+                    url: imageUrl,
                     width: 1200,
                     height: 630,
                     alt: product.name,
                 },
             ],
+            type: 'product',
+            locale: 'es_ES',
         },
         twitter: {
             card: 'summary_large_image',
             title,
             description,
-            images: [image],
-            creator: SITE_CONFIG.twitterHandle,
+            images: [imageUrl],
+            creator: '@uniclima',
+        },
+        other: {
+            'product:price:amount': price || '',
+            'product:price:currency': 'EUR',
+            'product:availability': inStock ? 'in stock' : 'out of stock',
         },
     };
 }
 
 /**
- * Genera JSON-LD estructurado para un producto
- * Mejora el SEO y permite rich snippets en Google
- * 
- * @param product - Datos del producto
- * @returns Script JSON-LD como string
- * 
- * @example
- * ```tsx
- * <script
- *   type="application/ld+json"
- *   dangerouslySetInnerHTML={{
- *     __html: generateProductJsonLd(product)
- *   }}
- * />
- * ```
+ * Genera metadata para página de categoría
  */
-export function generateProductJsonLd(product: ProductSEOData): string {
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'Product',
-        name: product.name,
-        description: product.description?.replace(/<[^>]*>/g, ''),
-        image: product.image,
-        url: `${BASE_URL}/productos/${product.slug}`,
-        sku: product.sku,
-        brand: product.brand ? {
-            '@type': 'Brand',
-            name: product.brand,
-        } : undefined,
-        offers: product.price ? {
-            '@type': 'Offer',
-            price: (product.price / 100).toFixed(2),
-            priceCurrency: product.currency || 'EUR',
-            availability: product.availability === 'InStock'
-                ? 'https://schema.org/InStock'
-                : 'https://schema.org/OutOfStock',
-            seller: {
-                '@type': 'Organization',
-                name: SITE_CONFIG.name,
-            },
-        } : undefined,
-    };
+export function generateCategoryMetadata(categoryName: string, categorySlug: string): Metadata {
+    const title = truncate(`${categoryName} | ${SITE_NAME}`, 60);
+    const description = truncate(`Descubre nuestra selección de ${categoryName.toLowerCase()}. ${DEFAULT_DESCRIPTION}`, 160);
+    const categoryUrl = `${SITE_URL}/categoria/${categorySlug}`;
 
-    return JSON.stringify(jsonLd);
+    return {
+        title,
+        description,
+        alternates: {
+            canonical: categoryUrl,
+        },
+        openGraph: {
+            title,
+            description,
+            url: categoryUrl,
+            siteName: SITE_NAME,
+            type: 'website',
+            locale: 'es_ES',
+        },
+        twitter: {
+            card: 'summary',
+            title,
+            description,
+        },
+    };
 }
 
 /**
- * Genera JSON-LD estructurado para la organizacion
- * Se usa en el layout principal
- * 
- * @returns Script JSON-LD como string
+ * Genera metadata para página de búsqueda
  */
-export function generateOrganizationJsonLd(): string {
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: SITE_CONFIG.name,
-        url: BASE_URL,
-        logo: `${BASE_URL}/images/logo.png`,
-        description: SITE_CONFIG.description,
-        address: {
-            '@type': 'PostalAddress',
-            addressCountry: 'ES',
+export function generateSearchMetadata(query?: string): Metadata {
+    const title = query
+        ? truncate(`Resultados para "${query}" | ${SITE_NAME}`, 60)
+        : `Búsqueda | ${SITE_NAME}`;
+
+    const description = query
+        ? truncate(`Resultados de búsqueda para "${query}" en ${SITE_NAME}`, 160)
+        : DEFAULT_DESCRIPTION;
+
+    return {
+        title,
+        description,
+        robots: {
+            index: false, // No indexar páginas de búsqueda
+            follow: true,
         },
-        contactPoint: {
-            '@type': 'ContactPoint',
-            contactType: 'customer service',
-            availableLanguage: ['Spanish'],
+    };
+}
+
+/**
+ * Genera metadata por defecto para el sitio
+ */
+export function generateDefaultMetadata(): Metadata {
+    return {
+        title: {
+            default: SITE_NAME,
+            template: `%s | ${SITE_NAME}`,
         },
-        sameAs: [
-            'https://www.facebook.com/uniclima',
-            'https://www.instagram.com/uniclima',
-            'https://twitter.com/uniclima',
+        description: DEFAULT_DESCRIPTION,
+        keywords: [
+            'climatización',
+            'aire acondicionado',
+            'HVAC',
+            'sistemas de climatización',
+            'repuestos HVAC',
+            'instalación aire acondicionado',
+            'mantenimiento climatización',
         ],
-    };
-
-    return JSON.stringify(jsonLd);
-}
-
-/**
- * Genera JSON-LD para breadcrumbs
- * 
- * @param items - Array de items del breadcrumb
- * @returns Script JSON-LD como string
- * 
- * @example
- * ```tsx
- * const breadcrumbs = [
- *   { name: 'Inicio', url: '/' },
- *   { name: 'Productos', url: '/productos' },
- *   { name: 'Aire Acondicionado', url: '/productos/aire-split' },
- * ];
- * <script
- *   type="application/ld+json"
- *   dangerouslySetInnerHTML={{
- *     __html: generateBreadcrumbJsonLd(breadcrumbs)
- *   }}
- * />
- * ```
- */
-export function generateBreadcrumbJsonLd(
-    items: Array<{ name: string; url: string }>
-): string {
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: items.map((item, index) => ({
-            '@type': 'ListItem',
-            position: index + 1,
-            name: item.name,
-            item: `${BASE_URL}${item.url}`,
-        })),
-    };
-
-    return JSON.stringify(jsonLd);
-}
-
-/**
- * Genera JSON-LD para FAQ
- * 
- * @param faqs - Array de preguntas y respuestas
- * @returns Script JSON-LD como string
- */
-export function generateFAQJsonLd(
-    faqs: Array<{ question: string; answer: string }>
-): string {
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: faqs.map((faq) => ({
-            '@type': 'Question',
-            name: faq.question,
-            acceptedAnswer: {
-                '@type': 'Answer',
-                text: faq.answer,
-            },
-        })),
-    };
-
-    return JSON.stringify(jsonLd);
-}
-
-/**
- * Metadata por defecto para el sitio
- * Se exporta para usar en app/layout.tsx
- */
-export const defaultMetadata: Metadata = {
-    title: {
-        default: SITE_CONFIG.name,
-        template: `%s | ${SITE_CONFIG.name}`,
-    },
-    description: SITE_CONFIG.description,
-    metadataBase: new URL(BASE_URL),
-    keywords: [
-        'aire acondicionado',
-        'climatizacion',
-        'HVAC',
-        'calderas',
-        'splits',
-        'ventilacion',
-        'Daikin',
-        'Mitsubishi',
-        'LG',
-        'instalacion climatizacion',
-        'tienda climatizacion online',
-    ],
-    authors: [{ name: SITE_CONFIG.name }],
-    creator: SITE_CONFIG.name,
-    publisher: SITE_CONFIG.name,
-    formatDetection: {
-        email: false,
-        address: false,
-        telephone: false,
-    },
-    openGraph: {
-        type: 'website',
-        locale: SITE_CONFIG.locale,
-        url: BASE_URL,
-        siteName: SITE_CONFIG.name,
-        title: SITE_CONFIG.name,
-        description: SITE_CONFIG.description,
-        images: [
-            {
-                url: `${BASE_URL}${SITE_CONFIG.defaultImage}`,
-                width: 1200,
-                height: 630,
-                alt: SITE_CONFIG.name,
-            },
-        ],
-    },
-    twitter: {
-        card: 'summary_large_image',
-        title: SITE_CONFIG.name,
-        description: SITE_CONFIG.description,
-        images: [`${BASE_URL}${SITE_CONFIG.defaultImage}`],
-        creator: SITE_CONFIG.twitterHandle,
-    },
-    robots: {
-        index: true,
-        follow: true,
-        googleBot: {
+        authors: [{ name: SITE_NAME }],
+        creator: SITE_NAME,
+        publisher: SITE_NAME,
+        alternates: {
+            canonical: SITE_URL,
+        },
+        openGraph: {
+            type: 'website',
+            locale: 'es_ES',
+            url: SITE_URL,
+            siteName: SITE_NAME,
+            title: SITE_NAME,
+            description: DEFAULT_DESCRIPTION,
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: SITE_NAME,
+            description: DEFAULT_DESCRIPTION,
+            creator: '@uniclima',
+        },
+        robots: {
             index: true,
             follow: true,
-            'max-video-preview': -1,
-            'max-image-preview': 'large',
-            'max-snippet': -1,
+            googleBot: {
+                index: true,
+                follow: true,
+                'max-video-preview': -1,
+                'max-image-preview': 'large',
+                'max-snippet': -1,
+            },
         },
-    },
-    verification: {
-        // Añadir cuando se tengan las verificaciones
-        // google: 'google-site-verification-code',
-        // yandex: 'yandex-verification-code',
-    },
-};
+        verification: {
+            // Agregar cuando estén disponibles
+            // google: 'google-site-verification-code',
+            // yandex: 'yandex-verification-code',
+        },
+    };
+}
