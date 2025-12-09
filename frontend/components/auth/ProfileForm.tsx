@@ -63,7 +63,7 @@ export function ProfileForm({
     title = 'Mi perfil',
     className,
 }: ProfileFormProps) {
-    const { currentUser } = useAuth();
+    const { currentUser, updateProfile, updatePassword } = useAuth();
 
     // Estado del formulario de perfil
     const [profileData, setProfileData] = useState<ProfileData>({
@@ -176,19 +176,28 @@ export function ProfileForm({
         setProfileError(null);
 
         try {
-            // TODO: Implementar updateProfile cuando esté disponible en AuthContext
-            // await updateProfile({
-            //     firstName: profileData.firstName,
-            //     lastName: profileData.lastName,
-            //     phoneNumber: profileData.phone,
-            // });
-            setProfileSuccess(true);
-            onSuccess?.();
+            const result = await updateProfile({
+                firstName: profileData.firstName,
+                lastName: profileData.lastName,
+                phoneNumber: profileData.phone,
+            });
+
+            if (result.success) {
+                setProfileSuccess(true);
+                setProfileError(null);
+                onSuccess?.();
+            } else {
+                setProfileError(result.error || 'Error al actualizar el perfil');
+                setProfileSuccess(false);
+                onError?.(result.error || 'Error al actualizar el perfil');
+            }
         } catch (error) {
+            console.error('Error al actualizar perfil:', error);
             const message = error instanceof Error
                 ? error.message
                 : 'Error al actualizar el perfil';
             setProfileError(message);
+            setProfileSuccess(false);
             onError?.(message);
         } finally {
             setProfileLoading(false);
@@ -204,16 +213,28 @@ export function ProfileForm({
         setPasswordError(null);
 
         try {
-            // TODO: Implementar updatePassword cuando esté disponible en AuthContext
-            // await updatePassword(passwordData.currentPassword, passwordData.newPassword);
-            setPasswordSuccess(true);
-            setPasswordData({
-                currentPassword: '',
-                newPassword: '',
-                confirmPassword: '',
-            });
-            onSuccess?.();
+            const result = await updatePassword(
+                passwordData.currentPassword,
+                passwordData.newPassword
+            );
+
+            if (result.success) {
+                setPasswordSuccess(true);
+                setPasswordError(null);
+                // Limpiar formulario
+                setPasswordData({
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmPassword: '',
+                });
+                onSuccess?.();
+            } else {
+                setPasswordError(result.error || 'Error al cambiar la contraseña');
+                setPasswordSuccess(false);
+                onError?.(result.error || 'Error al cambiar la contraseña');
+            }
         } catch (error) {
+            console.error('Error al cambiar contraseña:', error);
             const message = error instanceof Error
                 ? error.message
                 : 'Error al cambiar la contraseña';
