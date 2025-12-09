@@ -1,9 +1,26 @@
+/**
+ * Modulo SEO - Exportaciones
+ * 
+ * Re-exporta todas las utilidades de SEO desde un unico punto
+ * 
+ * @module SEO
+ */
+
 export {
-    siteConfig,
-    generateSiteMetadata,
+    // Funciones de metadata
     generatePageMetadata,
     generateProductMetadata,
-    generateOrganizationSchema,
-    generateProductSchema,
-    generateBreadcrumbSchema,
+
+    // Funciones de JSON-LD
+    generateProductJsonLd,
+    generateOrganizationJsonLd,
+    generateBreadcrumbJsonLd,
+    generateFAQJsonLd,
+
+    // Metadata por defecto
+    defaultMetadata,
+
+    // Types
+    type ProductSEOData,
+    type PageSEOData,
 } from './metadata';

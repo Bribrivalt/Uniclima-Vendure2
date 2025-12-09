@@ -16,6 +16,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { useQuery, useMutation } from '@apollo/client';
@@ -175,7 +176,7 @@ export default function Header() {
 
                     {/* Menú de navegación principal */}
                     <div className={styles.menu}>
-                        <Link href="/" className={styles.menuLink}>Inicio</Link>
+                        <Link href="/" className={styles.menuLink} prefetch={true}>Inicio</Link>
 
                         {/* Dropdown de Productos/Categorías */}
                         <div
@@ -184,7 +185,7 @@ export default function Header() {
                             onMouseEnter={() => setIsCategoriesOpen(true)}
                             onMouseLeave={() => setIsCategoriesOpen(false)}
                         >
-                            <Link href="/productos" className={styles.menuLink}>
+                            <Link href="/productos" className={styles.menuLink} prefetch={true}>
                                 Productos
                                 <svg
                                     width="12"
@@ -229,9 +230,11 @@ export default function Header() {
                                                 onClick={() => setIsCategoriesOpen(false)}
                                             >
                                                 {collection.featuredAsset ? (
-                                                    <img
+                                                    <Image
                                                         src={collection.featuredAsset.preview}
                                                         alt={collection.name}
+                                                        width={48}
+                                                        height={48}
                                                         className={styles.categoryImage}
                                                     />
                                                 ) : (
@@ -249,10 +252,10 @@ export default function Header() {
                             )}
                         </div>
 
-                        <Link href="/servicios" className={styles.menuLink}>Servicios</Link>
-                        <Link href="/repuestos" className={styles.menuLink}>Repuestos</Link>
-                        <Link href="/conocenos" className={styles.menuLink}>Conócenos</Link>
-                        <Link href="/contacto" className={styles.menuLink}>Contacto</Link>
+                        <Link href="/servicios" className={styles.menuLink} prefetch={true}>Servicios</Link>
+                        <Link href="/repuestos" className={styles.menuLink} prefetch={true}>Repuestos</Link>
+                        <Link href="/conocenos" className={styles.menuLink} prefetch={true}>Conócenos</Link>
+                        <Link href="/contacto" className={styles.menuLink} prefetch={true}>Contacto</Link>
                     </div>
 
                     {/* Iconos de acción */}

@@ -209,7 +209,7 @@ export function RegisterForm({
 
             {/* Error general */}
             {generalError && (
-                <Alert variant="error" className={styles.alert}>
+                <Alert type="error">
                     {generalError}
                 </Alert>
             )}
@@ -228,7 +228,7 @@ export function RegisterForm({
                             autoComplete="given-name"
                             required
                             fullWidth
-                            leftIcon={<UserIcon />}
+                            icon={<UserIcon />}
                         />
                     </div>
                     <div className={styles.field}>
@@ -257,7 +257,7 @@ export function RegisterForm({
                         autoComplete="email"
                         required
                         fullWidth
-                        leftIcon={<EmailIcon />}
+                        icon={<EmailIcon />}
                     />
                 </div>
 
@@ -298,18 +298,8 @@ export function RegisterForm({
                         autoComplete="new-password"
                         required
                         fullWidth
-                        leftIcon={<LockIcon />}
+                        icon={<LockIcon />}
                         helperText="Mínimo 8 caracteres con mayúsculas, minúsculas y números"
-                        rightElement={
-                            <button
-                                type="button"
-                                className={styles.togglePassword}
-                                onClick={() => setShowPassword(!showPassword)}
-                                aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                            >
-                                {showPassword ? '👁️' : '👁️‍🗨️'}
-                            </button>
-                        }
                     />
                 </div>
 
@@ -325,7 +315,7 @@ export function RegisterForm({
                         autoComplete="new-password"
                         required
                         fullWidth
-                        leftIcon={<LockIcon />}
+                        icon={<LockIcon />}
                     />
                 </div>
 
@@ -340,14 +330,7 @@ export function RegisterForm({
                                     setErrors(prev => ({ ...prev, terms: undefined }));
                                 }
                             }}
-                            label={
-                                <span className={styles.termsText}>
-                                    Acepto los{' '}
-                                    <Link href="/terminos" target="_blank">términos y condiciones</Link>
-                                    {' '}y la{' '}
-                                    <Link href="/privacidad" target="_blank">política de privacidad</Link>
-                                </span>
-                            }
+                            label="Acepto los términos y condiciones y la política de privacidad"
                         />
                         {errors.terms && (
                             <span className={styles.termsError}>{errors.terms}</span>

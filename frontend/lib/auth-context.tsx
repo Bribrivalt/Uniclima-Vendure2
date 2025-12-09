@@ -14,7 +14,7 @@
 
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { LOGIN_MUTATION, LOGOUT_MUTATION, REGISTER_MUTATION } from './vendure/mutations/auth';
+import { LOGIN_MUTATION, LOGOUT_MUTATION, REGISTER_MUTATION, UPDATE_CUSTOMER_MUTATION, UPDATE_CUSTOMER_PASSWORD_MUTATION } from './vendure/mutations/auth';
 import { GET_ACTIVE_CUSTOMER } from './vendure/queries/auth';
 import { clearVendureSession } from './vendure/client';
 
@@ -40,6 +40,13 @@ export interface RegisterInput {
     password: string;
 }
 
+export interface UpdateProfileInput {
+    title?: string;
+    firstName?: string;
+    lastName?: string;
+    phoneNumber?: string;
+}
+
 export interface AuthContextType {
     currentUser: Customer | null;
     isAuthenticated: boolean;
@@ -48,6 +55,8 @@ export interface AuthContextType {
     logout: () => Promise<void>;
     register: (input: RegisterInput) => Promise<{ success: boolean; error?: string }>;
     checkAuth: () => Promise<void>;
+    updateProfile: (input: UpdateProfileInput) => Promise<{ success: boolean; error?: string }>;
+    updatePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; error?: string }>;
 }
 
 // ========================================
@@ -85,6 +94,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loginMutation] = useMutation(LOGIN_MUTATION);
     const [logoutMutation] = useMutation(LOGOUT_MUTATION);
     const [registerMutation] = useMutation(REGISTER_MUTATION);
+    const [updateCustomerMutation] = useMutation(UPDATE_CUSTOMER_MUTATION);
+    const [updatePasswordMutation] = useMutation(UPDATE_CUSTOMER_PASSWORD_MUTATION);
 
     // ========================================
     // MÉTODOS
@@ -210,6 +221,77 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, [refetchCustomer]);
 
+    /**
+     * Actualizar perfil de usuario
+     */
+    const updateProfile = useCallback(
+        async (input: UpdateProfileInput): Promise<{ success: boolean; error?: string }> => {
+            try {
+                const { data } = await updateCustomerMutation({
+                    variables: { input },
+                });
+
+                if (data?.updateCustomer) {
+                    // Actualizar estado local con los nuevos datos
+                    setCurrentUser(data.updateCustomer);
+                    return { success: true };
+                }
+
+                return {
+                    success: false,
+                    error: 'Error al actualizar el perfil',
+                };
+            } catch (error) {
+                console.error('Error al actualizar perfil:', error);
+                return {
+                    success: false,
+                    error: 'Error de conexión. Por favor, intenta de nuevo.',
+                };
+            }
+        },
+        [updateCustomerMutation]
+    );
+
+    /**
+     * Actualizar contraseña
+     */
+    const updatePassword = useCallback(
+        async (currentPassword: string, newPassword: string): Promise<{ success: boolean; error?: string }> => {
+            try {
+                const { data } = await updatePasswordMutation({
+                    variables: { currentPassword, newPassword },
+                });
+
+                const result = data?.updateCustomerPassword;
+
+                // Verificar si hay error
+                if (result?.errorCode) {
+                    return {
+                        success: false,
+                        error: result.message || 'Error al cambiar la contraseña',
+                    };
+                }
+
+                // Cambio exitoso
+                if (result?.success) {
+                    return { success: true };
+                }
+
+                return {
+                    success: false,
+                    error: 'Error desconocido al cambiar la contraseña',
+                };
+            } catch (error) {
+                console.error('Error al cambiar contraseña:', error);
+                return {
+                    success: false,
+                    error: 'Error de conexión. Por favor, intenta de nuevo.',
+                };
+            }
+        },
+        [updatePasswordMutation]
+    );
+
     // ========================================
     // VALOR DEL CONTEXTO
     // ========================================
@@ -222,6 +304,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         logout,
         register,
         checkAuth,
+        updateProfile,
+        updatePassword,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

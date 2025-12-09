@@ -1,60 +1,175 @@
+/**
+ * Utilidades mejoradas para metadata SEO
+ * 
+ * Genera metadata optimizada para Next.js con:
+ * - Títulos optimizados (max 60 caracteres)
+ * - Descripciones optimizadas (max 160 caracteres)
+ * - Open Graph completo
+ * - Twitter Cards
+ * - Canonical URLs
+ */
+
 import { Metadata } from 'next';
+import { Product } from '@/lib/types/product';
+
+const SITE_NAME = 'Uniclima';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://uniclima.com';
+const DEFAULT_DESCRIPTION = 'Especialistas en climatización, aires acondicionados y sistemas HVAC. Productos de calidad con garantía y servicio técnico profesional.';
 
 /**
- * Configuración SEO base del sitio
+ * Trunca texto a una longitud máxima
  */
-export const siteConfig = {
-    name: 'Uniclima',
-    description: 'Repuestos y accesorios de climatización para profesionales',
-    url: 'https://uniclima.es',
-    ogImage: '/og-image.jpg',
-    locale: 'es_ES',
-    keywords: [
-        'climatización',
-        'repuestos',
-        'aire acondicionado',
-        'HVAC',
-        'profesionales',
-        'calefacción',
-        'ventilación',
-    ],
-};
+function truncate(text: string, maxLength: number): string {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength - 3) + '...';
+}
 
 /**
- * Genera metadata base para Next.js 
+ * Genera metadata para página de producto
  */
-export function generateSiteMetadata(): Metadata {
+export function generateProductMetadata(product: Product): Metadata {
+    const variant = product.variants[0];
+    const price = variant?.priceWithTax ? (variant.priceWithTax / 100).toFixed(2) : null;
+    const inStock = variant?.stockLevel === 'IN_STOCK';
+
+    // Título optimizado (max 60 chars)
+    const title = truncate(`${product.name} | ${SITE_NAME}`, 60);
+
+    // Descripción optimizada (max 160 chars)
+    const description = product.description
+        ? truncate(product.description.replace(/<[^>]*>/g, ''), 160)
+        : truncate(`${product.name} - ${DEFAULT_DESCRIPTION}`, 160);
+
+    const imageUrl = product.featuredAsset?.preview || `${SITE_URL}/og-image.jpg`;
+    const productUrl = `${SITE_URL}/productos/${product.slug}`;
+
     return {
-        metadataBase: new URL(siteConfig.url),
-        title: {
-            default: siteConfig.name,
-            template: `%s | ${siteConfig.name}`,
+        title,
+        description,
+        alternates: {
+            canonical: productUrl,
         },
-        description: siteConfig.description,
-        keywords: siteConfig.keywords,
-        authors: [{ name: 'Uniclima' }],
-        creator: 'Uniclima',
         openGraph: {
-            type: 'website',
-            locale: siteConfig.locale,
-            url: siteConfig.url,
-            title: siteConfig.name,
-            description: siteConfig.description,
-            siteName: siteConfig.name,
+            title,
+            description,
+            url: productUrl,
+            siteName: SITE_NAME,
             images: [
                 {
-                    url: siteConfig.ogImage,
+                    url: imageUrl,
                     width: 1200,
                     height: 630,
-                    alt: siteConfig.name,
+                    alt: product.name,
                 },
             ],
+            type: 'website',
+            locale: 'es_ES',
         },
         twitter: {
             card: 'summary_large_image',
-            title: siteConfig.name,
-            description: siteConfig.description,
-            images: [siteConfig.ogImage],
+            title,
+            description,
+            images: [imageUrl],
+            creator: '@uniclima',
+        },
+        other: {
+            'product:price:amount': price || '',
+            'product:price:currency': 'EUR',
+            'product:availability': inStock ? 'in stock' : 'out of stock',
+        },
+    };
+}
+
+/**
+ * Genera metadata para página de categoría
+ */
+export function generateCategoryMetadata(categoryName: string, categorySlug: string): Metadata {
+    const title = truncate(`${categoryName} | ${SITE_NAME}`, 60);
+    const description = truncate(`Descubre nuestra selección de ${categoryName.toLowerCase()}. ${DEFAULT_DESCRIPTION}`, 160);
+    const categoryUrl = `${SITE_URL}/categoria/${categorySlug}`;
+
+    return {
+        title,
+        description,
+        alternates: {
+            canonical: categoryUrl,
+        },
+        openGraph: {
+            title,
+            description,
+            url: categoryUrl,
+            siteName: SITE_NAME,
+            type: 'website',
+            locale: 'es_ES',
+        },
+        twitter: {
+            card: 'summary',
+            title,
+            description,
+        },
+    };
+}
+
+/**
+ * Genera metadata para página de búsqueda
+ */
+export function generateSearchMetadata(query?: string): Metadata {
+    const title = query
+        ? truncate(`Resultados para "${query}" | ${SITE_NAME}`, 60)
+        : `Búsqueda | ${SITE_NAME}`;
+
+    const description = query
+        ? truncate(`Resultados de búsqueda para "${query}" en ${SITE_NAME}`, 160)
+        : DEFAULT_DESCRIPTION;
+
+    return {
+        title,
+        description,
+        robots: {
+            index: false, // No indexar páginas de búsqueda
+            follow: true,
+        },
+    };
+}
+
+/**
+ * Genera metadata por defecto para el sitio
+ */
+export function generateDefaultMetadata(): Metadata {
+    return {
+        title: {
+            default: SITE_NAME,
+            template: `%s | ${SITE_NAME}`,
+        },
+        description: DEFAULT_DESCRIPTION,
+        keywords: [
+            'climatización',
+            'aire acondicionado',
+            'HVAC',
+            'sistemas de climatización',
+            'repuestos HVAC',
+            'instalación aire acondicionado',
+            'mantenimiento climatización',
+        ],
+        authors: [{ name: SITE_NAME }],
+        creator: SITE_NAME,
+        publisher: SITE_NAME,
+        alternates: {
+            canonical: SITE_URL,
+        },
+        openGraph: {
+            type: 'website',
+            locale: 'es_ES',
+            url: SITE_URL,
+            siteName: SITE_NAME,
+            title: SITE_NAME,
+            description: DEFAULT_DESCRIPTION,
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: SITE_NAME,
+            description: DEFAULT_DESCRIPTION,
+            creator: '@uniclima',
         },
         robots: {
             index: true,
@@ -68,153 +183,9 @@ export function generateSiteMetadata(): Metadata {
             },
         },
         verification: {
-            // google: 'tu-codigo-de-verificacion',
+            // Agregar cuando estén disponibles
+            // google: 'google-site-verification-code',
+            // yandex: 'yandex-verification-code',
         },
-    };
-}
-
-/**
- * Genera metadata para una página específica
- */
-export function generatePageMetadata(options: {
-    title: string;
-    description?: string;
-    image?: string;
-    noIndex?: boolean;
-}): Metadata {
-    const { title, description, image, noIndex } = options;
-
-    return {
-        title,
-        description: description || siteConfig.description,
-        openGraph: {
-            title,
-            description: description || siteConfig.description,
-            images: image ? [{ url: image }] : undefined,
-        },
-        twitter: {
-            title,
-            description: description || siteConfig.description,
-            images: image ? [image] : undefined,
-        },
-        robots: noIndex
-            ? {
-                index: false,
-                follow: false,
-            }
-            : undefined,
-    };
-}
-
-/**
- * Genera metadata para un producto
- */
-export function generateProductMetadata(product: {
-    name: string;
-    description?: string;
-    imageUrl?: string;
-    price?: number;
-    currency?: string;
-}): Metadata {
-    const { name, description, imageUrl, price, currency = 'EUR' } = product;
-
-    return {
-        title: name,
-        description: description || `Compra ${name} en ${siteConfig.name}`,
-        openGraph: {
-            title: name,
-            description: description || `Compra ${name} en ${siteConfig.name}`,
-            type: 'website',
-            images: imageUrl ? [{ url: imageUrl }] : undefined,
-        },
-        other: price
-            ? {
-                'product:price:amount': String(price / 100),
-                'product:price:currency': currency,
-            }
-            : undefined,
-    };
-}
-
-/**
- * JSON-LD para organización
- */
-export function generateOrganizationSchema() {
-    return {
-        '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: siteConfig.name,
-        url: siteConfig.url,
-        logo: `${siteConfig.url}/logo.png`,
-        contactPoint: {
-            '@type': 'ContactPoint',
-            telephone: '+34-900-000-000',
-            contactType: 'customer service',
-            availableLanguage: 'Spanish',
-        },
-        sameAs: [
-            // 'https://www.facebook.com/uniclima',
-            // 'https://www.linkedin.com/company/uniclima',
-        ],
-    };
-}
-
-/**
- * JSON-LD para producto
- */
-export function generateProductSchema(product: {
-    name: string;
-    description?: string;
-    imageUrl?: string;
-    price: number;
-    currency?: string;
-    sku?: string;
-    availability?: 'InStock' | 'OutOfStock' | 'PreOrder';
-}) {
-    const {
-        name,
-        description,
-        imageUrl,
-        price,
-        currency = 'EUR',
-        sku,
-        availability = 'InStock',
-    } = product;
-
-    return {
-        '@context': 'https://schema.org',
-        '@type': 'Product',
-        name,
-        description,
-        image: imageUrl,
-        sku,
-        offers: {
-            '@type': 'Offer',
-            price: (price / 100).toFixed(2),
-            priceCurrency: currency,
-            availability: `https://schema.org/${availability}`,
-            seller: {
-                '@type': 'Organization',
-                name: siteConfig.name,
-            },
-        },
-    };
-}
-
-/**
- * JSON-LD para breadcrumbs
- */
-export function generateBreadcrumbSchema(
-    items: Array<{ name: string; url: string }>
-) {
-    return {
-        '@context': 'https://schema.org',
-        '@type': 'BreadcrumbList',
-        itemListElement: items.map((item, index) => ({
-            '@type': 'ListItem',
-            position: index + 1,
-            name: item.name,
-            item: `${siteConfig.url}${item.url}`,
-        })),
     };
 }

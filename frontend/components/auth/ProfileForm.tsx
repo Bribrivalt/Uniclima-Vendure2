@@ -63,13 +63,13 @@ export function ProfileForm({
     title = 'Mi perfil',
     className,
 }: ProfileFormProps) {
-    const { user, updateProfile, updatePassword } = useAuth();
+    const { currentUser, updateProfile, updatePassword } = useAuth();
 
     // Estado del formulario de perfil
     const [profileData, setProfileData] = useState<ProfileData>({
-        firstName: '',
-        lastName: '',
-        email: '',
+        firstName: currentUser?.firstName || '',
+        lastName: currentUser?.lastName || '',
+        email: currentUser?.emailAddress || '',
         phone: '',
         company: '',
     });
@@ -92,16 +92,16 @@ export function ProfileForm({
 
     // Cargar datos del usuario
     useEffect(() => {
-        if (user) {
+        if (currentUser) {
             setProfileData({
-                firstName: user.firstName || '',
-                lastName: user.lastName || '',
-                email: user.emailAddress || '',
-                phone: user.phoneNumber || '',
-                company: user.customFields?.company || '',
+                firstName: currentUser.firstName || '',
+                lastName: currentUser.lastName || '',
+                email: currentUser.emailAddress || '',
+                phone: '',
+                company: '',
             });
         }
-    }, [user]);
+    }, [currentUser]);
 
     // Handler de cambio en perfil
     const handleProfileChange = (field: keyof ProfileData, value: string) => {
@@ -176,18 +176,28 @@ export function ProfileForm({
         setProfileError(null);
 
         try {
-            await updateProfile({
+            const result = await updateProfile({
                 firstName: profileData.firstName,
                 lastName: profileData.lastName,
                 phoneNumber: profileData.phone,
             });
-            setProfileSuccess(true);
-            onSuccess?.();
+
+            if (result.success) {
+                setProfileSuccess(true);
+                setProfileError(null);
+                onSuccess?.();
+            } else {
+                setProfileError(result.error || 'Error al actualizar el perfil');
+                setProfileSuccess(false);
+                onError?.(result.error || 'Error al actualizar el perfil');
+            }
         } catch (error) {
+            console.error('Error al actualizar perfil:', error);
             const message = error instanceof Error
                 ? error.message
                 : 'Error al actualizar el perfil';
             setProfileError(message);
+            setProfileSuccess(false);
             onError?.(message);
         } finally {
             setProfileLoading(false);
@@ -203,15 +213,28 @@ export function ProfileForm({
         setPasswordError(null);
 
         try {
-            await updatePassword(passwordData.currentPassword, passwordData.newPassword);
-            setPasswordSuccess(true);
-            setPasswordData({
-                currentPassword: '',
-                newPassword: '',
-                confirmPassword: '',
-            });
-            onSuccess?.();
+            const result = await updatePassword(
+                passwordData.currentPassword,
+                passwordData.newPassword
+            );
+
+            if (result.success) {
+                setPasswordSuccess(true);
+                setPasswordError(null);
+                // Limpiar formulario
+                setPasswordData({
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmPassword: '',
+                });
+                onSuccess?.();
+            } else {
+                setPasswordError(result.error || 'Error al cambiar la contraseña');
+                setPasswordSuccess(false);
+                onError?.(result.error || 'Error al cambiar la contraseña');
+            }
         } catch (error) {
+            console.error('Error al cambiar contraseña:', error);
             const message = error instanceof Error
                 ? error.message
                 : 'Error al cambiar la contraseña';
@@ -231,13 +254,13 @@ export function ProfileForm({
                 {title && <h2 className={styles.title}>{title}</h2>}
 
                 {profileSuccess && (
-                    <Alert variant="success" className={styles.alert}>
+                    <Alert type="success">
                         Perfil actualizado correctamente
                     </Alert>
                 )}
 
                 {profileError && (
-                    <Alert variant="error" className={styles.alert}>
+                    <Alert type="error">
                         {profileError}
                     </Alert>
                 )}
@@ -323,13 +346,13 @@ export function ProfileForm({
                     <h3 className={styles.subtitle}>Cambiar contraseña</h3>
 
                     {passwordSuccess && (
-                        <Alert variant="success" className={styles.alert}>
+                        <Alert type="success">
                             Contraseña actualizada correctamente
                         </Alert>
                     )}
 
                     {passwordError && (
-                        <Alert variant="error" className={styles.alert}>
+                        <Alert type="error">
                             {passwordError}
                         </Alert>
                     )}

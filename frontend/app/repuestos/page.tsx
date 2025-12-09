@@ -83,7 +83,10 @@ export default function RepuestosPage() {
                 <div className={styles.searchWrapper}>
                     <ProductSearch onSearch={setSearchQuery} />
                 </div>
-                <ProductSort value={sortOption} onChange={setSortOption} />
+                <ProductSort
+                    value={sortOption}
+                    onChange={(value) => setSortOption(value as SortOption)}
+                />
             </div>
 
             {/* Stats */}

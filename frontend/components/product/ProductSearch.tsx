@@ -17,6 +17,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLazyQuery, gql } from '@apollo/client';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './ProductSearch.module.css';
 
 /**
@@ -328,7 +329,7 @@ export function ProductSearch({
                                     {/* Imagen del producto */}
                                     <div className={styles.suggestionImage}>
                                         {product.featuredAsset ? (
-                                            <img
+                                            <Image
                                                 src={product.featuredAsset.preview}
                                                 alt=""
                                                 width={40}

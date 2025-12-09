@@ -88,7 +88,7 @@ export const MobileFilterDrawer: React.FC<MobileFilterDrawerProps> = ({
     const closeButtonRef = useRef<HTMLButtonElement>(null);
 
     // Activar focus trap cuando el drawer está abierto
-    useFocusTrap(drawerRef, isOpen);
+    useFocusTrap(isOpen);
 
     /**
      * Cerrar el drawer con la tecla Escape

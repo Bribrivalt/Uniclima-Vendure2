@@ -25,4 +25,9 @@ const nextConfig = {
     },
 }
 
-module.exports = nextConfig
+// Bundle analyzer - usar con: ANALYZE=true npm run build
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+    enabled: process.env.ANALYZE === 'true',
+})
+
+module.exports = withBundleAnalyzer(nextConfig)

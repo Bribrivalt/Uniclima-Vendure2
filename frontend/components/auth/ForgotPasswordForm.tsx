@@ -173,7 +173,7 @@ export function ForgotPasswordForm({
 
             {/* Error general */}
             {generalError && (
-                <Alert variant="error" className={styles.alert}>
+                <Alert type="error">
                     {generalError}
                 </Alert>
             )}
@@ -192,7 +192,7 @@ export function ForgotPasswordForm({
                         autoComplete="email"
                         required
                         fullWidth
-                        leftIcon={<EmailIcon />}
+                        icon={<EmailIcon />}
                     />
                 </div>
 

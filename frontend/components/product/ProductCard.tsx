@@ -59,7 +59,7 @@ export function ProductCard({ product, showSpecs = true }: ProductCardProps) {
     return (
         <div className={styles.card}>
             {/* Enlace a la imagen del producto */}
-            <Link href={`/productos/${product.slug}`} className={styles.imageLink}>
+            <Link href={`/productos/${product.slug}`} className={styles.imageLink} prefetch={true}>
                 <div className={styles.imageWrapper}>
                     <Image
                         src={imageUrl}
@@ -87,7 +87,7 @@ export function ProductCard({ product, showSpecs = true }: ProductCardProps) {
 
             <div className={styles.content}>
                 {/* Nombre del producto con enlace */}
-                <Link href={`/productos/${product.slug}`} className={styles.titleLink}>
+                <Link href={`/productos/${product.slug}`} className={styles.titleLink} prefetch={true}>
                     <h3 className={styles.title}>{product.name}</h3>
                 </Link>
 

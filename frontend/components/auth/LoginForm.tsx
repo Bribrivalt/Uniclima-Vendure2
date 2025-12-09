@@ -123,7 +123,7 @@ export function LoginForm({
         setLoading(true);
 
         try {
-            await login(email, password, rememberMe);
+            await login(email, password);
             onSuccess?.();
             router.push(redirectTo);
         } catch (error) {
@@ -162,7 +162,7 @@ export function LoginForm({
 
             {/* Error general */}
             {generalError && (
-                <Alert variant="error" className={styles.alert}>
+                <Alert type="error">
                     {generalError}
                 </Alert>
             )}
@@ -181,7 +181,7 @@ export function LoginForm({
                         autoComplete="email"
                         required
                         fullWidth
-                        leftIcon={<EmailIcon />}
+                        icon={<EmailIcon />}
                     />
                 </div>
 
@@ -197,17 +197,7 @@ export function LoginForm({
                         autoComplete="current-password"
                         required
                         fullWidth
-                        leftIcon={<LockIcon />}
-                        rightElement={
-                            <button
-                                type="button"
-                                className={styles.togglePassword}
-                                onClick={() => setShowPassword(!showPassword)}
-                                aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                            >
-                                {showPassword ? '👁️' : '👁️‍🗨️'}
-                            </button>
-                        }
+                        icon={<LockIcon />}
                     />
                 </div>
 
