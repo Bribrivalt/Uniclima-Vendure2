@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, Breadcrumb } from '@/components/core';
+import { Accordion, AccordionItem, Breadcrumb } from '@/components/core';
 import styles from './page.module.css';
 
 /**
@@ -225,16 +225,17 @@ export default function FAQPage() {
                         </h2>
 
                         <div className={styles.faqList}>
-                            <Accordion
-                                items={category.items.map(faq => ({
-                                    id: faq.id,
-                                    title: faq.question,
-                                    content: (
+                            <Accordion allowMultiple>
+                                {category.items.map(faq => (
+                                    <AccordionItem
+                                        key={faq.id}
+                                        id={faq.id}
+                                        title={faq.question}
+                                    >
                                         <p className={styles.answer}>{faq.answer}</p>
-                                    ),
-                                }))}
-                                allowMultiple
-                            />
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
                         </div>
                     </section>
                 ))}

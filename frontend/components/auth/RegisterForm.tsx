@@ -209,7 +209,7 @@ export function RegisterForm({
 
             {/* Error general */}
             {generalError && (
-                <Alert variant="error" className={styles.alert}>
+                <Alert type="error">
                     {generalError}
                 </Alert>
             )}

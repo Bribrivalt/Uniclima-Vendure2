@@ -231,13 +231,13 @@ export function ProfileForm({
                 {title && <h2 className={styles.title}>{title}</h2>}
 
                 {profileSuccess && (
-                    <Alert variant="success" className={styles.alert}>
+                    <Alert type="success">
                         Perfil actualizado correctamente
                     </Alert>
                 )}
 
                 {profileError && (
-                    <Alert variant="error" className={styles.alert}>
+                    <Alert type="error">
                         {profileError}
                     </Alert>
                 )}
@@ -323,13 +323,13 @@ export function ProfileForm({
                     <h3 className={styles.subtitle}>Cambiar contraseña</h3>
 
                     {passwordSuccess && (
-                        <Alert variant="success" className={styles.alert}>
+                        <Alert type="success">
                             Contraseña actualizada correctamente
                         </Alert>
                     )}
 
                     {passwordError && (
-                        <Alert variant="error" className={styles.alert}>
+                        <Alert type="error">
                             {passwordError}
                         </Alert>
                     )}
