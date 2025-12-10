@@ -1,5 +1,10 @@
 /* ========================================
-   LOGIN PAGE - Estilo WooCommerce
+   LOGIN PAGE - Uniclima Solutions
+   Página de acceso profesional
+   ======================================== */
+
+/* ========================================
+   PAGE CONTAINER
    ======================================== */
 
 .pageContainer {
@@ -7,16 +12,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-8) var(--spacing-4);
-    background-color: #f5f5f5;
+    padding: var(--spacing-12) var(--spacing-4);
+    background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-50) 100%);
+    position: relative;
+}
+
+.pageContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 300px;
+    background: var(--gradient-hero);
+    z-index: 0;
 }
 
 .contentWrapper {
+    position: relative;
+    z-index: 1;
     width: 100%;
-    max-width: 500px;
-    background: white;
-    border-radius: var(--border-radius-md);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 480px;
+    background: var(--color-surface);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-xl);
     overflow: hidden;
 }
 
@@ -26,34 +45,48 @@
 
 .tabs {
     display: flex;
-    border-bottom: 1px solid #e0e0e0;
-    background-color: #fafafa;
+    background-color: var(--color-gray-50);
+    border-bottom: 1px solid var(--color-border-light);
 }
 
 .tab {
     flex: 1;
     padding: var(--spacing-4) var(--spacing-6);
     font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    color: #666;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
     background: none;
     border: none;
     cursor: pointer;
     transition: all var(--transition-base);
     text-decoration: none;
     text-align: center;
-    border-bottom: 3px solid transparent;
+    position: relative;
+}
+
+.tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: transparent;
+    transition: background-color var(--transition-fast);
 }
 
 .tab:hover {
-    color: #cc0000;
-    background-color: #fff;
+    color: var(--color-primary);
+    background-color: var(--color-surface);
 }
 
 .tabActive {
-    color: #cc0000;
-    background-color: #fff;
-    border-bottom-color: #cc0000;
+    color: var(--color-primary);
+    background-color: var(--color-surface);
+}
+
+.tabActive::after {
+    background: var(--gradient-primary);
 }
 
 /* ========================================
@@ -61,21 +94,21 @@
    ======================================== */
 
 .formContainer {
-    padding: var(--spacing-8) var(--spacing-6);
+    padding: var(--spacing-10) var(--spacing-8);
 }
 
 .title {
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-bold);
-    color: #333;
+    color: var(--color-text-primary);
     margin: 0 0 var(--spacing-2) 0;
     text-align: center;
 }
 
 .subtitle {
-    font-size: var(--font-size-sm);
-    color: #666;
-    margin: 0 0 var(--spacing-6) 0;
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--spacing-8) 0;
     text-align: center;
 }
 
@@ -87,11 +120,11 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-3);
-    padding: var(--spacing-3) var(--spacing-4);
-    background-color: #fee;
-    border: 1px solid #fcc;
-    border-radius: var(--border-radius-base);
-    color: #c00;
+    padding: var(--spacing-4);
+    background-color: var(--color-danger-50);
+    border: 1px solid var(--color-danger-200);
+    border-radius: var(--border-radius-lg);
+    color: var(--color-danger-700);
     font-size: var(--font-size-sm);
     margin-bottom: var(--spacing-6);
 }
@@ -100,6 +133,7 @@
     width: 20px;
     height: 20px;
     flex-shrink: 0;
+    color: var(--color-danger);
 }
 
 /* ========================================
@@ -121,7 +155,6 @@
     justify-content: space-between;
     align-items: center;
     gap: var(--spacing-4);
-    margin-top: calc(var(--spacing-2) * -1);
 }
 
 .checkboxLabel {
@@ -129,28 +162,91 @@
     align-items: center;
     gap: var(--spacing-2);
     font-size: var(--font-size-sm);
-    color: #666;
+    color: var(--color-text-secondary);
     cursor: pointer;
     user-select: none;
+    transition: color var(--transition-fast);
+}
+
+.checkboxLabel:hover {
+    color: var(--color-text-primary);
 }
 
 .checkbox {
     width: 18px;
     height: 18px;
     cursor: pointer;
-    accent-color: #cc0000;
+    accent-color: var(--color-primary);
+    border-radius: var(--border-radius-sm);
 }
 
 .forgotLink {
     font-size: var(--font-size-sm);
-    color: #cc0000;
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
     text-decoration: none;
-    transition: color var(--transition-base);
+    transition: all var(--transition-fast);
 }
 
 .forgotLink:hover {
-    color: #e30000;
+    color: var(--color-primary-dark);
     text-decoration: underline;
+}
+
+/* ========================================
+   SOCIAL LOGIN
+   ======================================== */
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    margin: var(--spacing-6) 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-border-light);
+}
+
+.dividerText {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+}
+
+.socialButtons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3);
+}
+
+.socialButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-3) var(--spacing-4);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.socialButton:hover {
+    background-color: var(--color-gray-50);
+    border-color: var(--color-border-dark);
+}
+
+.socialButton svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* ========================================
@@ -158,28 +254,55 @@
    ======================================== */
 
 .registerPrompt {
-    margin-top: var(--spacing-6);
+    margin-top: var(--spacing-8);
     padding-top: var(--spacing-6);
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid var(--color-border-light);
     text-align: center;
 }
 
 .registerPrompt p {
     margin: 0;
     font-size: var(--font-size-sm);
-    color: #666;
+    color: var(--color-text-secondary);
 }
 
 .registerLink {
-    color: #cc0000;
-    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
     text-decoration: none;
-    transition: color var(--transition-base);
+    transition: all var(--transition-fast);
 }
 
 .registerLink:hover {
-    color: #e30000;
+    color: var(--color-primary-dark);
     text-decoration: underline;
+}
+
+/* ========================================
+   FEATURES STRIP
+   ======================================== */
+
+.featuresStrip {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-8);
+    padding: var(--spacing-4) var(--spacing-6);
+    background-color: var(--color-gray-50);
+    border-top: 1px solid var(--color-border-light);
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+}
+
+.feature svg {
+    width: 16px;
+    height: 16px;
+    color: var(--color-success);
 }
 
 /* ========================================
@@ -188,15 +311,29 @@
 
 @media (max-width: 640px) {
     .pageContainer {
-        padding: var(--spacing-4) var(--spacing-2);
+        padding: var(--spacing-6) var(--spacing-4);
+        align-items: flex-start;
+    }
+
+    .pageContainer::before {
+        height: 200px;
+    }
+
+    .contentWrapper {
+        margin-top: var(--spacing-10);
     }
 
     .formContainer {
-        padding: var(--spacing-6) var(--spacing-4);
+        padding: var(--spacing-6) var(--spacing-5);
     }
 
     .title {
         font-size: var(--font-size-xl);
+    }
+
+    .subtitle {
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--spacing-6);
     }
 
     .formOptions {
@@ -208,5 +345,25 @@
     .tab {
         padding: var(--spacing-3) var(--spacing-4);
         font-size: var(--font-size-sm);
+    }
+
+    .socialButtons {
+        grid-template-columns: 1fr;
+    }
+
+    .featuresStrip {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-3);
+    }
+}
+
+@media (max-width: 480px) {
+    .formContainer {
+        padding: var(--spacing-5) var(--spacing-4);
+    }
+
+    .title {
+        font-size: var(--font-size-lg);
     }
 }

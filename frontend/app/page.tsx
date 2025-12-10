@@ -172,19 +172,27 @@ export default function Home() {
                 <div className={styles.container}>
                     <div className={styles.heroContent}>
                         <h1 className={styles.heroTitle}>
-                            Técnicos de calderas de gas en Madrid
+                            CALDERAS EN MADRID
                         </h1>
+                        <div className={styles.heroBanner}>
+                            TU CONFORT Y BIENESTAR ES NUESTRA PRIORIDAD.
+                        </div>
                         <p className={styles.heroSubtitle}>
-                            En Uniclima somos especialistas en Instalación, reparación y mantenimiento
-                            de equipos calefacción, aire acondicionado y aerotermia
+                            En Uniclima Solutions convertimos la climatización de tu hogar en una
+                            experiencia de máximo confort y ahorro energético. Instalamos, reparamos y
+                            mantenemos calderas y sistemas de aire acondicionado en toda Madrid, con
+                            soluciones rápidas, eficientes y duraderas.
                         </p>
                         <div className={styles.heroButtons}>
-                            <Link href="/productos" className={styles.heroBtnPrimary}>
-                                Ver Catálogo
-                                <ArrowRightIcon />
+                            <Link href="/contacto" className={styles.heroBtnPrimary}>
+                                CONTÁCTANOS
                             </Link>
-                            <Link href="/contacto" className={styles.heroBtnSecondary}>
-                                Pedir Presupuesto
+                            <a href="tel:+34911177777" className={styles.heroBtnSecondary}>
+                                <PhoneIcon />
+                                LLÁMANOS
+                            </a>
+                            <Link href="/productos" className={styles.heroBtnTertiary}>
+                                🛒 TIENDA
                             </Link>
                         </div>
                     </div>

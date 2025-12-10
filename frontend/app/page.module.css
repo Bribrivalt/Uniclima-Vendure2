@@ -73,6 +73,19 @@
     margin-bottom: var(--spacing-6);
 }
 
+.heroBanner {
+    display: inline-block;
+    background-color: #dc2626;
+    color: white;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--spacing-3) var(--spacing-8);
+    border-radius: 50px;
+    margin-bottom: var(--spacing-6);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .heroSubtitle {
     font-size: var(--font-size-lg);
     color: rgba(255, 255, 255, 0.9);
@@ -134,6 +147,32 @@
 .heroBtnSecondary:hover {
     background-color: rgba(255, 255, 255, 0.1);
     border-color: white;
+}
+
+.heroBtnSecondary svg {
+    width: 20px;
+    height: 20px;
+}
+
+.heroBtnTertiary {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-4) var(--spacing-8);
+    background-color: #dc2626;
+    color: white;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--border-radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+}
+
+.heroBtnTertiary:hover {
+    background-color: #b91c1c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
 }
 
 /* ========================================

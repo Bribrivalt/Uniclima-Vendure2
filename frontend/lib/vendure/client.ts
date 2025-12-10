@@ -20,7 +20,7 @@ import { onError } from '@apollo/client/link/error';
 // ========================================
 
 /** Endpoint de Vendure Shop API */
-const VENDURE_SHOP_API = process.env.NEXT_PUBLIC_VENDURE_SHOP_API || 'http://localhost:3001/shop-api';
+const VENDURE_SHOP_API = process.env.NEXT_PUBLIC_VENDURE_SHOP_API || '/shop-api';
 
 /** Clave para guardar el token de sesión de Vendure en localStorage */
 const VENDURE_TOKEN_KEY = 'vendure-token';
