@@ -6,8 +6,9 @@
 2. [Custom Fields HVAC](#custom-fields-hvac)
 3. [Facets y Collections](#facets-y-collections)
 4. [Configuración E-commerce](#configuración-e-commerce)
-5. [Emails](#emails)
-6. [Scripts Disponibles](#scripts-disponibles)
+5. [Stripe - Pasarela de Pagos](#stripe---pasarela-de-pagos)
+6. [Emails](#emails)
+7. [Scripts Disponibles](#scripts-disponibles)
 
 ---
 
@@ -174,7 +175,75 @@ query GetProduct($slug: String!) {
 
 ### Métodos de Pago
 - **Desarrollo:** Dummy Payment (testing)
-- **Producción:** Stripe, PayPal, Redsys (pendiente)
+- **Producción:** Stripe (configurado), PayPal y Redsys (pendientes)
+
+---
+
+## Stripe - Pasarela de Pagos
+
+### Estado de la Integración
+✅ Plugin instalado (`@vendure/payments-plugin`)
+✅ Configurado en `vendure-config.ts`
+⏳ Pendiente: Configurar claves API en Dashboard Admin
+
+### Configuración del Plugin
+El plugin de Stripe está configurado en `vendure-config.ts`:
+
+```typescript
+import { StripePlugin } from '@vendure/payments-plugin/package/stripe';
+
+StripePlugin.init({
+    storeCustomersInStripe: true,
+    metadata: async (injector, ctx, order) => {
+        return {
+            orderCode: order.code,
+            channelToken: ctx.channel.token,
+        };
+    },
+}),
+```
+
+### Configurar Stripe en Dashboard Admin
+
+1. Ir a `http://localhost:3001/dashboard`
+2. **Settings** → **Payment Methods** → **+ Create**
+3. Configurar:
+   - **Name:** `Tarjeta de crédito/débito`
+   - **Code:** `stripe`
+   - **Handler:** `Stripe payments`
+4. Introducir las claves:
+   - **API Key:** `sk_test_...` (clave secreta)
+   - **Webhook Secret:** `whsec_...`
+5. Guardar
+
+### Configurar Webhooks en Stripe
+
+1. Ir al [Dashboard de Stripe → Webhooks](https://dashboard.stripe.com/webhooks)
+2. Crear endpoint: `https://tu-dominio.com/payments/stripe`
+3. Eventos a enviar:
+   - `payment_intent.succeeded`
+   - `payment_intent.payment_failed`
+   - `payment_intent.canceled`
+4. Copiar el **Signing secret** (`whsec_...`) y configurarlo en Vendure
+
+### Tarjetas de Prueba
+
+| Número | Resultado |
+|--------|-----------|
+| `4242 4242 4242 4242` | Pago exitoso |
+| `4000 0000 0000 3220` | Requiere 3D Secure |
+| `4000 0000 0000 9995` | Pago rechazado |
+
+- **Fecha:** Cualquier fecha futura
+- **CVC:** 3 dígitos cualquiera
+
+### Probar Webhooks Localmente
+
+```bash
+# Instalar Stripe CLI
+stripe login
+stripe listen --forward-to localhost:3001/payments/stripe
+```
 
 ---
 
