@@ -295,8 +295,9 @@ export const config: VendureConfig = {
         // ═══════════════════════════════════════════════════════════════════════
         StripePlugin.init({
             // Almacenar clientes en Stripe para facilitar pagos recurrentes
-            // NOTA: Esto requiere migración de BD para añadir el campo stripeCustomerId
-            storeCustomersInStripe: true,
+            // NOTA: Desactivado temporalmente hasta hacer migración de BD
+            // Para activar: storeCustomersInStripe: true (requiere BD limpia o migración)
+            storeCustomersInStripe: false,
             // Metadatos adicionales para identificar pedidos en el dashboard de Stripe
             metadata: async (injector, ctx, order) => {
                 return {
