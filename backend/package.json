@@ -9,7 +9,8 @@
     "build": "tsc",
     "start:server": "node ./dist/index.js",
     "start:worker": "node ./dist/index-worker.js",
-    "start": "concurrently npm:start:*"
+    "start": "concurrently npm:start:*",
+    "import:excel": "ts-node ./scripts/import-products-excel.ts"
   },
   "dependencies": {
     "@vendure/asset-server-plugin": "3.5.1",
@@ -28,6 +29,7 @@
     "concurrently": "9.2.1",
     "ts-node": "^10.9.2",
     "typescript": "5.8.2",
-    "vite": "^6.0.0"
+    "vite": "^6.0.0",
+    "xlsx": "^0.18.5"
   }
 }
