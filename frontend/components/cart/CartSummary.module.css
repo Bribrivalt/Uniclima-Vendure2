@@ -1,21 +1,29 @@
 /* ========================================
-   SUMMARY
+   Cart Summary - Uniclima Solutions
+   Resumen del carrito con totales y acciones
+   ======================================== */
+
+/* ========================================
+   SUMMARY CONTAINER
    ======================================== */
 
 .summary {
-    background: white;
-    border: 2px solid #e0e0e0;
-    border-radius: var(--border-radius-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--border-radius-xl);
     padding: var(--spacing-6);
     position: sticky;
-    top: var(--spacing-4);
+    top: calc(80px + var(--spacing-4));
+    box-shadow: var(--shadow-card);
 }
 
 .title {
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-bold);
-    color: #333;
-    margin: 0 0 var(--spacing-4) 0;
+    color: var(--color-text-primary);
+    margin: 0 0 var(--spacing-5) 0;
+    padding-bottom: var(--spacing-4);
+    border-bottom: 1px solid var(--color-border-light);
 }
 
 /* ========================================
@@ -26,7 +34,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--spacing-3);
-    margin-bottom: var(--spacing-4);
+    margin-bottom: var(--spacing-5);
 }
 
 .row {
@@ -37,23 +45,28 @@
 
 .label {
     font-size: var(--font-size-sm);
-    color: #666;
+    color: var(--color-text-secondary);
 }
 
 .value {
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
-    color: #333;
+    color: var(--color-text-primary);
 }
 
 .free {
-    color: #22c55e;
+    color: var(--color-success);
     font-weight: var(--font-weight-bold);
+}
+
+.discount {
+    color: var(--color-success);
+    font-weight: var(--font-weight-medium);
 }
 
 .divider {
     height: 1px;
-    background: #e0e0e0;
+    background: var(--color-border-light);
     margin: var(--spacing-2) 0;
 }
 
@@ -65,19 +78,124 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: var(--spacing-2);
+    padding-top: var(--spacing-4);
+    border-top: 2px solid var(--color-border);
 }
 
 .totalLabel {
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-bold);
-    color: #333;
+    color: var(--color-text-primary);
 }
 
 .totalValue {
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-bold);
-    color: #cc0000;
+    color: var(--color-primary);
+}
+
+.taxNote {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    text-align: right;
+    margin-top: var(--spacing-1);
+}
+
+/* ========================================
+   PROMO CODE SECTION
+   ======================================== */
+
+.promoSection {
+    margin-top: var(--spacing-5);
+    padding-top: var(--spacing-5);
+    border-top: 1px solid var(--color-border-light);
+}
+
+.promoTitle {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-3);
+}
+
+.promoForm {
+    display: flex;
+    gap: var(--spacing-2);
+}
+
+.promoInput {
+    flex: 1;
+    padding: var(--spacing-3);
+    font-size: var(--font-size-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    transition: all var(--transition-fast);
+}
+
+.promoInput:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-alpha-20);
+}
+
+.promoInput::placeholder {
+    color: var(--color-text-tertiary);
+}
+
+.promoButton {
+    padding: var(--spacing-3) var(--spacing-4);
+    background-color: var(--color-secondary);
+    color: white;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    border: none;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.promoButton:hover {
+    background-color: var(--color-gray-800);
+}
+
+.promoApplied {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-3);
+    background-color: var(--color-success-50);
+    border: 1px solid var(--color-success-200);
+    border-radius: var(--border-radius-md);
+}
+
+.promoCode {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-success-700);
+}
+
+.promoCode svg {
+    width: 16px;
+    height: 16px;
+}
+
+.promoRemove {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: var(--spacing-1);
+    font-size: var(--font-size-xs);
+    transition: color var(--transition-fast);
+}
+
+.promoRemove:hover {
+    color: var(--color-danger);
 }
 
 /* ========================================
@@ -87,37 +205,45 @@
 .checkoutButton {
     width: 100%;
     padding: var(--spacing-4);
-    background: #cc0000;
+    background: var(--gradient-primary);
     color: white;
     border: none;
     border-radius: var(--border-radius-lg);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-bold);
     cursor: pointer;
-    transition: all var(--transition-base);
+    transition: all var(--transition-fast);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--spacing-2);
+    margin-top: var(--spacing-5);
+    box-shadow: var(--shadow-primary-sm);
 }
 
 .checkoutButton:hover:not(:disabled) {
-    background: #e30000;
+    background: var(--gradient-primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.3);
+    box-shadow: var(--shadow-primary);
 }
 
 .checkoutButton:disabled {
-    background: #ccc;
+    background: var(--color-gray-300);
     cursor: not-allowed;
     transform: none;
+    box-shadow: none;
+}
+
+.checkoutButton svg {
+    width: 20px;
+    height: 20px;
 }
 
 .spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid white;
-    border-top-color: transparent;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
     border-radius: 50%;
     animation: spin 0.6s linear infinite;
 }
@@ -129,29 +255,87 @@
 }
 
 /* ========================================
-   INFO
+   CONTINUE SHOPPING
+   ======================================== */
+
+.continueLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    margin-top: var(--spacing-4);
+    padding: var(--spacing-3);
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.continueLink:hover {
+    background-color: var(--color-gray-50);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-dark);
+}
+
+.continueLink svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ========================================
+   INFO BADGES
    ======================================== */
 
 .info {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-2);
-    margin-top: var(--spacing-4);
-    padding-top: var(--spacing-4);
-    border-top: 1px solid #e0e0e0;
+    gap: var(--spacing-3);
+    margin-top: var(--spacing-5);
+    padding-top: var(--spacing-5);
+    border-top: 1px solid var(--color-border-light);
 }
 
 .infoItem {
     display: flex;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-3);
     font-size: var(--font-size-sm);
-    color: #666;
+    color: var(--color-text-secondary);
 }
 
 .infoItem svg {
-    color: #22c55e;
+    width: 18px;
+    height: 18px;
+    color: var(--color-success);
     flex-shrink: 0;
+}
+
+/* ========================================
+   PAYMENT METHODS
+   ======================================== */
+
+.paymentMethods {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-3);
+    margin-top: var(--spacing-5);
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--color-border-light);
+}
+
+.paymentMethods img {
+    height: 24px;
+    opacity: 0.6;
+    transition: opacity var(--transition-fast);
+}
+
+.paymentMethods img:hover {
+    opacity: 1;
 }
 
 /* ========================================
@@ -166,7 +350,7 @@
 
 @media (max-width: 768px) {
     .summary {
-        padding: var(--spacing-4);
+        padding: var(--spacing-5);
     }
 
     .title {
@@ -175,5 +359,24 @@
 
     .totalValue {
         font-size: var(--font-size-xl);
+    }
+
+    .checkoutButton {
+        padding: var(--spacing-3);
+    }
+}
+
+@media (max-width: 480px) {
+    .summary {
+        padding: var(--spacing-4);
+        border-radius: var(--border-radius-lg);
+    }
+
+    .promoForm {
+        flex-direction: column;
+    }
+
+    .promoButton {
+        width: 100%;
     }
 }

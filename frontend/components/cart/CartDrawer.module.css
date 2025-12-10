@@ -1,5 +1,5 @@
 /**
- * CartDrawer.module.css
+ * CartDrawer.module.css - Uniclima Solutions
  * Estilos para el panel lateral del carrito de compras
  * Incluye overlay, drawer slide-in, header, contenido y footer
  */
@@ -11,11 +11,12 @@
 .overlay {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: var(--z-index-modal-backdrop, 1040);
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: var(--z-index-modal-backdrop);
     opacity: 0;
     visibility: hidden;
-    transition: opacity var(--transition-normal), visibility var(--transition-normal);
+    transition: all var(--transition-base);
+    backdrop-filter: blur(2px);
 }
 
 .overlayVisible {
@@ -33,14 +34,14 @@
     right: 0;
     height: 100vh;
     width: 100%;
-    max-width: 420px;
-    background-color: var(--color-bg-primary);
-    box-shadow: var(--shadow-xl);
-    z-index: var(--z-index-modal, 1050);
+    max-width: 440px;
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-2xl);
+    z-index: var(--z-index-modal);
     display: flex;
     flex-direction: column;
     transform: translateX(100%);
-    transition: transform var(--transition-normal);
+    transition: transform var(--transition-base);
 }
 
 .container.open {
@@ -55,23 +56,24 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--spacing-md) var(--spacing-lg);
-    border-bottom: 1px solid var(--color-border);
+    padding: var(--spacing-5) var(--spacing-6);
+    border-bottom: 1px solid var(--color-border-light);
+    background-color: var(--color-surface);
     flex-shrink: 0;
 }
 
 .headerTitle {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-3);
 }
 
 .cartIconWrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     color: var(--color-primary);
 }
 
@@ -87,20 +89,21 @@
     color: var(--color-text-primary);
     display: flex;
     align-items: center;
-    gap: var(--spacing-xs);
+    gap: var(--spacing-2);
 }
 
 .itemCount {
     font-weight: var(--font-weight-normal);
     color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
 }
 
 .closeButton {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     padding: 0;
     background: none;
     border: none;
@@ -111,7 +114,7 @@
 }
 
 .closeButton:hover {
-    background-color: var(--color-bg-hover);
+    background-color: var(--color-gray-100);
     color: var(--color-text-primary);
 }
 
@@ -121,8 +124,8 @@
 }
 
 .closeButton svg {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
 }
 
 /* ============================================
@@ -132,7 +135,24 @@
 .content {
     flex: 1;
     overflow-y: auto;
-    padding: var(--spacing-md);
+    padding: var(--spacing-5);
+}
+
+.content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.content::-webkit-scrollbar-track {
+    background: var(--color-gray-100);
+}
+
+.content::-webkit-scrollbar-thumb {
+    background: var(--color-gray-300);
+    border-radius: 3px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+    background: var(--color-gray-400);
 }
 
 /* ============================================
@@ -145,15 +165,15 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: var(--spacing-2xl) var(--spacing-lg);
+    padding: var(--spacing-12) var(--spacing-6);
     height: 100%;
 }
 
 .emptyIcon {
-    width: 80px;
-    height: 80px;
-    color: var(--color-text-tertiary);
-    margin-bottom: var(--spacing-lg);
+    width: 100px;
+    height: 100px;
+    color: var(--color-gray-300);
+    margin-bottom: var(--spacing-6);
 }
 
 .emptyIcon svg {
@@ -162,34 +182,39 @@
 }
 
 .emptyTitle {
-    margin: 0 0 var(--spacing-xs) 0;
-    font-size: var(--font-size-lg);
+    margin: 0 0 var(--spacing-2) 0;
+    font-size: var(--font-size-xl);
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
 }
 
 .emptyText {
-    margin: 0 0 var(--spacing-lg) 0;
-    font-size: var(--font-size-md);
+    margin: 0 0 var(--spacing-6) 0;
+    font-size: var(--font-size-base);
     color: var(--color-text-secondary);
+    max-width: 280px;
 }
 
 .emptyButton {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-sm) var(--spacing-lg);
-    background-color: var(--color-primary);
+    gap: var(--spacing-2);
+    padding: var(--spacing-3) var(--spacing-6);
+    background: var(--gradient-primary);
     color: white;
-    font-size: var(--font-size-md);
-    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
     text-decoration: none;
-    border-radius: var(--border-radius-md);
-    transition: background-color var(--transition-fast);
+    border-radius: var(--border-radius-lg);
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-primary-sm);
 }
 
 .emptyButton:hover {
-    background-color: var(--color-primary-dark);
+    background: var(--gradient-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary);
 }
 
 /* ============================================
@@ -202,11 +227,11 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
+    gap: var(--spacing-4);
 }
 
 .itemWrapper {
-    padding-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-4);
     border-bottom: 1px solid var(--color-border-light);
 }
 
@@ -220,9 +245,9 @@
    ============================================ */
 
 .footer {
-    border-top: 1px solid var(--color-border);
-    padding: var(--spacing-md) var(--spacing-lg);
-    background-color: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border-light);
+    padding: var(--spacing-5) var(--spacing-6);
+    background-color: var(--color-gray-50);
     flex-shrink: 0;
 }
 
@@ -233,8 +258,8 @@
 .summary {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xs);
-    margin-bottom: var(--spacing-md);
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-5);
 }
 
 .summaryRow {
@@ -250,23 +275,24 @@
 
 .summaryValue {
     font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
     color: var(--color-text-primary);
 }
 
 .summaryTotal {
-    padding-top: var(--spacing-sm);
-    border-top: 1px solid var(--color-border);
-    margin-top: var(--spacing-xs);
+    padding-top: var(--spacing-4);
+    border-top: 2px solid var(--color-border);
+    margin-top: var(--spacing-2);
 }
 
 .summaryTotal .summaryLabel {
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
 }
 
 .summaryTotal .summaryValue {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
     font-weight: var(--font-weight-bold);
     color: var(--color-primary);
 }
@@ -278,46 +304,119 @@
 .actions {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-sm);
+    gap: var(--spacing-3);
 }
 
 .viewCartButton {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-sm) var(--spacing-md);
-    background-color: transparent;
+    padding: var(--spacing-3) var(--spacing-5);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     color: var(--color-text-primary);
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
     text-decoration: none;
-    border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-lg);
     transition: all var(--transition-fast);
 }
 
 .viewCartButton:hover {
-    background-color: var(--color-bg-hover);
-    border-color: var(--color-text-secondary);
+    background-color: var(--color-gray-100);
+    border-color: var(--color-border-dark);
 }
 
 .checkoutButton {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-sm) var(--spacing-md);
-    background-color: var(--color-primary);
+    gap: var(--spacing-2);
+    padding: var(--spacing-3) var(--spacing-5);
+    background: var(--gradient-primary);
     border: none;
     color: white;
-    font-size: var(--font-size-md);
-    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
     text-decoration: none;
-    border-radius: var(--border-radius-md);
-    transition: background-color var(--transition-fast);
+    border-radius: var(--border-radius-lg);
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-primary-sm);
+    cursor: pointer;
 }
 
 .checkoutButton:hover {
-    background-color: var(--color-primary-dark);
+    background: var(--gradient-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-primary);
+}
+
+.checkoutButton svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ============================================
+   PROMO CODE
+   ============================================ */
+
+.promoSection {
+    margin-bottom: var(--spacing-5);
+}
+
+.promoToggle {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-weight: var(--font-weight-medium);
+    transition: color var(--transition-fast);
+}
+
+.promoToggle:hover {
+    color: var(--color-primary-dark);
+}
+
+.promoForm {
+    display: flex;
+    gap: var(--spacing-2);
+    margin-top: var(--spacing-3);
+}
+
+.promoInput {
+    flex: 1;
+    padding: var(--spacing-3);
+    font-size: var(--font-size-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-fast);
+}
+
+.promoInput:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-alpha-20);
+}
+
+.promoButton {
+    padding: var(--spacing-3) var(--spacing-4);
+    background-color: var(--color-secondary);
+    color: white;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    border: none;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.promoButton:hover {
+    background-color: var(--color-gray-800);
 }
 
 /* ============================================
@@ -330,14 +429,23 @@
     }
 
     .header {
-        padding: var(--spacing-sm) var(--spacing-md);
+        padding: var(--spacing-4) var(--spacing-4);
     }
 
     .content {
-        padding: var(--spacing-sm);
+        padding: var(--spacing-4);
     }
 
     .footer {
-        padding: var(--spacing-sm) var(--spacing-md);
+        padding: var(--spacing-4);
+    }
+
+    .emptyIcon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .emptyTitle {
+        font-size: var(--font-size-lg);
     }
 }

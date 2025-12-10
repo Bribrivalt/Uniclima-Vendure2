@@ -1,12 +1,14 @@
 /**
- * Home Page - Uniclima
+ * Home Page - Uniclima Solutions
  * 
- * Página principal con:
- * - Hero banner atractivo con CTA
- * - Categorías destacadas (desde Vendure Collections)
- * - Productos destacados (desde Vendure Products)
- * - Sección de características/beneficios
- * - CTA de contacto
+ * Página principal profesional inspirada en uniclimasolutions.com con:
+ * - Hero banner con gradiente rojo corporativo
+ * - Sección de características (asesoramiento, garantía, soporte)
+ * - Categorías destacadas desde Vendure
+ * - Productos destacados
+ * - Sección de servicios
+ * - Marcas asociadas
+ * - CTA final
  * 
  * @author Frontend Team
  * @version 2.0.0
@@ -23,9 +25,6 @@ import styles from './page.module.css';
 // INTERFACES
 // ========================================
 
-/**
- * Colección de Vendure para categorías
- */
 interface Collection {
     id: string;
     name: string;
@@ -37,10 +36,6 @@ interface Collection {
     };
 }
 
-/**
- * Producto de Vendure para la home page
- * Interfaz compatible con lo que devuelve GET_PRODUCTS y con ProductCard
- */
 interface HomeProduct {
     id: string;
     name: string;
@@ -85,47 +80,67 @@ interface HomeProduct {
 // ICONOS SVG
 // ========================================
 
-/** Icono de experiencia */
-const ExperienceIcon = () => (
+/** Icono de asesoramiento personalizado */
+const UserCheckIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={styles.featureIcon}>
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="9" cy="7" r="4" strokeLinecap="round" strokeLinejoin="round" />
+        <polyline points="16 11 18 13 22 9" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
 
-/** Icono de rapidez */
-const SpeedIcon = () => (
+/** Icono de garantía / trofeo */
+const TrophyIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={styles.featureIcon}>
-        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M4 22h16" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M10 22V8a2 2 0 0 1 4 0v14" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M6 4h12v5a6 6 0 0 1-12 0V4z" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
 
-/** Icono de garantía */
-const GuaranteeIcon = () => (
+/** Icono de soporte telefónico */
+const PhoneCallIcon = () => (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={styles.featureIcon}>
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94m-1 7.98v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
 
-/** Icono de precio */
-const PriceIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={styles.featureIcon}>
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 6v12M9 9h4.5a1.5 1.5 0 010 3H9m0 0h5a1.5 1.5 0 010 3H9" strokeLinecap="round" strokeLinejoin="round" />
+/** Icono de instalación */
+const ToolIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={styles.serviceIcon}>
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
 
-/** Icono de envío */
-const ShippingIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={styles.featureIcon}>
-        <path d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8zM5.5 21a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM18.5 21a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" strokeLinecap="round" strokeLinejoin="round" />
+/** Icono de mantenimiento */
+const SettingsIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={styles.serviceIcon}>
+        <circle cx="12" cy="12" r="3" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
 
-/** Icono de soporte */
-const SupportIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={styles.featureIcon}>
-        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" strokeLinecap="round" strokeLinejoin="round" />
+/** Icono de reparación */
+const WrenchIcon = () => (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={styles.serviceIcon}>
+        <path d="M21.64 3.64a1.17 1.17 0 0 0-1.65 0l-2.83 2.83a1.17 1.17 0 0 0 0 1.65l.71.71a1.17 1.17 0 0 0 1.65 0l2.83-2.83a1.17 1.17 0 0 0 0-1.65l-.71-.71z" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M3.29 20.71a1.17 1.17 0 0 0 1.65 0l9.9-9.9a5 5 0 1 0-1.65-1.65l-9.9 9.9a1.17 1.17 0 0 0 0 1.65z" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+/** Icono de flecha */
+const ArrowRightIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
+);
+
+/** Icono de teléfono */
+const PhoneIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
     </svg>
 );
 
@@ -134,12 +149,12 @@ const SupportIcon = () => (
 // ========================================
 
 export default function Home() {
-    // Query para obtener categorías (Collections)
+    // Query para categorías
     const { data: collectionsData, loading: loadingCollections } = useQuery(GET_COLLECTIONS, {
-        variables: { options: { take: 6 } },
+        variables: { options: { take: 4 } },
     });
 
-    // Query para obtener productos destacados
+    // Query para productos destacados
     const { data: productsData, loading: loadingProducts } = useQuery(GET_PRODUCTS, {
         variables: { options: { take: 8, sort: { createdAt: 'DESC' } } },
     });
@@ -150,70 +165,99 @@ export default function Home() {
     return (
         <div className={styles.home}>
             {/* ========================================
-                HERO SECTION - Banner principal
+                HERO SECTION
                ======================================== */}
             <section className={styles.hero}>
-                {/* Imagen de fondo con overlay */}
-                <div className={styles.heroBackground}>
-                    <div className={styles.heroOverlay} />
-                </div>
-
-                {/* Contenido del hero */}
-                <div className={styles.heroContent}>
-                    {/* Badge de destacado */}
-                    <span className={styles.heroBadge}>
-                        🏆 Líderes en climatización desde 2014
-                    </span>
-
-                    {/* Título principal */}
-                    <h1 className={styles.heroTitle}>
-                        Expertos en <span className={styles.heroHighlight}>Climatización</span>
-                    </h1>
-
-                    {/* Subtítulo */}
-                    <p className={styles.heroSubtitle}>
-                        Instalación, mantenimiento y reparación de sistemas HVAC.
-                        <br />
-                        Aires acondicionados, aerotermia y más con las mejores marcas.
-                    </p>
-
-                    {/* Botones de acción */}
-                    <div className={styles.heroButtons}>
-                        <Link href="/productos" className={styles.heroBtnPrimary}>
-                            Ver Catálogo
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </Link>
-                        <Link href="/contacto" className={styles.heroBtnSecondary}>
-                            Pedir Presupuesto
-                        </Link>
-                    </div>
-
-                    {/* Stats rápidos */}
-                    <div className={styles.heroStats}>
-                        <div className={styles.heroStat}>
-                            <span className={styles.heroStatNumber}>10+</span>
-                            <span className={styles.heroStatLabel}>Años experiencia</span>
+                <div className={styles.heroPattern} />
+                <div className={styles.container}>
+                    <div className={styles.heroContent}>
+                        <h1 className={styles.heroTitle}>
+                            CALDERAS EN MADRID
+                        </h1>
+                        <div className={styles.heroBanner}>
+                            TU CONFORT Y BIENESTAR ES NUESTRA PRIORIDAD.
                         </div>
-                        <div className={styles.heroStatDivider} />
-                        <div className={styles.heroStat}>
-                            <span className={styles.heroStatNumber}>5.000+</span>
-                            <span className={styles.heroStatLabel}>Instalaciones</span>
-                        </div>
-                        <div className={styles.heroStatDivider} />
-                        <div className={styles.heroStat}>
-                            <span className={styles.heroStatNumber}>4.9★</span>
-                            <span className={styles.heroStatLabel}>Valoración</span>
+                        <p className={styles.heroSubtitle}>
+                            En Uniclima Solutions convertimos la climatización de tu hogar en una
+                            experiencia de máximo confort y ahorro energético. Instalamos, reparamos y
+                            mantenemos calderas y sistemas de aire acondicionado en toda Madrid, con
+                            soluciones rápidas, eficientes y duraderas.
+                        </p>
+                        <div className={styles.heroButtons}>
+                            <Link href="/contacto" className={styles.heroBtnPrimary}>
+                                CONTÁCTANOS
+                            </Link>
+                            <a href="tel:+34911177777" className={styles.heroBtnSecondary}>
+                                <PhoneIcon />
+                                LLÁMANOS
+                            </a>
+                            <Link href="/productos" className={styles.heroBtnTertiary}>
+                                🛒 TIENDA
+                            </Link>
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* ========================================
-                CATEGORÍAS DESTACADAS
+                ABOUT SECTION - Características principales
                ======================================== */}
-            <section className={styles.categories}>
+            <section className={styles.aboutSection}>
+                <div className={styles.container}>
+                    <span className={styles.aboutTitle}>UNICLIMA SOLUTIONS</span>
+                    <h2 className={styles.aboutHeading}>
+                        Innovación y Confort en Climatización
+                    </h2>
+                    <p className={styles.aboutText}>
+                        En Uniclima Solutions, no solo instalamos sistemas de calefacción o Aire Acondicionado;
+                        creamos ambientes perfectos para tu bienestar y el de tu familia, con soluciones eficientes
+                        y respetuosas con el medio ambiente. Nuestro equipo de expertos en calefacción lleva el
+                        confort de tu hogar a un nuevo nivel, ofreciendo asesoramiento, instalación y mantenimiento
+                        que establecen el estándar de excelencia en Madrid.
+                    </p>
+
+                    {/* Features Grid */}
+                    <div className={styles.featuresGrid}>
+                        <div className={styles.featureCard}>
+                            <div className={styles.featureIconWrapper}>
+                                <UserCheckIcon />
+                            </div>
+                            <h3 className={styles.featureTitle}>Asesoría Personalizada</h3>
+                            <p className={styles.featureText}>
+                                Analizamos tus necesidades específicas para ofrecerte la solución
+                                de climatización más adecuada para tu hogar o negocio.
+                            </p>
+                        </div>
+
+                        <div className={styles.featureCard}>
+                            <div className={styles.featureIconWrapper}>
+                                <TrophyIcon />
+                            </div>
+                            <h3 className={styles.featureTitle}>Garantía de Satisfacción</h3>
+                            <p className={styles.featureText}>
+                                Trabajamos con las mejores marcas del mercado y ofrecemos
+                                garantía oficial en todas nuestras instalaciones y reparaciones.
+                            </p>
+                        </div>
+
+                        <div className={styles.featureCard}>
+                            <div className={styles.featureIconWrapper}>
+                                <PhoneCallIcon />
+                            </div>
+                            <h3 className={styles.featureTitle}>Respuesta Inmediata</h3>
+                            <p className={styles.featureText}>
+                                Servicio técnico disponible para atender tus urgencias.
+                                Respuesta rápida y profesional cuando más lo necesitas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ========================================
+                CATEGORÍAS
+               ======================================== */}
+            <section className={styles.categoriesSection}>
                 <div className={styles.container}>
                     <div className={styles.sectionHeader}>
                         <h2 className={styles.sectionTitle}>Nuestras Categorías</h2>
@@ -222,7 +266,6 @@ export default function Home() {
                         </p>
                     </div>
 
-                    {/* Loading state */}
                     {loadingCollections ? (
                         <div className={styles.loadingGrid}>
                             {[1, 2, 3, 4].map((i) => (
@@ -237,7 +280,6 @@ export default function Home() {
                                     href={`/productos?collection=${collection.slug}`}
                                     className={styles.categoryCard}
                                 >
-                                    {/* Imagen de la categoría */}
                                     <div className={styles.categoryImage}>
                                         {collection.featuredAsset ? (
                                             <img
@@ -246,13 +288,10 @@ export default function Home() {
                                             />
                                         ) : (
                                             <div className={styles.categoryPlaceholder}>
-                                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                                                </svg>
+                                                🌡️
                                             </div>
                                         )}
                                     </div>
-                                    {/* Nombre de la categoría */}
                                     <div className={styles.categoryInfo}>
                                         <h3 className={styles.categoryName}>{collection.name}</h3>
                                         <span className={styles.categoryLink}>
@@ -263,7 +302,6 @@ export default function Home() {
                             ))}
                         </div>
                     ) : (
-                        // Fallback con categorías estáticas si no hay datos de Vendure
                         <div className={styles.categoriesGrid}>
                             {[
                                 { name: 'Aires Acondicionados', slug: 'aires-acondicionados', icon: '❄️' },
@@ -278,7 +316,7 @@ export default function Home() {
                                 >
                                     <div className={styles.categoryImage}>
                                         <div className={styles.categoryPlaceholder}>
-                                            <span style={{ fontSize: '48px' }}>{cat.icon}</span>
+                                            {cat.icon}
                                         </div>
                                     </div>
                                     <div className={styles.categoryInfo}>
@@ -290,13 +328,10 @@ export default function Home() {
                         </div>
                     )}
 
-                    {/* Link a ver todas */}
                     <div className={styles.sectionFooter}>
                         <Link href="/productos" className={styles.viewAllLink}>
                             Ver todas las categorías
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
+                            <ArrowRightIcon />
                         </Link>
                     </div>
                 </div>
@@ -305,7 +340,7 @@ export default function Home() {
             {/* ========================================
                 PRODUCTOS DESTACADOS
                ======================================== */}
-            <section className={styles.featuredProducts}>
+            <section className={styles.productsSection}>
                 <div className={styles.container}>
                     <div className={styles.sectionHeader}>
                         <h2 className={styles.sectionTitle}>Productos Destacados</h2>
@@ -314,7 +349,6 @@ export default function Home() {
                         </p>
                     </div>
 
-                    {/* Loading state */}
                     {loadingProducts ? (
                         <div className={styles.productsGrid}>
                             {[1, 2, 3, 4].map((i) => (
@@ -333,110 +367,83 @@ export default function Home() {
                     ) : (
                         <div className={styles.emptyProducts}>
                             <p>No hay productos disponibles en este momento.</p>
-                            <Link href="/productos" className={styles.heroBtnPrimary}>
+                            <Link href="/productos" className={styles.viewAllBtn}>
                                 Ir al catálogo
                             </Link>
                         </div>
                     )}
 
-                    {/* Link a ver todos */}
                     <div className={styles.sectionFooter}>
                         <Link href="/productos" className={styles.viewAllBtn}>
                             Ver todos los productos
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
+                            <ArrowRightIcon />
                         </Link>
                     </div>
                 </div>
             </section>
 
             {/* ========================================
-                CARACTERÍSTICAS / BENEFICIOS
+                SERVICIOS
                ======================================== */}
-            <section className={styles.features}>
+            <section className={styles.servicesSection}>
                 <div className={styles.container}>
                     <div className={styles.sectionHeader}>
-                        <h2 className={styles.sectionTitle}>¿Por qué elegirnos?</h2>
+                        <h2 className={styles.sectionTitle}>Nuestros Servicios</h2>
                         <p className={styles.sectionSubtitle}>
-                            Confía en profesionales con experiencia
+                            Soluciones profesionales de climatización para tu hogar y negocio
                         </p>
                     </div>
 
-                    <div className={styles.featuresGrid}>
-                        {/* Feature 1: Experiencia */}
-                        <div className={styles.featureCard}>
-                            <div className={styles.featureIconWrapper}>
-                                <ExperienceIcon />
+                    <div className={styles.servicesGrid}>
+                        <div className={styles.serviceCard}>
+                            <div className={styles.serviceIconWrapper}>
+                                <ToolIcon />
                             </div>
-                            <h3 className={styles.featureTitle}>Experiencia</h3>
-                            <p className={styles.featureText}>
-                                Más de 10 años especializados en climatización y HVAC
+                            <h3 className={styles.serviceTitle}>Instalación</h3>
+                            <p className={styles.serviceText}>
+                                Instalación profesional de equipos de aire acondicionado,
+                                calderas y sistemas de aerotermia con garantía oficial.
                             </p>
+                            <Link href="/servicios#instalacion" className={styles.serviceLink}>
+                                Más información →
+                            </Link>
                         </div>
 
-                        {/* Feature 2: Rapidez */}
-                        <div className={styles.featureCard}>
-                            <div className={styles.featureIconWrapper}>
-                                <SpeedIcon />
+                        <div className={styles.serviceCard}>
+                            <div className={styles.serviceIconWrapper}>
+                                <SettingsIcon />
                             </div>
-                            <h3 className={styles.featureTitle}>Rapidez</h3>
-                            <p className={styles.featureText}>
-                                Instalación y reparación en 24-48h en toda España
+                            <h3 className={styles.serviceTitle}>Mantenimiento</h3>
+                            <p className={styles.serviceText}>
+                                Planes de mantenimiento preventivo para mantener tus equipos
+                                en óptimas condiciones y prolongar su vida útil.
                             </p>
+                            <Link href="/servicios#mantenimiento" className={styles.serviceLink}>
+                                Más información →
+                            </Link>
                         </div>
 
-                        {/* Feature 3: Garantía */}
-                        <div className={styles.featureCard}>
-                            <div className={styles.featureIconWrapper}>
-                                <GuaranteeIcon />
+                        <div className={styles.serviceCard}>
+                            <div className={styles.serviceIconWrapper}>
+                                <WrenchIcon />
                             </div>
-                            <h3 className={styles.featureTitle}>Garantía Oficial</h3>
-                            <p className={styles.featureText}>
-                                Todos nuestros productos con garantía del fabricante
+                            <h3 className={styles.serviceTitle}>Reparación</h3>
+                            <p className={styles.serviceText}>
+                                Servicio técnico especializado para la reparación de cualquier
+                                avería en tus sistemas de climatización.
                             </p>
-                        </div>
-
-                        {/* Feature 4: Mejor Precio */}
-                        <div className={styles.featureCard}>
-                            <div className={styles.featureIconWrapper}>
-                                <PriceIcon />
-                            </div>
-                            <h3 className={styles.featureTitle}>Mejor Precio</h3>
-                            <p className={styles.featureText}>
-                                Presupuestos sin compromiso y financiación disponible
-                            </p>
-                        </div>
-
-                        {/* Feature 5: Envío Gratis */}
-                        <div className={styles.featureCard}>
-                            <div className={styles.featureIconWrapper}>
-                                <ShippingIcon />
-                            </div>
-                            <h3 className={styles.featureTitle}>Envío Gratis</h3>
-                            <p className={styles.featureText}>
-                                Envío gratuito en pedidos superiores a 100€
-                            </p>
-                        </div>
-
-                        {/* Feature 6: Soporte */}
-                        <div className={styles.featureCard}>
-                            <div className={styles.featureIconWrapper}>
-                                <SupportIcon />
-                            </div>
-                            <h3 className={styles.featureTitle}>Atención Personalizada</h3>
-                            <p className={styles.featureText}>
-                                Asesoramiento técnico y soporte postventa
-                            </p>
+                            <Link href="/servicios#reparacion" className={styles.serviceLink}>
+                                Más información →
+                            </Link>
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* ========================================
-                BANNER MARCAS
+                MARCAS
                ======================================== */}
-            <section className={styles.brands}>
+            <section className={styles.brandsSection}>
                 <div className={styles.container}>
                     <p className={styles.brandsTitle}>Trabajamos con las mejores marcas</p>
                     <div className={styles.brandsLogos}>
@@ -452,22 +459,22 @@ export default function Home() {
             {/* ========================================
                 CTA FINAL
                ======================================== */}
-            <section className={styles.cta}>
+            <section className={styles.ctaSection}>
+                <div className={styles.ctaPattern} />
                 <div className={styles.container}>
                     <div className={styles.ctaContent}>
                         <h2 className={styles.ctaTitle}>¿Necesitas asesoramiento?</h2>
                         <p className={styles.ctaText}>
-                            Contacta con nosotros y te ayudaremos a encontrar la solución perfecta para tu hogar o negocio
+                            Contacta con nosotros y te ayudaremos a encontrar la solución
+                            perfecta para tu hogar o negocio. Presupuesto sin compromiso.
                         </p>
                         <div className={styles.ctaButtons}>
                             <Link href="/contacto" className={styles.ctaBtnPrimary}>
                                 Solicitar Presupuesto Gratis
                             </Link>
-                            <a href="tel:+34900000000" className={styles.ctaBtnSecondary}>
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-                                </svg>
-                                Llamar ahora
+                            <a href="tel:+34911177777" className={styles.ctaBtnSecondary}>
+                                <PhoneIcon />
+                                91 117 77 77
                             </a>
                         </div>
                     </div>

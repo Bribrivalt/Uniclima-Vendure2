@@ -1,23 +1,28 @@
 /* ========================================
-   TOP BAR - Barra superior negra
+   TOP BAR - Barra superior profesional
+   Estilo inspirado en uniclimasolutions.com
    ======================================== */
 
 .topBar {
-    background: #1a1a1a;
-    color: white;
+    background-color: var(--color-secondary);
+    color: var(--color-text-primary-on-dark);
     font-size: var(--font-size-sm);
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .container {
-    max-width: 1400px;
+    max-width: var(--container-2xl);
     margin: 0 auto;
-    padding: var(--spacing-2) var(--spacing-4);
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    padding: var(--spacing-2-5) var(--spacing-4);
+    display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--spacing-4);
 }
+
+/* ========================================
+   SECCIONES
+   ======================================== */
 
 .left,
 .center,
@@ -28,84 +33,205 @@
 }
 
 .left {
-    justify-content: flex-start;
+    flex: 1;
 }
 
 .center {
+    flex: 1;
     justify-content: center;
 }
 
 .right {
+    flex: 1;
     justify-content: flex-end;
     gap: var(--spacing-6);
 }
 
-.left svg,
-.center svg {
-    flex-shrink: 0;
-    opacity: 0.8;
-}
+/* ========================================
+   ITEMS DE INFORMACIÓN
+   ======================================== */
 
-.contact,
-.whatsapp {
+.infoItem {
     display: flex;
     align-items: center;
     gap: var(--spacing-2);
-    color: white;
-    text-decoration: none;
-    transition: all var(--transition-base);
-    padding: var(--spacing-1) var(--spacing-2);
-    border-radius: var(--border-radius-sm);
+    color: var(--color-text-secondary-on-dark);
+    font-weight: var(--font-weight-normal);
+    transition: color var(--transition-fast);
 }
 
-.contact:hover {
-    color: #cc0000;
+.infoItem svg {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    color: var(--color-primary);
 }
 
-.whatsapp {
-    background: #25D366;
-    color: white;
+.infoItem span {
+    white-space: nowrap;
+}
+
+/* Highlight para envío gratis */
+.infoHighlight {
+    color: var(--color-primary-light);
     font-weight: var(--font-weight-medium);
 }
 
-.whatsapp:hover {
-    background: #20BA5A;
-    transform: translateY(-1px);
+/* ========================================
+   ENLACES DE CONTACTO
+   ======================================== */
+
+.contactLink {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: var(--color-text-primary-on-dark);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
 }
 
-.whatsapp svg {
+.contactLink:hover {
+    color: var(--color-primary-light);
+}
+
+.contactLink svg {
     flex-shrink: 0;
+    width: 16px;
+    height: 16px;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-    .container {
-        grid-template-columns: 1fr 1fr;
-    }
+/* Número de teléfono destacado */
+.phoneLink {
+    color: var(--color-text-primary-on-dark);
+    font-weight: var(--font-weight-semibold);
+}
 
+.phoneLink:hover {
+    color: var(--color-primary-light);
+}
+
+.phoneLink svg {
+    color: var(--color-primary);
+}
+
+/* ========================================
+   BOTÓN WHATSAPP
+   ======================================== */
+
+.whatsappBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    background-color: var(--color-whatsapp);
+    color: white;
+    padding: var(--spacing-1-5) var(--spacing-3);
+    border-radius: var(--border-radius-md);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 4px rgba(37, 211, 102, 0.2);
+}
+
+.whatsappBtn:hover {
+    background-color: var(--color-whatsapp-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(37, 211, 102, 0.3);
+}
+
+.whatsappBtn svg {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+}
+
+/* ========================================
+   SEPARADOR
+   ======================================== */
+
+.separator {
+    width: 1px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 0 var(--spacing-2);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (min-width: 640px) {
+    .container {
+        padding: var(--spacing-2-5) var(--spacing-6);
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        padding: var(--spacing-2-5) var(--spacing-8);
+    }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
     .center {
         display: none;
     }
-}
 
-@media (max-width: 640px) {
-    .container {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-2);
+    .left {
+        flex: 1;
     }
 
-    .left,
     .right {
+        flex: none;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .container {
+        flex-wrap: wrap;
         justify-content: center;
+        gap: var(--spacing-3);
+        padding: var(--spacing-2) var(--spacing-4);
+    }
+
+    .left {
+        flex: none;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .right {
+        width: 100%;
+        justify-content: center;
+        gap: var(--spacing-4);
+    }
+
+    .separator {
+        display: none;
+    }
+}
+
+/* Mobile pequeño */
+@media (max-width: 480px) {
+    .topBar {
         font-size: var(--font-size-xs);
     }
 
-    .left span,
-    .contact span {
+    .infoItem span,
+    .phoneLink span {
         display: none;
     }
 
-    .whatsapp span {
-        display: inline;
+    .whatsappBtn {
+        padding: var(--spacing-1-5) var(--spacing-2);
+    }
+
+    .whatsappBtn span {
+        display: none;
     }
 }

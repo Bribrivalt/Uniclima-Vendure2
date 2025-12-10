@@ -1,21 +1,58 @@
 /**
- * Estilos para pagina Mi Cuenta con layout de tabs
+ * Mi Cuenta Page Styles - Uniclima Solutions
  *
  * Layout: Sidebar izquierdo con navegacion + contenido principal derecho
  * Responsive: En movil el sidebar se convierte en tabs horizontales
- *
- * @version 2.0.0
  */
+
+/* ========================================
+   HERO SECTION
+   ======================================== */
+
+.hero {
+    background: var(--gradient-hero);
+    padding: var(--spacing-12) var(--spacing-6);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.heroPattern {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.heroContent {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.heroTitle {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: var(--font-weight-bold);
+    color: white;
+    margin: 0 0 var(--spacing-2) 0;
+}
+
+.heroSubtitle {
+    font-size: var(--font-size-lg);
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+}
 
 /* ========================================
    CONTENEDOR PRINCIPAL
    ======================================== */
 
 .container {
-    max-width: 1200px;
+    max-width: var(--container-xl);
     margin: 0 auto;
-    padding: var(--spacing-8) var(--spacing-4);
-    min-height: calc(100vh - 200px);
+    padding: var(--spacing-10) var(--spacing-4);
+    min-height: calc(100vh - 400px);
 }
 
 /* ========================================
@@ -28,7 +65,7 @@
     align-items: center;
     margin-bottom: var(--spacing-8);
     padding-bottom: var(--spacing-6);
-    border-bottom: 2px solid #e0e0e0;
+    border-bottom: 1px solid var(--color-border-light);
 }
 
 .headerInfo {
@@ -38,32 +75,46 @@
 }
 
 .title {
-    font-size: var(--font-size-3xl);
+    font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-bold);
-    color: #333;
+    color: var(--color-text-primary);
     margin: 0;
 }
 
 .welcome {
     font-size: var(--font-size-base);
-    color: #666;
+    color: var(--color-text-secondary);
     margin: 0;
 }
 
+.welcomeName {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+}
+
 .logoutButton {
-    padding: var(--spacing-3) var(--spacing-6);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-3) var(--spacing-5);
     background: transparent;
-    border: 2px solid #cc0000;
-    border-radius: var(--border-radius-md);
-    color: #cc0000;
-    font-weight: var(--font-weight-medium);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--border-radius-lg);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
     cursor: pointer;
-    transition: all var(--transition-base);
+    transition: all var(--transition-fast);
 }
 
 .logoutButton:hover {
-    background: #cc0000;
+    background: var(--color-primary);
     color: white;
+}
+
+.logoutButton svg {
+    width: 18px;
+    height: 18px;
 }
 
 /* ========================================
@@ -83,17 +134,18 @@
 
 .sidebar {
     position: sticky;
-    top: var(--spacing-8);
+    top: calc(80px + var(--spacing-4));
 }
 
 .tabNav {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-2);
-    background: white;
-    padding: var(--spacing-4);
-    border-radius: var(--border-radius-lg);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: var(--color-surface);
+    padding: var(--spacing-5);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-border-light);
 }
 
 .tabButton {
@@ -103,33 +155,51 @@
     padding: var(--spacing-4);
     background: transparent;
     border: none;
-    border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-lg);
     cursor: pointer;
-    transition: all var(--transition-base);
+    transition: all var(--transition-fast);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
-    color: #666;
+    color: var(--color-text-secondary);
     text-align: left;
     width: 100%;
 }
 
 .tabButton:hover {
-    background: #f5f5f5;
-    color: #333;
+    background: var(--color-gray-100);
+    color: var(--color-text-primary);
 }
 
 .tabButton svg {
+    width: 20px;
+    height: 20px;
     flex-shrink: 0;
     color: inherit;
 }
 
 .tabButtonActive {
-    background: #cc0000;
+    background: var(--gradient-primary);
     color: white;
+    box-shadow: var(--shadow-primary-sm);
 }
 
 .tabButtonActive:hover {
-    background: #b30000;
+    background: var(--gradient-primary-hover);
+    color: white;
+}
+
+.tabBadge {
+    margin-left: auto;
+    padding: var(--spacing-1) var(--spacing-2);
+    background-color: var(--color-primary-alpha-20);
+    color: var(--color-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    border-radius: var(--border-radius-full);
+}
+
+.tabButtonActive .tabBadge {
+    background-color: rgba(255, 255, 255, 0.2);
     color: white;
 }
 
@@ -138,11 +208,12 @@
    ======================================== */
 
 .main {
-    background: white;
-    padding: var(--spacing-6);
-    border-radius: var(--border-radius-lg);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    min-height: 400px;
+    background: var(--color-surface);
+    padding: var(--spacing-8);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-border-light);
+    min-height: 500px;
 }
 
 .tabContent {
@@ -171,27 +242,40 @@
     align-items: center;
     margin-bottom: var(--spacing-6);
     padding-bottom: var(--spacing-4);
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--color-border-light);
 }
 
 .sectionHeader h2 {
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-semibold);
-    color: #333;
+    color: var(--color-text-primary);
     margin: 0;
 }
 
-.viewAllLink {
-    color: #cc0000;
+.sectionDescription {
     font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    margin-top: var(--spacing-1);
+}
+
+.viewAllLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    color: var(--color-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
     text-decoration: none;
-    transition: color var(--transition-base);
+    transition: color var(--transition-fast);
 }
 
 .viewAllLink:hover {
-    color: #990000;
-    text-decoration: underline;
+    color: var(--color-primary-dark);
+}
+
+.viewAllLink svg {
+    width: 16px;
+    height: 16px;
 }
 
 /* ========================================
@@ -200,21 +284,22 @@
 
 .infoGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-6);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--spacing-5);
 }
 
 .infoItem {
-    padding: var(--spacing-4);
-    background: #f9f9f9;
-    border-radius: var(--border-radius-md);
+    padding: var(--spacing-5);
+    background: var(--color-gray-50);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--color-border-light);
 }
 
 .infoItem label {
     display: block;
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
-    color: #888;
+    color: var(--color-text-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: var(--spacing-2);
@@ -222,7 +307,7 @@
 
 .infoItem p {
     font-size: var(--font-size-base);
-    color: #333;
+    color: var(--color-text-primary);
     margin: 0;
     font-weight: var(--font-weight-medium);
 }
@@ -234,25 +319,86 @@
 .form {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-4);
+    gap: var(--spacing-5);
 }
 
 .formRow {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-4);
+    gap: var(--spacing-5);
 }
 
 .formRowSingle {
-    max-width: 400px;
+    max-width: 450px;
+}
+
+.formLabel {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-2);
+}
+
+.formInput {
+    width: 100%;
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: var(--font-size-base);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    transition: all var(--transition-fast);
+}
+
+.formInput:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-alpha-20);
 }
 
 .formActions {
     display: flex;
     gap: var(--spacing-3);
     margin-top: var(--spacing-4);
-    padding-top: var(--spacing-4);
-    border-top: 1px solid #e0e0e0;
+    padding-top: var(--spacing-5);
+    border-top: 1px solid var(--color-border-light);
+}
+
+.saveButton {
+    padding: var(--spacing-3) var(--spacing-6);
+    background: var(--gradient-primary);
+    color: white;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    border: none;
+    border-radius: var(--border-radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-primary-sm);
+}
+
+.saveButton:hover {
+    background: var(--gradient-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-primary);
+}
+
+.cancelButton {
+    padding: var(--spacing-3) var(--spacing-6);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.cancelButton:hover {
+    background: var(--color-gray-100);
+    color: var(--color-text-primary);
 }
 
 /* ========================================
@@ -262,24 +408,27 @@
 .ordersList {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-3);
+    gap: var(--spacing-4);
 }
 
 .orderItem {
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto auto auto;
     align-items: center;
-    gap: var(--spacing-4);
-    padding: var(--spacing-4);
-    background: #f9f9f9;
-    border-radius: var(--border-radius-md);
+    gap: var(--spacing-5);
+    padding: var(--spacing-5);
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--border-radius-lg);
     text-decoration: none;
     color: inherit;
-    transition: all var(--transition-base);
+    transition: all var(--transition-fast);
 }
 
 .orderItem:hover {
-    background: #f0f0f0;
+    background: var(--color-surface);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
     transform: translateX(4px);
 }
 
@@ -291,26 +440,65 @@
 
 .orderCode {
     font-weight: var(--font-weight-semibold);
-    color: #333;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
 }
 
 .orderDate {
     font-size: var(--font-size-sm);
-    color: #666;
+    color: var(--color-text-secondary);
+}
+
+.orderItems {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
 }
 
 .orderStatus {
     padding: var(--spacing-1) var(--spacing-3);
-    background: #e8f5e9;
-    color: #2e7d32;
     border-radius: var(--border-radius-full);
     font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-semibold);
+}
+
+.orderStatus.delivered {
+    background: var(--color-success-50);
+    color: var(--color-success-700);
+}
+
+.orderStatus.processing {
+    background: var(--color-warning-50);
+    color: var(--color-warning-700);
+}
+
+.orderStatus.shipped {
+    background: var(--color-info-50);
+    color: var(--color-info-700);
+}
+
+.orderStatus.pending {
+    background: var(--color-gray-200);
+    color: var(--color-gray-700);
 }
 
 .orderTotal {
     font-weight: var(--font-weight-bold);
-    color: #333;
+    color: var(--color-primary);
+    font-size: var(--font-size-lg);
+}
+
+.orderArrow {
+    color: var(--color-text-tertiary);
+    transition: color var(--transition-fast);
+}
+
+.orderItem:hover .orderArrow {
+    color: var(--color-primary);
+}
+
+.orderArrow svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* ========================================
@@ -319,15 +507,21 @@
 
 .addressesGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-4);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-5);
 }
 
 .addressCard {
-    padding: var(--spacing-4);
-    background: #f9f9f9;
-    border-radius: var(--border-radius-md);
-    border: 1px solid #e0e0e0;
+    padding: var(--spacing-5);
+    background: var(--color-gray-50);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--color-border-light);
+    position: relative;
+}
+
+.addressCard.defaultAddress {
+    border-color: var(--color-primary);
+    border-width: 2px;
 }
 
 .addressBadges {
@@ -338,49 +532,94 @@
 }
 
 .badge {
-    padding: var(--spacing-1) var(--spacing-2);
-    background: #cc0000;
+    padding: var(--spacing-1) var(--spacing-3);
+    background: var(--gradient-primary);
     color: white;
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--border-radius-full);
     font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-semibold);
+}
+
+.badgeSecondary {
+    background: var(--color-secondary);
 }
 
 .addressName {
     font-weight: var(--font-weight-semibold);
-    color: #333;
+    color: var(--color-text-primary);
     margin: 0 0 var(--spacing-2) 0;
+    font-size: var(--font-size-base);
 }
 
 .addressCard p {
     font-size: var(--font-size-sm);
-    color: #666;
+    color: var(--color-text-secondary);
     margin: 0;
-    line-height: 1.5;
+    line-height: var(--line-height-relaxed);
 }
 
 .addressActions {
     display: flex;
-    gap: var(--spacing-3);
+    gap: var(--spacing-4);
     margin-top: var(--spacing-4);
-    padding-top: var(--spacing-3);
-    border-top: 1px solid #e0e0e0;
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--color-border-light);
 }
 
 .addressBtn {
     background: transparent;
     border: none;
-    color: #cc0000;
+    color: var(--color-primary);
     font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-semibold);
     cursor: pointer;
     padding: 0;
-    transition: color var(--transition-base);
+    transition: color var(--transition-fast);
 }
 
 .addressBtn:hover {
-    color: #990000;
+    color: var(--color-primary-dark);
     text-decoration: underline;
+}
+
+.addressBtnDanger {
+    color: var(--color-danger);
+}
+
+.addressBtnDanger:hover {
+    color: var(--color-danger-700);
+}
+
+.addAddressButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-8);
+    background: var(--color-surface);
+    border: 2px dashed var(--color-border);
+    border-radius: var(--border-radius-lg);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-height: 180px;
+}
+
+.addAddressButton:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: var(--color-primary-alpha-10);
+}
+
+.addAddressButton svg {
+    width: 32px;
+    height: 32px;
+}
+
+.addAddressButton span {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
 }
 
 /* ========================================
@@ -392,16 +631,16 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-12);
-    color: #666;
+    padding: var(--spacing-16);
+    color: var(--color-text-secondary);
     gap: var(--spacing-4);
 }
 
 .spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid #e0e0e0;
-    border-top-color: #cc0000;
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--color-border-light);
+    border-top-color: var(--color-primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -414,33 +653,58 @@
 
 .emptyState {
     text-align: center;
-    padding: var(--spacing-12);
-    color: #666;
+    padding: var(--spacing-16);
+    color: var(--color-text-secondary);
+}
+
+.emptyIcon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--spacing-6);
+    color: var(--color-gray-300);
+}
+
+.emptyIcon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.emptyState h3 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--spacing-2) 0;
 }
 
 .emptyState p {
-    margin: 0 0 var(--spacing-4) 0;
+    margin: 0 0 var(--spacing-6) 0;
+    color: var(--color-text-secondary);
 }
 
 .emptyHint {
     font-size: var(--font-size-sm);
-    color: #999;
+    color: var(--color-text-tertiary);
 }
 
 .shopLink {
-    display: inline-block;
-    margin-top: var(--spacing-4);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    margin-top: var(--spacing-6);
     padding: var(--spacing-3) var(--spacing-6);
-    background: #cc0000;
+    background: var(--gradient-primary);
     color: white;
     text-decoration: none;
-    border-radius: var(--border-radius-md);
-    font-weight: var(--font-weight-medium);
-    transition: background var(--transition-base);
+    border-radius: var(--border-radius-lg);
+    font-weight: var(--font-weight-semibold);
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-primary-sm);
 }
 
 .shopLink:hover {
-    background: #990000;
+    background: var(--gradient-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary);
 }
 
 /* ========================================
@@ -449,12 +713,17 @@
 
 @media (max-width: 992px) {
     .layout {
-        grid-template-columns: 220px 1fr;
+        grid-template-columns: 240px 1fr;
         gap: var(--spacing-6);
     }
 
     .formRow {
         grid-template-columns: 1fr;
+    }
+
+    .orderItem {
+        grid-template-columns: 1fr auto auto;
+        gap: var(--spacing-4);
     }
 }
 
@@ -463,8 +732,12 @@
    ======================================== */
 
 @media (max-width: 768px) {
+    .hero {
+        padding: var(--spacing-8) var(--spacing-4);
+    }
+
     .container {
-        padding: var(--spacing-4);
+        padding: var(--spacing-6) var(--spacing-4);
     }
 
     .header {
@@ -475,7 +748,7 @@
 
     .layout {
         grid-template-columns: 1fr;
-        gap: var(--spacing-4);
+        gap: var(--spacing-5);
     }
 
     .sidebar {
@@ -485,17 +758,21 @@
     .tabNav {
         flex-direction: row;
         overflow-x: auto;
-        padding: var(--spacing-2);
-        gap: var(--spacing-1);
+        padding: var(--spacing-3);
+        gap: var(--spacing-2);
         -webkit-overflow-scrolling: touch;
+    }
+
+    .tabNav::-webkit-scrollbar {
+        display: none;
     }
 
     .tabButton {
         flex-direction: column;
         padding: var(--spacing-3);
-        min-width: 80px;
+        min-width: 90px;
         text-align: center;
-        gap: var(--spacing-1);
+        gap: var(--spacing-2);
     }
 
     .tabButton span {
@@ -503,7 +780,7 @@
     }
 
     .main {
-        padding: var(--spacing-4);
+        padding: var(--spacing-5);
     }
 
     .sectionHeader {
@@ -518,12 +795,16 @@
 
     .orderItem {
         grid-template-columns: 1fr;
-        gap: var(--spacing-2);
+        gap: var(--spacing-3);
     }
 
     .orderStatus,
     .orderTotal {
         justify-self: start;
+    }
+
+    .orderArrow {
+        display: none;
     }
 
     .addressesGrid {
@@ -532,5 +813,26 @@
 
     .formRowSingle {
         max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        padding: var(--spacing-4);
+        border-radius: var(--border-radius-lg);
+    }
+
+    .tabButton {
+        min-width: 70px;
+        padding: var(--spacing-2);
+    }
+
+    .tabButton svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .emptyState {
+        padding: var(--spacing-10);
     }
 }

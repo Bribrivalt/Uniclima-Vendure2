@@ -1,4 +1,9 @@
 /* ========================================
+   SERVICIOS PAGE - Uniclima Solutions
+   Página de servicios profesionales
+   ======================================== */
+
+/* ========================================
    CONTAINER
    ======================================== */
 
@@ -11,18 +16,29 @@
    ======================================== */
 
 .hero {
-    background: linear-gradient(135deg, #cc0000 0%, #990000 100%);
-    padding: var(--spacing-16) var(--spacing-6);
+    background: var(--gradient-hero);
+    padding: var(--spacing-20) var(--spacing-6);
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.heroPattern {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
 }
 
 .heroContent {
+    position: relative;
+    z-index: 1;
     max-width: 800px;
     margin: 0 auto;
 }
 
 .heroTitle {
-    font-size: var(--font-size-4xl);
+    font-size: clamp(2rem, 5vw, 3rem);
     font-weight: var(--font-weight-bold);
     color: white;
     margin: 0 0 var(--spacing-4) 0;
@@ -32,24 +48,28 @@
     font-size: var(--font-size-xl);
     color: rgba(255, 255, 255, 0.9);
     margin: 0 0 var(--spacing-8) 0;
+    line-height: var(--line-height-relaxed);
 }
 
 .ctaButton {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
     background: white;
-    color: #cc0000;
+    color: var(--color-primary);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
-    padding: var(--spacing-3) var(--spacing-8);
-    border-radius: var(--radius-lg);
+    padding: var(--spacing-4) var(--spacing-8);
+    border-radius: var(--border-radius-lg);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
 .ctaButton:hover {
-    background: #f8f8f8;
+    background: var(--color-gray-100);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* ========================================
@@ -57,9 +77,9 @@
    ======================================== */
 
 .servicesSection {
-    max-width: 1400px;
+    max-width: var(--container-2xl);
     margin: 0 auto;
-    padding: var(--spacing-16) var(--spacing-6);
+    padding: var(--spacing-20) var(--spacing-6);
 }
 
 .sectionHeader {
@@ -68,22 +88,25 @@
 }
 
 .sectionTitle {
-    font-size: var(--font-size-3xl);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
     font-weight: var(--font-weight-bold);
-    color: #333;
-    margin: 0 0 var(--spacing-3) 0;
+    color: var(--color-text-primary);
+    margin: 0 0 var(--spacing-4) 0;
 }
 
 .sectionSubtitle {
     font-size: var(--font-size-lg);
-    color: #666;
+    color: var(--color-text-secondary);
     margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .servicesGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-6);
+    gap: var(--spacing-8);
 }
 
 /* ========================================
@@ -91,44 +114,61 @@
    ======================================== */
 
 .serviceCard {
-    background: white;
-    border-radius: var(--radius-xl);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--border-radius-xl);
     padding: var(--spacing-8);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-card);
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all var(--transition-base);
 }
 
 .serviceCard:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--color-primary-alpha-30);
 }
 
 .serviceIcon {
-    width: 72px;
-    height: 72px;
-    background: linear-gradient(135deg, #fff0f0 0%, #ffe0e0 100%);
-    border-radius: var(--radius-lg);
+    width: 80px;
+    height: 80px;
+    background: var(--color-primary-alpha-10);
+    border-radius: var(--border-radius-xl);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #cc0000;
-    margin-bottom: var(--spacing-5);
+    margin-bottom: var(--spacing-6);
+    transition: all var(--transition-fast);
+}
+
+.serviceCard:hover .serviceIcon {
+    background: var(--gradient-primary);
+}
+
+.serviceIcon svg {
+    width: 36px;
+    height: 36px;
+    color: var(--color-primary);
+    transition: color var(--transition-fast);
+}
+
+.serviceCard:hover .serviceIcon svg {
+    color: white;
 }
 
 .serviceTitle {
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-semibold);
-    color: #333;
+    color: var(--color-text-primary);
     margin: 0 0 var(--spacing-3) 0;
 }
 
 .serviceDescription {
-    font-size: var(--font-size-sm);
-    color: #666;
-    line-height: 1.6;
-    margin: 0 0 var(--spacing-5) 0;
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin: 0 0 var(--spacing-6) 0;
 }
 
 .serviceFeatures {
@@ -141,14 +181,16 @@
 .serviceFeatures li {
     display: flex;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-3);
     font-size: var(--font-size-sm);
-    color: #555;
+    color: var(--color-text-secondary);
     padding: var(--spacing-2) 0;
 }
 
 .serviceFeatures li svg {
-    color: #cc0000;
+    width: 16px;
+    height: 16px;
+    color: var(--color-primary);
     flex-shrink: 0;
 }
 
@@ -156,26 +198,30 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: var(--spacing-4);
-    border-top: 1px solid #eee;
+    padding-top: var(--spacing-5);
+    border-top: 1px solid var(--color-border-light);
 }
 
 .servicePrice {
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-bold);
-    color: #cc0000;
+    color: var(--color-primary);
 }
 
 .serviceLink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
-    color: #333;
+    color: var(--color-text-primary);
     text-decoration: none;
-    transition: color 0.2s;
+    transition: all var(--transition-fast);
 }
 
 .serviceLink:hover {
-    color: #cc0000;
+    color: var(--color-primary);
+    gap: var(--spacing-2);
 }
 
 /* ========================================
@@ -183,12 +229,12 @@
    ======================================== */
 
 .whySection {
-    background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
-    padding: var(--spacing-16) var(--spacing-6);
+    background-color: var(--color-secondary);
+    padding: var(--spacing-20) var(--spacing-6);
 }
 
 .whyContent {
-    max-width: 1200px;
+    max-width: var(--container-xl);
     margin: 0 auto;
     text-align: center;
 }
@@ -209,15 +255,16 @@
 }
 
 .whyNumber {
-    font-size: var(--font-size-4xl);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
     font-weight: var(--font-weight-bold);
-    color: #cc0000;
+    color: var(--color-primary);
     margin-bottom: var(--spacing-2);
+    line-height: 1;
 }
 
 .whyLabel {
     font-size: var(--font-size-base);
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-text-secondary-on-dark);
 }
 
 /* ========================================
@@ -225,16 +272,16 @@
    ======================================== */
 
 .brandsSection {
-    max-width: 1200px;
+    max-width: var(--container-xl);
     margin: 0 auto;
-    padding: var(--spacing-16) var(--spacing-6);
+    padding: var(--spacing-20) var(--spacing-6);
     text-align: center;
 }
 
 .brandsSectionTitle {
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-semibold);
-    color: #333;
+    color: var(--color-text-primary);
     margin: 0 0 var(--spacing-10) 0;
 }
 
@@ -246,18 +293,19 @@
 }
 
 .brandItem {
-    background: #f8f8f8;
+    background-color: var(--color-gray-100);
     padding: var(--spacing-4) var(--spacing-6);
-    border-radius: var(--radius-lg);
+    border-radius: var(--border-radius-lg);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
-    color: #555;
-    transition: all 0.2s ease;
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
 }
 
 .brandItem:hover {
-    background: #cc0000;
+    background: var(--gradient-primary);
     color: white;
+    transform: translateY(-2px);
 }
 
 /* ========================================
@@ -265,45 +313,64 @@
    ======================================== */
 
 .ctaSection {
-    background: #f8f8f8;
-    padding: var(--spacing-16) var(--spacing-6);
+    background: var(--gradient-primary);
+    padding: var(--spacing-20) var(--spacing-6);
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.ctaPattern {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.ctaContent {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .ctaTitle {
-    font-size: var(--font-size-3xl);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
     font-weight: var(--font-weight-bold);
-    color: #333;
-    margin: 0 0 var(--spacing-3) 0;
+    color: white;
+    margin: 0 0 var(--spacing-4) 0;
 }
 
 .ctaText {
     font-size: var(--font-size-lg);
-    color: #666;
+    color: rgba(255, 255, 255, 0.9);
     margin: 0 0 var(--spacing-8) 0;
+    line-height: var(--line-height-relaxed);
 }
 
 .ctaButtons {
     display: flex;
     justify-content: center;
     gap: var(--spacing-4);
+    flex-wrap: wrap;
 }
 
 .ctaPrimary {
     display: inline-flex;
     align-items: center;
-    background: #cc0000;
-    color: white;
+    gap: var(--spacing-2);
+    background: white;
+    color: var(--color-primary);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
     padding: var(--spacing-4) var(--spacing-8);
-    border-radius: var(--radius-lg);
+    border-radius: var(--border-radius-lg);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all var(--transition-fast);
 }
 
 .ctaPrimary:hover {
-    background: #aa0000;
+    background: var(--color-gray-100);
     transform: translateY(-2px);
 }
 
@@ -311,27 +378,48 @@
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-2);
-    background: white;
-    color: #333;
+    background: transparent;
+    color: white;
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
     padding: var(--spacing-4) var(--spacing-8);
-    border-radius: var(--radius-lg);
+    border-radius: var(--border-radius-lg);
     text-decoration: none;
-    border: 2px solid #e0e0e0;
-    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    transition: all var(--transition-fast);
 }
 
 .ctaSecondary:hover {
-    border-color: #cc0000;
-    color: #cc0000;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+}
+
+.ctaSecondary svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* ========================================
    RESPONSIVE
    ======================================== */
 
-@media (max-width: 1200px) {
+@media (min-width: 640px) {
+
+    .servicesSection,
+    .brandsSection {
+        padding: var(--spacing-20) var(--spacing-6);
+    }
+}
+
+@media (min-width: 1024px) {
+
+    .servicesSection,
+    .brandsSection {
+        padding: var(--spacing-20) var(--spacing-8);
+    }
+}
+
+@media (max-width: 1280px) {
     .servicesGrid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -348,11 +436,11 @@
     }
 
     .heroTitle {
-        font-size: var(--font-size-3xl);
+        font-size: var(--font-size-2xl);
     }
 
     .heroSubtitle {
-        font-size: var(--font-size-lg);
+        font-size: var(--font-size-base);
     }
 
     .servicesSection {
@@ -361,11 +449,7 @@
 
     .servicesGrid {
         grid-template-columns: 1fr;
-        gap: var(--spacing-4);
-    }
-
-    .sectionTitle {
-        font-size: var(--font-size-2xl);
+        gap: var(--spacing-6);
     }
 
     .serviceCard {
@@ -378,11 +462,7 @@
 
     .whyGrid {
         grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-4);
-    }
-
-    .whyNumber {
-        font-size: var(--font-size-3xl);
+        gap: var(--spacing-6);
     }
 
     .brandsSection {
@@ -391,10 +471,6 @@
 
     .ctaSection {
         padding: var(--spacing-12) var(--spacing-4);
-    }
-
-    .ctaTitle {
-        font-size: var(--font-size-2xl);
     }
 
     .ctaButtons {
@@ -412,15 +488,25 @@
 
 @media (max-width: 480px) {
     .heroTitle {
-        font-size: var(--font-size-2xl);
+        font-size: var(--font-size-xl);
     }
 
-    .heroSubtitle {
-        font-size: var(--font-size-base);
+    .serviceIcon {
+        width: 64px;
+        height: 64px;
+    }
+
+    .serviceIcon svg {
+        width: 28px;
+        height: 28px;
     }
 
     .whyGrid {
         grid-template-columns: 1fr;
+    }
+
+    .whyNumber {
+        font-size: var(--font-size-3xl);
     }
 
     .brandItem {
