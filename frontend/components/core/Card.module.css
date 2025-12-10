@@ -1,8 +1,15 @@
+/* ========================================
+   CARD - Uniclima Solutions
+   Sistema de tarjetas profesionales
+   ======================================== */
+
 .card {
     background-color: var(--color-surface);
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-base);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-card);
     transition: all var(--transition-base);
+    overflow: hidden;
 }
 
 /* ========================================
@@ -11,6 +18,10 @@
 
 .padding-none {
     padding: 0;
+}
+
+.padding-xs {
+    padding: var(--spacing-3);
 }
 
 .padding-sm {
@@ -25,20 +36,268 @@
     padding: var(--spacing-8);
 }
 
+.padding-xl {
+    padding: var(--spacing-10);
+}
+
 /* ========================================
-   ESTADOS
+   VARIANTES DE ESTILO
+   ======================================== */
+
+/* Card con borde más visible */
+.bordered {
+    border-color: var(--color-border);
+}
+
+/* Card elevada con más sombra */
+.elevated {
+    box-shadow: var(--shadow-lg);
+}
+
+/* Card sin sombra */
+.flat {
+    box-shadow: none;
+}
+
+/* Card oscura */
+.dark {
+    background-color: var(--color-secondary);
+    border-color: var(--color-border-dark);
+    color: white;
+}
+
+/* Card con gradiente de fondo */
+.gradient {
+    background: var(--gradient-dark);
+    border-color: var(--color-border-dark);
+    color: white;
+}
+
+/* Card primaria con borde rojo */
+.primary {
+    border-color: var(--color-primary-alpha-30);
+}
+
+.primary:hover {
+    border-color: var(--color-primary);
+}
+
+/* ========================================
+   ESTADOS INTERACTIVOS
    ======================================== */
 
 .hover:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--color-primary-alpha-30);
 }
 
 .clickable {
     cursor: pointer;
 }
 
-.clickable:active {
+.clickable:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
+}
+
+.clickable:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ========================================
+   CARD HEADER
+   ======================================== */
+
+.header {
+    padding: var(--spacing-5) var(--spacing-6);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.headerTitle {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.headerSubtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--spacing-1);
+}
+
+.dark .header {
+    border-bottom-color: var(--color-border-dark);
+}
+
+.dark .headerTitle {
+    color: white;
+}
+
+.dark .headerSubtitle {
+    color: var(--color-text-secondary-on-dark);
+}
+
+/* ========================================
+   CARD BODY
+   ======================================== */
+
+.body {
+    padding: var(--spacing-6);
+}
+
+.body.compact {
+    padding: var(--spacing-4);
+}
+
+/* ========================================
+   CARD FOOTER
+   ======================================== */
+
+.footer {
+    padding: var(--spacing-4) var(--spacing-6);
+    border-top: 1px solid var(--color-border-light);
+    background-color: var(--color-gray-50);
+}
+
+.dark .footer {
+    border-top-color: var(--color-border-dark);
+    background-color: var(--color-secondary-light);
+}
+
+/* Footer con acciones */
+.footerActions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-3);
+}
+
+/* ========================================
+   CARD IMAGE
+   ======================================== */
+
+.imageWrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform var(--transition-slow);
+}
+
+.hover:hover .image {
+    transform: scale(1.05);
+}
+
+/* Aspect ratios para imágenes */
+.imageWrapper.ratio-square {
+    aspect-ratio: 1;
+}
+
+.imageWrapper.ratio-video {
+    aspect-ratio: 16/9;
+}
+
+.imageWrapper.ratio-portrait {
+    aspect-ratio: 3/4;
+}
+
+.imageWrapper.ratio-landscape {
+    aspect-ratio: 4/3;
+}
+
+.imageWrapper img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* ========================================
+   CARD BADGE
+   ======================================== */
+
+.badge {
+    position: absolute;
+    top: var(--spacing-3);
+    right: var(--spacing-3);
+    background: var(--gradient-primary);
+    color: white;
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    z-index: 1;
+}
+
+/* ========================================
+   CARD CON ICONO
+   ======================================== */
+
+.iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: var(--color-primary-alpha-10);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: var(--spacing-4);
+    transition: all var(--transition-fast);
+}
+
+.hover:hover .iconWrapper {
+    background: var(--gradient-primary);
+}
+
+.iconWrapper svg {
+    width: 28px;
+    height: 28px;
+    color: var(--color-primary);
+    transition: color var(--transition-fast);
+}
+
+.hover:hover .iconWrapper svg {
+    color: white;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .padding-md {
+        padding: var(--spacing-4);
+    }
+
+    .padding-lg {
+        padding: var(--spacing-6);
+    }
+
+    .header {
+        padding: var(--spacing-4);
+    }
+
+    .body {
+        padding: var(--spacing-4);
+    }
+
+    .footer {
+        padding: var(--spacing-3) var(--spacing-4);
+    }
+}
+
+@media (max-width: 480px) {
+    .padding-sm {
+        padding: var(--spacing-3);
+    }
+
+    .headerTitle {
+        font-size: var(--font-size-base);
+    }
 }

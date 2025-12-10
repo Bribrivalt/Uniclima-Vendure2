@@ -1,18 +1,19 @@
 /* ========================================
-   HEADER - Estilo WooCommerce
+   HEADER - Estilo Profesional Uniclima
+   Inspirado en uniclimasolutions.com
    ======================================== */
 
 .header {
-    background: white;
-    border-bottom: 1px solid #e0e0e0;
+    background-color: var(--color-background);
+    border-bottom: 1px solid var(--color-border-light);
     position: sticky;
     top: 0;
     z-index: var(--z-header);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
 }
 
 .container {
-    max-width: 1400px;
+    max-width: var(--container-2xl);
     margin: 0 auto;
     padding: 0 var(--spacing-4);
 }
@@ -32,24 +33,55 @@
 .logo {
     display: flex;
     align-items: center;
-    gap: var(--spacing-2);
+    gap: var(--spacing-3);
     text-decoration: none;
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    color: #1a1a1a;
-    transition: opacity var(--transition-base);
+    transition: opacity var(--transition-fast);
+    flex-shrink: 0;
 }
 
 .logo:hover {
-    opacity: 0.8;
+    opacity: 0.9;
+}
+
+.logoImage {
+    height: 48px;
+    width: auto;
 }
 
 .logoIcon {
-    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--gradient-primary);
+    border-radius: var(--border-radius-lg);
+    color: white;
+}
+
+.logoIcon svg {
+    width: 28px;
+    height: 28px;
 }
 
 .logoText {
-    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logoName {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.logoTagline {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 /* ========================================
@@ -59,7 +91,7 @@
 .menu {
     display: flex;
     align-items: center;
-    gap: var(--spacing-6);
+    gap: var(--spacing-1);
     flex: 1;
     justify-content: center;
 }
@@ -69,12 +101,13 @@
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-1);
-    color: #333;
+    color: var(--color-text-primary);
     text-decoration: none;
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
-    padding: var(--spacing-2) var(--spacing-3);
-    transition: color var(--transition-base);
+    padding: var(--spacing-2-5) var(--spacing-4);
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-fast);
 }
 
 .menuLink::after {
@@ -83,23 +116,35 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%) scaleX(0);
-    width: 80%;
+    width: calc(100% - var(--spacing-8));
     height: 2px;
-    background: #cc0000;
-    transition: transform var(--transition-base);
+    background: var(--color-primary);
+    transition: transform var(--transition-fast);
+    border-radius: var(--border-radius-full);
 }
 
 .menuLink:hover {
-    color: #cc0000;
+    color: var(--color-primary);
+    background-color: var(--color-primary-alpha-10);
 }
 
 .menuLink:hover::after {
     transform: translateX(-50%) scaleX(1);
 }
 
+.menuLink.active {
+    color: var(--color-primary);
+}
+
+.menuLink.active::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
 /* Chevron para items con dropdown */
 .menuChevron {
-    transition: transform var(--transition-base);
+    width: 12px;
+    height: 12px;
+    transition: transform var(--transition-fast);
     margin-left: 2px;
 }
 
@@ -120,9 +165,9 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    min-width: 400px;
-    padding-top: var(--spacing-2);
-    z-index: 100;
+    min-width: 480px;
+    padding-top: var(--spacing-3);
+    z-index: var(--z-dropdown);
     animation: dropdownFadeIn 0.2s ease-out;
 }
 
@@ -131,10 +176,10 @@
     grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-2);
     padding: var(--spacing-4);
-    background: white;
-    border-radius: var(--border-radius-lg);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    border: 1px solid #e0e0e0;
+    background: var(--color-background);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--color-border-light);
 }
 
 .categoryItem {
@@ -142,43 +187,115 @@
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-2);
-    padding: var(--spacing-3);
-    border-radius: var(--border-radius-md);
+    padding: var(--spacing-4);
+    border-radius: var(--border-radius-lg);
     text-decoration: none;
-    color: #333;
+    color: var(--color-text-primary);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     text-align: center;
-    transition: all var(--transition-base);
+    transition: all var(--transition-fast);
+    border: 1px solid transparent;
 }
 
 .categoryItem:hover {
-    background: #f5f5f5;
-    color: #cc0000;
+    background-color: var(--color-primary-alpha-10);
+    border-color: var(--color-primary-alpha-20);
+    color: var(--color-primary);
+    transform: translateY(-2px);
 }
 
 .categoryIcon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
-    background: #f5f5f5;
-    border-radius: var(--border-radius-md);
-    color: #666;
-    transition: all var(--transition-base);
+    width: 56px;
+    height: 56px;
+    background-color: var(--color-gray-100);
+    border-radius: var(--border-radius-lg);
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
 }
 
 .categoryItem:hover .categoryIcon {
-    background: #fff0f0;
-    color: #cc0000;
+    background: var(--gradient-primary);
+    color: white;
 }
 
 .categoryImage {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--border-radius-md);
+    width: 56px;
+    height: 56px;
+    border-radius: var(--border-radius-lg);
     object-fit: cover;
+}
+
+/* ========================================
+   BARRA DE BÚSQUEDA
+   ======================================== */
+
+.searchBar {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    max-width: 400px;
+}
+
+.searchWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.searchInput {
+    width: 100%;
+    padding: var(--spacing-3) var(--spacing-4);
+    padding-left: var(--spacing-11);
+    font-size: var(--font-size-sm);
+    background-color: var(--color-gray-100);
+    border: 2px solid transparent;
+    border-radius: var(--border-radius-lg);
+    transition: all var(--transition-fast);
+}
+
+.searchInput:focus {
+    outline: none;
+    background-color: var(--color-background);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-alpha-20);
+}
+
+.searchInput::placeholder {
+    color: var(--color-text-tertiary);
+}
+
+.searchIcon {
+    position: absolute;
+    left: var(--spacing-4);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: var(--color-text-tertiary);
+    pointer-events: none;
+}
+
+.searchButton {
+    position: absolute;
+    right: var(--spacing-1);
+    top: 50%;
+    transform: translateY(-50%);
+    padding: var(--spacing-2) var(--spacing-4);
+    background: var(--gradient-primary);
+    color: white;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    border: none;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.searchButton:hover {
+    background: var(--gradient-primary-hover);
 }
 
 /* ========================================
@@ -188,7 +305,7 @@
 .actions {
     display: flex;
     align-items: center;
-    gap: var(--spacing-4);
+    gap: var(--spacing-2);
 }
 
 .iconButton {
@@ -200,15 +317,20 @@
     border-radius: var(--border-radius-full);
     background: transparent;
     border: none;
-    color: #333;
+    color: var(--color-text-primary);
     cursor: pointer;
-    transition: all var(--transition-base);
+    transition: all var(--transition-fast);
     text-decoration: none;
 }
 
 .iconButton:hover {
-    background: #f5f5f5;
-    color: #cc0000;
+    background-color: var(--color-gray-100);
+    color: var(--color-primary);
+}
+
+.iconButton svg {
+    width: 22px;
+    height: 22px;
 }
 
 /* Carrito con badge */
@@ -222,33 +344,38 @@
     border-radius: var(--border-radius-full);
     background: transparent;
     border: none;
-    color: #333;
+    color: var(--color-text-primary);
     cursor: pointer;
-    transition: all var(--transition-base);
+    transition: all var(--transition-fast);
     text-decoration: none;
 }
 
 .cartButton:hover {
-    background: #f5f5f5;
-    color: #cc0000;
+    background-color: var(--color-gray-100);
+    color: var(--color-primary);
+}
+
+.cartButton svg {
+    width: 22px;
+    height: 22px;
 }
 
 .cartBadge {
     position: absolute;
-    top: 6px;
-    right: 6px;
+    top: 4px;
+    right: 4px;
     min-width: 18px;
     height: 18px;
-    padding: 0 4px;
+    padding: 0 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #cc0000;
+    background: var(--gradient-primary);
     color: white;
     font-size: 11px;
     font-weight: var(--font-weight-bold);
     border-radius: var(--border-radius-full);
-    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(229, 57, 53, 0.3);
 }
 
 /* ========================================
@@ -261,16 +388,16 @@
 
 .dropdown {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + var(--spacing-2));
     right: 0;
-    min-width: 240px;
-    background: white;
-    border-radius: var(--border-radius-md);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    border: 1px solid #e0e0e0;
+    min-width: 260px;
+    background: var(--color-background);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--color-border-light);
     overflow: hidden;
     animation: dropdownFadeIn 0.2s ease-out;
-    z-index: 100;
+    z-index: var(--z-dropdown);
 }
 
 @keyframes dropdownFadeIn {
@@ -287,22 +414,22 @@
 
 .dropdownHeader {
     padding: var(--spacing-4);
-    border-bottom: 1px solid #e0e0e0;
-    background: #f5f5f5;
+    border-bottom: 1px solid var(--color-border-light);
+    background: var(--color-gray-50);
 }
 
 .dropdownHeader strong {
     display: block;
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-semibold);
-    color: #333;
+    color: var(--color-text-primary);
     margin-bottom: var(--spacing-1);
 }
 
 .dropdownHeader span {
     display: block;
     font-size: var(--font-size-xs);
-    color: #666;
+    color: var(--color-text-tertiary);
 }
 
 .dropdownItem {
@@ -313,70 +440,146 @@
     padding: var(--spacing-3) var(--spacing-4);
     background: transparent;
     border: none;
-    color: #333;
+    color: var(--color-text-primary);
     font-size: var(--font-size-sm);
     text-align: left;
     text-decoration: none;
     cursor: pointer;
-    transition: all var(--transition-base);
+    transition: all var(--transition-fast);
 }
 
 .dropdownItem:hover {
-    background: #f5f5f5;
-    color: #cc0000;
+    background-color: var(--color-primary-alpha-10);
+    color: var(--color-primary);
 }
 
 .dropdownItem svg {
     flex-shrink: 0;
-    color: #666;
-    transition: color var(--transition-base);
+    width: 18px;
+    height: 18px;
+    color: var(--color-text-tertiary);
+    transition: color var(--transition-fast);
 }
 
 .dropdownItem:hover svg {
-    color: #cc0000;
+    color: var(--color-primary);
 }
 
 .dropdownDivider {
     height: 1px;
-    background: #e0e0e0;
+    background: var(--color-border-light);
     margin: var(--spacing-2) 0;
+}
+
+/* ========================================
+   BOTÓN MENÚ MÓVIL
+   ======================================== */
+
+.mobileMenuBtn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--border-radius-md);
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.mobileMenuBtn:hover {
+    background-color: var(--color-gray-100);
+}
+
+.mobileMenuBtn svg {
+    width: 24px;
+    height: 24px;
 }
 
 /* ========================================
    RESPONSIVE
    ======================================== */
 
-@media (max-width: 1024px) {
+@media (min-width: 640px) {
+    .container {
+        padding: 0 var(--spacing-6);
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        padding: 0 var(--spacing-8);
+    }
+}
+
+/* Tablet grande */
+@media (max-width: 1280px) {
     .nav {
-        height: 70px;
         gap: var(--spacing-4);
     }
 
     .menu {
-        gap: var(--spacing-4);
+        gap: 0;
     }
 
     .menuLink {
+        padding: var(--spacing-2) var(--spacing-3);
         font-size: var(--font-size-sm);
-        padding: var(--spacing-2);
     }
 
-    .logoText {
-        font-size: 20px;
+    .searchBar {
+        max-width: 300px;
     }
 }
 
-@media (max-width: 768px) {
+/* Tablet */
+@media (max-width: 1024px) {
     .nav {
-        height: 60px;
+        height: 70px;
     }
 
     .menu {
         display: none;
     }
 
+    .searchBar {
+        display: none;
+    }
+
+    .mobileMenuBtn {
+        display: flex;
+    }
+
+    .logoName {
+        font-size: var(--font-size-lg);
+    }
+
+    .logoTagline {
+        display: none;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .nav {
+        height: 64px;
+        gap: var(--spacing-3);
+    }
+
+    .logoIcon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .logoIcon svg {
+        width: 24px;
+        height: 24px;
+    }
+
     .actions {
-        gap: var(--spacing-2);
+        gap: var(--spacing-1);
     }
 
     .iconButton,
@@ -385,17 +588,20 @@
         height: 40px;
     }
 
-    .logoText {
-        font-size: 18px;
+    .iconButton svg,
+    .cartButton svg {
+        width: 20px;
+        height: 20px;
     }
 }
 
-@media (max-width: 640px) {
-    .logoIcon {
-        font-size: 24px;
+/* Mobile pequeño */
+@media (max-width: 480px) {
+    .logoText {
+        display: none;
     }
 
-    .logoText {
+    .iconButton:not(.cartButton):not(:first-child) {
         display: none;
     }
 }

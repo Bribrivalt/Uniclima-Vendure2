@@ -42,12 +42,8 @@ export const config: VendureConfig = {
         },
     },
     dbConnectionOptions: {
-        type: 'postgres',
-        host: process.env.DB_HOST || 'localhost',
-        port: parseInt(process.env.DB_PORT || '5432'),
-        username: process.env.DB_USERNAME || 'vendure',
-        password: process.env.DB_PASSWORD || 'vendure',
-        database: process.env.DB_NAME || 'vendure',
+        type: 'better-sqlite3',
+        database: path.join(__dirname, '../vendure.sqlite'),
         // See the README.md "Migrations" section for an explanation of
         // the `synchronize` and `migrations` options.
         synchronize: IS_DEV, // Auto-sync in dev, use migrations in production
