@@ -5,14 +5,18 @@
  * Incluye badges de estado, diseño responsive y botón prominente.
  *
  * @author Frontend Team
- * @version 2.0.0
+ * @version 2.1.0
  */
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useMutation } from '@apollo/client';
 import { Product } from '@/lib/types/product';
 import { ProductButton } from './ProductButton';
+import { ADD_ITEM_TO_ORDER } from '@/lib/vendure/mutations/cart';
+import { GET_ACTIVE_ORDER } from '@/lib/vendure/queries/cart';
 import styles from './ProductCard.module.css';
 
 export interface ProductCardProps {
@@ -33,6 +37,58 @@ export function ProductCard({ product, showSpecs = true, condition }: ProductCar
     const formattedPrice = (price / 100).toFixed(2);
     const imageUrl = product.featuredAsset?.preview || '/placeholder-product.png';
     const customFields = product.customFields;
+
+    // Estado para feedback visual
+    const [isAdding, setIsAdding] = useState(false);
+    const [addedSuccess, setAddedSuccess] = useState(false);
+
+    // Mutation para añadir al carrito
+    const [addItemToOrder, { loading: addingToCart }] = useMutation(ADD_ITEM_TO_ORDER, {
+        refetchQueries: [{ query: GET_ACTIVE_ORDER }],
+        onCompleted: (data) => {
+            // Verificar si la operación fue exitosa
+            if (data?.addItemToOrder?.id) {
+                setAddedSuccess(true);
+                setTimeout(() => setAddedSuccess(false), 2000);
+            } else if (data?.addItemToOrder?.errorCode) {
+                console.error('Error añadiendo al carrito:', data.addItemToOrder.message);
+                alert(data.addItemToOrder.message || 'Error al añadir al carrito');
+            }
+            setIsAdding(false);
+        },
+        onError: (error) => {
+            console.error('Error añadiendo al carrito:', error);
+            alert('Error al añadir al carrito. Por favor, inténtalo de nuevo.');
+            setIsAdding(false);
+        },
+    });
+
+    /**
+     * Maneja el click en el botón de añadir al carrito
+     * Envía la mutation addItemToOrder con el ID de la variante
+     */
+    const handleAddToCart = async (e: React.MouseEvent) => {
+        e.preventDefault(); // Evitar navegación al producto
+        e.stopPropagation(); // Evitar propagación del evento
+        
+        if (!defaultVariant?.id) {
+            alert('Este producto no está disponible para compra');
+            return;
+        }
+
+        setIsAdding(true);
+        
+        try {
+            await addItemToOrder({
+                variables: {
+                    productVariantId: defaultVariant.id,
+                    quantity: 1,
+                },
+            });
+        } catch (error) {
+            // Error manejado en onError
+        }
+    };
 
     // Determinar si es nuevo (creado en los últimos 30 días)
     const isNew = !condition && product.createdAt && 
@@ -104,11 +160,35 @@ export function ProductCard({ product, showSpecs = true, condition }: ProductCar
                     </div>
 
                     {/* Botón prominente de añadir al carrito */}
-                    <button className={styles.addToCartButton} aria-label={`Añadir ${product.name} al carrito`}>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                        Añadir al carrito
+                    <button
+                        className={`${styles.addToCartButton} ${addedSuccess ? styles.addedSuccess : ''}`}
+                        onClick={handleAddToCart}
+                        disabled={isAdding || addingToCart || !defaultVariant?.id}
+                        aria-label={`Añadir ${product.name} al carrito`}
+                    >
+                        {isAdding || addingToCart ? (
+                            <>
+                                <svg className={styles.spinner} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
+                                    <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round" />
+                                </svg>
+                                Añadiendo...
+                            </>
+                        ) : addedSuccess ? (
+                            <>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                                ¡Añadido!
+                            </>
+                        ) : (
+                            <>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                                Añadir al carrito
+                            </>
+                        )}
                     </button>
                 </div>
             </div>

@@ -281,9 +281,46 @@
     box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
 }
 
+.addToCartButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.addToCartButton:disabled:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
 .addToCartButton svg {
     width: 18px;
     height: 18px;
+}
+
+/* Estado de éxito al añadir al carrito */
+.addedSuccess {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3) !important;
+}
+
+.addedSuccess:hover {
+    background: linear-gradient(135deg, #218838 0%, #1ea088 100%) !important;
+    box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4) !important;
+}
+
+/* Spinner de carga */
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 
