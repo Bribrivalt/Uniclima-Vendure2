@@ -80,8 +80,9 @@ services:
       - /app/node_modules
       - /app/.next
     environment:
-      # IMPORTANTE: Usar localhost porque el navegador se ejecuta fuera de Docker
-      # y necesita conectarse al puerto expuesto en el host
+      # URL pública para el navegador (cliente) - usa localhost:3001 expuesto al host
       - NEXT_PUBLIC_VENDURE_SHOP_API=http://localhost:3001/shop-api
+      # URL interna para el servidor (SSR/rewrites) - usa el nombre del servicio Docker
+      - VENDURE_INTERNAL_API=http://backend:3001
     depends_on:
       - backend
