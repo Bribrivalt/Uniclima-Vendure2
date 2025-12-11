@@ -54,6 +54,30 @@
 }
 
 /* ========================================
+   CONTROLS BAR (SEARCH + SORT) - ARRIBA DE TODO
+   ======================================== */
+
+.controlsBar {
+    display: flex;
+    gap: var(--spacing-4);
+    align-items: center;
+    padding: 0 var(--spacing-6);
+    margin-bottom: var(--spacing-6);
+    max-width: var(--container-2xl);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.controlsBar .searchWrapper {
+    flex: 1;
+    max-width: 500px;
+}
+
+.controlsBar .mobileFilterButton {
+    display: none;
+}
+
+/* ========================================
    MAIN CONTENT LAYOUT
    ======================================== */
 
@@ -470,6 +494,23 @@
 
     .heroSubtitle {
         font-size: var(--font-size-base);
+    }
+
+    /* ControlsBar responsive */
+    .controlsBar {
+        flex-wrap: wrap;
+        padding: 0 var(--spacing-4);
+    }
+
+    .controlsBar .searchWrapper {
+        flex: 1 1 100%;
+        max-width: none;
+        margin-bottom: var(--spacing-2);
+    }
+
+    .controlsBar .mobileFilterButton {
+        display: flex;
+        flex: 1;
     }
 
     .mainContent {

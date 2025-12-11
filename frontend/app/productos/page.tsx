@@ -352,6 +352,30 @@ export default function ProductosPage() {
                 </div>
             </div>
 
+            {/* Barra de controles ARRIBA: Búsqueda, Filtros móvil y Ordenamiento */}
+            <div className={styles.controlsBar}>
+                <div className={styles.searchWrapper}>
+                    <ProductSearch onSearch={setSearchQuery} />
+                </div>
+
+                {/* Botón de filtros para móvil */}
+                <button
+                    className={styles.mobileFilterButton}
+                    onClick={() => setIsFilterDrawerOpen(true)}
+                    aria-label="Abrir filtros"
+                >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" />
+                    </svg>
+                    <span>Filtros</span>
+                    {activeFilterCount > 0 && (
+                        <span className={styles.filterBadge}>{activeFilterCount}</span>
+                    )}
+                </button>
+
+                <ProductSort value={sortOption} onChange={(value) => setSortOption(value as SortOption)} />
+            </div>
+
             <div className={styles.mainContent}>
                 {/* Sidebar con filtros dinámicos (desktop) */}
                 <ProductFilters
@@ -375,30 +399,6 @@ export default function ProductosPage() {
 
                 {/* Contenido principal */}
                 <main className={styles.content}>
-                    {/* Barra de controles: Búsqueda, Filtros móvil y Ordenamiento */}
-                    <div className={styles.controls}>
-                        <div className={styles.searchWrapper}>
-                            <ProductSearch onSearch={setSearchQuery} />
-                        </div>
-
-                        {/* Botón de filtros para móvil */}
-                        <button
-                            className={styles.mobileFilterButton}
-                            onClick={() => setIsFilterDrawerOpen(true)}
-                            aria-label="Abrir filtros"
-                        >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" />
-                            </svg>
-                            <span>Filtros</span>
-                            {activeFilterCount > 0 && (
-                                <span className={styles.filterBadge}>{activeFilterCount}</span>
-                            )}
-                        </button>
-
-                        <ProductSort value={sortOption} onChange={(value) => setSortOption(value as SortOption)} />
-                    </div>
-
                     {/* Stats */}
                     <div className={styles.stats}>
                         <span className={styles.count}>

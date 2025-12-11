@@ -350,17 +350,13 @@
 }
 
 @media (min-width: 769px) {
+
+    /* En desktop, el drawer se oculta completamente ya que usamos el sidebar */
     .drawer {
-        position: static;
-        transform: none;
-        max-width: none;
+        display: none !important;
     }
 
     .overlay {
-        display: none;
-    }
-
-    .drawer .closeButton {
         display: none;
     }
 }
