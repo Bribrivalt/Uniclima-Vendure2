@@ -249,6 +249,50 @@ export default function Header() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isUserDropdownOpen, isCategoriesOpen]);
 
+    // Estado para las secciones expandidas del menú
+    const [expandedMenuSections, setExpandedMenuSections] = useState<Set<string>>(new Set());
+
+    const toggleMenuSection = (section: string) => {
+        setExpandedMenuSections(prev => {
+            const next = new Set(prev);
+            if (next.has(section)) {
+                next.delete(section);
+            } else {
+                next.add(section);
+            }
+            return next;
+        });
+    };
+
+    // Categorías de la tienda
+    const tiendaCategorias = [
+        {
+            id: 'aires',
+            name: 'Aires Acondicionados',
+            subcategorias: ['Split Pared', 'Multisplit', 'Conductos', 'Cassette', 'Suelo/Techo', 'Portátil']
+        },
+        {
+            id: 'calefacciones',
+            name: 'Calefacciones',
+            subcategorias: ['Calderas de Gas', 'Calderas de Condensación', 'Radiadores', 'Suelo Radiante']
+        },
+        {
+            id: 'repuestos',
+            name: 'Repuestos',
+            subcategorias: ['Placas Electrónicas', 'Compresores', 'Ventiladores', 'Válvulas', 'Sensores']
+        },
+        {
+            id: 'reacondicionados',
+            name: 'Reacondicionados',
+            subcategorias: ['Aires Reacondicionados', 'Calderas Reacondicionadas']
+        },
+        {
+            id: 'nuevos',
+            name: 'Nuevos',
+            subcategorias: ['Últimas Novedades', 'Ofertas Especiales']
+        }
+    ];
+
     return (
         <header className={styles.header} role="banner">
             <div className={styles.container}>
@@ -264,90 +308,144 @@ export default function Header() {
                         </div>
                     </Link>
 
-                    {/* Menú de navegación */}
-                    <div className={styles.menu} role="menubar" aria-label="Menú principal">
-                        <Link href="/" className={styles.menuLink} role="menuitem">
-                            Inicio
-                        </Link>
-
-                        <Link href="/servicios" className={styles.menuLink} role="menuitem">
-                            Servicios
-                        </Link>
-
-                        {/* Dropdown de Productos/Categorías */}
-                        <div
-                            className={styles.menuDropdown}
-                            ref={categoriesDropdownRef}
-                            onMouseEnter={() => setIsCategoriesOpen(true)}
-                            onMouseLeave={() => setIsCategoriesOpen(false)}
+                    {/* Botón "Todas las categorías" */}
+                    <div className={styles.categoriesMenuWrapper} ref={categoriesDropdownRef}>
+                        <button
+                            className={styles.categoriesMenuButton}
+                            onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
+                            aria-expanded={isCategoriesOpen}
+                            aria-haspopup="true"
                         >
-                            <Link href="/repuestos" className={styles.menuLink}>
-                                Repuestos
-                                <svg
-                                    width="12"
-                                    height="12"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    className={`${styles.menuChevron} ${isCategoriesOpen ? styles.menuChevronOpen : ''}`}
+                            <MenuIcon />
+                            <span>Todas las categorías</span>
+                        </button>
+
+                        {/* Menú desplegable */}
+                        {isCategoriesOpen && (
+                            <div className={styles.fullMenu}>
+                                {/* Inicio */}
+                                <Link
+                                    href="/"
+                                    className={styles.fullMenuItem}
+                                    onClick={() => setIsCategoriesOpen(false)}
                                 >
-                                    <path d="M6 9l6 6 6-6" />
-                                </svg>
-                            </Link>
+                                    <span>Inicio</span>
+                                    <svg viewBox="0 0 24 24" fill="currentColor" className={styles.fullMenuIcon}>
+                                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                                    </svg>
+                                </Link>
 
-                            {isCategoriesOpen && (
-                                <div className={styles.categoriesDropdown}>
-                                    <div className={styles.categoriesGrid}>
-                                        {/* Ver todos */}
-                                        <Link
-                                            href="/repuestos"
-                                            className={styles.categoryItem}
-                                            onClick={() => setIsCategoriesOpen(false)}
-                                        >
-                                            <div className={styles.categoryIcon}>
-                                                <GridIcon />
-                                            </div>
-                                            <span>Ver Todo</span>
-                                        </Link>
+                                {/* Servicios */}
+                                <Link
+                                    href="/servicios"
+                                    className={styles.fullMenuItem}
+                                    onClick={() => setIsCategoriesOpen(false)}
+                                >
+                                    <span>Servicios</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={styles.fullMenuIcon}>
+                                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                                    </svg>
+                                </Link>
 
-                                        {/* Categorías dinámicas */}
-                                        {collections.slice(0, 5).map((collection) => (
+                                {/* Tienda - Sección expandible */}
+                                <div className={styles.fullMenuSection}>
+                                    <button
+                                        className={`${styles.fullMenuSectionHeader} ${expandedMenuSections.has('tienda') ? styles.expanded : ''}`}
+                                        onClick={() => toggleMenuSection('tienda')}
+                                    >
+                                        <span>Tienda</span>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={styles.fullMenuChevron}>
+                                            <path d={expandedMenuSections.has('tienda') ? "M18 15l-6-6-6 6" : "M6 9l6 6 6-6"} />
+                                        </svg>
+                                    </button>
+
+                                    {expandedMenuSections.has('tienda') && (
+                                        <div className={styles.fullMenuSectionContent}>
+                                            {/* Catálogo general */}
                                             <Link
-                                                key={collection.id}
-                                                href={`/productos?collection=${collection.slug}`}
-                                                className={styles.categoryItem}
+                                                href="/productos"
+                                                className={styles.fullMenuSubItem}
                                                 onClick={() => setIsCategoriesOpen(false)}
                                             >
-                                                {collection.featuredAsset ? (
-                                                    <Image
-                                                        src={collection.featuredAsset.preview}
-                                                        alt={collection.name}
-                                                        width={56}
-                                                        height={56}
-                                                        className={styles.categoryImage}
-                                                    />
-                                                ) : (
-                                                    <div className={styles.categoryIcon}>
-                                                        <LayersIcon />
-                                                    </div>
-                                                )}
-                                                <span>{collection.name}</span>
+                                                <span>Ver todo el catálogo</span>
                                             </Link>
-                                        ))}
-                                    </div>
+
+                                            {/* Categorías de la tienda */}
+                                            {tiendaCategorias.map((categoria) => (
+                                                <div key={categoria.id} className={styles.fullMenuSubSection}>
+                                                    <button
+                                                        className={`${styles.fullMenuSubSectionHeader} ${expandedMenuSections.has(categoria.id) ? styles.expanded : ''}`}
+                                                        onClick={() => toggleMenuSection(categoria.id)}
+                                                    >
+                                                        <span>{categoria.name}</span>
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={styles.fullMenuChevronSmall}>
+                                                            <path d={expandedMenuSections.has(categoria.id) ? "M18 15l-6-6-6 6" : "M6 9l6 6 6-6"} />
+                                                        </svg>
+                                                    </button>
+
+                                                    {expandedMenuSections.has(categoria.id) && (
+                                                        <div className={styles.fullMenuSubItems}>
+                                                            {categoria.subcategorias.map((sub) => (
+                                                                <Link
+                                                                    key={sub}
+                                                                    href={`/productos?categoria=${categoria.id}&sub=${encodeURIComponent(sub.toLowerCase().replace(/ /g, '-'))}`}
+                                                                    className={styles.fullMenuSubSubItem}
+                                                                    onClick={() => setIsCategoriesOpen(false)}
+                                                                >
+                                                                    {sub}
+                                                                </Link>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
 
-                        <Link href="/blog" className={styles.menuLink} role="menuitem">
-                            Blog
-                        </Link>
+                                {/* Blog */}
+                                <Link
+                                    href="/blog"
+                                    className={styles.fullMenuItem}
+                                    onClick={() => setIsCategoriesOpen(false)}
+                                >
+                                    <span>Blog</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={styles.fullMenuIcon}>
+                                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                                    </svg>
+                                </Link>
 
-                        <Link href="/contacto" className={styles.menuLink} role="menuitem">
-                            Contacto
-                        </Link>
+                                {/* Contacto */}
+                                <Link
+                                    href="/contacto"
+                                    className={styles.fullMenuItem}
+                                    onClick={() => setIsCategoriesOpen(false)}
+                                >
+                                    <span>Contacto</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={styles.fullMenuIcon}>
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                        <circle cx="12" cy="10" r="3" />
+                                    </svg>
+                                </Link>
+                            </div>
+                        )}
                     </div>
+
+                    {/* Barra de búsqueda */}
+                    <form className={styles.headerSearchBar} onSubmit={handleSearch}>
+                        <input
+                            type="text"
+                            className={styles.headerSearchInput}
+                            placeholder="Buscar productos..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            aria-label="Buscar productos"
+                        />
+                        <button type="submit" className={styles.headerSearchButton}>
+                            Buscar
+                        </button>
+                    </form>
 
                     {/* Acciones */}
                     <div className={styles.actions} role="group" aria-label="Acciones de usuario">

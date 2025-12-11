@@ -47,12 +47,14 @@ body {
 img,
 picture,
 video,
-canvas,
-svg {
+canvas {
   display: block;
   max-width: 100%;
   height: auto;
 }
+
+/* SVG general - NO aplicar reset automático */
+/* Los SVGs se manejarán con estilos específicos en cada componente */
 
 /* Reset de formularios */
 input,

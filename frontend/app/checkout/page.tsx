@@ -25,7 +25,7 @@ import {
 } from '@/lib/vendure/mutations/order';
 import { useAuth } from '@/lib/auth-context';
 import { useToast } from '@/components/ui/Toast';
-import { CheckoutSteps, DEFAULT_CHECKOUT_STEPS, ShippingAddress, StripePaymentForm } from '@/components/checkout';
+import { CheckoutSteps, DEFAULT_CHECKOUT_STEPS, ShippingAddress } from '@/components/checkout';
 import { Button, Alert, Input, Dropdown } from '@/components/core';
 import styles from './page.module.css';
 
@@ -760,14 +760,19 @@ export default function CheckoutPage() {
                 </div>
             </div>
 
-            {/* Formulario de pago Stripe */}
-            <StripePaymentForm
-                amount={total}
-                currency="eur"
-                orderCode={activeOrder?.code || ''}
-                onSuccess={handlePaymentSuccess}
-                onError={handlePaymentError}
-            />
+            {/* Formulario de pago Stripe - Temporalmente deshabilitado */}
+            <div style={{ padding: '2rem', background: '#f5f5f5', borderRadius: '8px', textAlign: 'center' }}>
+                <p style={{ marginBottom: '1rem', color: '#666' }}>
+                    El pago con Stripe estará disponible próximamente.
+                </p>
+                <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={() => handlePaymentSuccess(activeOrder?.code || '')}
+                >
+                    Simular pago (desarrollo)
+                </Button>
+            </div>
 
             {/* Botón de volver */}
             <div className={styles.backButton}>

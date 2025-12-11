@@ -117,6 +117,127 @@ export const GET_FACETS = gql`
 `;
 
 /**
+ * Query para obtener facets con contadores de productos usando la API de búsqueda
+ *
+ * Esta query usa el endpoint de búsqueda de Vendure que devuelve facetValues
+ * con la cantidad de productos que tienen cada valor de facet.
+ *
+ * @param {string} term - Término de búsqueda opcional
+ * @param {[ID!]} facetValueIds - IDs de facet values para filtrar
+ * @returns Facet values con contadores de productos
+ */
+export const SEARCH_FACET_VALUES = gql`
+  query SearchFacetValues($term: String, $facetValueIds: [ID!]) {
+    search(
+      input: {
+        term: $term
+        facetValueIds: $facetValueIds
+        groupByProduct: true
+        take: 0
+      }
+    ) {
+      totalItems
+      facetValues {
+        facetValue {
+          id
+          code
+          name
+          facet {
+            id
+            code
+            name
+          }
+        }
+        count
+      }
+    }
+  }
+`;
+
+/**
+ * Query para buscar productos con soporte de facets
+ *
+ * Esta query usa la API de búsqueda de Vendure que soporta:
+ * - Filtrado por facetValueIds
+ * - Búsqueda por término
+ * - Paginación
+ * - Ordenamiento
+ *
+ * @param {string} term - Término de búsqueda
+ * @param {[ID!]} facetValueIds - IDs de facet values para filtrar
+ * @param {number} take - Número de productos
+ * @param {number} skip - Offset para paginación
+ * @returns Productos que coinciden con los criterios de búsqueda
+ */
+export const SEARCH_PRODUCTS = gql`
+  query SearchProducts(
+    $term: String
+    $facetValueIds: [ID!]
+    $take: Int
+    $skip: Int
+    $sort: SearchResultSortParameter
+  ) {
+    search(
+      input: {
+        term: $term
+        facetValueIds: $facetValueIds
+        groupByProduct: true
+        take: $take
+        skip: $skip
+        sort: $sort
+      }
+    ) {
+      totalItems
+      items {
+        productId
+        productName
+        slug
+        description
+        productAsset {
+          id
+          preview
+        }
+        priceWithTax {
+          ... on SinglePrice {
+            value
+          }
+          ... on PriceRange {
+            min
+            max
+          }
+        }
+        price {
+          ... on SinglePrice {
+            value
+          }
+          ... on PriceRange {
+            min
+            max
+          }
+        }
+        productVariantId
+        productVariantName
+        sku
+        facetValueIds
+      }
+      facetValues {
+        facetValue {
+          id
+          code
+          name
+          facet {
+            id
+            code
+            name
+          }
+        }
+        count
+      }
+    }
+  }
+`;
+
+/**
  * Query para obtener un producto individual por slug
  *
  * Esta query obtiene todos los detalles de un producto específico,

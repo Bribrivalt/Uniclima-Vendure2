@@ -45,6 +45,7 @@ services:
     restart: unless-stopped
     networks:
       - vendure-network
+    entrypoint: [ "/bin/bash", "/usr/src/app/docker-entrypoint.sh" ]
     command: npm run dev
     ports:
       - "3001:3001"

@@ -132,8 +132,11 @@ export function ProductFilters({
     onClose,
     className,
 }: ProductFiltersProps) {
-    // Estado para grupos colapsados
-    const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
+    // Estado para grupos colapsados - TODOS CERRADOS POR DEFECTO
+    // Inicializar con todos los IDs de grupos para que estén colapsados
+    const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(() => {
+        return new Set(filterGroups.map(g => g.id));
+    });
 
     // Toggle de colapso de grupo
     const toggleGroup = (groupId: string) => {

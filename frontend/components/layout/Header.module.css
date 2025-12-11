@@ -85,71 +85,284 @@
 }
 
 /* ========================================
-   MENÚ DE NAVEGACIÓN
+   BOTÓN TODAS LAS CATEGORÍAS
    ======================================== */
 
-.menu {
+.categoriesMenuWrapper {
+    position: relative;
+}
+
+.categoriesMenuButton {
     display: flex;
     align-items: center;
-    gap: var(--spacing-1);
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-3);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    transition: color var(--transition-fast);
+}
+
+.categoriesMenuButton:hover {
+    color: var(--color-primary);
+}
+
+.categoriesMenuButton svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* ========================================
+   MENÚ DESPLEGABLE COMPLETO
+   ======================================== */
+
+.fullMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 320px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 1000;
+    margin-top: 8px;
+}
+
+.fullMenuItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.2s ease;
+}
+
+.fullMenuItem:hover {
+    background-color: #f8f8f8;
+    color: var(--color-primary);
+}
+
+.fullMenuIcon {
+    width: 20px;
+    height: 20px;
+    color: #666;
+}
+
+.fullMenuItem:hover .fullMenuIcon {
+    color: var(--color-primary);
+}
+
+/* Sección expandible */
+.fullMenuSection {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.fullMenuSectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #333;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.fullMenuSectionHeader:hover {
+    background-color: #f8f8f8;
+    color: var(--color-primary);
+}
+
+.fullMenuSectionHeader.expanded {
+    background-color: #f5f5f5;
+    color: var(--color-primary);
+}
+
+.fullMenuChevron {
+    width: 18px;
+    height: 18px;
+    color: #999;
+    transition: transform 0.2s ease;
+}
+
+.fullMenuSectionHeader.expanded .fullMenuChevron {
+    color: var(--color-primary);
+}
+
+/* Contenido de la sección */
+.fullMenuSectionContent {
+    background-color: #fafafa;
+    border-top: 1px solid #e8e8e8;
+}
+
+.fullMenuSubItem {
+    display: block;
+    padding: 0.875rem 1.25rem;
+    padding-left: 2rem;
+    text-decoration: none;
+    color: #555;
+    font-size: 0.875rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.2s ease;
+}
+
+.fullMenuSubItem:hover {
+    background-color: #f0f0f0;
+    color: var(--color-primary);
+    padding-left: 2.25rem;
+}
+
+/* Sub-sección (categorías dentro de tienda) */
+.fullMenuSubSection {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.fullMenuSubSectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    padding-left: 2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #555;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.fullMenuSubSectionHeader:hover {
+    background-color: #f0f0f0;
+    color: var(--color-primary);
+}
+
+.fullMenuSubSectionHeader.expanded {
+    background-color: #eee;
+    color: var(--color-primary);
+}
+
+.fullMenuChevronSmall {
+    width: 14px;
+    height: 14px;
+    color: #999;
+}
+
+.fullMenuSubSectionHeader.expanded .fullMenuChevronSmall {
+    color: var(--color-primary);
+}
+
+/* Items de la sub-sección */
+.fullMenuSubItems {
+    background-color: #f5f5f5;
+}
+
+.fullMenuSubSubItem {
+    display: block;
+    padding: 0.75rem 1.25rem;
+    padding-left: 3rem;
+    text-decoration: none;
+    color: #666;
+    font-size: 0.8125rem;
+    border-bottom: 1px solid #e8e8e8;
+    transition: all 0.2s ease;
+}
+
+.fullMenuSubSubItem:last-child {
+    border-bottom: none;
+}
+
+.fullMenuSubSubItem:hover {
+    background-color: #eee;
+    color: var(--color-primary);
+    padding-left: 3.25rem;
+}
+
+/* ========================================
+   BARRA DE BÚSQUEDA EN HEADER
+   ======================================== */
+
+.headerSearchBar {
     flex: 1;
-    justify-content: center;
+    display: flex;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 1rem;
+}
+
+.headerSearchInput {
+    flex: 1;
+    padding: 0.625rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 0.9375rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+    background-color: #fff;
+}
+
+.headerSearchInput:focus {
+    border-color: #333;
+}
+
+.headerSearchInput::placeholder {
+    color: #999;
+}
+
+.headerSearchButton {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.625rem 1.25rem;
+    background-color: #333;
+    color: white;
+    border: 2px solid #333;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+}
+
+.headerSearchButton:hover {
+    background-color: #222;
+}
+
+/* Ocultar menú tradicional */
+.menu {
+    display: none;
 }
 
 .menuLink {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-1);
-    color: var(--color-text-primary);
-    text-decoration: none;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    padding: var(--spacing-2-5) var(--spacing-4);
-    border-radius: var(--border-radius-md);
-    transition: all var(--transition-fast);
-}
-
-.menuLink::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%) scaleX(0);
-    width: calc(100% - var(--spacing-8));
-    height: 2px;
-    background: var(--color-primary);
-    transition: transform var(--transition-fast);
-    border-radius: var(--border-radius-full);
-}
-
-.menuLink:hover {
-    color: var(--color-primary);
-    background-color: var(--color-primary-alpha-10);
-}
-
-.menuLink:hover::after {
-    transform: translateX(-50%) scaleX(1);
-}
-
-.menuLink.active {
-    color: var(--color-primary);
-}
-
-.menuLink.active::after {
-    transform: translateX(-50%) scaleX(1);
+    display: none;
 }
 
 /* Chevron para items con dropdown */
 .menuChevron {
-    width: 12px;
-    height: 12px;
-    transition: transform var(--transition-fast);
-    margin-left: 2px;
+    display: none;
 }
 
 .menuChevronOpen {
-    transform: rotate(180deg);
+    display: none;
 }
 
 /* ========================================
@@ -227,6 +440,219 @@
     height: 56px;
     border-radius: var(--border-radius-lg);
     object-fit: cover;
+}
+
+/* ========================================
+   MEGA MENU - TIENDA
+   ======================================== */
+
+.megaMenu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 800px;
+    padding-top: var(--spacing-3);
+    z-index: var(--z-dropdown);
+    animation: dropdownFadeIn 0.2s ease-out;
+}
+
+.megaMenuContent {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: var(--spacing-6);
+    padding: var(--spacing-6);
+    background: var(--color-background);
+    border-radius: var(--border-radius-2xl);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--color-border-light);
+}
+
+/* Columna destacada */
+.megaMenuHighlight {
+    display: flex;
+    flex-direction: column;
+}
+
+.megaMenuHighlightBg {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--spacing-6);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #c82333 100%);
+    border-radius: var(--border-radius-xl);
+    color: white;
+    height: 100%;
+}
+
+.megaMenuHighlightTitle {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 var(--spacing-2) 0;
+}
+
+.megaMenuHighlightText {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+    margin: 0 0 var(--spacing-4) 0;
+    line-height: var(--line-height-relaxed);
+}
+
+.megaMenuHighlightBtn {
+    display: inline-block;
+    padding: var(--spacing-2-5) var(--spacing-4);
+    background: white;
+    color: var(--color-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    border-radius: var(--border-radius-lg);
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.megaMenuHighlightBtn:hover {
+    background: var(--color-gray-100);
+    transform: translateY(-2px);
+}
+
+/* Título de sección */
+.megaMenuSectionTitle {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 var(--spacing-4) 0;
+    padding-bottom: var(--spacing-3);
+    border-bottom: 2px solid var(--color-border-light);
+}
+
+.megaMenuSectionTitle svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Categorías */
+.megaMenuCategories {
+    display: flex;
+    flex-direction: column;
+}
+
+.megaMenuCategoriesGrid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+
+.megaMenuCategoryItem {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3);
+    border-radius: var(--border-radius-lg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    border: 1px solid transparent;
+}
+
+.megaMenuCategoryItem:hover {
+    background-color: var(--color-primary-alpha-10);
+    border-color: var(--color-primary-alpha-20);
+    transform: translateX(4px);
+}
+
+.megaMenuCategoryIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--color-gray-100) 0%, var(--color-gray-200) 100%);
+    border-radius: var(--border-radius-md);
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
+    overflow: hidden;
+}
+
+.megaMenuCategoryItem:hover .megaMenuCategoryIcon {
+    background: linear-gradient(135deg, var(--color-primary-alpha-20) 0%, var(--color-primary-alpha-30) 100%);
+    color: var(--color-primary);
+}
+
+.megaMenuCategoryImage {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius-md);
+    object-fit: cover;
+}
+
+.megaMenuCategoryIcon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.megaMenuCategoryInfo {
+    flex: 1;
+}
+
+.megaMenuCategoryName {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    transition: color var(--transition-fast);
+}
+
+.megaMenuCategoryItem:hover .megaMenuCategoryName {
+    color: var(--color-primary);
+}
+
+.megaMenuCategoryArrow {
+    width: 16px;
+    height: 16px;
+    color: var(--color-text-disabled);
+    transition: all var(--transition-fast);
+    opacity: 0;
+    transform: translateX(-8px);
+}
+
+.megaMenuCategoryItem:hover .megaMenuCategoryArrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--color-primary);
+}
+
+/* Enlaces rápidos */
+.megaMenuQuickLinks {
+    display: flex;
+    flex-direction: column;
+}
+
+.megaMenuQuickLink {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: var(--spacing-3);
+    border-radius: var(--border-radius-lg);
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-fast);
+}
+
+.megaMenuQuickLink:hover {
+    background-color: var(--color-gray-100);
+    color: var(--color-primary);
+}
+
+.megaMenuQuickLink svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
 }
 
 /* ========================================
