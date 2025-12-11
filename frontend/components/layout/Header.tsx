@@ -274,15 +274,15 @@ export default function Header() {
                             Servicios
                         </Link>
 
-                        {/* Dropdown de Productos/Categorías */}
+                        {/* Dropdown de Tienda/Categorías */}
                         <div
                             className={styles.menuDropdown}
                             ref={categoriesDropdownRef}
                             onMouseEnter={() => setIsCategoriesOpen(true)}
                             onMouseLeave={() => setIsCategoriesOpen(false)}
                         >
-                            <Link href="/repuestos" className={styles.menuLink}>
-                                Repuestos
+                            <Link href="/productos" className={styles.menuLink}>
+                                Tienda
                                 <svg
                                     width="12"
                                     height="12"
@@ -297,44 +297,110 @@ export default function Header() {
                             </Link>
 
                             {isCategoriesOpen && (
-                                <div className={styles.categoriesDropdown}>
-                                    <div className={styles.categoriesGrid}>
-                                        {/* Ver todos */}
-                                        <Link
-                                            href="/repuestos"
-                                            className={styles.categoryItem}
-                                            onClick={() => setIsCategoriesOpen(false)}
-                                        >
-                                            <div className={styles.categoryIcon}>
-                                                <GridIcon />
+                                <div className={styles.megaMenu}>
+                                    <div className={styles.megaMenuContent}>
+                                        {/* Columna izquierda - Destacados */}
+                                        <div className={styles.megaMenuHighlight}>
+                                            <div className={styles.megaMenuHighlightBg}>
+                                                <h3 className={styles.megaMenuHighlightTitle}>
+                                                    🔥 Ofertas de Temporada
+                                                </h3>
+                                                <p className={styles.megaMenuHighlightText}>
+                                                    Descubre las mejores ofertas en climatización
+                                                </p>
+                                                <Link
+                                                    href="/productos"
+                                                    className={styles.megaMenuHighlightBtn}
+                                                    onClick={() => setIsCategoriesOpen(false)}
+                                                >
+                                                    Ver Todos los Productos
+                                                </Link>
                                             </div>
-                                            <span>Ver Todo</span>
-                                        </Link>
+                                        </div>
 
-                                        {/* Categorías dinámicas */}
-                                        {collections.slice(0, 5).map((collection) => (
+                                        {/* Columna central - Categorías */}
+                                        <div className={styles.megaMenuCategories}>
+                                            <h4 className={styles.megaMenuSectionTitle}>
+                                                <LayersIcon />
+                                                Categorías
+                                            </h4>
+                                            <div className={styles.megaMenuCategoriesGrid}>
+                                                {collections.map((collection) => (
+                                                    <Link
+                                                        key={collection.id}
+                                                        href={`/productos?collection=${collection.slug}`}
+                                                        className={styles.megaMenuCategoryItem}
+                                                        onClick={() => setIsCategoriesOpen(false)}
+                                                    >
+                                                        <div className={styles.megaMenuCategoryIcon}>
+                                                            {collection.featuredAsset ? (
+                                                                <Image
+                                                                    src={collection.featuredAsset.preview}
+                                                                    alt={collection.name}
+                                                                    width={40}
+                                                                    height={40}
+                                                                    className={styles.megaMenuCategoryImage}
+                                                                />
+                                                            ) : (
+                                                                <LayersIcon />
+                                                            )}
+                                                        </div>
+                                                        <div className={styles.megaMenuCategoryInfo}>
+                                                            <span className={styles.megaMenuCategoryName}>{collection.name}</span>
+                                                        </div>
+                                                        <svg className={styles.megaMenuCategoryArrow} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                            <path d="M9 18l6-6-6-6" />
+                                                        </svg>
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Columna derecha - Enlaces rápidos */}
+                                        <div className={styles.megaMenuQuickLinks}>
+                                            <h4 className={styles.megaMenuSectionTitle}>
+                                                <GridIcon />
+                                                Acceso Rápido
+                                            </h4>
                                             <Link
-                                                key={collection.id}
-                                                href={`/productos?collection=${collection.slug}`}
-                                                className={styles.categoryItem}
+                                                href="/productos"
+                                                className={styles.megaMenuQuickLink}
                                                 onClick={() => setIsCategoriesOpen(false)}
                                             >
-                                                {collection.featuredAsset ? (
-                                                    <Image
-                                                        src={collection.featuredAsset.preview}
-                                                        alt={collection.name}
-                                                        width={56}
-                                                        height={56}
-                                                        className={styles.categoryImage}
-                                                    />
-                                                ) : (
-                                                    <div className={styles.categoryIcon}>
-                                                        <LayersIcon />
-                                                    </div>
-                                                )}
-                                                <span>{collection.name}</span>
+                                                <GridIcon />
+                                                <span>Ver Todo el Catálogo</span>
                                             </Link>
-                                        ))}
+                                            <Link
+                                                href="/productos?sort=price-asc"
+                                                className={styles.megaMenuQuickLink}
+                                                onClick={() => setIsCategoriesOpen(false)}
+                                            >
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                                                </svg>
+                                                <span>Más Económicos</span>
+                                            </Link>
+                                            <Link
+                                                href="/productos?new=true"
+                                                className={styles.megaMenuQuickLink}
+                                                onClick={() => setIsCategoriesOpen(false)}
+                                            >
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                                </svg>
+                                                <span>Novedades</span>
+                                            </Link>
+                                            <Link
+                                                href="/contacto"
+                                                className={styles.megaMenuQuickLink}
+                                                onClick={() => setIsCategoriesOpen(false)}
+                                            >
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                                                </svg>
+                                                <span>Solicitar Presupuesto</span>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             )}
