@@ -16,7 +16,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_PRODUCTS, GET_FACETS } from '@/lib/vendure/queries/products';
+import { GET_PRODUCTS, GET_FACETS, SEARCH_FACET_VALUES } from '@/lib/vendure/queries/products';
 import { ProductCard } from '@/components/product/ProductCard';
 import { ProductSearch } from '@/components/product/ProductSearch';
 import { ProductSort, SortOption } from '@/components/product/ProductSort';
@@ -176,10 +176,37 @@ export default function ProductosPage() {
     const { data: facetsData, loading: facetsLoading } = useQuery(GET_FACETS);
 
     /**
+     * Query para obtener contadores de productos por facet value
+     * Usa la API de búsqueda de Vendure que devuelve facetValues con count
+     */
+    const { data: facetCountsData } = useQuery(SEARCH_FACET_VALUES, {
+        variables: {
+            term: searchQuery || '',
+            facetValueIds: selectedFacetValueIds.length > 0 ? selectedFacetValueIds : undefined,
+        },
+        fetchPolicy: 'cache-and-network',
+    });
+
+    /**
+     * Mapa de contadores de productos por facet value ID
+     * Estructura: { [facetValueId]: count }
+     */
+    const facetValueCounts = useMemo(() => {
+        const counts: Record<string, number> = {};
+        if (facetCountsData?.search?.facetValues) {
+            facetCountsData.search.facetValues.forEach((fv: any) => {
+                counts[fv.facetValue.id] = fv.count;
+            });
+        }
+        return counts;
+    }, [facetCountsData]);
+
+    /**
      * Transformar facets de Vendure al formato FilterGroup para ProductFilters
-     * 
+     *
      * Convierte los facets del backend en grupos de filtros con sus opciones
      * Ejemplo: Facet "Marca" -> FilterGroup con opciones [Daikin, Mitsubishi, etc.]
+     * Ahora incluye contadores de productos por cada valor de facet
      */
     const filterGroups = useMemo<FilterGroup[]>(() => {
         if (!facetsData?.facets?.items) return [];
@@ -191,11 +218,11 @@ export default function ProductosPage() {
             options: facet.values.map((value: any) => ({
                 value: value.id,
                 label: value.name,
-                // TODO: Agregar conteo de productos por facet value
-                // count: value.productCount
+                // Conteo de productos con este facet value
+                count: facetValueCounts[value.id] || 0,
             })),
         }));
-    }, [facetsData]);
+    }, [facetsData, facetValueCounts]);
 
     /**
      * Extraer IDs de facet values seleccionados para enviar a la query de productos
