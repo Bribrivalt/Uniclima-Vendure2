@@ -52,21 +52,10 @@ export const GET_PRODUCTS = gql`
             name
           }
         }
-        # Custom fields HVAC - nombres exactos del backend
+        # Custom fields definidos en backend/vendure-config.ts
         customFields {
-          potenciaKw
-          frigorias
-          claseEnergetica
-          refrigerante
-          wifi
-          garantiaAnos
-          seer
-          scop
-          nivelSonoroInterior
-          nivelSonoroExterior
-          superficieRecomendada
-          dimensionesInterior
-          dimensionesExterior
+          compatibilidades
+          erroresSintomas
         }
       }
       totalItems
@@ -177,33 +166,10 @@ export const GET_PRODUCT_BY_SLUG = gql`
           name
         }
       }
-      # Custom fields HVAC - todos los campos disponibles
+      # Custom fields definidos en backend/vendure-config.ts
       customFields {
-        # Campos básicos
-        potenciaKw
-        frigorias
-        claseEnergetica
-        refrigerante
-        wifi
-        garantiaAnos
-        # Eficiencia energética
-        seer
-        scop
-        # Nivel sonoro (nombres correctos del backend)
-        nivelSonoroInterior
-        nivelSonoroExterior
-        # Dimensiones y superficie
-        superficieRecomendada
-        dimensionesInterior
-        dimensionesExterior
-        # Peso de unidades
-        pesoUnidadInterior
-        pesoUnidadExterior
-        # Instalación
-        alimentacion
-        cargaRefrigerante
-        longitudMaximaTuberia
-        desnivelMaximo
+        compatibilidades
+        erroresSintomas
       }
     }
   }
