@@ -251,8 +251,11 @@ export default function ProductosPage() {
                         },
                     }),
                     // Filtros por facets seleccionados (marca, tipo, características, etc.)
+                    // Vendure usa facetValueId con operador 'in' para filtrar por múltiples facet values
                     ...(selectedFacetValueIds.length > 0 && {
-                        facetValueIds: selectedFacetValueIds,
+                        facetValueId: {
+                            in: selectedFacetValueIds,
+                        },
                     }),
                 },
 
