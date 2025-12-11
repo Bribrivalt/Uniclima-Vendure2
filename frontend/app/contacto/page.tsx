@@ -4,6 +4,12 @@ import { useState } from 'react';
 import { Alert } from '@/components/core';
 import styles from './page.module.css';
 
+/**
+ * Metadata SEO para la página de contacto
+ * NOTA: Como es un 'use client', la metadata se define en un archivo separado
+ * Ver: frontend/app/contacto/metadata.ts
+ */
+
 export default function ContactoPage() {
     const [formData, setFormData] = useState({
         nombre: '',

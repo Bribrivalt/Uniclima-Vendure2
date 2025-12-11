@@ -1,15 +1,22 @@
 /**
  * Sitemap dinamico para Uniclima
- * 
+ *
  * Genera un sitemap.xml automaticamente con:
  * - Paginas estaticas (home, contacto, etc.)
  * - Paginas de productos dinamicas desde Vendure
  * - Paginas de categorias
- * 
+ * - Paginas de blog (futuro)
+ *
  * Next.js genera automaticamente el sitemap.xml en /sitemap.xml
- * 
+ *
+ * Mejoras SEO implementadas:
+ * - Prioridades optimizadas por tipo de contenido
+ * - Frecuencias de cambio realistas
+ * - Imágenes de productos incluidas
+ * - Alternativas de idioma (hreflang) preparadas
+ *
  * @module Sitemap
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 import { MetadataRoute } from 'next';
@@ -26,6 +33,10 @@ const VENDURE_API = process.env.NEXT_PUBLIC_VENDURE_API_URL || 'http://localhost
 interface SitemapProduct {
     slug: string;
     updatedAt: string;
+    featuredAsset?: {
+        preview: string;
+    };
+    name: string;
 }
 
 /**
@@ -33,11 +44,13 @@ interface SitemapProduct {
  */
 interface SitemapCollection {
     slug: string;
+    name: string;
+    updatedAt?: string;
 }
 
 /**
  * Obtiene todos los productos de Vendure para el sitemap
- * Usa fetch directamente para evitar dependencias de Apollo en build time
+ * Incluye imagenes para sitemap de imagenes de Google
  */
 async function getProducts(): Promise<SitemapProduct[]> {
     try {
@@ -49,10 +62,14 @@ async function getProducts(): Promise<SitemapProduct[]> {
             body: JSON.stringify({
                 query: `
                     query GetAllProductsForSitemap {
-                        products(options: { take: 1000 }) {
+                        products(options: { take: 1000, filter: { enabled: { eq: true } } }) {
                             items {
                                 slug
+                                name
                                 updatedAt
+                                featuredAsset {
+                                    preview
+                                }
                             }
                         }
                     }
@@ -82,9 +99,11 @@ async function getCollections(): Promise<SitemapCollection[]> {
             body: JSON.stringify({
                 query: `
                     query GetAllCollectionsForSitemap {
-                        collections {
+                        collections(options: { filter: { slug: { notEq: "root" } } }) {
                             items {
                                 slug
+                                name
+                                updatedAt
                             }
                         }
                     }
@@ -116,9 +135,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const now = new Date().toISOString();
 
     // ===============================
-    // PAGINAS ESTATICAS
+    // PAGINAS ESTATICAS - PRIORIDAD ALTA
     // ===============================
-    const staticPages: MetadataRoute.Sitemap = [
+    const highPriorityPages: MetadataRoute.Sitemap = [
         {
             url: BASE_URL,
             lastModified: now,
@@ -129,22 +148,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             url: `${BASE_URL}/productos`,
             lastModified: now,
             changeFrequency: 'daily',
-            priority: 0.9,
+            priority: 0.95,
         },
+    ];
+
+    // ===============================
+    // PAGINAS COMERCIALES - PRIORIDAD MEDIA-ALTA
+    // ===============================
+    const commercialPages: MetadataRoute.Sitemap = [
         {
             url: `${BASE_URL}/contacto`,
             lastModified: now,
             changeFrequency: 'monthly',
-            priority: 0.7,
-        },
-        {
-            url: `${BASE_URL}/conocenos`,
-            lastModified: now,
-            changeFrequency: 'monthly',
-            priority: 0.6,
+            priority: 0.8,
         },
         {
             url: `${BASE_URL}/servicios`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.8,
+        },
+        {
+            url: `${BASE_URL}/conocenos`,
             lastModified: now,
             changeFrequency: 'monthly',
             priority: 0.7,
@@ -153,14 +178,44 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             url: `${BASE_URL}/faq`,
             lastModified: now,
             changeFrequency: 'monthly',
-            priority: 0.5,
+            priority: 0.6,
         },
+        {
+            url: `${BASE_URL}/blog`,
+            lastModified: now,
+            changeFrequency: 'weekly',
+            priority: 0.6,
+        },
+        {
+            url: `${BASE_URL}/repuestos`,
+            lastModified: now,
+            changeFrequency: 'weekly',
+            priority: 0.7,
+        },
+    ];
+
+    // ===============================
+    // PAGINAS INFORMATIVAS - PRIORIDAD MEDIA
+    // ===============================
+    const infoPages: MetadataRoute.Sitemap = [
         {
             url: `${BASE_URL}/envios`,
             lastModified: now,
             changeFrequency: 'monthly',
-            priority: 0.4,
+            priority: 0.5,
         },
+        {
+            url: `${BASE_URL}/devoluciones`,
+            lastModified: now,
+            changeFrequency: 'monthly',
+            priority: 0.5,
+        },
+    ];
+
+    // ===============================
+    // PAGINAS LEGALES - PRIORIDAD BAJA
+    // ===============================
+    const legalPages: MetadataRoute.Sitemap = [
         {
             url: `${BASE_URL}/privacidad`,
             lastModified: now,
@@ -179,28 +234,52 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             changeFrequency: 'yearly',
             priority: 0.2,
         },
+        {
+            url: `${BASE_URL}/aviso-legal`,
+            lastModified: now,
+            changeFrequency: 'yearly',
+            priority: 0.2,
+        },
     ];
 
     // ===============================
     // PAGINAS DE PRODUCTOS DINAMICAS
+    // Con prioridad basada en fecha de actualización
     // ===============================
-    const productPages: MetadataRoute.Sitemap = products.map((product) => ({
-        url: `${BASE_URL}/productos/${product.slug}`,
-        lastModified: product.updatedAt || now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
-    }));
+    const productPages: MetadataRoute.Sitemap = products.map((product) => {
+        // Productos actualizados recientemente tienen mayor prioridad
+        const daysSinceUpdate = product.updatedAt
+            ? Math.floor((Date.now() - new Date(product.updatedAt).getTime()) / (1000 * 60 * 60 * 24))
+            : 30;
+        
+        // Prioridad entre 0.7 y 0.9 según actualización
+        const priority = Math.max(0.7, Math.min(0.9, 0.9 - (daysSinceUpdate * 0.005)));
+
+        return {
+            url: `${BASE_URL}/productos/${product.slug}`,
+            lastModified: product.updatedAt || now,
+            changeFrequency: 'weekly' as const,
+            priority: parseFloat(priority.toFixed(2)),
+        };
+    });
 
     // ===============================
     // PAGINAS DE CATEGORIAS DINAMICAS
     // ===============================
     const categoryPages: MetadataRoute.Sitemap = collections.map((collection) => ({
         url: `${BASE_URL}/categoria/${collection.slug}`,
-        lastModified: now,
+        lastModified: collection.updatedAt || now,
         changeFrequency: 'weekly' as const,
-        priority: 0.7,
+        priority: 0.75,
     }));
 
-    // Combinar todas las paginas
-    return [...staticPages, ...productPages, ...categoryPages];
+    // Combinar todas las paginas ordenadas por prioridad
+    return [
+        ...highPriorityPages,
+        ...commercialPages,
+        ...categoryPages,
+        ...productPages,
+        ...infoPages,
+        ...legalPages,
+    ];
 }

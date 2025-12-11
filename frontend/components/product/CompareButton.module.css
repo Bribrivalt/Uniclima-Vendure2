@@ -1,0 +1,306 @@
+/* ========================================
+   COMPARE BUTTON - Botón de comparación
+   ======================================== */
+
+.wrapper {
+    position: relative;
+    display: inline-flex;
+}
+
+/* ========================================
+   BUTTON BASE
+   ======================================== */
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-family: inherit;
+    font-weight: var(--font-weight-medium);
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   ICON
+   ======================================== */
+
+.icon {
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+}
+
+.button:hover:not(:disabled) .icon {
+    transform: scale(1.1);
+}
+
+.button.active .icon {
+    color: var(--color-primary);
+}
+
+/* ========================================
+   VARIANTES
+   ======================================== */
+
+/* Icon only */
+.icon-only,
+.icon {
+    padding: var(--spacing-2);
+    border-radius: var(--border-radius-lg);
+    color: var(--color-text-secondary);
+}
+
+.icon:hover:not(:disabled) {
+    background-color: var(--color-gray-100);
+    color: var(--color-primary);
+}
+
+.icon.active {
+    background-color: var(--color-primary-alpha-10);
+    color: var(--color-primary);
+}
+
+/* Text variant */
+.text {
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: var(--border-radius-md);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.text:hover:not(:disabled) {
+    background-color: var(--color-gray-100);
+    color: var(--color-primary);
+}
+
+.text.active {
+    background-color: var(--color-primary-alpha-10);
+    color: var(--color-primary);
+}
+
+/* Full variant */
+.full {
+    padding: var(--spacing-2-5) var(--spacing-4);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.full:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-alpha-5);
+    color: var(--color-primary);
+}
+
+.full.active {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-alpha-10);
+    color: var(--color-primary);
+}
+
+/* ========================================
+   TAMAÑOS
+   ======================================== */
+
+/* Small */
+.sm .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.sm.icon {
+    padding: var(--spacing-1-5);
+}
+
+.sm.text,
+.sm.full {
+    padding: var(--spacing-1-5) var(--spacing-2-5);
+    font-size: var(--font-size-xs);
+}
+
+/* Medium (default) */
+.md .icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Large */
+.lg .icon {
+    width: 24px;
+    height: 24px;
+}
+
+.lg.icon {
+    padding: var(--spacing-3);
+}
+
+.lg.text,
+.lg.full {
+    padding: var(--spacing-3) var(--spacing-5);
+    font-size: var(--font-size-base);
+}
+
+/* ========================================
+   TEXTO
+   ======================================== */
+
+.textLabel {
+    white-space: nowrap;
+}
+
+/* ========================================
+   FEEDBACK TOAST
+   ======================================== */
+
+.feedback {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    padding: var(--spacing-1-5) var(--spacing-3);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    z-index: 100;
+    animation: feedbackIn 0.2s ease-out;
+    box-shadow: var(--shadow-lg);
+}
+
+.feedbackAdd {
+    background-color: var(--color-success);
+    color: white;
+}
+
+.feedbackRemove {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+@keyframes feedbackIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-80%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-100%);
+    }
+}
+
+/* ========================================
+   BADGE
+   ======================================== */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 var(--spacing-1);
+    background: var(--gradient-primary);
+    color: white;
+    font-size: 11px;
+    font-weight: var(--font-weight-bold);
+    border-radius: var(--border-radius-full);
+    box-shadow: var(--shadow-primary-sm);
+}
+
+/* ========================================
+   FLOATING BUTTON
+   ======================================== */
+
+.floatingButton {
+    position: fixed;
+    bottom: var(--spacing-6);
+    right: var(--spacing-6);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-3) var(--spacing-5);
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    box-shadow: var(--shadow-primary-lg);
+    z-index: 1000;
+    animation: floatIn 0.3s ease-out;
+    transition: all var(--transition-fast);
+}
+
+.floatingButton:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary-lg), 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.floatingButton:active {
+    transform: translateY(0);
+}
+
+.floatingButton .icon {
+    width: 20px;
+    height: 20px;
+    color: white;
+}
+
+.floatingText {
+    white-space: nowrap;
+}
+
+@keyframes floatIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .floatingButton {
+        bottom: var(--spacing-4);
+        right: var(--spacing-4);
+        padding: var(--spacing-2-5) var(--spacing-4);
+        font-size: var(--font-size-xs);
+    }
+
+    .floatingButton .icon {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .floatingButton {
+        bottom: var(--spacing-3);
+        right: var(--spacing-3);
+    }
+
+    .full .textLabel {
+        display: none;
+    }
+
+    .full {
+        padding: var(--spacing-2);
+    }
+}

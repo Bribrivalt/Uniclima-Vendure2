@@ -57,16 +57,20 @@ export function ProductCard({ product, showSpecs = true }: ProductCardProps) {
     );
 
     return (
-        <div className={styles.card}>
+        <article className={styles.card} itemScope itemType="https://schema.org/Product">
             {/* Enlace a la imagen del producto */}
-            <Link href={`/productos/${product.slug}`} className={styles.imageLink} prefetch={true}>
+            <Link href={`/productos/${product.slug}`} className={styles.imageLink} prefetch={false}>
                 <div className={styles.imageWrapper}>
                     <Image
                         src={imageUrl}
-                        alt={product.name}
+                        alt={`${product.name} - Producto de climatización HVAC`}
                         fill
                         className={styles.image}
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        loading="lazy"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAgEDBAMBAAAAAAAAAAAAAQIDAAQRBQYSITFBUWH/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/EABkRAAIDAQAAAAAAAAAAAAAAAAECAAMRIf/aAAwDAQACEQMRAD8AqbZ3he6lt7e9tHt5YwVKq4ZW+EEUpSlIbG3dgAHyRXZ//9k="
+                        quality={75}
                     />
 
                     {/* Badge de stock bajo */}
@@ -86,9 +90,9 @@ export function ProductCard({ product, showSpecs = true }: ProductCardProps) {
             </Link>
 
             <div className={styles.content}>
-                {/* Nombre del producto con enlace */}
-                <Link href={`/productos/${product.slug}`} className={styles.titleLink} prefetch={true}>
-                    <h3 className={styles.title}>{product.name}</h3>
+                {/* Nombre del producto con enlace - microdata SEO */}
+                <Link href={`/productos/${product.slug}`} className={styles.titleLink} prefetch={false}>
+                    <h3 className={styles.title} itemProp="name">{product.name}</h3>
                 </Link>
 
                 {/* Especificaciones técnicas HVAC resumidas */}
@@ -133,10 +137,12 @@ export function ProductCard({ product, showSpecs = true }: ProductCardProps) {
                     </p>
                 )}
 
-                {/* Footer con precio y botón de acción */}
+                {/* Footer con precio y botón de acción - microdata SEO */}
                 <div className={styles.footer}>
-                    <div className={styles.priceWrapper}>
-                        <span className={styles.price}>{formattedPrice}€</span>
+                    <div className={styles.priceWrapper} itemProp="offers" itemScope itemType="https://schema.org/Offer">
+                        <span className={styles.price} itemProp="price" content={formattedPrice}>{formattedPrice}€</span>
+                        <meta itemProp="priceCurrency" content="EUR" />
+                        <meta itemProp="availability" content={defaultVariant?.stockLevel === 'IN_STOCK' ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'} />
                         <span className={styles.tax}>IVA incluido</span>
                     </div>
 
@@ -144,6 +150,6 @@ export function ProductCard({ product, showSpecs = true }: ProductCardProps) {
                     <ProductButton product={product} size="md" fullWidth />
                 </div>
             </div>
-        </div>
+        </article>
     );
 }

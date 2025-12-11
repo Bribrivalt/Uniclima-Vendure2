@@ -1,15 +1,23 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useQuery, useMutation } from '@apollo/client';
 import { AccountSidebar } from '@/components/auth';
 import { AddressForm } from '@/components/checkout';
+import { ProtectedRoute } from '@/components/auth';
 import { Breadcrumb, Button, Modal, Alert } from '@/components/core';
+import { GET_ACTIVE_CUSTOMER_WITH_ADDRESSES } from '@/lib/vendure/queries/auth';
+import {
+    CREATE_CUSTOMER_ADDRESS_MUTATION,
+    UPDATE_CUSTOMER_ADDRESS_MUTATION,
+    DELETE_CUSTOMER_ADDRESS_MUTATION,
+} from '@/lib/vendure/mutations/auth';
 import styles from './page.module.css';
 
 /**
- * Interfaz para dirección
+ * Interfaz para dirección desde Vendure
  */
-interface Address {
+interface VendureAddress {
     id: string;
     fullName: string;
     company?: string;
@@ -18,65 +26,102 @@ interface Address {
     city: string;
     province: string;
     postalCode: string;
-    country: string;
-    phoneNumber: string;
-    isDefault: boolean;
+    country: {
+        code: string;
+        name: string;
+    };
+    phoneNumber?: string;
+    defaultShippingAddress: boolean;
+    defaultBillingAddress: boolean;
+}
+
+/**
+ * Interfaz para datos del cliente desde GraphQL
+ */
+interface CustomerData {
+    activeCustomer: {
+        id: string;
+        addresses: VendureAddress[];
+    } | null;
+}
+
+/**
+ * Interfaz para el formulario de direcciones
+ */
+interface AddressFormData {
+    fullName: string;
+    company?: string;
+    streetLine1: string;
+    streetLine2?: string;
+    city: string;
+    province: string;
+    postalCode: string;
+    countryCode: string;
+    phoneNumber?: string;
+    defaultShippingAddress?: boolean;
+    defaultBillingAddress?: boolean;
 }
 
 /**
  * DireccionesPage - Página de gestión de direcciones
- * 
+ *
  * Permite al usuario ver, añadir, editar y eliminar
- * sus direcciones de envío.
+ * sus direcciones de envío usando Vendure GraphQL.
  */
 export default function DireccionesPage() {
-    const [addresses, setAddresses] = useState<Address[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [editingAddress, setEditingAddress] = useState<Address | null>(null);
+    const [editingAddress, setEditingAddress] = useState<VendureAddress | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    // Cargar direcciones
-    useEffect(() => {
-        const fetchAddresses = async () => {
-            setLoading(true);
+    // Query para obtener direcciones del cliente
+    const { data, loading, refetch } = useQuery<CustomerData>(
+        GET_ACTIVE_CUSTOMER_WITH_ADDRESSES,
+        { fetchPolicy: 'network-only' }
+    );
 
-            // TODO: Reemplazar con llamada a Vendure GraphQL
-            await new Promise(resolve => setTimeout(resolve, 500));
+    // Mutation para crear dirección
+    const [createAddress, { loading: creating }] = useMutation(CREATE_CUSTOMER_ADDRESS_MUTATION, {
+        onCompleted: () => {
+            setSuccessMessage('Dirección añadida correctamente');
+            setIsModalOpen(false);
+            refetch();
+            setTimeout(() => setSuccessMessage(null), 3000);
+        },
+        onError: (error) => {
+            setErrorMessage(error.message || 'Error al crear la dirección');
+            setTimeout(() => setErrorMessage(null), 5000);
+        },
+    });
 
-            const mockAddresses: Address[] = [
-                {
-                    id: '1',
-                    fullName: 'Juan García',
-                    company: 'Instalaciones García S.L.',
-                    streetLine1: 'Calle Principal 123',
-                    streetLine2: 'Bajo A',
-                    city: 'Madrid',
-                    province: 'Madrid',
-                    postalCode: '28001',
-                    country: 'España',
-                    phoneNumber: '612345678',
-                    isDefault: true,
-                },
-                {
-                    id: '2',
-                    fullName: 'Juan García',
-                    streetLine1: 'Avenida Secundaria 456',
-                    city: 'Barcelona',
-                    province: 'Barcelona',
-                    postalCode: '08001',
-                    country: 'España',
-                    phoneNumber: '687654321',
-                    isDefault: false,
-                },
-            ];
+    // Mutation para actualizar dirección
+    const [updateAddress, { loading: updating }] = useMutation(UPDATE_CUSTOMER_ADDRESS_MUTATION, {
+        onCompleted: () => {
+            setSuccessMessage('Dirección actualizada correctamente');
+            setIsModalOpen(false);
+            refetch();
+            setTimeout(() => setSuccessMessage(null), 3000);
+        },
+        onError: (error) => {
+            setErrorMessage(error.message || 'Error al actualizar la dirección');
+            setTimeout(() => setErrorMessage(null), 5000);
+        },
+    });
 
-            setAddresses(mockAddresses);
-            setLoading(false);
-        };
+    // Mutation para eliminar dirección
+    const [deleteAddress, { loading: deleting }] = useMutation(DELETE_CUSTOMER_ADDRESS_MUTATION, {
+        onCompleted: () => {
+            setSuccessMessage('Dirección eliminada correctamente');
+            refetch();
+            setTimeout(() => setSuccessMessage(null), 3000);
+        },
+        onError: (error) => {
+            setErrorMessage(error.message || 'Error al eliminar la dirección');
+            setTimeout(() => setErrorMessage(null), 5000);
+        },
+    });
 
-        fetchAddresses();
-    }, []);
+    const addresses = data?.activeCustomer?.addresses || [];
 
     // Abrir modal para nueva dirección
     const handleAddNew = () => {
@@ -85,54 +130,73 @@ export default function DireccionesPage() {
     };
 
     // Abrir modal para editar
-    const handleEdit = (address: Address) => {
+    const handleEdit = (address: VendureAddress) => {
         setEditingAddress(address);
         setIsModalOpen(true);
     };
 
-    // Guardar dirección
-    const handleSave = async (data: any) => {
-        // TODO: Llamar a Vendure mutation
-        console.log('Guardando dirección:', data);
-
+    // Guardar dirección (crear o actualizar)
+    const handleSave = async (formData: AddressFormData) => {
         if (editingAddress) {
-            setAddresses(prev => prev.map(a =>
-                a.id === editingAddress.id ? { ...a, ...data } as Address : a
-            ));
-            setSuccessMessage('Dirección actualizada correctamente');
+            // Actualizar dirección existente
+            await updateAddress({
+                variables: {
+                    input: {
+                        id: editingAddress.id,
+                        fullName: formData.fullName,
+                        company: formData.company || '',
+                        streetLine1: formData.streetLine1,
+                        streetLine2: formData.streetLine2 || '',
+                        city: formData.city,
+                        province: formData.province,
+                        postalCode: formData.postalCode,
+                        countryCode: formData.countryCode || 'ES',
+                        phoneNumber: formData.phoneNumber || '',
+                        defaultShippingAddress: formData.defaultShippingAddress || false,
+                        defaultBillingAddress: formData.defaultBillingAddress || false,
+                    },
+                },
+            });
         } else {
-            const newAddress: Address = {
-                id: Date.now().toString(),
-                ...data,
-                isDefault: addresses.length === 0,
-            } as Address;
-            setAddresses(prev => [...prev, newAddress]);
-            setSuccessMessage('Dirección añadida correctamente');
+            // Crear nueva dirección
+            await createAddress({
+                variables: {
+                    input: {
+                        fullName: formData.fullName,
+                        company: formData.company || '',
+                        streetLine1: formData.streetLine1,
+                        streetLine2: formData.streetLine2 || '',
+                        city: formData.city,
+                        province: formData.province,
+                        postalCode: formData.postalCode,
+                        countryCode: formData.countryCode || 'ES',
+                        phoneNumber: formData.phoneNumber || '',
+                        defaultShippingAddress: addresses.length === 0, // Primera dirección es predeterminada
+                        defaultBillingAddress: addresses.length === 0,
+                    },
+                },
+            });
         }
-
-        setIsModalOpen(false);
-        setTimeout(() => setSuccessMessage(null), 3000);
     };
 
     // Eliminar dirección
     const handleDelete = async (id: string) => {
         if (!confirm('¿Estás seguro de eliminar esta dirección?')) return;
-
-        // TODO: Llamar a Vendure mutation
-        setAddresses(prev => prev.filter(a => a.id !== id));
-        setSuccessMessage('Dirección eliminada correctamente');
-        setTimeout(() => setSuccessMessage(null), 3000);
+        
+        await deleteAddress({ variables: { id } });
     };
 
     // Establecer como predeterminada
     const handleSetDefault = async (id: string) => {
-        // TODO: Llamar a Vendure mutation
-        setAddresses(prev => prev.map(a => ({
-            ...a,
-            isDefault: a.id === id,
-        })));
-        setSuccessMessage('Dirección predeterminada actualizada');
-        setTimeout(() => setSuccessMessage(null), 3000);
+        await updateAddress({
+            variables: {
+                input: {
+                    id,
+                    defaultShippingAddress: true,
+                    defaultBillingAddress: true,
+                },
+            },
+        });
     };
 
     // Breadcrumbs
@@ -142,110 +206,143 @@ export default function DireccionesPage() {
         { label: 'Direcciones' },
     ];
 
+    const isProcessing = creating || updating || deleting;
+
     return (
-        <div className={styles.container}>
-            <Breadcrumb items={breadcrumbItems} className={styles.breadcrumb} />
+        <ProtectedRoute>
+            <div className={styles.container}>
+                <Breadcrumb items={breadcrumbItems} className={styles.breadcrumb} />
 
-            <div className={styles.layout}>
-                <AccountSidebar className={styles.sidebar} />
+                <div className={styles.layout}>
+                    <AccountSidebar className={styles.sidebar} />
 
-                <main className={styles.main}>
-                    <header className={styles.header}>
-                        <div>
-                            <h1 className={styles.title}>Mis direcciones</h1>
-                            <p className={styles.subtitle}>
-                                Gestiona tus direcciones de envío
-                            </p>
-                        </div>
-                        <Button variant="primary" onClick={handleAddNew}>
-                            + Añadir dirección
-                        </Button>
-                    </header>
-
-                    {successMessage && (
-                        <Alert type="success">
-                            {successMessage}
-                        </Alert>
-                    )}
-
-                    {loading ? (
-                        <div className={styles.loading}>Cargando direcciones...</div>
-                    ) : addresses.length === 0 ? (
-                        <div className={styles.emptyState}>
-                            <div className={styles.emptyIcon}>📍</div>
-                            <h2>No tienes direcciones guardadas</h2>
-                            <p>Añade una dirección para facilitar tus compras</p>
-                            <Button variant="primary" onClick={handleAddNew}>
-                                Añadir primera dirección
+                    <main className={styles.main}>
+                        <header className={styles.header}>
+                            <div>
+                                <h1 className={styles.title}>Mis direcciones</h1>
+                                <p className={styles.subtitle}>
+                                    Gestiona tus direcciones de envío
+                                </p>
+                            </div>
+                            <Button
+                                variant="primary"
+                                onClick={handleAddNew}
+                                disabled={isProcessing}
+                            >
+                                + Añadir dirección
                             </Button>
-                        </div>
-                    ) : (
-                        <div className={styles.addressGrid}>
-                            {addresses.map((address) => (
-                                <article
-                                    key={address.id}
-                                    className={`${styles.addressCard} ${address.isDefault ? styles.defaultCard : ''}`}
-                                >
-                                    {address.isDefault && (
-                                        <span className={styles.defaultBadge}>Predeterminada</span>
-                                    )}
-                                    <div className={styles.addressContent}>
-                                        <p className={styles.name}>{address.fullName}</p>
-                                        {address.company && (
-                                            <p className={styles.company}>{address.company}</p>
+                        </header>
+
+                        {successMessage && (
+                            <Alert type="success" dismissible onClose={() => setSuccessMessage(null)}>
+                                {successMessage}
+                            </Alert>
+                        )}
+
+                        {errorMessage && (
+                            <Alert type="error" dismissible onClose={() => setErrorMessage(null)}>
+                                {errorMessage}
+                            </Alert>
+                        )}
+
+                        {loading ? (
+                            <div className={styles.loading}>
+                                <div className={styles.spinner} />
+                                <p>Cargando direcciones...</p>
+                            </div>
+                        ) : addresses.length === 0 ? (
+                            <div className={styles.emptyState}>
+                                <div className={styles.emptyIcon}>📍</div>
+                                <h2>No tienes direcciones guardadas</h2>
+                                <p>Añade una dirección para facilitar tus compras</p>
+                                <Button variant="primary" onClick={handleAddNew}>
+                                    Añadir primera dirección
+                                </Button>
+                            </div>
+                        ) : (
+                            <div className={styles.addressGrid}>
+                                {addresses.map((address) => (
+                                    <article
+                                        key={address.id}
+                                        className={`${styles.addressCard} ${address.defaultShippingAddress ? styles.defaultCard : ''}`}
+                                    >
+                                        {address.defaultShippingAddress && (
+                                            <span className={styles.defaultBadge}>Predeterminada</span>
                                         )}
-                                        <p className={styles.street}>
-                                            {address.streetLine1}
-                                            {address.streetLine2 && <><br />{address.streetLine2}</>}
-                                        </p>
-                                        <p className={styles.location}>
-                                            {address.postalCode} {address.city}, {address.province}
-                                        </p>
-                                        <p className={styles.country}>{address.country}</p>
-                                        <p className={styles.phone}>Tel: {address.phoneNumber}</p>
-                                    </div>
-                                    <div className={styles.addressActions}>
-                                        <button
-                                            className={styles.actionBtn}
-                                            onClick={() => handleEdit(address)}
-                                        >
-                                            Editar
-                                        </button>
-                                        {!address.isDefault && (
+                                        <div className={styles.addressContent}>
+                                            <p className={styles.name}>{address.fullName}</p>
+                                            {address.company && (
+                                                <p className={styles.company}>{address.company}</p>
+                                            )}
+                                            <p className={styles.street}>
+                                                {address.streetLine1}
+                                                {address.streetLine2 && <><br />{address.streetLine2}</>}
+                                            </p>
+                                            <p className={styles.location}>
+                                                {address.postalCode} {address.city}, {address.province}
+                                            </p>
+                                            <p className={styles.country}>{address.country?.name || 'España'}</p>
+                                            {address.phoneNumber && (
+                                                <p className={styles.phone}>Tel: {address.phoneNumber}</p>
+                                            )}
+                                        </div>
+                                        <div className={styles.addressActions}>
                                             <button
                                                 className={styles.actionBtn}
-                                                onClick={() => handleSetDefault(address.id)}
+                                                onClick={() => handleEdit(address)}
+                                                disabled={isProcessing}
                                             >
-                                                Predeterminada
+                                                Editar
                                             </button>
-                                        )}
-                                        <button
-                                            className={`${styles.actionBtn} ${styles.deleteBtn}`}
-                                            onClick={() => handleDelete(address.id)}
-                                        >
-                                            Eliminar
-                                        </button>
-                                    </div>
-                                </article>
-                            ))}
-                        </div>
-                    )}
-                </main>
-            </div>
+                                            {!address.defaultShippingAddress && (
+                                                <button
+                                                    className={styles.actionBtn}
+                                                    onClick={() => handleSetDefault(address.id)}
+                                                    disabled={isProcessing}
+                                                >
+                                                    Predeterminada
+                                                </button>
+                                            )}
+                                            <button
+                                                className={`${styles.actionBtn} ${styles.deleteBtn}`}
+                                                onClick={() => handleDelete(address.id)}
+                                                disabled={isProcessing}
+                                            >
+                                                {deleting ? 'Eliminando...' : 'Eliminar'}
+                                            </button>
+                                        </div>
+                                    </article>
+                                ))}
+                            </div>
+                        )}
+                    </main>
+                </div>
 
-            {/* Modal de edición */}
-            <Modal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={editingAddress ? 'Editar dirección' : 'Nueva dirección'}
-            >
-                <AddressForm
-                    type="shipping"
-                    initialData={editingAddress || undefined}
-                    onSubmit={handleSave}
-                    onCancel={() => setIsModalOpen(false)}
-                />
-            </Modal>
-        </div>
+                {/* Modal de edición */}
+                <Modal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    title={editingAddress ? 'Editar dirección' : 'Nueva dirección'}
+                >
+                    <AddressForm
+                        type="shipping"
+                        initialData={editingAddress ? {
+                            fullName: editingAddress.fullName,
+                            company: editingAddress.company,
+                            streetLine1: editingAddress.streetLine1,
+                            streetLine2: editingAddress.streetLine2,
+                            city: editingAddress.city,
+                            province: editingAddress.province,
+                            postalCode: editingAddress.postalCode,
+                            countryCode: editingAddress.country?.code || 'ES',
+                            phoneNumber: editingAddress.phoneNumber,
+                        } : undefined}
+                        onSubmit={handleSave}
+                        onCancel={() => setIsModalOpen(false)}
+                        loading={creating || updating}
+                    />
+                </Modal>
+            </div>
+        </ProtectedRoute>
     );
 }
