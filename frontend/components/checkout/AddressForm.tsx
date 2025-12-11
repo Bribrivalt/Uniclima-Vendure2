@@ -273,19 +273,25 @@ export function AddressForm({
 
     const containerClasses = [styles.container, className].filter(Boolean).join(' ');
 
+    const formTitleId = `address-form-title-${type}`;
+    const formTitle = type === 'shipping' ? 'Dirección de envío' : 'Dirección de facturación';
+
     return (
         <div className={containerClasses}>
             {/* Direcciones guardadas */}
             {savedAddresses.length > 0 && (
-                <div className={styles.savedAddresses}>
-                    <h4 className={styles.savedTitle}>Direcciones guardadas</h4>
-                    <div className={styles.savedList}>
+                <section className={styles.savedAddresses} aria-labelledby="saved-addresses-title">
+                    <h4 className={styles.savedTitle} id="saved-addresses-title">Direcciones guardadas</h4>
+                    <div className={styles.savedList} role="radiogroup" aria-label="Seleccionar dirección guardada">
                         {savedAddresses.map(address => (
                             <button
                                 key={address.id}
                                 type="button"
                                 className={`${styles.savedCard} ${selectedSavedId === address.id ? styles.selected : ''}`}
                                 onClick={() => handleSelectSaved(address.id!)}
+                                role="radio"
+                                aria-checked={selectedSavedId === address.id}
+                                aria-label={`Dirección de ${address.fullName}: ${address.streetLine1}, ${address.city}, ${address.postalCode}`}
                             >
                                 <span className={styles.savedName}>{address.fullName}</span>
                                 <span className={styles.savedAddress}>
@@ -311,18 +317,21 @@ export function AddressForm({
                                     phoneNumber: '',
                                 });
                             }}
+                            role="radio"
+                            aria-checked={!selectedSavedId}
+                            aria-label="Introducir nueva dirección"
                         >
-                            <span className={styles.newAddressIcon}>+</span>
+                            <span className={styles.newAddressIcon} aria-hidden="true">+</span>
                             <span className={styles.newAddressText}>Nueva dirección</span>
                         </button>
                     </div>
-                </div>
+                </section>
             )}
 
             {/* Formulario */}
-            <form onSubmit={handleSubmit} className={styles.form}>
-                <h4 className={styles.formTitle}>
-                    {type === 'shipping' ? 'Dirección de envío' : 'Dirección de facturación'}
+            <form onSubmit={handleSubmit} className={styles.form} aria-labelledby={formTitleId} noValidate>
+                <h4 className={styles.formTitle} id={formTitleId}>
+                    {formTitle}
                 </h4>
 
                 {/* Nombre completo */}
@@ -335,6 +344,8 @@ export function AddressForm({
                         required
                         fullWidth
                         placeholder="Juan García López"
+                        autoComplete="name"
+                        aria-invalid={!!errors.fullName}
                     />
                 </div>
 
@@ -346,6 +357,7 @@ export function AddressForm({
                         onChange={e => handleChange('company', e.target.value)}
                         fullWidth
                         placeholder="Nombre de la empresa"
+                        autoComplete="organization"
                     />
                 </div>
 
@@ -360,6 +372,8 @@ export function AddressForm({
                             fullWidth
                             placeholder="12345678A"
                             helperText="Necesario para la factura"
+                            aria-invalid={!!errors.taxId}
+                            aria-describedby="tax-id-help"
                         />
                     </div>
                 )}
@@ -374,6 +388,8 @@ export function AddressForm({
                         required
                         fullWidth
                         placeholder="Calle, número, piso, puerta..."
+                        autoComplete="address-line1"
+                        aria-invalid={!!errors.streetLine1}
                     />
                 </div>
 
@@ -384,6 +400,7 @@ export function AddressForm({
                         onChange={e => handleChange('streetLine2', e.target.value)}
                         fullWidth
                         placeholder="Urbanización, bloque, etc."
+                        autoComplete="address-line2"
                     />
                 </div>
 
@@ -397,6 +414,8 @@ export function AddressForm({
                         required
                         fullWidth
                         placeholder="Madrid"
+                        autoComplete="address-level2"
+                        aria-invalid={!!errors.city}
                     />
                     <Input
                         label="Código postal"
@@ -407,6 +426,10 @@ export function AddressForm({
                         fullWidth
                         placeholder="28001"
                         maxLength={5}
+                        autoComplete="postal-code"
+                        aria-invalid={!!errors.postalCode}
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                     />
                 </div>
 
@@ -442,6 +465,8 @@ export function AddressForm({
                         fullWidth
                         placeholder="612 345 678"
                         helperText="Para contactar en caso de incidencia"
+                        autoComplete="tel"
+                        aria-invalid={!!errors.phoneNumber}
                     />
                 </div>
 
@@ -456,6 +481,8 @@ export function AddressForm({
                             error={errors.email}
                             fullWidth
                             placeholder="tu@email.com"
+                            autoComplete="email"
+                            aria-invalid={!!errors.email}
                         />
                     </div>
                 )}

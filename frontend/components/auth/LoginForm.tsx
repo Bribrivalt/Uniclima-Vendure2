@@ -155,20 +155,28 @@ export function LoginForm({
     return (
         <div className={containerClasses}>
             {/* Header */}
-            <div className={styles.header}>
-                {title && <h2 className={styles.title}>{title}</h2>}
-                {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+            <header className={styles.header}>
+                {title && <h2 className={styles.title} id="login-form-title">{title}</h2>}
+                {subtitle && <p className={styles.subtitle} id="login-form-desc">{subtitle}</p>}
+            </header>
+
+            {/* Error general - región live para lectores de pantalla */}
+            <div aria-live="polite" aria-atomic="true">
+                {generalError && (
+                    <Alert type="error" role="alert">
+                        {generalError}
+                    </Alert>
+                )}
             </div>
 
-            {/* Error general */}
-            {generalError && (
-                <Alert type="error">
-                    {generalError}
-                </Alert>
-            )}
-
             {/* Formulario */}
-            <form onSubmit={handleSubmit} className={styles.form}>
+            <form
+                onSubmit={handleSubmit}
+                className={styles.form}
+                aria-labelledby="login-form-title"
+                aria-describedby="login-form-desc"
+                noValidate
+            >
                 {/* Email */}
                 <div className={styles.field}>
                     <Input
@@ -182,6 +190,8 @@ export function LoginForm({
                         required
                         fullWidth
                         icon={<EmailIcon />}
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? 'email-error' : undefined}
                     />
                 </div>
 
@@ -198,6 +208,8 @@ export function LoginForm({
                         required
                         fullWidth
                         icon={<LockIcon />}
+                        aria-invalid={!!errors.password}
+                        aria-describedby={errors.password ? 'password-error' : undefined}
                     />
                 </div>
 

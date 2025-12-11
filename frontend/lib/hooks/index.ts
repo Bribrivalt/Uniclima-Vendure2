@@ -14,3 +14,15 @@ export {
     useRestoreFocus,
     useEscapeKey,
 } from './useFocusTrap';
+
+// Storage hooks
+export {
+    useRecentlyViewed,
+} from './useRecentlyViewed';
+export type { RecentlyViewedProduct } from './useRecentlyViewed';
+
+// Comparador de productos
+export {
+    useCompare,
+} from './useCompare';
+export type { CompareProduct } from './useCompare';

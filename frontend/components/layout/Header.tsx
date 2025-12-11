@@ -250,12 +250,12 @@ export default function Header() {
     }, [isUserDropdownOpen, isCategoriesOpen]);
 
     return (
-        <header className={styles.header}>
+        <header className={styles.header} role="banner">
             <div className={styles.container}>
-                <nav className={styles.nav}>
+                <nav className={styles.nav} aria-label="Navegación principal">
                     {/* Logo */}
-                    <Link href="/" className={styles.logo}>
-                        <div className={styles.logoIcon}>
+                    <Link href="/" className={styles.logo} aria-label="Uniclima Solutions - Ir a inicio">
+                        <div className={styles.logoIcon} aria-hidden="true">
                             <UniclimLogoIcon />
                         </div>
                         <div className={styles.logoText}>
@@ -265,12 +265,12 @@ export default function Header() {
                     </Link>
 
                     {/* Menú de navegación */}
-                    <div className={styles.menu}>
-                        <Link href="/" className={styles.menuLink}>
+                    <div className={styles.menu} role="menubar" aria-label="Menú principal">
+                        <Link href="/" className={styles.menuLink} role="menuitem">
                             Inicio
                         </Link>
 
-                        <Link href="/servicios" className={styles.menuLink}>
+                        <Link href="/servicios" className={styles.menuLink} role="menuitem">
                             Servicios
                         </Link>
 
@@ -340,17 +340,17 @@ export default function Header() {
                             )}
                         </div>
 
-                        <Link href="/blog" className={styles.menuLink}>
+                        <Link href="/blog" className={styles.menuLink} role="menuitem">
                             Blog
                         </Link>
 
-                        <Link href="/contacto" className={styles.menuLink}>
+                        <Link href="/contacto" className={styles.menuLink} role="menuitem">
                             Contacto
                         </Link>
                     </div>
 
                     {/* Acciones */}
-                    <div className={styles.actions}>
+                    <div className={styles.actions} role="group" aria-label="Acciones de usuario">
                         {/* Usuario / Login */}
                         {isAuthenticated && currentUser ? (
                             <div className={styles.userMenu} ref={userDropdownRef}>
@@ -358,29 +358,49 @@ export default function Header() {
                                     className={styles.iconButton}
                                     onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
                                     aria-expanded={isUserDropdownOpen}
-                                    aria-haspopup="true"
-                                    aria-label="Mi cuenta"
+                                    aria-haspopup="menu"
+                                    aria-controls="user-dropdown-menu"
+                                    aria-label={`Mi cuenta - ${currentUser.firstName}`}
                                 >
                                     <UserIcon />
                                 </button>
 
                                 {isUserDropdownOpen && (
-                                    <div className={styles.dropdown}>
-                                        <div className={styles.dropdownHeader}>
+                                    <div
+                                        className={styles.dropdown}
+                                        id="user-dropdown-menu"
+                                        role="menu"
+                                        aria-labelledby="user-menu-button"
+                                    >
+                                        <div className={styles.dropdownHeader} role="presentation">
                                             <strong>{currentUser.firstName} {currentUser.lastName}</strong>
                                             <span>{currentUser.emailAddress}</span>
                                         </div>
-                                        <Link href="/cuenta" className={styles.dropdownItem} onClick={() => setIsUserDropdownOpen(false)}>
-                                            <UserIcon />
+                                        <Link
+                                            href="/cuenta"
+                                            className={styles.dropdownItem}
+                                            onClick={() => setIsUserDropdownOpen(false)}
+                                            role="menuitem"
+                                        >
+                                            <UserIcon aria-hidden="true" />
                                             Mi Cuenta
                                         </Link>
-                                        <Link href="/pedidos" className={styles.dropdownItem} onClick={() => setIsUserDropdownOpen(false)}>
-                                            <PackageIcon />
+                                        <Link
+                                            href="/pedidos"
+                                            className={styles.dropdownItem}
+                                            onClick={() => setIsUserDropdownOpen(false)}
+                                            role="menuitem"
+                                        >
+                                            <PackageIcon aria-hidden="true" />
                                             Mis Pedidos
                                         </Link>
-                                        <div className={styles.dropdownDivider} />
-                                        <button onClick={handleLogout} className={styles.dropdownItem}>
-                                            <LogoutIcon />
+                                        <div className={styles.dropdownDivider} role="separator" />
+                                        <button
+                                            onClick={handleLogout}
+                                            className={styles.dropdownItem}
+                                            role="menuitem"
+                                        >
+                                            <LogoutIcon aria-hidden="true" />
                                             Cerrar Sesión
                                         </button>
                                     </div>
@@ -413,9 +433,11 @@ export default function Header() {
                         <button
                             className={styles.mobileMenuBtn}
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            aria-label="Menú"
+                            aria-label={isMobileMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+                            aria-expanded={isMobileMenuOpen}
+                            aria-controls="mobile-menu"
                         >
-                            <MenuIcon />
+                            <MenuIcon aria-hidden="true" />
                         </button>
                     </div>
                 </nav>

@@ -21,6 +21,14 @@ export { ProductTabs } from './ProductTabs';
 export { ProductSpecs, ProductSpecsCompact } from './ProductSpecs';
 export { RelatedProducts, RelatedProductsSkeleton } from './RelatedProducts';
 export { MobileFilterDrawer } from './MobileFilterDrawer';
+export { RecentlyViewed, RecentlyViewedSkeleton } from './RecentlyViewed';
+
+// Comparador de productos
+export {
+    CompareButton,
+    CompareBadge,
+    CompareFloatingButton
+} from './CompareButton';
 
 // Tipos existentes
 export type { ProductButtonProps } from './ProductButton';
@@ -57,3 +65,4 @@ export type {
     FilterOption as MobileFilterOption,
     FilterGroup as MobileFilterGroup
 } from './MobileFilterDrawer';
+export type { RecentlyViewedProduct } from '@/lib/hooks/useRecentlyViewed';

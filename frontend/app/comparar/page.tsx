@@ -1,166 +1,60 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button, Breadcrumb } from '@/components/core';
+import { useCompare, CompareProduct } from '@/lib/hooks/useCompare';
 import styles from './page.module.css';
 
 /**
- * Interfaz para producto a comparar
- */
-interface CompareProduct {
-    id: string;
-    name: string;
-    slug: string;
-    image?: string;
-    price: number;
-    originalPrice?: number;
-    rating?: number;
-    reviewCount?: number;
-    inStock: boolean;
-    brand?: string;
-    specs: Record<string, string | number | boolean>;
-}
-
-/**
- * Especificaciones a mostrar en comparación
+ * Especificaciones a mostrar en comparación HVAC
+ * Mapeamos los campos de customFields de Vendure
  */
 const specLabels: Record<string, string> = {
-    brand: 'Marca',
-    model: 'Modelo',
-    power: 'Potencia',
-    energyClass: 'Clase energética',
-    noise: 'Nivel de ruido',
-    weight: 'Peso',
-    dimensions: 'Dimensiones',
-    warranty: 'Garantía',
-    refrigerant: 'Refrigerante',
+    potenciaKw: 'Potencia (kW)',
+    frigorias: 'Frigorías',
+    claseEnergetica: 'Clase Energética',
+    seer: 'SEER (Eficiencia frío)',
+    scop: 'SCOP (Eficiencia calor)',
+    refrigerante: 'Refrigerante',
+    nivelSonoroInterior: 'Ruido Interior (dB)',
+    nivelSonoroExterior: 'Ruido Exterior (dB)',
     wifi: 'WiFi incluido',
-    inverter: 'Tecnología Inverter',
+    garantiaAnos: 'Garantía (años)',
+    dimensionesInterior: 'Dimensiones Interior',
+    dimensionesExterior: 'Dimensiones Exterior',
+    pesoUnidadInterior: 'Peso Interior (kg)',
+    pesoUnidadExterior: 'Peso Exterior (kg)',
 };
 
 /**
  * CompararPage - Página de comparación de productos
- * 
+ *
  * Permite a los usuarios comparar características de
- * múltiples productos lado a lado.
+ * múltiples productos HVAC lado a lado.
+ * Usa localStorage para persistir la lista de comparación.
  */
 export default function CompararPage() {
-    // Estado de productos a comparar (normalmente vendría del localStorage o contexto)
-    const [products, setProducts] = useState<CompareProduct[]>([]);
-    const [loading, setLoading] = useState(true);
+    const {
+        compareList: products,
+        removeProduct,
+        clearCompare,
+        isLoading,
+        count
+    } = useCompare();
 
-    // Cargar productos de comparación
-    useEffect(() => {
-        const loadCompareProducts = async () => {
-            setLoading(true);
-
-            // TODO: Cargar productos del localStorage o contexto global
-            // Simulamos datos de ejemplo
-            await new Promise(resolve => setTimeout(resolve, 500));
-
-            const mockProducts: CompareProduct[] = [
-                {
-                    id: '1',
-                    name: 'Daikin FTXF35C Split 3500W',
-                    slug: 'daikin-ftxf35c',
-                    image: '/images/products/placeholder-1.jpg',
-                    price: 849,
-                    originalPrice: 999,
-                    rating: 4.5,
-                    reviewCount: 127,
-                    inStock: true,
-                    brand: 'Daikin',
-                    specs: {
-                        brand: 'Daikin',
-                        model: 'FTXF35C',
-                        power: '3500W',
-                        energyClass: 'A++',
-                        noise: '45 dB',
-                        weight: '38 kg',
-                        dimensions: '80x28x26 cm',
-                        warranty: '5 años',
-                        refrigerant: 'R-32',
-                        wifi: true,
-                        inverter: true,
-                    },
-                },
-                {
-                    id: '2',
-                    name: 'Mitsubishi MSZ-HR35VF Split 3500W',
-                    slug: 'mitsubishi-msz-hr35vf',
-                    image: '/images/products/placeholder-2.jpg',
-                    price: 749,
-                    rating: 4.3,
-                    reviewCount: 89,
-                    inStock: true,
-                    brand: 'Mitsubishi Electric',
-                    specs: {
-                        brand: 'Mitsubishi Electric',
-                        model: 'MSZ-HR35VF',
-                        power: '3500W',
-                        energyClass: 'A++',
-                        noise: '47 dB',
-                        weight: '35 kg',
-                        dimensions: '78x30x24 cm',
-                        warranty: '3 años',
-                        refrigerant: 'R-32',
-                        wifi: false,
-                        inverter: true,
-                    },
-                },
-                {
-                    id: '3',
-                    name: 'Fujitsu ASY35UI-LM Split 3500W',
-                    slug: 'fujitsu-asy35ui-lm',
-                    image: '/images/products/placeholder-3.jpg',
-                    price: 699,
-                    rating: 4.2,
-                    reviewCount: 65,
-                    inStock: false,
-                    brand: 'Fujitsu',
-                    specs: {
-                        brand: 'Fujitsu',
-                        model: 'ASY35UI-LM',
-                        power: '3500W',
-                        energyClass: 'A+',
-                        noise: '48 dB',
-                        weight: '36 kg',
-                        dimensions: '79x29x25 cm',
-                        warranty: '2 años',
-                        refrigerant: 'R-32',
-                        wifi: true,
-                        inverter: true,
-                    },
-                },
-            ];
-
-            setProducts(mockProducts);
-            setLoading(false);
-        };
-
-        loadCompareProducts();
-    }, []);
-
-    // Eliminar producto de comparación
-    const removeProduct = (productId: string) => {
-        setProducts(prev => prev.filter(p => p.id !== productId));
-        // TODO: También eliminar del localStorage
-    };
-
-    // Limpiar comparación
-    const clearAll = () => {
-        setProducts([]);
-        // TODO: Limpiar localStorage
-    };
-
-    // Obtener todas las especificaciones únicas
+    // Obtener todas las especificaciones únicas de los productos
     const allSpecs = Object.keys(specLabels);
 
     // Formatear valor de especificación
-    const formatSpecValue = (value: string | number | boolean | undefined) => {
-        if (value === undefined) return '—';
-        if (typeof value === 'boolean') return value ? '✓' : '✗';
+    const formatSpecValue = (value: string | number | boolean | undefined | null) => {
+        if (value === undefined || value === null) return '—';
+        if (typeof value === 'boolean') return value ? '✓ Sí' : '✗ No';
+        if (typeof value === 'number') {
+            // Formatear números con coma decimal
+            return value.toLocaleString('es-ES');
+        }
         return String(value);
     };
 
@@ -171,7 +65,7 @@ export default function CompararPage() {
     ];
 
     // Estado de carga
-    if (loading) {
+    if (isLoading) {
         return (
             <div className={styles.container}>
                 <Breadcrumb items={breadcrumbItems} className={styles.breadcrumb} />
@@ -184,17 +78,17 @@ export default function CompararPage() {
     }
 
     // Sin productos
-    if (products.length === 0) {
+    if (count === 0) {
         return (
             <div className={styles.container}>
                 <Breadcrumb items={breadcrumbItems} className={styles.breadcrumb} />
                 <div className={styles.emptyState}>
                     <div className={styles.emptyIcon}>⚖️</div>
                     <h1>No hay productos para comparar</h1>
-                    <p>Añade productos a la comparación desde las fichas de producto</p>
+                    <p>Añade productos a la comparación desde las fichas de producto usando el botón "Comparar"</p>
                     <Link href="/productos">
                         <Button variant="primary">
-                            Ver productos
+                            Ver catálogo de productos
                         </Button>
                     </Link>
                 </div>
@@ -211,9 +105,9 @@ export default function CompararPage() {
             <header className={styles.header}>
                 <h1 className={styles.title}>Comparar productos</h1>
                 <p className={styles.subtitle}>
-                    Comparando {products.length} {products.length === 1 ? 'producto' : 'productos'}
+                    Comparando {count} {count === 1 ? 'producto' : 'productos'}
                 </p>
-                <Button variant="outline" size="sm" onClick={clearAll}>
+                <Button variant="outline" size="sm" onClick={clearCompare}>
                     Limpiar comparación
                 </Button>
             </header>
@@ -239,7 +133,13 @@ export default function CompararPage() {
                                         </button>
                                         {product.image && (
                                             <div className={styles.productImage}>
-                                                <img src={product.image} alt={product.name} />
+                                                <Image
+                                                    src={product.image}
+                                                    alt={product.name}
+                                                    width={150}
+                                                    height={150}
+                                                    style={{ objectFit: 'contain' }}
+                                                />
                                             </div>
                                         )}
                                         <h3 className={styles.productName}>
@@ -247,19 +147,20 @@ export default function CompararPage() {
                                                 {product.name}
                                             </Link>
                                         </h3>
+                                        {product.brand && (
+                                            <span className={styles.productBrand}>{product.brand}</span>
+                                        )}
                                         <div className={styles.productPrice}>
                                             <span className={styles.price}>
-                                                {product.price.toLocaleString('es-ES')}€
+                                                {(product.price / 100).toLocaleString('es-ES', {
+                                                    style: 'currency',
+                                                    currency: 'EUR'
+                                                })}
                                             </span>
-                                            {product.originalPrice && (
-                                                <span className={styles.originalPrice}>
-                                                    {product.originalPrice.toLocaleString('es-ES')}€
-                                                </span>
-                                            )}
                                         </div>
                                         <div className={styles.productStock}>
                                             {product.inStock ? (
-                                                <span className={styles.inStock}>En stock</span>
+                                                <span className={styles.inStock}>✓ En stock</span>
                                             ) : (
                                                 <span className={styles.outOfStock}>Agotado</span>
                                             )}
@@ -277,33 +178,46 @@ export default function CompararPage() {
 
                     {/* Cuerpo con especificaciones */}
                     <tbody>
-                        {allSpecs.map((spec) => (
-                            <tr key={spec}>
-                                <td className={styles.labelCell}>
-                                    {specLabels[spec]}
-                                </td>
-                                {products.map((product) => {
-                                    const value = product.specs[spec];
-                                    const isBest = checkIfBest(spec, value, products);
+                        {allSpecs.map((spec) => {
+                            // Solo mostrar filas si al menos un producto tiene este dato
+                            const hasValue = products.some(p => {
+                                const val = p.specs[spec as keyof typeof p.specs];
+                                return val !== undefined && val !== null;
+                            });
+                            
+                            if (!hasValue) return null;
 
-                                    return (
-                                        <td
-                                            key={product.id}
-                                            className={`${styles.valueCell} ${isBest ? styles.bestValue : ''}`}
-                                        >
-                                            {formatSpecValue(value)}
-                                        </td>
-                                    );
-                                })}
-                            </tr>
-                        ))}
+                            return (
+                                <tr key={spec}>
+                                    <td className={styles.labelCell}>
+                                        {specLabels[spec]}
+                                    </td>
+                                    {products.map((product) => {
+                                        const value = product.specs[spec as keyof typeof product.specs];
+                                        const isBest = checkIfBest(spec, value, products);
+
+                                        return (
+                                            <td
+                                                key={product.id}
+                                                className={`${styles.valueCell} ${isBest ? styles.bestValue : ''}`}
+                                            >
+                                                {formatSpecValue(value)}
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>
 
             {/* Añadir más productos */}
-            {products.length < 4 && (
+            {count < 4 && (
                 <div className={styles.addMore}>
+                    <p className={styles.addMoreText}>
+                        Puedes comparar hasta 4 productos
+                    </p>
                     <Link href="/productos">
                         <Button variant="outline">
                             + Añadir otro producto
@@ -320,37 +234,45 @@ export default function CompararPage() {
  */
 function checkIfBest(
     spec: string,
-    value: string | number | boolean | undefined,
+    value: string | number | boolean | undefined | null,
     products: CompareProduct[]
 ): boolean {
-    if (value === undefined) return false;
+    if (value === undefined || value === null) return false;
 
-    const values = products.map(p => p.specs[spec]).filter(v => v !== undefined);
+    const values = products.map(p => p.specs[spec as keyof typeof p.specs]).filter(v => v !== undefined && v !== null);
+    
+    if (values.length < 2) return false;
 
-    // Para especificaciones numéricas, el mejor depende del tipo
-    if (spec === 'noise') {
-        // Menor ruido es mejor
-        const numValue = parseInt(String(value));
-        const minValue = Math.min(...values.map(v => parseInt(String(v))));
-        return numValue === minValue && values.filter(v => parseInt(String(v)) === minValue).length === 1;
+    // Menor ruido es mejor
+    if (spec === 'nivelSonoroInterior' || spec === 'nivelSonoroExterior') {
+        const numValue = Number(value);
+        const minValue = Math.min(...values.map(v => Number(v)));
+        return numValue === minValue && values.filter(v => Number(v) === minValue).length === 1;
     }
 
-    if (spec === 'warranty') {
-        // Mayor garantía es mejor
-        const numValue = parseInt(String(value));
-        const maxValue = Math.max(...values.map(v => parseInt(String(v))));
-        return numValue === maxValue && values.filter(v => parseInt(String(v)) === maxValue).length === 1;
+    // Mayor eficiencia es mejor
+    if (spec === 'seer' || spec === 'scop') {
+        const numValue = Number(value);
+        const maxValue = Math.max(...values.map(v => Number(v)));
+        return numValue === maxValue && values.filter(v => Number(v) === maxValue).length === 1;
     }
 
-    if (spec === 'energyClass') {
-        // A+++ es mejor que A++, etc.
+    // Mayor garantía es mejor
+    if (spec === 'garantiaAnos') {
+        const numValue = Number(value);
+        const maxValue = Math.max(...values.map(v => Number(v)));
+        return numValue === maxValue && values.filter(v => Number(v) === maxValue).length === 1;
+    }
+
+    // Clase energética: A+++ es mejor
+    if (spec === 'claseEnergetica') {
         const classes = ['G', 'F', 'E', 'D', 'C', 'B', 'A', 'A+', 'A++', 'A+++'];
         const valueIndex = classes.indexOf(String(value));
         const maxIndex = Math.max(...values.map(v => classes.indexOf(String(v))));
         return valueIndex === maxIndex && values.filter(v => classes.indexOf(String(v)) === maxIndex).length === 1;
     }
 
-    // Para booleanos, true es mejor
+    // Para booleanos, true es mejor (wifi incluido, etc.)
     if (typeof value === 'boolean') {
         return value === true && values.filter(v => v === true).length === 1;
     }

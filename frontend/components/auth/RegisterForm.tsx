@@ -202,20 +202,28 @@ export function RegisterForm({
     return (
         <div className={containerClasses}>
             {/* Header */}
-            <div className={styles.header}>
-                {title && <h2 className={styles.title}>{title}</h2>}
-                {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+            <header className={styles.header}>
+                {title && <h2 className={styles.title} id="register-form-title">{title}</h2>}
+                {subtitle && <p className={styles.subtitle} id="register-form-desc">{subtitle}</p>}
+            </header>
+
+            {/* Error general - región live para lectores de pantalla */}
+            <div aria-live="polite" aria-atomic="true">
+                {generalError && (
+                    <Alert type="error" role="alert">
+                        {generalError}
+                    </Alert>
+                )}
             </div>
 
-            {/* Error general */}
-            {generalError && (
-                <Alert type="error">
-                    {generalError}
-                </Alert>
-            )}
-
             {/* Formulario */}
-            <form onSubmit={handleSubmit} className={styles.form}>
+            <form
+                onSubmit={handleSubmit}
+                className={styles.form}
+                aria-labelledby="register-form-title"
+                aria-describedby="register-form-desc"
+                noValidate
+            >
                 {/* Nombre y Apellidos */}
                 <div className={styles.row}>
                     <div className={styles.field}>
@@ -229,6 +237,7 @@ export function RegisterForm({
                             required
                             fullWidth
                             icon={<UserIcon />}
+                            aria-invalid={!!errors.firstName}
                         />
                     </div>
                     <div className={styles.field}>
@@ -241,6 +250,7 @@ export function RegisterForm({
                             autoComplete="family-name"
                             required
                             fullWidth
+                            aria-invalid={!!errors.lastName}
                         />
                     </div>
                 </div>
@@ -258,6 +268,7 @@ export function RegisterForm({
                         required
                         fullWidth
                         icon={<EmailIcon />}
+                        aria-invalid={!!errors.email}
                     />
                 </div>
 
@@ -300,7 +311,12 @@ export function RegisterForm({
                         fullWidth
                         icon={<LockIcon />}
                         helperText="Mínimo 8 caracteres con mayúsculas, minúsculas y números"
+                        aria-invalid={!!errors.password}
+                        aria-describedby="password-requirements"
                     />
+                    <span id="password-requirements" className="sr-only">
+                        La contraseña debe tener mínimo 8 caracteres con mayúsculas, minúsculas y números
+                    </span>
                 </div>
 
                 {/* Confirmar Contraseña */}
@@ -316,12 +332,14 @@ export function RegisterForm({
                         required
                         fullWidth
                         icon={<LockIcon />}
+                        aria-invalid={!!errors.confirmPassword}
                     />
                 </div>
 
                 {/* Términos y condiciones */}
                 {requireTerms && (
-                    <div className={styles.terms}>
+                    <fieldset className={styles.terms}>
+                        <legend className="sr-only">Términos y condiciones</legend>
                         <Checkbox
                             checked={acceptTerms}
                             onChange={e => {
@@ -331,11 +349,15 @@ export function RegisterForm({
                                 }
                             }}
                             label="Acepto los términos y condiciones y la política de privacidad"
+                            aria-invalid={!!errors.terms}
+                            aria-describedby={errors.terms ? 'terms-error' : undefined}
                         />
                         {errors.terms && (
-                            <span className={styles.termsError}>{errors.terms}</span>
+                            <span className={styles.termsError} id="terms-error" role="alert">
+                                {errors.terms}
+                            </span>
                         )}
-                    </div>
+                    </fieldset>
                 )}
 
                 {/* Botón de envío */}

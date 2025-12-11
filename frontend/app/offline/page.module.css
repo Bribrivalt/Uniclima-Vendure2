@@ -1,0 +1,191 @@
+/* ========================================
+   OFFLINE PAGE - Sin conexión
+   ======================================== */
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-6);
+    background: linear-gradient(135deg,
+            var(--color-gray-50) 0%,
+            var(--color-gray-100) 100%);
+}
+
+.content {
+    max-width: 500px;
+    text-align: center;
+    padding: var(--spacing-10);
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius-2xl);
+    box-shadow: var(--shadow-xl);
+}
+
+/* ========================================
+   ICONO
+   ======================================== */
+
+.iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto var(--spacing-6);
+    background: var(--color-gray-100);
+    border-radius: var(--border-radius-full);
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    color: var(--color-text-tertiary);
+}
+
+/* ========================================
+   TEXTOS
+   ======================================== */
+
+.title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--spacing-3);
+}
+
+.description {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin: 0 0 var(--spacing-6);
+}
+
+/* ========================================
+   SUGERENCIAS
+   ======================================== */
+
+.suggestions {
+    padding: var(--spacing-5);
+    background-color: var(--color-gray-50);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: var(--spacing-6);
+    text-align: left;
+}
+
+.suggestionsTitle {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--spacing-3);
+}
+
+.suggestionsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.suggestionsList li {
+    position: relative;
+    padding-left: var(--spacing-5);
+    margin-bottom: var(--spacing-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-normal);
+}
+
+.suggestionsList li:last-child {
+    margin-bottom: 0;
+}
+
+.suggestionsList li::before {
+    content: '•';
+    position: absolute;
+    left: var(--spacing-2);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+/* ========================================
+   BOTÓN
+   ======================================== */
+
+.retryButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    width: 100%;
+    padding: var(--spacing-4) var(--spacing-6);
+    background: var(--gradient-primary);
+    color: white;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    border: none;
+    border-radius: var(--border-radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-primary-sm);
+}
+
+.retryButton:hover {
+    background: var(--gradient-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary);
+}
+
+.retryButton:active {
+    transform: translateY(0);
+}
+
+.retryButton svg {
+    transition: transform var(--transition-fast);
+}
+
+.retryButton:hover svg {
+    transform: rotate(-45deg);
+}
+
+/* ========================================
+   INFO ADICIONAL
+   ======================================== */
+
+.infoText {
+    margin-top: var(--spacing-4);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    line-height: var(--line-height-relaxed);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 640px) {
+    .container {
+        padding: var(--spacing-4);
+    }
+
+    .content {
+        padding: var(--spacing-6);
+    }
+
+    .iconWrapper {
+        width: 80px;
+        height: 80px;
+    }
+
+    .icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .title {
+        font-size: var(--font-size-xl);
+    }
+
+    .description {
+        font-size: var(--font-size-sm);
+    }
+}

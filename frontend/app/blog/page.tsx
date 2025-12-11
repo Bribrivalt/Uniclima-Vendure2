@@ -1,87 +1,33 @@
 /**
  * Blog Page - Uniclima Solutions
- * 
+ *
  * Página del blog con artículos sobre climatización
  * Diseño inspirado en uniclimasolutions.com/blog
- * 
+ *
  * @author Frontend Team
  * @version 2.0.0
  */
-'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { Metadata } from 'next';
 import styles from './page.module.css';
+import { blogPosts, blogCategories, getFeaturedPosts } from '@/lib/data/blog-posts';
 
 // ========================================
-// DATOS DE EJEMPLO PARA EL BLOG
+// METADATA SEO
 // ========================================
 
-const blogPosts = [
-    {
-        id: '1',
-        title: '¿Cómo Funciona la Aerotermia y por Qué es una Opción Sostenible?',
-        excerpt: 'Descubre los beneficios de la aerotermia como sistema de climatización eficiente y respetuoso con el medio ambiente.',
-        category: 'CONSEJOS',
-        slug: 'como-funciona-aerotermia',
-        image: null,
-        date: '2024-12-05',
-        featured: true,
+export const metadata: Metadata = {
+    title: 'Blog de Climatización | Consejos y Guías HVAC - Uniclima',
+    description: 'Artículos, consejos y guías sobre climatización, aire acondicionado, calderas y aerotermia. Información experta para optimizar el confort de tu hogar.',
+    keywords: ['blog climatización', 'consejos HVAC', 'guías aire acondicionado', 'calderas', 'aerotermia'],
+    openGraph: {
+        title: 'Blog de Climatización - Uniclima Solutions',
+        description: 'Artículos y consejos expertos sobre climatización HVAC',
+        type: 'website',
     },
-    {
-        id: '2',
-        title: 'Innovaciones en Calderas de Condensación: Lo Último del Mercado',
-        excerpt: 'Las últimas novedades tecnológicas en calderas de condensación para mayor eficiencia energética.',
-        category: 'NOTICIAS',
-        slug: 'innovaciones-calderas-condensacion',
-        image: null,
-        date: '2024-11-28',
-        featured: true,
-    },
-    {
-        id: '3',
-        title: 'Los Mejores aparatos de Aire Acondicionados para el Verano 2024',
-        excerpt: 'Guía completa para elegir el mejor aire acondicionado según tus necesidades y espacio.',
-        category: 'CONSEJOS',
-        slug: 'mejores-aires-acondicionados-2024',
-        image: null,
-        date: '2024-11-15',
-    },
-    {
-        id: '4',
-        title: 'Mantenimiento Preventivo de tu Caldera: Guía Completa',
-        excerpt: 'Todo lo que necesitas saber para mantener tu caldera en perfecto estado durante todo el año.',
-        category: 'GUÍAS',
-        slug: 'mantenimiento-preventivo-caldera',
-        image: null,
-        date: '2024-11-10',
-    },
-    {
-        id: '5',
-        title: 'Subvenciones para Aerotermia en Madrid 2024',
-        excerpt: 'Conoce las ayudas disponibles para instalar sistemas de aerotermia en tu hogar.',
-        category: 'NOTICIAS',
-        slug: 'subvenciones-aerotermia-madrid-2024',
-        image: null,
-        date: '2024-10-28',
-    },
-    {
-        id: '6',
-        title: 'Diferencias entre Bomba de Calor y Aire Acondicionado',
-        excerpt: 'Aprende a distinguir estos sistemas de climatización y cuál es mejor para tu hogar.',
-        category: 'CONSEJOS',
-        slug: 'diferencias-bomba-calor-aire-acondicionado',
-        image: null,
-        date: '2024-10-15',
-    },
-];
-
-const categories = [
-    { name: 'Todos', slug: 'todos' },
-    { name: 'Consejos', slug: 'consejos' },
-    { name: 'Noticias', slug: 'noticias' },
-    { name: 'Guías', slug: 'guias' },
-];
+};
 
 // ========================================
 // ICONOS SVG
@@ -154,7 +100,7 @@ export default function BlogPage() {
                                                 </svg>
                                             </div>
                                         )}
-                                        <span className={styles.categoryBadge}>{post.category}</span>
+                                        <span className={styles.categoryBadge}>{post.category.name.toUpperCase()}</span>
                                     </div>
                                     <div className={styles.featuredContent}>
                                         <h2 className={styles.featuredTitle}>{post.title}</h2>
@@ -190,7 +136,7 @@ export default function BlogPage() {
                             <div className={styles.sidebarSection}>
                                 <h3 className={styles.sidebarTitle}>CATEGORÍAS</h3>
                                 <ul className={styles.categoryList}>
-                                    {categories.map((cat) => (
+                                    {blogCategories.map((cat) => (
                                         <li key={cat.slug}>
                                             <Link href={`/blog?categoria=${cat.slug}`} className={styles.categoryItem}>
                                                 {cat.name}
@@ -244,7 +190,7 @@ export default function BlogPage() {
                                             </svg>
                                         </div>
                                     )}
-                                    <span className={styles.categoryBadge}>{post.category}</span>
+                                    <span className={styles.categoryBadge}>{post.category.name.toUpperCase()}</span>
                                 </div>
                                 <div className={styles.postCardContent}>
                                     <h3 className={styles.postCardTitle}>{post.title}</h3>

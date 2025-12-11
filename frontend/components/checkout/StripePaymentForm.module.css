@@ -1,0 +1,184 @@
+/**
+ * StripePaymentForm - Estilos
+ * 
+ * @description Estilos para el formulario de pago con Stripe
+ */
+
+.container {
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-6);
+}
+
+.title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0 0 var(--spacing-2);
+}
+
+.amount {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--spacing-6);
+}
+
+.amount strong {
+    font-size: var(--font-size-xl);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+/* Formulario */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.paymentElement {
+    background: var(--color-background-secondary);
+    padding: var(--spacing-4);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+}
+
+/* Mensajes de error/éxito */
+.error,
+.success {
+    margin: var(--spacing-2) 0;
+}
+
+/* Info de seguridad */
+.securityInfo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-3);
+    background: var(--color-success-light, #e8f5e9);
+    border-radius: var(--radius-md);
+}
+
+.lockIcon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-success);
+}
+
+/* Logos de tarjetas */
+.cardLogos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--color-border-light);
+    margin-top: var(--spacing-2);
+}
+
+.cardLogos img {
+    height: 24px;
+    width: auto;
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+}
+
+.cardLogos img:hover {
+    opacity: 1;
+}
+
+/* Estado de carga */
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-8);
+    gap: var(--spacing-4);
+}
+
+.loading p {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Métodos de pago alternativos */
+.alternativeMethods {
+    margin-top: var(--spacing-6);
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--color-border);
+}
+
+.alternativeMethodsTitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    text-align: center;
+    margin-bottom: var(--spacing-3);
+}
+
+.methodButtons {
+    display: flex;
+    gap: var(--spacing-2);
+}
+
+.methodButton {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-3);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.methodButton:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+.methodButton img {
+    height: 20px;
+    width: auto;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .container {
+        padding: var(--spacing-4);
+    }
+
+    .cardLogos {
+        gap: var(--spacing-2);
+    }
+
+    .cardLogos img {
+        height: 20px;
+    }
+
+    .methodButtons {
+        flex-direction: column;
+    }
+}

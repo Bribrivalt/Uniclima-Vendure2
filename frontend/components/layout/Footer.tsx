@@ -97,15 +97,15 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className={styles.footer}>
+        <footer className={styles.footer} role="contentinfo">
             {/* Sección principal */}
             <div className={styles.footerMain}>
                 <div className={styles.container}>
                     <div className={styles.grid}>
                         {/* Columna de marca */}
                         <div className={styles.brandColumn}>
-                            <Link href="/" className={styles.brandLogo}>
-                                <div className={styles.logoIcon}>
+                            <Link href="/" className={styles.brandLogo} aria-label="Uniclima Solutions - Ir a inicio">
+                                <div className={styles.logoIcon} aria-hidden="true">
                                     <UniclimLogoIcon />
                                 </div>
                                 <div className={styles.logoText}>
@@ -120,50 +120,50 @@ export default function Footer() {
                                 con las mejores marcas del mercado.
                             </p>
 
-                            <div className={styles.socialLinks}>
+                            <nav className={styles.socialLinks} aria-label="Redes sociales">
                                 <a
                                     href="https://facebook.com/uniclima"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={styles.socialLink}
-                                    aria-label="Facebook"
+                                    aria-label="Síguenos en Facebook (abre en nueva ventana)"
                                 >
-                                    <FacebookIcon />
+                                    <FacebookIcon aria-hidden="true" />
                                 </a>
                                 <a
                                     href="https://instagram.com/uniclima"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={styles.socialLink}
-                                    aria-label="Instagram"
+                                    aria-label="Síguenos en Instagram (abre en nueva ventana)"
                                 >
-                                    <InstagramIcon />
+                                    <InstagramIcon aria-hidden="true" />
                                 </a>
                                 <a
                                     href="https://linkedin.com/company/uniclima"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={styles.socialLink}
-                                    aria-label="LinkedIn"
+                                    aria-label="Síguenos en LinkedIn (abre en nueva ventana)"
                                 >
-                                    <LinkedInIcon />
+                                    <LinkedInIcon aria-hidden="true" />
                                 </a>
                                 <a
                                     href="https://wa.me/34911177777"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={styles.socialLink}
-                                    aria-label="WhatsApp"
+                                    aria-label="Contáctanos por WhatsApp (abre en nueva ventana)"
                                 >
-                                    <WhatsAppIcon />
+                                    <WhatsAppIcon aria-hidden="true" />
                                 </a>
-                            </div>
+                            </nav>
                         </div>
 
                         {/* Enlaces rápidos */}
-                        <div className={styles.column}>
-                            <h3 className={styles.columnTitle}>Empresa</h3>
-                            <ul className={styles.linkList}>
+                        <nav className={styles.column} aria-labelledby="footer-nav-empresa">
+                            <h3 className={styles.columnTitle} id="footer-nav-empresa">Empresa</h3>
+                            <ul className={styles.linkList} role="list">
                                 <li className={styles.linkItem}>
                                     <Link href="/conocenos" className={styles.link}>Sobre Nosotros</Link>
                                 </li>
@@ -180,12 +180,12 @@ export default function Footer() {
                                     <Link href="/faq" className={styles.link}>Preguntas Frecuentes</Link>
                                 </li>
                             </ul>
-                        </div>
+                        </nav>
 
                         {/* Servicios */}
-                        <div className={styles.column}>
-                            <h3 className={styles.columnTitle}>Servicios</h3>
-                            <ul className={styles.linkList}>
+                        <nav className={styles.column} aria-labelledby="footer-nav-servicios">
+                            <h3 className={styles.columnTitle} id="footer-nav-servicios">Servicios</h3>
+                            <ul className={styles.linkList} role="list">
                                 <li className={styles.linkItem}>
                                     <Link href="/servicios#instalacion" className={styles.link}>Instalación</Link>
                                 </li>
@@ -202,14 +202,14 @@ export default function Footer() {
                                     <Link href="/productos" className={styles.link}>Tienda Online</Link>
                                 </li>
                             </ul>
-                        </div>
+                        </nav>
 
                         {/* Contacto */}
-                        <div className={styles.column}>
-                            <h3 className={styles.columnTitle}>Contacto</h3>
+                        <section className={styles.column} aria-labelledby="footer-contacto">
+                            <h3 className={styles.columnTitle} id="footer-contacto">Contacto</h3>
 
                             <div className={styles.contactItem}>
-                                <div className={styles.contactIcon}>
+                                <div className={styles.contactIcon} aria-hidden="true">
                                     <MapPinIcon />
                                 </div>
                                 <div className={styles.contactText}>
@@ -219,7 +219,7 @@ export default function Footer() {
                             </div>
 
                             <div className={styles.contactItem}>
-                                <div className={styles.contactIcon}>
+                                <div className={styles.contactIcon} aria-hidden="true">
                                     <PhoneIcon />
                                 </div>
                                 <div className={styles.contactText}>
@@ -231,7 +231,7 @@ export default function Footer() {
                             </div>
 
                             <div className={styles.contactItem}>
-                                <div className={styles.contactIcon}>
+                                <div className={styles.contactIcon} aria-hidden="true">
                                     <MailIcon />
                                 </div>
                                 <div className={styles.contactText}>
@@ -241,7 +241,7 @@ export default function Footer() {
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </section>
                     </div>
                 </div>
             </div>
@@ -254,7 +254,7 @@ export default function Footer() {
                             © {currentYear} <Link href="/">Uniclima Solutions</Link>. Todos los derechos reservados.
                         </p>
 
-                        <div className={styles.legalLinks}>
+                        <nav className={styles.legalLinks} aria-label="Enlaces legales">
                             <Link href="/privacidad" className={styles.legalLink}>
                                 Política de Privacidad
                             </Link>
@@ -267,7 +267,7 @@ export default function Footer() {
                             <Link href="/aviso-legal" className={styles.legalLink}>
                                 Aviso Legal
                             </Link>
-                        </div>
+                        </nav>
                     </div>
                 </div>
             </div>

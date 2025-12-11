@@ -1,13 +1,13 @@
 /**
  * Checkout Page - Proceso de pago completo
- * 
+ *
  * Flujo de checkout:
  * 1. Dirección de envío (con integración a Vendure)
  * 2. Método de envío (seleccionar de métodos elegibles)
- * 3. Confirmación y pago
- * 
+ * 3. Pago con Stripe
+ *
  * @author Frontend Team
- * @version 2.0.0
+ * @version 3.0.0 - Integración con Stripe
  */
 'use client';
 
@@ -25,7 +25,7 @@ import {
 } from '@/lib/vendure/mutations/order';
 import { useAuth } from '@/lib/auth-context';
 import { useToast } from '@/components/ui/Toast';
-import { CheckoutSteps, DEFAULT_CHECKOUT_STEPS, ShippingAddress } from '@/components/checkout';
+import { CheckoutSteps, DEFAULT_CHECKOUT_STEPS, ShippingAddress, StripePaymentForm } from '@/components/checkout';
 import { Button, Alert, Input, Dropdown } from '@/components/core';
 import styles from './page.module.css';
 
@@ -438,13 +438,19 @@ export default function CheckoutPage() {
     };
 
     /**
-     * Handler para confirmar pedido (Paso 3)
-     * Nota: El pago se manejará con Stripe en una fase posterior
+     * Handler cuando el pago de Stripe es exitoso
      */
-    const handleConfirmOrder = async () => {
-        // Por ahora solo mostramos mensaje de que Stripe está pendiente
-        showToast('Integración con Stripe pendiente. El pedido no se procesará.', 'info');
-        // En el futuro: transitionOrder({ variables: { state: 'ArrangingPayment' } });
+    const handlePaymentSuccess = (orderCode: string) => {
+        showToast('¡Pago realizado con éxito!', 'success');
+        router.push(`/pedido/confirmacion?code=${orderCode}`);
+    };
+
+    /**
+     * Handler cuando hay error en el pago
+     */
+    const handlePaymentError = (errorMessage: string) => {
+        setError(errorMessage);
+        showToast(errorMessage, 'error');
     };
 
     // ========================================
@@ -712,66 +718,65 @@ export default function CheckoutPage() {
     );
 
     /**
-     * Paso 3: Confirmación y pago
+     * Paso 3: Pago con Stripe
      */
-    const renderConfirmationStep = () => (
+    const renderPaymentStep = () => (
         <div className={styles.stepForm}>
-            <h3 className={styles.stepTitle}>Confirmar pedido</h3>
+            <h3 className={styles.stepTitle}>Método de pago</h3>
 
-            {/* Resumen de dirección */}
-            <div className={styles.confirmSection}>
-                <div className={styles.confirmHeader}>
-                    <h4>Dirección de envío</h4>
-                    <button type="button" className={styles.editLink} onClick={() => setCurrentStep(0)}>
-                        Editar
-                    </button>
-                </div>
-                <p>{addressForm.fullName}</p>
-                <p>{addressForm.streetLine1}</p>
-                <p>{addressForm.postalCode} {addressForm.city}</p>
-                <p>{addressForm.phoneNumber}</p>
-            </div>
-
-            {/* Resumen de envío */}
-            <div className={styles.confirmSection}>
-                <div className={styles.confirmHeader}>
-                    <h4>Método de envío</h4>
-                    <button type="button" className={styles.editLink} onClick={() => setCurrentStep(1)}>
-                        Editar
-                    </button>
-                </div>
-                {activeOrder?.shippingLines?.[0] && (
-                    <p>
-                        {activeOrder.shippingLines[0].shippingMethod.name} -
-                        {activeOrder.shippingLines[0].priceWithTax === 0
-                            ? ' Gratis'
-                            : ` ${(activeOrder.shippingLines[0].priceWithTax / 100).toFixed(2)}€`}
+            {/* Resumen de dirección y envío */}
+            <div className={styles.orderReview}>
+                {/* Dirección */}
+                <div className={styles.reviewSection}>
+                    <div className={styles.reviewHeader}>
+                        <span className={styles.reviewLabel}>Enviar a</span>
+                        <button type="button" className={styles.editLink} onClick={() => setCurrentStep(0)}>
+                            Cambiar
+                        </button>
+                    </div>
+                    <p className={styles.reviewContent}>
+                        {addressForm.fullName}<br />
+                        {addressForm.streetLine1}<br />
+                        {addressForm.postalCode} {addressForm.city}
                     </p>
-                )}
+                </div>
+
+                {/* Método de envío */}
+                <div className={styles.reviewSection}>
+                    <div className={styles.reviewHeader}>
+                        <span className={styles.reviewLabel}>Método de envío</span>
+                        <button type="button" className={styles.editLink} onClick={() => setCurrentStep(1)}>
+                            Cambiar
+                        </button>
+                    </div>
+                    {activeOrder?.shippingLines?.[0] && (
+                        <p className={styles.reviewContent}>
+                            {activeOrder.shippingLines[0].shippingMethod.name}
+                            {activeOrder.shippingLines[0].priceWithTax === 0
+                                ? ' - Gratis'
+                                : ` - ${(activeOrder.shippingLines[0].priceWithTax / 100).toFixed(2)}€`}
+                        </p>
+                    )}
+                </div>
             </div>
 
-            {/* Aviso de Stripe pendiente */}
-            <Alert type="info">
-                <strong>Nota:</strong> La integración con Stripe está pendiente de configuración en el backend.
-                Por ahora el pedido no se procesará.
-            </Alert>
+            {/* Formulario de pago Stripe */}
+            <StripePaymentForm
+                amount={total}
+                currency="eur"
+                orderCode={activeOrder?.code || ''}
+                onSuccess={handlePaymentSuccess}
+                onError={handlePaymentError}
+            />
 
-            {/* Botones */}
-            <div className={styles.stepActions}>
+            {/* Botón de volver */}
+            <div className={styles.backButton}>
                 <Button
-                    variant="outline"
+                    variant="ghost"
                     onClick={() => setCurrentStep(1)}
                     disabled={isLoading}
                 >
-                    Volver
-                </Button>
-                <Button
-                    variant="primary"
-                    size="lg"
-                    onClick={handleConfirmOrder}
-                    loading={isLoading}
-                >
-                    Confirmar pedido
+                    ← Volver al método de envío
                 </Button>
             </div>
         </div>
@@ -787,7 +792,7 @@ export default function CheckoutPage() {
             case 1:
                 return renderShippingStep();
             case 2:
-                return renderConfirmationStep();
+                return renderPaymentStep();
             default:
                 return null;
         }
