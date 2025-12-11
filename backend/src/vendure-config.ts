@@ -5,12 +5,15 @@ import {
     DefaultSearchPlugin,
     VendureConfig,
     LanguageCode,
+    Injector,
+    RequestContext,
+    Order,
 } from '@vendure/core';
 import { defaultEmailHandlers, EmailPlugin, FileBasedTemplateLoader } from '@vendure/email-plugin';
 import { AssetServerPlugin } from '@vendure/asset-server-plugin';
 import { DashboardPlugin } from '@vendure/dashboard/plugin';
 import { GraphiqlPlugin } from '@vendure/graphiql-plugin';
-import { StripePlugin } from '@vendure/payments-plugin/package/stripe';
+// import { stripePaymentMethodHandler } from '@vendure/payments-plugin/package/stripe';
 import 'dotenv/config';
 import path from 'path';
 
@@ -129,33 +132,6 @@ export const config: VendureConfig = {
         DashboardPlugin.init({
             route: 'dashboard',
             appDir: path.join(__dirname, '../dist/dashboard'),
-        }),
-        // ═══════════════════════════════════════════════════════════════════════
-        // STRIPE - Pasarela de Pagos
-        // ═══════════════════════════════════════════════════════════════════════
-        // Documentación: https://docs.vendure.io/reference/core-plugins/payments-plugin/stripe-plugin/
-        //
-        // IMPORTANTE: Para que funcione necesitas:
-        // 1. Crear un método de pago en el Dashboard Admin que use el handler 'stripe'
-        // 2. Configurar las claves API (apiKey) y webhook secret en el método de pago
-        // 3. Configurar el webhook en Stripe Dashboard apuntando a:
-        //    https://tu-dominio.com/payments/stripe
-        //
-        // Las claves de Stripe se configuran en el Dashboard Admin > Settings > Payment Methods
-        // al crear/editar el método de pago "Stripe payments"
-        // ═══════════════════════════════════════════════════════════════════════
-        StripePlugin.init({
-            // Almacenar clientes en Stripe para facilitar pagos recurrentes
-            // NOTA: Desactivado temporalmente hasta hacer migración de BD
-            // Para activar: storeCustomersInStripe: true (requiere BD limpia o migración)
-            storeCustomersInStripe: false,
-            // Metadatos adicionales para identificar pedidos en el dashboard de Stripe
-            metadata: async (injector, ctx, order) => {
-                return {
-                    orderCode: order.code,
-                    channelToken: ctx.channel.token,
-                };
-            },
         }),
     ],
 };
