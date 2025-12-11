@@ -166,6 +166,21 @@ export default function ProductosPage() {
 
 
     // ========================================
+    // EXTRAER IDS DE FACET VALUES SELECCIONADOS
+    // ========================================
+
+    /**
+     * Extraer IDs de facet values seleccionados para enviar a la query de productos
+     * Convierte { marca: ['1', '2'], tipo: ['3'] } -> ['1', '2', '3']
+     * NOTA: Debe definirse antes de las queries que lo usan
+     */
+    const selectedFacetValueIds = useMemo(() => {
+        return Object.values(activeFilters)
+            .filter(value => Array.isArray(value))
+            .flat() as string[];
+    }, [activeFilters]);
+
+    // ========================================
     // QUERY DE FACETS - CARGAR FILTROS DISPONIBLES
     // ========================================
 
@@ -223,16 +238,6 @@ export default function ProductosPage() {
             })),
         }));
     }, [facetsData, facetValueCounts]);
-
-    /**
-     * Extraer IDs de facet values seleccionados para enviar a la query de productos
-     * Convierte { marca: ['1', '2'], tipo: ['3'] } -> ['1', '2', '3']
-     */
-    const selectedFacetValueIds = useMemo(() => {
-        return Object.values(activeFilters)
-            .filter(value => Array.isArray(value))
-            .flat() as string[];
-    }, [activeFilters]);
 
 
     // ========================================
