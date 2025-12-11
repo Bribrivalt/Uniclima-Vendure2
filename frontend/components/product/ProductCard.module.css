@@ -65,64 +65,51 @@
     opacity: 0.5;
 }
 
-/* Badge de stock bajo */
-.badge {
-    position: absolute;
-    top: var(--spacing-3);
-    right: var(--spacing-3);
-    background: var(--gradient-primary);
-    color: white;
-    padding: var(--spacing-1) var(--spacing-3);
-    border-radius: var(--border-radius-full);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-bold);
-    z-index: 1;
-    box-shadow: var(--shadow-primary-sm);
-}
-
-/* Badge de clase energética */
-.energyBadge {
+/* Badge de condición (Nuevo/Reacondicionado/Outlet) */
+.conditionBadge {
     position: absolute;
     top: var(--spacing-3);
     left: var(--spacing-3);
-    background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success-light) 100%);
-    color: white;
-    padding: var(--spacing-1) var(--spacing-2);
+    padding: var(--spacing-1-5) var(--spacing-3);
     border-radius: var(--border-radius-sm);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-bold);
-    z-index: 1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* Colores según clase energética */
-.energyAPlusPlus,
-.energyAPlusPlusPlus {
-    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+.conditionNew {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
 }
 
-.energyAPlus {
-    background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+.conditionRefurbished {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
 }
 
-.energyA {
-    background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+.conditionOutlet {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
 }
 
-.energyB {
-    background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+/* Badge de stock bajo */
+.stockBadge {
+    position: absolute;
+    top: var(--spacing-3);
+    right: var(--spacing-3);
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+    padding: var(--spacing-1) var(--spacing-2-5);
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
 }
 
-.energyC {
-    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-}
-
-.energyD,
-.energyE,
-.energyF,
-.energyG {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-}
 
 /* ========================================
    CONTENT
@@ -211,6 +198,29 @@
     overflow: hidden;
 }
 
+/* Información de compatibilidad */
+.compatibility {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+    margin: 0;
+    padding: var(--spacing-2);
+    background-color: rgba(40, 167, 69, 0.05);
+    border-left: 3px solid #28a745;
+    border-radius: var(--border-radius-sm);
+}
+
+.compatibility svg {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    color: #28a745;
+    margin-top: 2px;
+}
+
 /* ========================================
    FOOTER
    ======================================== */
@@ -240,6 +250,42 @@
     font-size: var(--font-size-xs);
     color: var(--color-text-tertiary);
 }
+
+/* Botón prominente de añadir al carrito (ROJO) */
+.addToCartButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    width: 100%;
+    padding: var(--spacing-3) var(--spacing-4);
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    border: none;
+    border-radius: var(--border-radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.addToCartButton:hover {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+}
+
+.addToCartButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+
+.addToCartButton svg {
+    width: 18px;
+    height: 18px;
+}
+
 
 /* Precio de consulta */
 .consultPrice {
