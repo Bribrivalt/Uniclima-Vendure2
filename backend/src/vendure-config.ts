@@ -112,6 +112,20 @@ export const config: VendureConfig = {
         DefaultSchedulerPlugin.init(),
         DefaultJobQueuePlugin.init({ useDatabaseForBuffer: true }),
         DefaultSearchPlugin.init({ bufferUpdates: false, indexStockStatus: true }),
+        // ═══════════════════════════════════════════════════════════════════════
+        // EMAIL PLUGIN - Configuración SMTP con Google Workspace
+        // ═══════════════════════════════════════════════════════════════════════
+        // En desarrollo (devMode: true): emails se guardan en archivos locales
+        // En producción: emails se envían via SMTP de Google Workspace
+        //
+        // Para Google Workspace necesitas:
+        // 1. Habilitar Verificación en 2 pasos en tu cuenta Google
+        // 2. Generar una "Contraseña de aplicación" en:
+        //    Google Account > Security > 2-Step Verification > App passwords
+        // 3. Configurar variables de entorno: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD
+        //
+        // Ver documentación completa: Documentacion/backend/SMTP_GOOGLE_WORKSPACE.md
+        // ═══════════════════════════════════════════════════════════════════════
         EmailPlugin.init({
             devMode: true,
             outputPath: path.join(__dirname, '../static/email/test-emails'),
@@ -120,10 +134,23 @@ export const config: VendureConfig = {
             templateLoader: new FileBasedTemplateLoader(path.join(__dirname, '../static/email/templates')),
             globalTemplateVars: {
                 // Configuración personalizada para Uniclima
-                fromAddress: '"Uniclima Solutions" <pedidos@uniclima.es>',
-                verifyEmailAddressUrl: 'http://localhost:3000/cuenta/verificar-email',
-                passwordResetUrl: 'http://localhost:3000/cuenta/resetear-password',
-                changeEmailAddressUrl: 'http://localhost:3000/cuenta/cambiar-email'
+                fromAddress: process.env.SMTP_FROM_ADDRESS || '"Uniclima Solutions" <pedidos@uniclima.es>',
+                verifyEmailAddressUrl: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/cuenta/verificar-email`,
+                passwordResetUrl: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/cuenta/resetear-password`,
+                changeEmailAddressUrl: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/cuenta/cambiar-email`
+            },
+            // SMTP Transport para Google Workspace
+            // NOTA: Para activar SMTP real, cambiar devMode: false
+            // El transport se usa solo cuando devMode: false
+            transport: {
+                type: 'smtp',
+                host: process.env.SMTP_HOST || 'smtp.gmail.com',
+                port: +(process.env.SMTP_PORT || 587),
+                secure: process.env.SMTP_SECURE === 'true', // false para puerto 587 (STARTTLS)
+                auth: {
+                    user: process.env.SMTP_USER || '',
+                    pass: process.env.SMTP_PASSWORD || '',
+                },
             },
         }),
         DashboardPlugin.init({
