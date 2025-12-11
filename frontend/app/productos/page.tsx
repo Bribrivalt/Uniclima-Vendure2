@@ -22,8 +22,6 @@ import { ProductSort, SortOption } from '@/components/product/ProductSort';
 import { ProductPagination } from '@/components/product/ProductPagination';
 import { ProductFilters, FilterGroup, ActiveFilters } from '@/components/product/ProductFilters';
 import { Product } from '@/lib/types/product';
-import CategoriesBar from '@/components/layout/CategoriesBar';
-import ShopSidebar from '@/components/layout/ShopSidebar';
 import styles from './page.module.css';
 
 /**
@@ -349,24 +347,16 @@ export default function ProductosPage() {
 
     return (
         <div className={styles.pageWrapper}>
-            {/* Barra de categorías con búsqueda */}
-            <CategoriesBar onSearch={setSearchQuery} initialSearchQuery={searchQuery} />
-
             <div className={styles.container}>
                 <div className={styles.mainContent}>
-                    {/* Sidebar de navegación estilo Uniclima */}
-                    <ShopSidebar />
-
                     {/* Sidebar con filtros dinámicos (desktop) */}
-                    <div className={styles.filtersColumn}>
-                        <ProductFilters
-                            filterGroups={filterGroups}
-                            activeFilters={activeFilters}
-                            onFilterChange={setActiveFilters}
-                            onClearFilters={() => setActiveFilters({})}
-                            className={styles.sidebar}
-                        />
-                    </div>
+                    <ProductFilters
+                        filterGroups={filterGroups}
+                        activeFilters={activeFilters}
+                        onFilterChange={setActiveFilters}
+                        onClearFilters={() => setActiveFilters({})}
+                        className={styles.sidebar}
+                    />
 
                     {/* Drawer de filtros para móvil */}
                     <ProductFilters
