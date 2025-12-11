@@ -10,7 +10,9 @@
     "start:server": "node ./dist/index.js",
     "start:worker": "node ./dist/index-worker.js",
     "start": "concurrently npm:start:*",
-    "import:excel": "ts-node ./scripts/import-products-excel.ts"
+    "import:excel": "ts-node ./scripts/import-products-excel.ts",
+    "copy-dashboard": "npx @vendure/cli copy-dashboard",
+    "postinstall": "npm run copy-dashboard"
   },
   "dependencies": {
     "@vendure/asset-server-plugin": "3.5.1",
