@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './ProductFilters.module.css';
 
 /**
@@ -133,10 +133,23 @@ export function ProductFilters({
     className,
 }: ProductFiltersProps) {
     // Estado para grupos colapsados - TODOS CERRADOS POR DEFECTO
-    // Inicializar con todos los IDs de grupos para que estén colapsados
-    const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(() => {
-        return new Set(filterGroups.map(g => g.id));
-    });
+    const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
+
+    // Actualizar grupos colapsados cuando cambian los filterGroups (por ejemplo, al cargar datos)
+    useEffect(() => {
+        if (filterGroups.length > 0) {
+            setCollapsedGroups(prev => {
+                const newSet = new Set(prev);
+                // Añadir nuevos grupos como colapsados
+                filterGroups.forEach(g => {
+                    if (!prev.has(g.id)) {
+                        newSet.add(g.id);
+                    }
+                });
+                return newSet;
+            });
+        }
+    }, [filterGroups]);
 
     // Toggle de colapso de grupo
     const toggleGroup = (groupId: string) => {
