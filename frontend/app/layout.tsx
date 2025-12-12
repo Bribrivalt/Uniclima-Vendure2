@@ -22,9 +22,7 @@ export const metadata: Metadata = {
     ...generateDefaultMetadata(),
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://uniclima.es'),
     icons: {
-        icon: '/favicon.ico',
-        shortcut: '/favicon-16x16.png',
-        apple: '/apple-touch-icon.png',
+        icon: '/favicon.svg',
     },
     manifest: '/manifest.json',
     appleWebApp: {

@@ -43,6 +43,8 @@ export type ModoVenta = 'compra_directa' | 'solicitar_presupuesto';
 export interface ProductCustomFields {
     /** Modo de venta: compra directa o solicitar presupuesto */
     modoVenta?: ModoVenta;
+    /** Compatibilidades del producto con otros equipos/marcas */
+    compatibilidades?: string;
 
     // ═══════════════════════════════════════════════════════════════════════
     // CAMPOS TÉCNICOS BÁSICOS
@@ -146,6 +148,7 @@ export interface Product {
     name: string;
     slug: string;
     description: string;
+    createdAt?: string;
     featuredAsset?: ProductAsset;
     assets: ProductAsset[];
     variants: ProductVariant[];
