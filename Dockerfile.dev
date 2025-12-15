@@ -7,8 +7,8 @@ WORKDIR /usr/src/app
 # Copy package files first for better caching
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies (skip postinstall since dashboard files aren't copied yet)
+RUN npm ci --ignore-scripts
 
 # Install the Vendure CLI globally in the container
 RUN npm install -g @vendure/cli
@@ -16,7 +16,7 @@ RUN npm install -g @vendure/cli
 # Copy the rest of the application code
 COPY . .
 
-# Build the dashboard
+# Build the dashboard (now that all files are present)
 RUN npx vite build
 
 # Make port 3001 available to the world outside this container
