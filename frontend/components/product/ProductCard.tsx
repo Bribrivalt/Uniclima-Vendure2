@@ -11,7 +11,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useMutation } from '@apollo/client';
 import { Product } from '@/lib/types/product';
 import { ProductButton } from './ProductButton';
@@ -127,15 +126,19 @@ export function ProductCard({ product, showSpecs = true, condition }: ProductCar
         <article className={styles.card} itemScope itemType="https://schema.org/Product">
             <Link href={`/productos/${product.slug}`} className={styles.imageLink} prefetch={false}>
                 <div className={styles.imageWrapper}>
-                    <Image
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                         src={imageUrl}
                         alt={`${product.name} - Producto de climatización HVAC`}
-                        fill
                         className={styles.image}
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         loading="lazy"
-                        quality={75}
-                        unoptimized={imageUrl.startsWith('/')}
+                        onError={(e) => {
+                            // Fallback a placeholder si la imagen falla
+                            const target = e.target as HTMLImageElement;
+                            if (!target.src.includes('placeholder')) {
+                                target.src = '/placeholder-product.svg';
+                            }
+                        }}
                     />
 
                     {/* Badge de condición (Nuevo/Reacondicionado) */}
