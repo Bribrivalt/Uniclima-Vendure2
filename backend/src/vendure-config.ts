@@ -130,7 +130,9 @@ export const config: VendureConfig = {
         // Ver documentación completa: Documentacion/backend/SMTP_GOOGLE_WORKSPACE.md
         // ═══════════════════════════════════════════════════════════════════════
         EmailPlugin.init({
-            devMode: IS_DEV as boolean,
+            // En desarrollo: devMode: true guarda emails como archivos
+            // En producción: omitir devMode para usar transport SMTP
+            ...(IS_DEV ? { devMode: true } : {}),
             outputPath: path.join(__dirname, '../static/email/test-emails'),
             route: 'mailbox',
             handlers: defaultEmailHandlers,
@@ -142,9 +144,7 @@ export const config: VendureConfig = {
                 passwordResetUrl: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/cuenta/resetear-password`,
                 changeEmailAddressUrl: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/cuenta/cambiar-email`
             },
-            // SMTP Transport para Google Workspace
-            // NOTA: Para activar SMTP real, cambiar devMode: false
-            // El transport se usa solo cuando devMode: false
+            // SMTP Transport para Google Workspace (usado cuando devMode no está definido/false)
             transport: {
                 type: 'smtp',
                 host: process.env.SMTP_HOST || 'smtp.gmail.com',

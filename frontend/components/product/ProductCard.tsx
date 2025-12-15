@@ -29,13 +29,36 @@ export interface ProductCardProps {
 }
 
 /**
+ * Transforma URL de asset del backend para usar proxy del frontend
+ * Convierte URLs absolutas de localhost:3001 a rutas relativas
+ */
+function transformAssetUrl(url: string | undefined): string {
+    if (!url) return '/placeholder-product.svg';
+    
+    // Si la URL es absoluta de localhost:3001, convertir a ruta relativa
+    // para que pase por el proxy de Next.js (definido en next.config.js)
+    const backendPatterns = [
+        'http://localhost:3001',
+        'http://backend:3001',
+    ];
+    
+    for (const pattern of backendPatterns) {
+        if (url.startsWith(pattern)) {
+            return url.replace(pattern, '');
+        }
+    }
+    
+    return url;
+}
+
+/**
  * ProductCard - Tarjeta de producto profesional
  */
 export function ProductCard({ product, showSpecs = true, condition }: ProductCardProps) {
     const defaultVariant = product.variants?.[0];
     const price = defaultVariant?.priceWithTax || 0;
     const formattedPrice = (price / 100).toFixed(2);
-    const imageUrl = product.featuredAsset?.preview || '/placeholder-product.png';
+    const imageUrl = transformAssetUrl(product.featuredAsset?.preview);
     const customFields = product.customFields;
 
     // Estado para feedback visual
@@ -111,9 +134,8 @@ export function ProductCard({ product, showSpecs = true, condition }: ProductCar
                         className={styles.image}
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         loading="lazy"
-                        placeholder="blur"
-                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUH/8QAIhAAAgEDBAMBAAAAAAAAAAAAAQIDAAQRBQYSITFBUWH/xAAVAQEBAAAAAAAAAAAAAAAAAAADBP/EABkRAAIDAQAAAAAAAAAAAAAAAAECAAMRIf/aAAwDAQACEQMRAD8AqbZ3he6lt7e9tHt5YwVKq4ZW+EEUpSlIbG3dgAHyRXZ//9k="
                         quality={75}
+                        unoptimized={imageUrl.startsWith('/')}
                     />
 
                     {/* Badge de condición (Nuevo/Reacondicionado) */}

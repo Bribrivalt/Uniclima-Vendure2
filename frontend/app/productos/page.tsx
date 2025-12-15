@@ -289,6 +289,21 @@ export default function ProductosPage() {
     // ========================================
 
     /**
+     * Transformar URL de asset para usar el proxy del frontend
+     * Convierte URLs absolutas de localhost:3001 a rutas relativas /assets/...
+     */
+    const transformAssetUrl = useCallback((url: string | undefined): string | undefined => {
+        if (!url) return undefined;
+        // Si la URL es absoluta de localhost:3001, convertir a ruta relativa
+        // para que pase por el proxy de Next.js
+        const backendUrl = 'http://localhost:3001';
+        if (url.startsWith(backendUrl)) {
+            return url.replace(backendUrl, '');
+        }
+        return url;
+    }, []);
+
+    /**
      * Transformar items de búsqueda al formato Product para ProductCard
      */
     const products = useMemo(() => {
@@ -301,7 +316,7 @@ export default function ProductosPage() {
             description: item.description,
             featuredAsset: item.productAsset ? {
                 id: item.productAsset.id,
-                preview: item.productAsset.preview,
+                preview: transformAssetUrl(item.productAsset.preview) || '',
             } : undefined,
             variants: [{
                 id: item.productVariantId,

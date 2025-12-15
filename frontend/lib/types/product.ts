@@ -137,7 +137,21 @@ export interface ProductVariant {
 export interface ProductAsset {
     id: string;
     preview: string;
-    source: string;
+    source?: string;  // Opcional porque en búsquedas no siempre viene
+}
+
+/**
+ * Facet Value del producto
+ */
+export interface FacetValue {
+    id: string;
+    code: string;
+    name: string;
+    facet: {
+        id: string;
+        code: string;
+        name: string;
+    };
 }
 
 /**
@@ -150,9 +164,10 @@ export interface Product {
     description: string;
     createdAt?: string;
     featuredAsset?: ProductAsset;
-    assets: ProductAsset[];
+    assets?: ProductAsset[];
     variants: ProductVariant[];
-    customFields: ProductCustomFields;
+    customFields?: ProductCustomFields;
+    facetValues?: FacetValue[];
 }
 
 /**
