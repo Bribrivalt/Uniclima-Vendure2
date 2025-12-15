@@ -130,7 +130,7 @@ export const config: VendureConfig = {
         // Ver documentación completa: Documentacion/backend/SMTP_GOOGLE_WORKSPACE.md
         // ═══════════════════════════════════════════════════════════════════════
         EmailPlugin.init({
-            devMode: true,
+            devMode: IS_DEV as boolean,
             outputPath: path.join(__dirname, '../static/email/test-emails'),
             route: 'mailbox',
             handlers: defaultEmailHandlers,
