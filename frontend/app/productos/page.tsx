@@ -37,6 +37,7 @@ interface SearchItem {
     productAsset: {
         id: string;
         preview: string;
+        source: string;
     } | null;
     priceWithTax: {
         value?: number;
@@ -352,7 +353,7 @@ export default function ProductosPage() {
             featuredAsset: item.productAsset ? {
                 id: item.productAsset.id,
                 preview: item.productAsset.preview,
-                source: item.productAsset.preview, // Usar preview como source por compatibilidad
+                source: item.productAsset.source,
             } : undefined,
             assets: [],
             variants: [{

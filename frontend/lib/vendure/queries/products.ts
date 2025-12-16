@@ -77,6 +77,15 @@ export const GET_COLLECTIONS = gql`
           id
           preview
         }
+        children {
+          id
+          name
+          slug
+          featuredAsset {
+            id
+            preview
+          }
+        }
       }
     }
   }
@@ -196,6 +205,7 @@ export const SEARCH_PRODUCTS = gql`
         productAsset {
           id
           preview
+          source
         }
         priceWithTax {
           ... on SinglePrice {
@@ -264,6 +274,7 @@ export const GET_PRODUCT_BY_SLUG = gql`
       featuredAsset {
         id
         preview
+        source
       }
       assets {
         id

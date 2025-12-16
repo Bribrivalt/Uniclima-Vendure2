@@ -50,7 +50,7 @@ export function ProductCard({ product, showSpecs = true, condition, discount, or
 
     // Generar un placeholder SVG en base64 en lugar de usar una imagen externa
     const placeholderSvg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect fill='%23f3f4f6' width='400' height='400'/%3E%3Ctext fill='%239ca3af' font-family='system-ui' font-size='14' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle'%3EImagen no disponible%3C/text%3E%3C/svg%3E`;
-    const imageUrl = product.featuredAsset?.preview || placeholderSvg;
+    const imageUrl = product.featuredAsset?.preview || product.featuredAsset?.source || placeholderSvg;
     const customFields = product.customFields;
 
     // Estado para feedback visual
