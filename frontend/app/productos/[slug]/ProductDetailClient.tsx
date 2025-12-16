@@ -13,6 +13,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { gql } from '@apollo/client';
 import { ADD_ITEM_TO_ORDER } from '@/lib/vendure/mutations/cart';
 import { GET_ACTIVE_ORDER } from '@/lib/vendure/queries/cart';
@@ -160,7 +161,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     };
 
     return (
-        <div className={styles.container}>
+        <motion.div
+            className={styles.container}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+        >
             {/* Breadcrumb */}
             <nav className={styles.breadcrumb} aria-label="Ruta de navegación">
                 <Link href="/">Inicio</Link>
@@ -450,6 +456,6 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     ← Volver a productos
                 </Link>
             </div>
-        </div>
+        </motion.div>
     );
 }
