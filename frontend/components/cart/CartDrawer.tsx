@@ -37,7 +37,7 @@ export interface CartDrawerProps {
  * Icono de X para cerrar
  */
 const CloseIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
@@ -46,7 +46,7 @@ const CloseIcon = () => (
  * Icono de carrito
  */
 const CartIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <circle cx="9" cy="21" r="1" />
         <circle cx="20" cy="21" r="1" />
         <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
@@ -239,6 +239,13 @@ export function CartDrawer({
                             >
                                 Finalizar compra
                             </Link>
+                            <button
+                                type="button"
+                                className={styles.continueButton}
+                                onClick={onClose}
+                            >
+                                Continuar comprando
+                            </button>
                         </div>
                     </footer>
                 )}
