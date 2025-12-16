@@ -206,8 +206,8 @@
 /* Imagen del producto */
 .suggestionImage {
     flex-shrink: 0;
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     border-radius: var(--border-radius-md);
     overflow: hidden;
     background: #f8f8f8;
@@ -244,6 +244,37 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex: 1;
+    min-width: 0;
+}
+
+.suggestionHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    width: 100%;
+}
+
+.suggestionBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 6px;
+    border-radius: var(--border-radius-sm);
+    font-size: 0.65rem;
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    color: white;
+    white-space: nowrap;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.badgeNew {
+    background: linear-gradient(135deg, #2ed573 0%, #26af61 100%);
+}
+
+.badgeRefurbished {
+    background: linear-gradient(135deg, #3742fa 0%, #2f3542 100%);
 }
 
 .suggestionPrice {
@@ -274,6 +305,266 @@
 
 .viewAllResults:hover {
     background: #f0f0f0;
+}
+
+/* ========================================
+   SECTION HEADERS
+   ======================================== */
+
+.suggestionSection {
+    padding: var(--spacing-2) 0;
+}
+
+.suggestionSection:not(:last-child) {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-2) var(--spacing-3);
+}
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.sectionTitle svg {
+    color: #999;
+}
+
+/* ========================================
+   HISTORY ITEMS
+   ======================================== */
+
+.historyItem {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    width: 100%;
+    padding: var(--spacing-2) var(--spacing-3);
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.historyItem:hover,
+.historyItem.suggestionSelected {
+    background: #f5f5f5;
+}
+
+.historyItem svg {
+    flex-shrink: 0;
+    color: #999;
+}
+
+.historyQuery {
+    flex: 1;
+    font-size: var(--font-size-sm);
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.historyCount {
+    font-size: var(--font-size-xs);
+    color: #999;
+    margin-left: auto;
+}
+
+.removeHistoryBtn {
+    padding: var(--spacing-1);
+    border: none;
+    background: transparent;
+    color: #ccc;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    opacity: 0;
+    transition: all var(--transition-base);
+}
+
+.historyItem:hover .removeHistoryBtn {
+    opacity: 1;
+}
+
+.removeHistoryBtn:hover {
+    background: #fee;
+    color: #cc0000;
+}
+
+.clearHistoryBtn {
+    padding: var(--spacing-1) var(--spacing-2);
+    border: none;
+    background: transparent;
+    color: #999;
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    transition: color var(--transition-base);
+}
+
+.clearHistoryBtn:hover {
+    color: #cc0000;
+}
+
+/* ========================================
+   POPULAR TAGS
+   ======================================== */
+
+.popularTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-3);
+}
+
+.popularTag {
+    padding: var(--spacing-1) var(--spacing-3);
+    border: 1px solid #e0e0e0;
+    background: white;
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-sm);
+    color: #333;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.popularTag:hover {
+    background: #cc0000;
+    border-color: #cc0000;
+    color: white;
+}
+
+/* ========================================
+   CATEGORY GRID
+   ======================================== */
+
+.categoryGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-3);
+}
+
+.categoryItem {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-3);
+    border: 1px solid #e0e0e0;
+    background: white;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.categoryItem:hover {
+    background: #f5f5f5;
+    border-color: #cc0000;
+}
+
+.categoryIcon {
+    font-size: var(--font-size-lg);
+}
+
+.categoryName {
+    font-size: var(--font-size-sm);
+    color: #333;
+}
+
+/* ========================================
+   HIGHLIGHTED TEXT
+   ======================================== */
+
+.highlight {
+    background: #fff3cd;
+    color: inherit;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+/* ========================================
+   NO SUGGESTIONS STATE
+   ======================================== */
+
+.noSuggestions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-6) var(--spacing-4);
+    color: #999;
+    text-align: center;
+}
+
+.noSuggestions svg {
+    color: #ddd;
+}
+
+.noSuggestions span {
+    font-size: var(--font-size-sm);
+}
+
+/* ========================================
+   VARIANT STYLES
+   ======================================== */
+
+/* Compact variant */
+.searchWrapper.compact .searchInput {
+    padding: var(--spacing-2) var(--spacing-3);
+    padding-left: var(--spacing-10);
+    font-size: var(--font-size-sm);
+}
+
+.searchWrapper.compact .searchIcon {
+    width: 16px;
+    height: 16px;
+}
+
+.searchWrapper.compact .suggestionsDropdown {
+    max-height: 300px;
+}
+
+/* Hero variant */
+.searchWrapper.hero .searchContainer {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius-xl);
+}
+
+.searchWrapper.hero .searchInput {
+    padding: var(--spacing-4) var(--spacing-5);
+    padding-left: var(--spacing-14);
+    padding-right: var(--spacing-12);
+    font-size: var(--font-size-lg);
+    border-radius: var(--border-radius-xl);
+    border-width: 2px;
+}
+
+.searchWrapper.hero .searchIcon {
+    left: var(--spacing-5);
+    width: 24px;
+    height: 24px;
+}
+
+.searchWrapper.hero .clearButton {
+    right: var(--spacing-4);
+    width: 36px;
+    height: 36px;
+}
+
+.searchWrapper.hero .suggestionsDropdown {
+    margin-top: var(--spacing-3);
+    border-radius: var(--border-radius-xl);
 }
 
 /* ========================================
@@ -313,5 +604,39 @@
 
     .suggestionName {
         font-size: var(--font-size-xs);
+    }
+
+    .categoryGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .popularTags {
+        gap: var(--spacing-1);
+    }
+
+    .popularTag {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-1) var(--spacing-2);
+    }
+
+    .sectionHeader {
+        padding: var(--spacing-2);
+    }
+
+    .historyItem {
+        padding: var(--spacing-2);
+    }
+
+    /* Hero variant mobile */
+    .searchWrapper.hero .searchInput {
+        padding: var(--spacing-3) var(--spacing-4);
+        padding-left: var(--spacing-12);
+        font-size: var(--font-size-base);
+    }
+
+    .searchWrapper.hero .searchIcon {
+        left: var(--spacing-4);
+        width: 20px;
+        height: 20px;
     }
 }
