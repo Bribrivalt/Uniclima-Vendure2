@@ -42,16 +42,16 @@ const UPDATE_COLLECTION_MUTATION = `
 async function graphqlRequest(query: string, variables: Record<string, any> = {}): Promise<any> {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
-    
+
     const response = await fetch(API_URL, {
         method: 'POST',
         headers,
         body: JSON.stringify({ query, variables }),
     });
-    
+
     const newToken = response.headers.get('vendure-auth-token');
     if (newToken) authToken = newToken;
-    
+
     const result = await response.json();
     if (result.errors) throw new Error(result.errors[0].message);
     return result.data;
@@ -76,12 +76,27 @@ const COLLECTION_FACET_MAPPING: Record<string, { facetCode: string; valueCode: s
     'cassette': [{ facetCode: 'tipo-producto', valueCode: 'cassette' }],
     'suelo-techo': [{ facetCode: 'tipo-producto', valueCode: 'suelo-techo' }],
     'portatil': [{ facetCode: 'tipo-producto', valueCode: 'portatil' }],
-    
+
+    // === CALEFACCIÓN Y ACS (facet tipo-producto) ===
+    'calderas': [
+        { facetCode: 'tipo-producto', valueCode: 'caldera-de-gas' },
+        { facetCode: 'tipo-producto', valueCode: 'caldera-de-condensacion' }
+    ],
+    'calderas-condensacion': [{ facetCode: 'tipo-producto', valueCode: 'caldera-de-condensacion' }],
+    'termos': [{ facetCode: 'tipo-producto', valueCode: 'termo-electrico' }],
+    'acumuladores': [{ facetCode: 'tipo-producto', valueCode: 'acumulador' }],
+
     // === REPUESTOS (facet tipo-repuesto) ===
-    'placas-electronicas': [{ facetCode: 'tipo-repuesto', valueCode: 'placa-electronica' }],
-    'compresores': [{ facetCode: 'tipo-repuesto', valueCode: 'otros' }], // No hay facet específico
-    'motores-ventilador': [{ facetCode: 'tipo-repuesto', valueCode: 'ventilador' }],
-    'sensores-termostatos': [{ facetCode: 'tipo-repuesto', valueCode: 'sensor' }],
+    // Slugs basados en CategoriesBar y seed-collections
+    'placas-pcb': [{ facetCode: 'tipo-repuesto', valueCode: 'placa-electronica' }],
+    'placas-electronicas': [{ facetCode: 'tipo-repuesto', valueCode: 'placa-electronica' }], // Compatibilidad
+    'compresores': [{ facetCode: 'tipo-repuesto', valueCode: 'compresor' }],
+    'ventiladores': [{ facetCode: 'tipo-repuesto', valueCode: 'ventilador' }],
+    'motores-ventilador': [{ facetCode: 'tipo-repuesto', valueCode: 'ventilador' }], // Compatibilidad
+    'valvulas': [{ facetCode: 'tipo-repuesto', valueCode: 'valvula' }],
+    'bombas': [{ facetCode: 'tipo-repuesto', valueCode: 'bomba' }],
+    'sensores': [{ facetCode: 'tipo-repuesto', valueCode: 'sensor' }],
+    'sensores-termostatos': [{ facetCode: 'tipo-repuesto', valueCode: 'sensor' }], // Compatibilidad
 };
 
 async function main(): Promise<void> {
@@ -109,7 +124,7 @@ async function main(): Promise<void> {
     for (const collection of collectionsData.collections.items) {
         const mapping = COLLECTION_FACET_MAPPING[collection.slug];
         if (!mapping) continue;
-        
+
         if (collection.filters && collection.filters.length > 0) {
             console.log(`   ⏭️  "${collection.name}" ya tiene filtros`);
             skipped++;

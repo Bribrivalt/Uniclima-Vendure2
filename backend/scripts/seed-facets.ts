@@ -64,6 +64,10 @@ const HVAC_FACETS: FacetDefinition[] = [
             'Suelo/Techo',
             'Portátil',
             'Ventana',
+            'Caldera de Gas',
+            'Caldera de Condensación',
+            'Termo Eléctrico',
+            'Acumulador',
         ],
     },
     {
@@ -110,6 +114,19 @@ const HVAC_FACETS: FacetDefinition[] = [
             'Purificador de Aire',
             'Deshumidificador',
             'Ionizador',
+        ],
+    },
+    {
+        name: 'Tipo de Repuesto',
+        code: 'tipo-repuesto',
+        values: [
+            'Placa Electrónica',
+            'Compresor',
+            'Ventilador',
+            'Válvula',
+            'Bomba',
+            'Sensor',
+            'Otros',
         ],
     },
 ];
@@ -194,7 +211,7 @@ async function graphqlRequest(query: string, variables: Record<string, any> = {}
     const headers: Record<string, string> = {
         'Content-Type': 'application/json',
     };
-    
+
     // Añadir token de autenticación si existe
     if (authToken) {
         headers['Authorization'] = `Bearer ${authToken}`;
@@ -213,7 +230,7 @@ async function graphqlRequest(query: string, variables: Record<string, any> = {}
     }
 
     const result = await response.json();
-    
+
     if (result.errors) {
         console.error('❌ Error GraphQL:', JSON.stringify(result.errors, null, 2));
         throw new Error(result.errors[0].message);
@@ -227,7 +244,7 @@ async function graphqlRequest(query: string, variables: Record<string, any> = {}
  */
 async function login(): Promise<void> {
     console.log('🔐 Iniciando sesión en Admin API...');
-    
+
     const data = await graphqlRequest(LOGIN_MUTATION, {
         username: SUPERADMIN_USERNAME,
         password: SUPERADMIN_PASSWORD,
@@ -246,11 +263,11 @@ async function login(): Promise<void> {
 async function getExistingFacets(): Promise<Map<string, string>> {
     const data = await graphqlRequest(GET_FACETS_QUERY);
     const facetMap = new Map<string, string>();
-    
+
     for (const facet of data.facets.items) {
         facetMap.set(facet.code, facet.id);
     }
-    
+
     return facetMap;
 }
 
