@@ -542,10 +542,10 @@
     }
 }
 
-/* Para pantallas muy pequeñas, mantener 2 columnas más compactas */
-@media (max-width: 400px) {
+/* Para pantallas muy pequeñas (Mobile S) */
+@media (max-width: 380px) {
     .grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-1);
+        grid-template-columns: 1fr !important;
+        gap: var(--spacing-4);
     }
 }

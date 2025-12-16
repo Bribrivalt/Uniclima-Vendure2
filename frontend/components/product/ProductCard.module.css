@@ -739,41 +739,50 @@
 }
 
 /* Para pantallas muy pequeñas */
+/* Para pantallas muy pequeñas (Mobile S) */
 @media (max-width: 400px) {
     .content {
-        padding: var(--spacing-1-5);
+        padding: var(--spacing-3);
     }
 
     .title {
-        font-size: 11px;
+        font-size: 13px;
+        /* Ensure readability */
     }
 
     .price {
-        font-size: var(--font-size-sm);
+        font-size: var(--font-size-lg);
     }
 
     .originalPrice {
-        font-size: 10px;
+        display: none;
+        /* Hide original price to de-clutter */
     }
 
     .addToCartButton {
-        padding: 6px 4px;
-        font-size: 10px;
+        padding: 0;
+        min-height: 44px;
+        /* Accessible touch target */
+        font-size: var(--font-size-xs);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .quickAction {
-        width: 28px;
-        height: 28px;
+        width: 40px;
+        /* Larger target */
+        height: 40px;
     }
 
     .quickAction svg {
-        width: 14px;
-        height: 14px;
+        width: 18px;
+        height: 18px;
     }
 
     .discountBadge {
-        padding: 2px 6px;
-        font-size: 9px;
+        padding: 4px 6px;
+        font-size: 10px;
     }
 }
 
