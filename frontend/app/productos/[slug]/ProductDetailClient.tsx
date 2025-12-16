@@ -129,6 +129,11 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     const isQuoteOnly = customFields?.modoVenta === 'solicitar_presupuesto';
     const relatedProducts = relatedData?.products?.items || [];
 
+    // Badge Logic
+    const isRefurbished = product.name.toLowerCase().includes('reacondicionado');
+    const isNew = !isRefurbished && product.createdAt && (new Date().getTime() - new Date(product.createdAt).getTime()) < 1000 * 60 * 60 * 24 * 60; // 60 days for "New"
+    const productCondition = isRefurbished ? 'refurbished' : (isNew ? 'new' : undefined);
+
     // Convertir imágenes a formato GalleryImage
     const galleryImages: GalleryImage[] = allImages.map((img, index) => ({
         id: img.id,
@@ -179,6 +184,14 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             <div className={styles.productGrid}>
                 {/* Galería de imágenes */}
                 <div className={styles.gallery}>
+                    {productCondition && (
+                        <div className={styles.detailBadges}>
+                            <span className={`${styles.conditionBadge} ${styles[`condition${productCondition.charAt(0).toUpperCase() + productCondition.slice(1)}`]}`}>
+                                {productCondition === 'new' && 'NUEVO'}
+                                {productCondition === 'refurbished' && 'REACONDICIONADO'}
+                            </span>
+                        </div>
+                    )}
                     <ProductGallery
                         images={galleryImages}
                         productName={product.name}

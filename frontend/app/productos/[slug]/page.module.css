@@ -661,6 +661,38 @@
 }
 
 /* ========================================
+   BADGES
+   ======================================== */
+
+.detailBadges {
+    position: absolute;
+    top: var(--spacing-4);
+    left: var(--spacing-4);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.conditionBadge {
+    display: inline-block;
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.conditionNew {
+    background: linear-gradient(135deg, #2ed573 0%, #26af61 100%);
+}
+
+.conditionRefurbished {
+    background: linear-gradient(135deg, #3742fa 0%, #2f3542 100%);
+}
+
+/* ========================================
    BACK SECTION
    ======================================== */
 
