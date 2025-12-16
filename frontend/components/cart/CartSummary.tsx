@@ -76,7 +76,7 @@ export function CartSummary({
                         Procesando...
                     </>
                 ) : (
-                    'Proceder al Pago'
+                    'Finalizar compra'
                 )}
             </button>
 
