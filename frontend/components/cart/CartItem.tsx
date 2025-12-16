@@ -3,19 +3,21 @@
  *
  * Muestra un producto individual en el carrito de compras.
  * Permite modificar la cantidad y eliminar el producto.
+ * Incluye animaciones de actualización y feedback visual.
  *
  * La estructura de datos viene de la query GET_ACTIVE_ORDER de Vendure,
  * donde la imagen está en productVariant.product.featuredAsset
  *
  * @author Frontend Team
- * @version 1.1.0
+ * @version 2.0.0
  */
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import styles from './CartItem.module.css';
+import { TrashIcon, PlusIcon, MinusIcon } from '@/components/icons';
 
 /**
  * Interfaz que representa una línea de pedido del carrito
@@ -47,6 +49,7 @@ export interface OrderLine {
             featuredAsset?: {
                 id: string;
                 preview: string;
+                source: string;
             };
         };
     };
@@ -64,28 +67,62 @@ export interface CartItemProps {
  */
 export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: CartItemProps) {
     const [isRemoving, setIsRemoving] = useState(false);
+    const [quantityAnimation, setQuantityAnimation] = useState<'up' | 'down' | null>(null);
+    const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
+    const prevQuantityRef = useRef(item.quantity);
+    const removeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    const handleDecrease = () => {
+    // Detectar cambio de cantidad para animación
+    useEffect(() => {
+        if (item.quantity !== prevQuantityRef.current) {
+            setQuantityAnimation(item.quantity > prevQuantityRef.current ? 'up' : 'down');
+            const timer = setTimeout(() => setQuantityAnimation(null), 300);
+            prevQuantityRef.current = item.quantity;
+            return () => clearTimeout(timer);
+        }
+    }, [item.quantity]);
+
+    // Limpiar timeout al desmontar
+    useEffect(() => {
+        return () => {
+            if (removeTimeoutRef.current) {
+                clearTimeout(removeTimeoutRef.current);
+            }
+        };
+    }, []);
+
+    const handleDecrease = useCallback(() => {
         if (item.quantity > 1 && !loading) {
             onUpdateQuantity(item.id, item.quantity - 1);
+        } else if (item.quantity === 1) {
+            // Mostrar confirmación de eliminación
+            setShowRemoveConfirm(true);
+            removeTimeoutRef.current = setTimeout(() => setShowRemoveConfirm(false), 3000);
         }
-    };
+    }, [item.id, item.quantity, loading, onUpdateQuantity]);
 
-    const handleIncrease = () => {
+    const handleIncrease = useCallback(() => {
         if (!loading) {
             onUpdateQuantity(item.id, item.quantity + 1);
         }
-    };
+    }, [item.id, item.quantity, loading, onUpdateQuantity]);
 
-    const handleRemove = () => {
+    const handleRemove = useCallback(() => {
         if (!loading && !isRemoving) {
             setIsRemoving(true);
             onRemove(item.id);
         }
-    };
+    }, [item.id, loading, isRemoving, onRemove]);
+
+    const handleCancelRemove = useCallback(() => {
+        setShowRemoveConfirm(false);
+        if (removeTimeoutRef.current) {
+            clearTimeout(removeTimeoutRef.current);
+        }
+    }, []);
 
     // Obtener la imagen del producto padre (product.featuredAsset, no productVariant.featuredAsset)
-    const imageUrl = item.productVariant.product.featuredAsset?.preview || '/placeholder-product.png';
+    const imageUrl = item.productVariant.product.featuredAsset?.preview || item.productVariant.product.featuredAsset?.source || '/placeholder-product.png';
     // El precio unitario viene de unitPriceWithTax en la línea de pedido
     const unitPrice = (item.unitPriceWithTax / 100).toFixed(2);
     // Subtotal de la línea (cantidad * precio unitario)
@@ -93,81 +130,82 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
     // Slug del producto para el enlace
     const productSlug = item.productVariant.product.slug;
 
+    // Clases con animaciones
+    const quantityClasses = [
+        styles.quantity,
+        quantityAnimation === 'up' && styles.quantityUp,
+        quantityAnimation === 'down' && styles.quantityDown,
+    ].filter(Boolean).join(' ');
+
     return (
-        <div className={`${styles.cartItem} ${loading || isRemoving ? styles.loading : ''}`}>
-            {/* Imagen con enlace al producto */}
+        <div className={`${styles.cartItem} ${loading || isRemoving ? styles.loading : ''} ${isRemoving ? styles.removing : ''}`}>
+            {/* Imagen Izquierda */}
             <Link href={`/productos/${productSlug}`} className={styles.imageWrapper}>
                 <Image
                     src={imageUrl}
                     alt={item.productVariant.name}
                     fill
                     className={styles.image}
-                    sizes="120px"
+                    sizes="100px"
                 />
             </Link>
 
-            {/* Información del producto con enlace */}
-            <div className={styles.info}>
-                <Link href={`/productos/${productSlug}`} className={styles.nameLink}>
-                    <h3 className={styles.name}>{item.productVariant.product.name}</h3>
-                </Link>
-                {/* Mostrar nombre de variante si es diferente al producto */}
-                {item.productVariant.name !== item.productVariant.product.name && (
-                    <p className={styles.variant}>{item.productVariant.name}</p>
-                )}
-                <p className={styles.sku}>REF: {item.productVariant.sku}</p>
-                <p className={styles.price}>{unitPrice}€ / unidad</p>
+            {/* Columna Derecha */}
+            <div className={styles.contentColumn}>
+                <div className={styles.titleRow}>
+                    <Link href={`/productos/${productSlug}`} className={styles.nameLink}>
+                        <h3 className={styles.name}>{item.productVariant.product.name}</h3>
+                    </Link>
+                    {item.productVariant.name !== item.productVariant.product.name && (
+                        <p className={styles.variant}>{item.productVariant.name}</p>
+                    )}
+                </div>
+
+                {/* Fila Inferior: Cantidad x Precio + Eliminar */}
+                <div className={styles.bottomRow}>
+                    <div className={styles.quantitySelector}>
+                        <button
+                            onClick={handleDecrease}
+                            disabled={loading}
+                            className={styles.quantityBtn}
+                            aria-label="Disminuir"
+                        >
+                            -
+                        </button>
+                        <span className={styles.quantityValue}>{item.quantity}</span>
+                        <button
+                            onClick={handleIncrease}
+                            disabled={loading}
+                            className={styles.quantityBtn}
+                            aria-label="Aumentar"
+                        >
+                            +
+                        </button>
+                    </div>
+
+                    <span className={styles.priceX}>x {unitPrice} €</span>
+
+                    <button
+                        onClick={() => setShowRemoveConfirm(true)}
+                        disabled={loading || isRemoving}
+                        className={styles.trashBtn}
+                        aria-label="Eliminar producto"
+                    >
+                        <TrashIcon size={16} />
+                    </button>
+                </div>
             </div>
 
-            {/* Controles de cantidad */}
-            <div className={styles.quantityControls}>
-                <button
-                    onClick={handleDecrease}
-                    disabled={item.quantity <= 1 || loading}
-                    className={styles.quantityButton}
-                    aria-label="Disminuir cantidad"
-                >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                    </svg>
-                </button>
-
-                <span className={styles.quantity}>{item.quantity}</span>
-
-                <button
-                    onClick={handleIncrease}
-                    disabled={loading}
-                    className={styles.quantityButton}
-                    aria-label="Aumentar cantidad"
-                >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                    </svg>
-                </button>
-            </div>
-
-            {/* Subtotal */}
-            <div className={styles.subtotal}>
-                <span className={styles.subtotalAmount}>{subtotal}€</span>
-                <span className={styles.taxLabel}>IVA incluido</span>
-            </div>
-
-            {/* Botón eliminar */}
-            <button
-                onClick={handleRemove}
-                disabled={loading || isRemoving}
-                className={styles.removeButton}
-                aria-label="Eliminar producto"
-            >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
-                </svg>
-            </button>
+            {/* Overlay de Confirmación */}
+            {showRemoveConfirm && (
+                <div className={styles.removeConfirmOverlay}>
+                    <span className={styles.removeText}>¿Eliminar?</span>
+                    <div className={styles.removeActions}>
+                        <button className={styles.confirmBtn} onClick={handleRemove}>Sí</button>
+                        <button className={styles.cancelBtn} onClick={handleCancelRemove}>No</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

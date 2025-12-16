@@ -1,16 +1,12 @@
 /**
  * Offline Page - Uniclima Solutions PWA
- * 
+ *
  * Página que se muestra cuando el usuario no tiene conexión
  * y la página solicitada no está en caché.
  */
+'use client';
 
 import styles from './page.module.css';
-
-export const metadata = {
-    title: 'Sin conexión - Uniclima Solutions',
-    description: 'Estás sin conexión. Verifica tu conexión a internet e intenta de nuevo.',
-};
 
 export default function OfflinePage() {
     return (

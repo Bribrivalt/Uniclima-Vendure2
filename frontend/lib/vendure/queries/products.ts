@@ -77,6 +77,15 @@ export const GET_COLLECTIONS = gql`
           id
           preview
         }
+        children {
+          id
+          name
+          slug
+          featuredAsset {
+            id
+            preview
+          }
+        }
       }
     }
   }

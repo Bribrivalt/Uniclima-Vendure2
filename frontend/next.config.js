@@ -46,6 +46,16 @@ const nextConfig = {
             },
         ];
     },
+
+    async redirects() {
+        return [
+            {
+                source: '/repuestos',
+                destination: '/productos?collection=repuestos',
+                permanent: true,
+            },
+        ];
+    },
 }
 
 // Bundle analyzer - usar con: ANALYZE=true npm run build

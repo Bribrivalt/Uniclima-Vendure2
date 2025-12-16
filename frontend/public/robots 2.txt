@@ -1,0 +1,25 @@
+# Uniclima - Robots.txt
+# https://uniclima.com/robots.txt
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow private areas
+Disallow: /admin/
+Disallow: /cuenta/
+Disallow: /checkout/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /carrito/
+
+# Bloquear parametros de busqueda duplicados
+Disallow: /*?sort=
+Disallow: /*?page=
+Disallow: /*?filter=
+
+# Sitemap
+Sitemap: https://uniclima.es/sitemap.xml
+
+# Crawl-delay para no sobrecargar el servidor
+Crawl-delay: 1

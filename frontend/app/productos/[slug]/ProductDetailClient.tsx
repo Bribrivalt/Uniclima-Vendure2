@@ -13,6 +13,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { gql } from '@apollo/client';
 import { ADD_ITEM_TO_ORDER } from '@/lib/vendure/mutations/cart';
 import { GET_ACTIVE_ORDER } from '@/lib/vendure/queries/cart';
@@ -128,6 +129,11 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     const isQuoteOnly = customFields?.modoVenta === 'solicitar_presupuesto';
     const relatedProducts = relatedData?.products?.items || [];
 
+    // Badge Logic
+    const isRefurbished = product.name.toLowerCase().includes('reacondicionado');
+    const isNew = !isRefurbished && product.createdAt && (new Date().getTime() - new Date(product.createdAt).getTime()) < 1000 * 60 * 60 * 24 * 60; // 60 days for "New"
+    const productCondition = isRefurbished ? 'refurbished' : (isNew ? 'new' : undefined);
+
     // Convertir imágenes a formato GalleryImage
     const galleryImages: GalleryImage[] = allImages.map((img, index) => ({
         id: img.id,
@@ -160,7 +166,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     };
 
     return (
-        <div className={styles.container}>
+        <motion.div
+            className={styles.container}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+        >
             {/* Breadcrumb */}
             <nav className={styles.breadcrumb} aria-label="Ruta de navegación">
                 <Link href="/">Inicio</Link>
@@ -173,6 +184,14 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             <div className={styles.productGrid}>
                 {/* Galería de imágenes */}
                 <div className={styles.gallery}>
+                    {productCondition && (
+                        <div className={styles.detailBadges}>
+                            <span className={`${styles.conditionBadge} ${styles[`condition${productCondition.charAt(0).toUpperCase() + productCondition.slice(1)}`]}`}>
+                                {productCondition === 'new' && 'NUEVO'}
+                                {productCondition === 'refurbished' && 'REACONDICIONADO'}
+                            </span>
+                        </div>
+                    )}
                     <ProductGallery
                         images={galleryImages}
                         productName={product.name}
@@ -450,6 +469,6 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     ← Volver a productos
                 </Link>
             </div>
-        </div>
+        </motion.div>
     );
 }

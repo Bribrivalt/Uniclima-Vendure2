@@ -23,6 +23,9 @@ export { RelatedProducts, RelatedProductsSkeleton } from './RelatedProducts';
 export { MobileFilterDrawer } from './MobileFilterDrawer';
 export { RecentlyViewed, RecentlyViewedSkeleton } from './RecentlyViewed';
 
+// Filtros avanzados de búsqueda
+export { SearchFilters } from './SearchFilters';
+
 // Comparador de productos
 export {
     CompareButton,
@@ -66,3 +69,4 @@ export type {
     FilterGroup as MobileFilterGroup
 } from './MobileFilterDrawer';
 export type { RecentlyViewedProduct } from '@/lib/hooks/useRecentlyViewed';
+export type { SearchFiltersProps, SelectedFilters } from './SearchFilters';

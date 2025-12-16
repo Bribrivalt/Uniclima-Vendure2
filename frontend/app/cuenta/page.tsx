@@ -12,7 +12,7 @@
  */
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useQuery, useMutation } from '@apollo/client';
@@ -184,10 +184,9 @@ const TABS: { id: TabId; label: string; icon: React.ReactNode }[] = [
 ];
 
 /**
- * Componente principal de la pagina Mi Cuenta
- * Muestra informacion del usuario con navegacion por tabs
+ * Componente interno que usa useSearchParams
  */
-export default function CuentaPage() {
+function CuentaPageContent() {
     const searchParams = useSearchParams();
     const { logout } = useAuth();
 
@@ -618,5 +617,24 @@ export default function CuentaPage() {
                 </div>
             </div>
         </ProtectedRoute>
+    );
+}
+
+/**
+ * Componente principal de la pagina Mi Cuenta
+ * Envuelto en Suspense para compatibilidad con useSearchParams
+ */
+export default function CuentaPage() {
+    return (
+        <Suspense fallback={
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+                <div style={{ textAlign: 'center' }}>
+                    <div className="spinner" style={{ width: '40px', height: '40px', border: '3px solid #f3f3f3', borderTop: '3px solid #dc3545', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
+                    <p>Cargando cuenta...</p>
+                </div>
+            </div>
+        }>
+            <CuentaPageContent />
+        </Suspense>
     );
 }

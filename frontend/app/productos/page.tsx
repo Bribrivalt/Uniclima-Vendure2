@@ -16,11 +16,13 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useQuery } from '@apollo/client';
+import { useSearchParams } from 'next/navigation';
 import { GET_FACETS, SEARCH_PRODUCTS } from '@/lib/vendure/queries/products';
 import { ProductCard } from '@/components/product/ProductCard';
 import { ProductSort, SortOption } from '@/components/product/ProductSort';
 import { ProductPagination } from '@/components/product/ProductPagination';
 import { ProductFilters, FilterGroup, ActiveFilters } from '@/components/product/ProductFilters';
+import { SubcategoryGrid } from '@/components/product/SubcategoryGrid';
 import { Product } from '@/lib/types/product';
 import styles from './page.module.css';
 
@@ -116,6 +118,15 @@ const BRANDS = [
     { id: 'panasonic', name: 'Panasonic' },
 ];
 
+const REPUESTOS_SUBCATEGORIES = [
+    { slug: 'placas-electronicas', name: 'Placas Electrónicas', icon: 'cpu' },
+    { slug: 'compresores', name: 'Compresores', icon: 'disc' },
+    { slug: 'ventiladores', name: 'Ventiladores', icon: 'wind' },
+    { slug: 'valvulas', name: 'Válvulas', icon: 'droplet' },
+    { slug: 'bombas', name: 'Bombas', icon: 'droplet' },
+    { slug: 'sensores', name: 'Sensores', icon: 'activity' },
+];
+
 
 /**
  * Componente principal de la página de productos
@@ -129,6 +140,8 @@ const BRANDS = [
  * @returns {JSX.Element} Página de catálogo de productos
  */
 export default function ProductosPage() {
+    const searchParams = useSearchParams();
+    const collectionSlug = searchParams.get('collection');
     // ========================================
     // ESTADOS DEL COMPONENTE
     // ========================================
@@ -241,10 +254,33 @@ export default function ProductosPage() {
      * - Ordenamiento
      * - Conteo de productos por facet value
      */
+    /**
+     * Obtener rango de precio activo
+     */
+    const priceRange = useMemo(() => {
+        const range = activeFilters['price'] as { min: number; max: number } | undefined;
+        return range;
+    }, [activeFilters]);
+
+    /**
+     * Query de búsqueda usando Apollo Client
+     *
+     * La API de búsqueda de Vendure soporta:
+     * - Filtrado por facetValueIds (marca, tipo, etc.)
+     * - Filtrado por precio (priceRange)
+     * - Búsqueda por término
+     * - Paginación
+     * - Ordenamiento
+     * - Conteo de productos por facet value
+     */
     const { data, loading, error } = useQuery<SearchProductsData>(SEARCH_PRODUCTS, {
         variables: {
             term: searchQuery || '',
             facetValueIds: selectedFacetValueIds.length > 0 ? selectedFacetValueIds : undefined,
+            priceRange: priceRange ? {
+                min: priceRange.min * 100, // Convertir a centavos
+                max: priceRange.max * 100,
+            } : undefined,
             take: ITEMS_PER_PAGE,
             skip: (currentPage - 1) * ITEMS_PER_PAGE,
             sort: getSearchSortVariables(),
@@ -268,11 +304,23 @@ export default function ProductosPage() {
 
     /**
      * Transformar facets de Vendure al formato FilterGroup para ProductFilters
+     * Añade filtro de precio por rango al inicio
      */
     const filterGroups = useMemo<FilterGroup[]>(() => {
-        if (!facetsData?.facets?.items) return [];
+        // Filtro de precio (siempre presente)
+        const priceFilter: FilterGroup = {
+            id: 'price',
+            name: 'Precio',
+            type: 'range',
+            min: 0,
+            max: 10000,
+        };
 
-        return facetsData.facets.items.map((facet: any) => ({
+        // Si no hay facets de Vendure, devolver solo el filtro de precio
+        if (!facetsData?.facets?.items) return [priceFilter];
+
+        // Transformar facets de Vendure y añadir el filtro de precio al inicio
+        const facetFilters = facetsData.facets.items.map((facet: any) => ({
             id: facet.code,
             name: facet.name,
             type: 'checkbox' as const,
@@ -282,6 +330,8 @@ export default function ProductosPage() {
                 count: facetValueCounts[value.id] || 0,
             })),
         }));
+
+        return [priceFilter, ...facetFilters];
     }, [facetsData, facetValueCounts]);
 
     // ========================================
@@ -302,7 +352,9 @@ export default function ProductosPage() {
             featuredAsset: item.productAsset ? {
                 id: item.productAsset.id,
                 preview: item.productAsset.preview,
+                source: item.productAsset.preview,
             } : undefined,
+            assets: [],
             variants: [{
                 id: item.productVariantId,
                 name: item.productVariantName,
@@ -311,7 +363,7 @@ export default function ProductosPage() {
                 sku: item.sku,
                 stockLevel: 'IN_STOCK',
             }],
-            facetValues: [],
+            customFields: {},
         }));
     }, [data]);
 
@@ -371,6 +423,10 @@ export default function ProductosPage() {
 
                     {/* Contenido principal */}
                     <main className={styles.content}>
+                        {/* Subcategorías de Repuestos */}
+                        {collectionSlug === 'repuestos' && (
+                            <SubcategoryGrid subcategories={REPUESTOS_SUBCATEGORIES} />
+                        )}
                         {/* Controles: Ordenamiento y botón de filtros móvil */}
                         <div className={styles.controlsBar}>
                             {/* Botón de filtros para móvil */}
@@ -390,89 +446,89 @@ export default function ProductosPage() {
 
                             <ProductSort value={sortOption} onChange={(value) => setSortOption(value as SortOption)} />
                         </div>
-                    {/* Stats */}
-                    <div className={styles.stats}>
-                        <span className={styles.count}>
-                            {loading ? (
-                                'Cargando...'
-                            ) : (
-                                <>
-                                    {totalItems} {totalItems === 1 ? 'producto' : 'productos'}
-                                    {searchQuery && ` encontrado${totalItems === 1 ? '' : 's'} para "${searchQuery}"`}
-                                </>
-                            )}
-                        </span>
-                    </div>
-
-                    {/* Loading State */}
-                    {loading && products.length === 0 && (
-                        <div className={styles.loading}>
-                            <div className={styles.spinner} />
-                            <p>Cargando productos...</p>
+                        {/* Stats */}
+                        <div className={styles.stats}>
+                            <span className={styles.count}>
+                                {loading ? (
+                                    'Cargando...'
+                                ) : (
+                                    <>
+                                        {totalItems} {totalItems === 1 ? 'producto' : 'productos'}
+                                        {searchQuery && ` encontrado${totalItems === 1 ? '' : 's'} para "${searchQuery}"`}
+                                    </>
+                                )}
+                            </span>
                         </div>
-                    )}
 
-                    {/* Error State */}
-                    {error && (
-                        <div className={styles.error}>
-                            <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={1.5}
-                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                                />
-                            </svg>
-                            <h2>Error al cargar productos</h2>
-                            <p>Por favor, verifica que el backend esté corriendo.</p>
-                        </div>
-                    )}
-
-                    {/* Products Grid */}
-                    {!loading && !error && products.length > 0 && (
-                        <>
-                            <div className={styles.grid}>
-                                {products.map((product) => (
-                                    <ProductCard key={product.id} product={product} />
-                                ))}
+                        {/* Loading State */}
+                        {loading && products.length === 0 && (
+                            <div className={styles.loading}>
+                                <div className={styles.spinner} />
+                                <p>Cargando productos...</p>
                             </div>
+                        )}
 
-                            {/* Pagination */}
-                            <ProductPagination
-                                currentPage={currentPage}
-                                totalPages={totalPages}
-                                onPageChange={setCurrentPage}
-                            />
-                        </>
-                    )}
+                        {/* Error State */}
+                        {error && (
+                            <div className={styles.error}>
+                                <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={1.5}
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                                    />
+                                </svg>
+                                <h2>Error al cargar productos</h2>
+                                <p>Por favor, verifica que el backend esté corriendo.</p>
+                            </div>
+                        )}
 
-                    {/* Empty State */}
-                    {!loading && !error && products.length === 0 && (
-                        <div className={styles.empty}>
-                            <svg
-                                width="64"
-                                height="64"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                className={styles.emptyIcon}
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={1.5}
-                                    d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 12h.01M12 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        {/* Products Grid */}
+                        {!loading && !error && products.length > 0 && (
+                            <>
+                                <div className={styles.grid}>
+                                    {products.map((product) => (
+                                        <ProductCard key={product.id} product={product} />
+                                    ))}
+                                </div>
+
+                                {/* Pagination */}
+                                <ProductPagination
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    onPageChange={setCurrentPage}
                                 />
-                            </svg>
-                            <h2 className={styles.emptyTitle}>
-                                {searchQuery ? 'No se encontraron productos' : 'No hay productos disponibles'}
-                            </h2>
-                            <p className={styles.emptyText}>
-                                {searchQuery
-                                    ? `No hay resultados para "${searchQuery}". Intenta con otra búsqueda.`
-                                    : 'Estamos trabajando en añadir más productos. Vuelve pronto.'}
-                            </p>
-                        </div>
+                            </>
+                        )}
+
+                        {/* Empty State */}
+                        {!loading && !error && products.length === 0 && (
+                            <div className={styles.empty}>
+                                <svg
+                                    width="64"
+                                    height="64"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    className={styles.emptyIcon}
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={1.5}
+                                        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 12h.01M12 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                </svg>
+                                <h2 className={styles.emptyTitle}>
+                                    {searchQuery ? 'No se encontraron productos' : 'No hay productos disponibles'}
+                                </h2>
+                                <p className={styles.emptyText}>
+                                    {searchQuery
+                                        ? `No hay resultados para "${searchQuery}". Intenta con otra búsqueda.`
+                                        : 'Estamos trabajando en añadir más productos. Vuelve pronto.'}
+                                </p>
+                            </div>
                         )}
                     </main>
                 </div>

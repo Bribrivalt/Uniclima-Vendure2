@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { RangeSlider } from '@/components/core/RangeSlider';
 import styles from './ProductFilters.module.css';
 
 /**
@@ -133,10 +134,23 @@ export function ProductFilters({
     className,
 }: ProductFiltersProps) {
     // Estado para grupos colapsados - TODOS CERRADOS POR DEFECTO
-    // Inicializar con todos los IDs de grupos para que estén colapsados
-    const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(() => {
-        return new Set(filterGroups.map(g => g.id));
-    });
+    const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
+
+    // Actualizar grupos colapsados cuando cambian los filterGroups (por ejemplo, al cargar datos)
+    useEffect(() => {
+        if (filterGroups.length > 0) {
+            setCollapsedGroups(prev => {
+                const newSet = new Set(prev);
+                // Añadir nuevos grupos como colapsados
+                filterGroups.forEach(g => {
+                    if (!prev.has(g.id)) {
+                        newSet.add(g.id);
+                    }
+                });
+                return newSet;
+            });
+        }
+    }, [filterGroups]);
 
     // Toggle de colapso de grupo
     const toggleGroup = (groupId: string) => {
@@ -333,38 +347,26 @@ export function ProductFilters({
                                         </div>
                                     )}
 
-                                    {/* Rango de precio */}
+                                    {/* Rango de precio con slider visual */}
                                     {group.type === 'range' && (
                                         <div className={styles.rangeFilter}>
-                                            <div className={styles.rangeInputs}>
-                                                <div className={styles.rangeInputGroup}>
-                                                    <label className={styles.rangeLabel}>Mín</label>
-                                                    <input
-                                                        type="number"
-                                                        min={group.min}
-                                                        max={group.max}
-                                                        value={(activeFilters[group.id] as { min: number; max: number })?.min || group.min || 0}
-                                                        onChange={e => handleRangeChange(group.id, 'min', Number(e.target.value))}
-                                                        className={styles.rangeInput}
-                                                        placeholder="0"
-                                                    />
-                                                    <span className={styles.rangeCurrency}>€</span>
-                                                </div>
-                                                <span className={styles.rangeSeparator}>-</span>
-                                                <div className={styles.rangeInputGroup}>
-                                                    <label className={styles.rangeLabel}>Máx</label>
-                                                    <input
-                                                        type="number"
-                                                        min={group.min}
-                                                        max={group.max}
-                                                        value={(activeFilters[group.id] as { min: number; max: number })?.max || group.max || 10000}
-                                                        onChange={e => handleRangeChange(group.id, 'max', Number(e.target.value))}
-                                                        className={styles.rangeInput}
-                                                        placeholder="10000"
-                                                    />
-                                                    <span className={styles.rangeCurrency}>€</span>
-                                                </div>
-                                            </div>
+                                            <RangeSlider
+                                                min={group.min || 0}
+                                                max={group.max || 10000}
+                                                minValue={(activeFilters[group.id] as { min: number; max: number })?.min || group.min || 0}
+                                                maxValue={(activeFilters[group.id] as { min: number; max: number })?.max || group.max || 10000}
+                                                step={10}
+                                                prefix=""
+                                                suffix="€"
+                                                label={group.name}
+                                                onChange={(min, max) => {
+                                                    onFilterChange?.({
+                                                        ...activeFilters,
+                                                        [group.id]: { min, max },
+                                                    });
+                                                }}
+                                                showInputs={true}
+                                            />
                                         </div>
                                     )}
                                 </div>

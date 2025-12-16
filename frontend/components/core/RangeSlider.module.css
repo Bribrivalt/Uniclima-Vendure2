@@ -1,0 +1,270 @@
+/**
+ * RangeSlider Component Styles
+ * 
+ * Slider de rango dual con diseño moderno y accesible
+ */
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    padding: var(--spacing-2) 0;
+    user-select: none;
+}
+
+/* ============================================
+   RANGE LABELS - Valores actuales
+   ============================================ */
+.rangeLabels {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-3);
+    background: linear-gradient(135deg, var(--color-primary-alpha-10) 0%, var(--color-primary-alpha-5) 100%);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--color-primary-alpha-20);
+}
+
+.rangeLabel {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+}
+
+.rangeSeparator {
+    color: var(--color-primary-alpha-50);
+    font-weight: var(--font-weight-normal);
+}
+
+/* ============================================
+   TRACK - Barra del slider
+   ============================================ */
+.track {
+    position: relative;
+    height: 8px;
+    background: linear-gradient(to right, var(--color-gray-200) 0%, var(--color-gray-300) 100%);
+    border-radius: var(--border-radius-full);
+    cursor: pointer;
+    margin: var(--spacing-4) 0;
+}
+
+.track::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    background: transparent;
+}
+
+/* ============================================
+   RANGE - Rango seleccionado
+   ============================================ */
+.range {
+    position: absolute;
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary) 0%, #ff6b6b 100%);
+    border-radius: var(--border-radius-full);
+    transition: background-color 0.2s ease;
+}
+
+/* ============================================
+   HANDLE - Controladores
+   ============================================ */
+.handle {
+    position: absolute;
+    top: 50%;
+    width: 24px;
+    height: 24px;
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    z-index: 2;
+    touch-action: none;
+}
+
+.handle:active,
+.handle.active {
+    cursor: grabbing;
+    z-index: 3;
+}
+
+.handleInner {
+    width: 100%;
+    height: 100%;
+    background: white;
+    border: 3px solid var(--color-primary);
+    border-radius: var(--border-radius-full);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.handle:hover .handleInner,
+.handle.active .handleInner {
+    transform: scale(1.15);
+    box-shadow: 0 4px 16px rgba(220, 53, 69, 0.3);
+    border-color: #ff6b6b;
+}
+
+.handle:focus-visible {
+    outline: none;
+}
+
+.handle:focus-visible .handleInner {
+    box-shadow: 0 0 0 4px var(--color-primary-alpha-30), 0 4px 16px rgba(220, 53, 69, 0.3);
+}
+
+/* ============================================
+   INPUTS - Campos numéricos
+   ============================================ */
+.inputs {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--spacing-2);
+}
+
+.inputGroup {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+}
+
+.inputLabel {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inputWrapper:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-alpha-20);
+}
+
+.inputPrefix,
+.inputSuffix {
+    padding: var(--spacing-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+    background-color: var(--color-gray-50);
+    border-right: 1px solid var(--color-border);
+}
+
+.inputSuffix {
+    border-right: none;
+    border-left: 1px solid var(--color-border);
+}
+
+.input {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    padding: var(--spacing-2) var(--spacing-2);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    background: transparent;
+    border: none;
+    outline: none;
+    text-align: center;
+    -moz-appearance: textfield;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.inputSeparator {
+    color: var(--color-text-disabled);
+    font-weight: var(--font-weight-medium);
+    padding-bottom: var(--spacing-2);
+}
+
+/* ============================================
+   LIMITS - Min/Max absolutos
+   ============================================ */
+.limits {
+    display: flex;
+    justify-content: space-between;
+}
+
+.limitLabel {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-disabled);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 640px) {
+    .handle {
+        width: 28px;
+        height: 28px;
+    }
+
+    .handleInner {
+        border-width: 4px;
+    }
+
+    .track {
+        height: 10px;
+        margin: var(--spacing-5) 0;
+    }
+
+    .rangeLabels {
+        padding: var(--spacing-3);
+    }
+
+    .rangeLabel {
+        font-size: var(--font-size-lg);
+    }
+
+    .inputs {
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+
+    .inputGroup {
+        width: 100%;
+    }
+
+    .inputSeparator {
+        display: none;
+    }
+
+    .input {
+        text-align: left;
+        padding: var(--spacing-3);
+    }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}

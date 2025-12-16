@@ -35,7 +35,7 @@ const NETWORK_ONLY = [
 // ========================================
 self.addEventListener('install', (event) => {
   console.log('[SW] Installing Service Worker...');
-  
+
   event.waitUntil(
     caches.open(STATIC_CACHE)
       .then((cache) => {
@@ -57,7 +57,7 @@ self.addEventListener('install', (event) => {
 // ========================================
 self.addEventListener('activate', (event) => {
   console.log('[SW] Activating Service Worker...');
-  
+
   event.waitUntil(
     caches.keys()
       .then((cacheNames) => {
@@ -65,10 +65,10 @@ self.addEventListener('activate', (event) => {
           cacheNames
             .filter((name) => {
               // Eliminar cachés antiguas
-              return name.startsWith('uniclima-') && 
-                     name !== STATIC_CACHE && 
-                     name !== DYNAMIC_CACHE &&
-                     name !== IMAGE_CACHE;
+              return name.startsWith('uniclima-') &&
+                name !== STATIC_CACHE &&
+                name !== DYNAMIC_CACHE &&
+                name !== IMAGE_CACHE;
             })
             .map((name) => {
               console.log('[SW] Deleting old cache:', name);
@@ -89,30 +89,30 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
-  
+
   // Solo manejar requests del mismo origen y HTTP/HTTPS
   if (!url.protocol.startsWith('http')) {
     return;
   }
-  
+
   // Network-only para APIs y rutas de usuario
   if (NETWORK_ONLY.some(path => url.pathname.startsWith(path))) {
     event.respondWith(networkOnly(request));
     return;
   }
-  
+
   // Imágenes: Cache-first con fallback
   if (request.destination === 'image') {
     event.respondWith(cacheFirstWithFallback(request, IMAGE_CACHE));
     return;
   }
-  
+
   // Navegación (páginas HTML): Network-first con fallback
   if (request.mode === 'navigate') {
     event.respondWith(networkFirstWithFallback(request));
     return;
   }
-  
+
   // Assets estáticos (JS, CSS, fonts): Cache-first
   if (
     request.destination === 'script' ||
@@ -122,7 +122,7 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(cacheFirst(request, STATIC_CACHE));
     return;
   }
-  
+
   // Default: Network-first con cache
   event.respondWith(networkFirst(request, DYNAMIC_CACHE));
 });
@@ -148,19 +148,19 @@ async function networkOnly(request) {
  */
 async function cacheFirst(request, cacheName) {
   const cachedResponse = await caches.match(request);
-  
+
   if (cachedResponse) {
     return cachedResponse;
   }
-  
+
   try {
     const networkResponse = await fetch(request);
-    
-    if (networkResponse.ok) {
+
+    if (networkResponse.ok && request.method === 'GET') {
       const cache = await caches.open(cacheName);
       cache.put(request, networkResponse.clone());
     }
-    
+
     return networkResponse;
   } catch (error) {
     console.error('[SW] Cache-first network failed:', error);
@@ -173,19 +173,19 @@ async function cacheFirst(request, cacheName) {
  */
 async function cacheFirstWithFallback(request, cacheName) {
   const cachedResponse = await caches.match(request);
-  
+
   if (cachedResponse) {
     return cachedResponse;
   }
-  
+
   try {
     const networkResponse = await fetch(request);
-    
+
     if (networkResponse.ok) {
       const cache = await caches.open(cacheName);
       cache.put(request, networkResponse.clone());
     }
-    
+
     return networkResponse;
   } catch (error) {
     // Retornar placeholder SVG para imágenes fallidas
@@ -213,20 +213,20 @@ async function cacheFirstWithFallback(request, cacheName) {
 async function networkFirst(request, cacheName) {
   try {
     const networkResponse = await fetch(request);
-    
-    if (networkResponse.ok) {
+
+    if (networkResponse.ok && request.method === 'GET') {
       const cache = await caches.open(cacheName);
       cache.put(request, networkResponse.clone());
     }
-    
+
     return networkResponse;
   } catch (error) {
     const cachedResponse = await caches.match(request);
-    
+
     if (cachedResponse) {
       return cachedResponse;
     }
-    
+
     throw error;
   }
 }
@@ -237,26 +237,26 @@ async function networkFirst(request, cacheName) {
 async function networkFirstWithFallback(request) {
   try {
     const networkResponse = await fetch(request);
-    
+
     if (networkResponse.ok) {
       const cache = await caches.open(DYNAMIC_CACHE);
       cache.put(request, networkResponse.clone());
     }
-    
+
     return networkResponse;
   } catch (error) {
     const cachedResponse = await caches.match(request);
-    
+
     if (cachedResponse) {
       return cachedResponse;
     }
-    
+
     // Mostrar página offline
     const offlinePage = await caches.match('/offline');
     if (offlinePage) {
       return offlinePage;
     }
-    
+
     // Fallback HTML básico
     return new Response(
       `<!DOCTYPE html>
@@ -310,9 +310,9 @@ async function networkFirstWithFallback(request) {
 // ========================================
 self.addEventListener('push', (event) => {
   if (!event.data) return;
-  
+
   const data = event.data.json();
-  
+
   const options = {
     body: data.body || 'Nueva notificación de Uniclima',
     icon: '/icons/icon-192x192.png',
@@ -326,7 +326,7 @@ self.addEventListener('push', (event) => {
       { action: 'close', title: 'Cerrar' },
     ],
   };
-  
+
   event.waitUntil(
     self.registration.showNotification(data.title || 'Uniclima', options)
   );
@@ -334,11 +334,11 @@ self.addEventListener('push', (event) => {
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  
+
   if (event.action === 'close') return;
-  
+
   const url = event.notification.data?.url || '/';
-  
+
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true })
       .then((clientList) => {

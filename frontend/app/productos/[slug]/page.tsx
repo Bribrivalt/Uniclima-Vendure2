@@ -96,7 +96,7 @@ interface ProductData {
 // DATA FETCHING
 // ========================================
 
-const VENDURE_API = process.env.NEXT_PUBLIC_VENDURE_SHOP_API || 'http://localhost:3000/shop-api';
+const VENDURE_API = process.env.NEXT_PUBLIC_VENDURE_SHOP_API || 'http://localhost:3001/shop-api';
 
 /**
  * Obtiene el producto desde Vendure API

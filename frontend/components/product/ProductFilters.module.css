@@ -305,9 +305,11 @@
     max-width: 320px;
     z-index: var(--z-modal);
     transform: translateX(-100%);
-    transition: transform var(--transition-base);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 0;
     overflow-y: auto;
+    background-color: white;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
 }
 
 .drawer.drawerOpen {
@@ -323,7 +325,9 @@
     inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: calc(var(--z-modal) - 1);
-    animation: fadeIn var(--transition-fast);
+    opacity: 0;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s forwards;
 }
 
 @keyframes fadeIn {

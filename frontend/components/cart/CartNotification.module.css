@@ -1,0 +1,340 @@
+/**
+ * CartNotification Styles - Uniclima
+ * 
+ * Estilos para las notificaciones animadas del carrito
+ * con soporte para diferentes tipos y estados.
+ * 
+ * @version 1.0.0
+ */
+
+/* ============================================
+   CONTENEDOR PRINCIPAL
+   ============================================ */
+
+.container {
+    position: fixed;
+    top: calc(80px + var(--spacing-4));
+    right: var(--spacing-4);
+    z-index: var(--z-notification);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    max-width: 400px;
+    width: calc(100vw - var(--spacing-8));
+    pointer-events: none;
+}
+
+/* ============================================
+   NOTIFICACIÓN INDIVIDUAL
+   ============================================ */
+
+.notification {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-3);
+    padding: var(--spacing-4);
+    background: var(--color-surface);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border-light);
+    pointer-events: auto;
+    position: relative;
+    overflow: hidden;
+
+    /* Animación de entrada */
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+.notification.exiting {
+    animation: slideOut 0.3s ease-in forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+/* ============================================
+   ICONO
+   ============================================ */
+
+.icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--border-radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.iconSuccess {
+    background-color: var(--color-success-50, #dcfce7);
+    color: var(--color-success, #22c55e);
+}
+
+.iconInfo {
+    background-color: var(--color-info-50, #dbeafe);
+    color: var(--color-info, #3b82f6);
+}
+
+.iconWarning {
+    background-color: var(--color-warning-50, #fef3c7);
+    color: var(--color-warning, #f59e0b);
+}
+
+.iconError {
+    background-color: var(--color-error-50, #fef2f2);
+    color: var(--color-error, #ef4444);
+}
+
+/* ============================================
+   CONTENIDO
+   ============================================ */
+
+.content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    min-width: 0;
+}
+
+.productImage {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    position: relative;
+    background: var(--color-gray-100);
+    border: 1px solid var(--color-border-light);
+}
+
+.image {
+    object-fit: cover;
+}
+
+.textContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-1);
+    min-width: 0;
+}
+
+.productName {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.message {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+/* ============================================
+   BOTÓN VER CARRITO
+   ============================================ */
+
+.viewCartButton {
+    flex-shrink: 0;
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    background: var(--color-primary-alpha-10, rgba(220, 38, 38, 0.1));
+    border-radius: var(--border-radius-md);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.viewCartButton:hover {
+    background: var(--color-primary);
+    color: white;
+}
+
+/* ============================================
+   BOTÓN CERRAR
+   ============================================ */
+
+.closeButton {
+    position: absolute;
+    top: var(--spacing-2);
+    right: var(--spacing-2);
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
+    opacity: 0;
+}
+
+.notification:hover .closeButton {
+    opacity: 1;
+}
+
+.closeButton:hover {
+    background: var(--color-gray-100);
+    color: var(--color-text-primary);
+}
+
+.closeButton svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* ============================================
+   BARRA DE PROGRESO
+   ============================================ */
+
+.progressBar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--color-gray-200);
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: var(--gradient-primary);
+    animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 640px) {
+    .container {
+        top: auto;
+        bottom: calc(80px + var(--spacing-4));
+        right: var(--spacing-2);
+        left: var(--spacing-2);
+        max-width: none;
+        width: auto;
+    }
+
+    .notification {
+        padding: var(--spacing-3);
+    }
+
+    .icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .icon svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .productImage {
+        width: 40px;
+        height: 40px;
+    }
+
+    .closeButton {
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   VARIANTE: NOTIFICACIÓN COMPACTA
+   ============================================ */
+
+.notification.compact {
+    padding: var(--spacing-3);
+}
+
+.notification.compact .icon {
+    width: 24px;
+    height: 24px;
+}
+
+.notification.compact .icon svg {
+    width: 12px;
+    height: 12px;
+}
+
+.notification.compact .productImage {
+    width: 36px;
+    height: 36px;
+}
+
+.notification.compact .message {
+    font-size: var(--font-size-xs);
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    .notification {
+        background: var(--color-surface-dark, #1f1f1f);
+        border-color: var(--color-border-dark, #333);
+    }
+
+    .productImage {
+        background: var(--color-gray-800);
+        border-color: var(--color-gray-700);
+    }
+
+    .closeButton:hover {
+        background: var(--color-gray-700);
+    }
+
+    .progressBar {
+        background: var(--color-gray-700);
+    }
+}
