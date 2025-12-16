@@ -1,12 +1,12 @@
 /**
  * Página de Confirmación de Pedido
- * 
+ *
  * @description Se muestra después de completar un pedido con éxito.
  * Muestra el resumen del pedido, detalles de envío y próximos pasos.
  */
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
@@ -73,10 +73,10 @@ interface OrderData {
 }
 
 // ========================================
-// COMPONENTE PRINCIPAL
+// COMPONENTE INTERNO
 // ========================================
 
-export default function OrderConfirmationPage() {
+function OrderConfirmationContent() {
     const searchParams = useSearchParams();
     const orderCode = searchParams.get('code');
 
@@ -353,4 +353,23 @@ function StatusBadge({ state }: { state: string }) {
     const status = statusMap[state] || statusMap.default;
 
     return <span className={`${styles.statusBadge} ${status.className}`}>{status.label}</span>;
+}
+
+// ========================================
+// COMPONENTE PRINCIPAL CON SUSPENSE
+// ========================================
+
+export default function OrderConfirmationPage() {
+    return (
+        <Suspense fallback={
+            <div className={styles.container}>
+                <div className={styles.loading}>
+                    <div className={styles.spinner} />
+                    <p>Cargando datos del pedido...</p>
+                </div>
+            </div>
+        }>
+            <OrderConfirmationContent />
+        </Suspense>
+    );
 }

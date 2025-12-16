@@ -187,52 +187,33 @@ export function CartDrawer({
                 {/* Footer con totales y acciones */}
                 {items.length > 0 && (
                     <footer className={styles.footer}>
-                        {/* Resumen de precios */}
+                        {/* Resumen de precios estilo tabla */}
                         <div className={styles.summary}>
-                            <div className={styles.summaryRow}>
-                                <span className={styles.summaryLabel}>Subtotal</span>
-                                <span className={styles.summaryValue}>
-                                    {(subtotal / 100).toFixed(2)}€
-                                </span>
+                            <div className={styles.summaryRowSimple}>
+                                <span>{items.reduce((acc, i) => acc + i.quantity, 0)} artículos</span>
+                                <span>{(total / 100).toFixed(2)} €</span>
                             </div>
-                            <div className={styles.summaryRow}>
-                                <span className={styles.summaryLabel}>IVA (21%)</span>
-                                <span className={styles.summaryValue}>
-                                    {((total - subtotal) / 100).toFixed(2)}€
-                                </span>
+                            <div className={styles.summaryRowSimple}>
+                                <span>Transporte</span>
+                                <span>0,00 €</span>
                             </div>
-                            <div className={`${styles.summaryRow} ${styles.summaryTotal}`}>
-                                <span className={styles.summaryLabel}>Total</span>
-                                <span className={styles.summaryValue}>
-                                    {(total / 100).toFixed(2)}€
+                            <hr className={styles.summaryDivider} />
+                            <div className={styles.summaryTotalRow}>
+                                <span className={styles.totalLabel}>Total (impuestos inc.)</span>
+                                <span className={styles.totalValue}>
+                                    {(total / 100).toFixed(2)} €
                                 </span>
                             </div>
                         </div>
 
-                        {/* Botones de acción */}
-                        <div className={styles.actions}>
-                            <Link
-                                href="/carrito"
-                                className={styles.viewCartButton}
-                                onClick={onClose}
-                            >
-                                Ver carrito
-                            </Link>
-                            <Link
-                                href="/checkout"
-                                className={styles.checkoutButton}
-                                onClick={onClose}
-                            >
-                                Finalizar compra
-                            </Link>
-                            <button
-                                type="button"
-                                className={styles.continueButton}
-                                onClick={onClose}
-                            >
-                                Continuar comprando
-                            </button>
-                        </div>
+                        {/* Botón de acción único */}
+                        <Link
+                            href="/checkout"
+                            className={styles.tramitarButton}
+                            onClick={onClose}
+                        >
+                            Tramitar Pedido
+                        </Link>
                     </footer>
                 )}
             </aside>

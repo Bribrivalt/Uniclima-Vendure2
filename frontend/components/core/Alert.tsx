@@ -6,6 +6,10 @@ export interface AlertProps {
     children: React.ReactNode;
     onClose?: () => void;
     dismissible?: boolean;
+    /** ARIA role for accessibility */
+    role?: string;
+    /** Additional class name */
+    className?: string;
 }
 
 /**
@@ -21,6 +25,8 @@ export const Alert: React.FC<AlertProps> = ({
     children,
     onClose,
     dismissible = false,
+    role = 'alert',
+    className,
 }) => {
     const getIcon = () => {
         switch (type) {
@@ -53,7 +59,7 @@ export const Alert: React.FC<AlertProps> = ({
     };
 
     return (
-        <div className={`${styles.alert} ${styles[type]}`} role="alert">
+        <div className={`${styles.alert} ${styles[type]} ${className || ''}`} role={role}>
             <div className={styles.icon}>
                 {getIcon()}
             </div>

@@ -12,7 +12,7 @@
  */
 'use client';
 
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { LOGIN_MUTATION, LOGOUT_MUTATION, REGISTER_MUTATION, UPDATE_CUSTOMER_MUTATION, UPDATE_CUSTOMER_PASSWORD_MUTATION } from './vendure/mutations/auth';
 import { GET_ACTIVE_CUSTOMER } from './vendure/queries/auth';
@@ -74,21 +74,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
 
     // Query para obtener usuario activo
-    const { data: customerData, refetch: refetchCustomer } = useQuery(GET_ACTIVE_CUSTOMER, {
+    const { data: customerData, error: customerError, refetch: refetchCustomer } = useQuery(GET_ACTIVE_CUSTOMER, {
         fetchPolicy: 'network-only',
-        onCompleted: (data) => {
-            if (data?.activeCustomer) {
-                setCurrentUser(data.activeCustomer);
-            } else {
-                setCurrentUser(null);
-            }
-            setLoading(false);
-        },
-        onError: () => {
+    });
+
+    // Manejar cambios en customerData (reemplaza onCompleted/onError deprecados)
+    useEffect(() => {
+        if (customerData?.activeCustomer) {
+            setCurrentUser(customerData.activeCustomer);
+        } else {
+            setCurrentUser(null);
+        }
+        setLoading(false);
+    }, [customerData]);
+
+    // Manejar errores en la query
+    useEffect(() => {
+        if (customerError) {
             setCurrentUser(null);
             setLoading(false);
-        },
-    });
+        }
+    }, [customerError]);
 
     // Mutations
     const [loginMutation] = useMutation(LOGIN_MUTATION);

@@ -9,11 +9,11 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-    blogPosts, 
-    getPostBySlug, 
-    getRelatedPosts, 
-    getAllPostSlugs 
+import {
+    blogPosts,
+    getPostBySlug,
+    getRelatedPosts,
+    getAllPostSlugs
 } from '@/lib/data/blog-posts';
 import styles from './page.module.css';
 
@@ -40,13 +40,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: BlogArticlePageProps): Promise<Metadata> {
     const { slug } = await params;
     const post = getPostBySlug(slug);
-    
+
     if (!post) {
         return {
             title: 'Artículo no encontrado - Uniclima',
         };
     }
-    
+
     return {
         title: `${post.title} | Blog Uniclima`,
         description: post.excerpt,
@@ -119,13 +119,13 @@ const ShareIcon = () => (
 export default async function BlogArticlePage({ params }: BlogArticlePageProps) {
     const { slug } = await params;
     const post = getPostBySlug(slug);
-    
+
     if (!post) {
         notFound();
     }
-    
+
     const relatedPosts = getRelatedPosts(slug, 3);
-    
+
     // Convertir Markdown simple a HTML (básico)
     const contentHtml = post.content
         .replace(/^## (.*$)/gim, '<h2>$1</h2>')
@@ -134,12 +134,12 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
         .replace(/^\- (.*$)/gim, '<li>$1</li>')
-        .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+        .replace(/(<li>[\s\S]*<\/li>)/, '<ul>$1</ul>')
         .replace(/\n\n/g, '</p><p>')
         .replace(/^(?!<[hulo])/gim, '<p>')
         .replace(/\| (.*) \| (.*) \|/g, '<tr><td>$1</td><td>$2</td></tr>')
         .replace(/---/g, '<hr />');
-    
+
     return (
         <div className={styles.articlePage}>
             {/* Hero */}
@@ -153,15 +153,15 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
                             Volver al blog
                         </Link>
                     </nav>
-                    
+
                     {/* Category Badge */}
                     <span className={styles.categoryBadge}>
                         {post.category.name}
                     </span>
-                    
+
                     {/* Title */}
                     <h1 className={styles.title}>{post.title}</h1>
-                    
+
                     {/* Meta */}
                     <div className={styles.meta}>
                         <div className={styles.metaItem}>
@@ -185,7 +185,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
                     </div>
                 </div>
             </header>
-            
+
             {/* Content */}
             <article className={styles.article}>
                 <div className={styles.container}>
@@ -204,13 +204,13 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
                                     />
                                 </div>
                             )}
-                            
+
                             {/* Article Body */}
-                            <div 
+                            <div
                                 className={styles.articleBody}
                                 dangerouslySetInnerHTML={{ __html: contentHtml }}
                             />
-                            
+
                             {/* Tags */}
                             <div className={styles.tags}>
                                 <span className={styles.tagsLabel}>Etiquetas:</span>
@@ -222,7 +222,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
                                     ))}
                                 </div>
                             </div>
-                            
+
                             {/* Share */}
                             <div className={styles.share}>
                                 <span className={styles.shareLabel}>
@@ -230,7 +230,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
                                     Compartir:
                                 </span>
                                 <div className={styles.shareButtons}>
-                                    <a 
+                                    <a
                                         href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://uniclima.es/blog/${post.slug}`)}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -239,7 +239,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
                                     >
                                         Twitter
                                     </a>
-                                    <a 
+                                    <a
                                         href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://uniclima.es/blog/${post.slug}`)}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -248,7 +248,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
                                     >
                                         Facebook
                                     </a>
-                                    <a 
+                                    <a
                                         href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://uniclima.es/blog/${post.slug}`)}&title=${encodeURIComponent(post.title)}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -257,7 +257,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
                                     >
                                         LinkedIn
                                     </a>
-                                    <a 
+                                    <a
                                         href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${post.title} https://uniclima.es/blog/${post.slug}`)}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -269,7 +269,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
                                 </div>
                             </div>
                         </div>
-                        
+
                         {/* Sidebar */}
                         <aside className={styles.sidebar}>
                             {/* Author */}
@@ -282,7 +282,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
                                     <span className={styles.authorRole}>{post.author.role}</span>
                                 </div>
                             </div>
-                            
+
                             {/* CTA */}
                             <div className={styles.ctaCard}>
                                 <h3 className={styles.ctaTitle}>¿Necesitas asesoramiento?</h3>
@@ -297,7 +297,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
                     </div>
                 </div>
             </article>
-            
+
             {/* Related Posts */}
             {relatedPosts.length > 0 && (
                 <section className={styles.relatedSection}>

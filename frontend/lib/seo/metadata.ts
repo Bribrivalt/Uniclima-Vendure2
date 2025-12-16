@@ -25,23 +25,63 @@ function truncate(text: string, maxLength: number): string {
 }
 
 /**
- * Genera metadata para página de producto
+ * Interface para parámetros simplificados de producto
  */
-export function generateProductMetadata(product: Product): Metadata {
-    const variant = product.variants[0];
-    const price = variant?.priceWithTax ? (variant.priceWithTax / 100).toFixed(2) : null;
-    const inStock = variant?.stockLevel === 'IN_STOCK';
+export interface ProductMetadataParams {
+    name: string;
+    description: string;
+    slug: string;
+    image?: string;
+    price?: string;
+    currency?: string;
+    availability?: 'InStock' | 'OutOfStock';
+    brand?: string;
+    sku?: string;
+}
+
+/**
+ * Genera metadata para página de producto
+ * Acepta tanto un objeto Product completo como parámetros simplificados
+ */
+export function generateProductMetadata(input: Product | ProductMetadataParams): Metadata {
+    // Detectar si es un Product completo o parámetros simplificados
+    const isFullProduct = 'variants' in input && Array.isArray(input.variants);
+
+    let name: string;
+    let productDescription: string;
+    let slug: string;
+    let imageUrl: string;
+    let price: string | null;
+    let inStock: boolean;
+
+    if (isFullProduct) {
+        const product = input as Product;
+        const variant = product.variants[0];
+        name = product.name;
+        productDescription = product.description;
+        slug = product.slug;
+        imageUrl = product.featuredAsset?.preview || `${SITE_URL}/og-image.jpg`;
+        price = variant?.priceWithTax ? (variant.priceWithTax / 100).toFixed(2) : null;
+        inStock = variant?.stockLevel === 'IN_STOCK';
+    } else {
+        const params = input as ProductMetadataParams;
+        name = params.name;
+        productDescription = params.description;
+        slug = params.slug;
+        imageUrl = params.image || `${SITE_URL}/og-image.jpg`;
+        price = params.price || null;
+        inStock = params.availability === 'InStock';
+    }
 
     // Título optimizado (max 60 chars)
-    const title = truncate(`${product.name} | ${SITE_NAME}`, 60);
+    const title = truncate(`${name} | ${SITE_NAME}`, 60);
 
     // Descripción optimizada (max 160 chars)
-    const description = product.description
-        ? truncate(product.description.replace(/<[^>]*>/g, ''), 160)
-        : truncate(`${product.name} - ${DEFAULT_DESCRIPTION}`, 160);
+    const description = productDescription
+        ? truncate(productDescription.replace(/<[^>]*>/g, ''), 160)
+        : truncate(`${name} - ${DEFAULT_DESCRIPTION}`, 160);
 
-    const imageUrl = product.featuredAsset?.preview || `${SITE_URL}/og-image.jpg`;
-    const productUrl = `${SITE_URL}/productos/${product.slug}`;
+    const productUrl = `${SITE_URL}/productos/${slug}`;
 
     return {
         title,
@@ -59,7 +99,7 @@ export function generateProductMetadata(product: Product): Metadata {
                     url: imageUrl,
                     width: 1200,
                     height: 630,
-                    alt: product.name,
+                    alt: name,
                 },
             ],
             type: 'website',

@@ -26,3 +26,9 @@ export {
     useCompare,
 } from './useCompare';
 export type { CompareProduct } from './useCompare';
+
+// Search history hooks
+export {
+    useSearchHistory,
+} from './useSearchHistory';
+export type { SearchHistoryItem, UseSearchHistoryReturn } from './useSearchHistory';

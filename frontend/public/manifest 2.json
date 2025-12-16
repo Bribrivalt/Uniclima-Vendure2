@@ -1,0 +1,46 @@
+{
+    "name": "Uniclima Solutions - Climatización HVAC",
+    "short_name": "Uniclima",
+    "description": "Tienda online de climatización, aire acondicionado, calderas y aerotermia. Especialistas en soluciones HVAC para hogares y empresas.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#E53935",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "lang": "es-ES",
+    "categories": [
+        "shopping",
+        "business"
+    ],
+    "icons": [
+        {
+            "src": "/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Ver productos",
+            "short_name": "Productos",
+            "description": "Navega por nuestro catálogo de climatización",
+            "url": "/productos"
+        },
+        {
+            "name": "Mi carrito",
+            "short_name": "Carrito",
+            "description": "Ver tu carrito de compra",
+            "url": "/carrito"
+        },
+        {
+            "name": "Contacto",
+            "short_name": "Contacto",
+            "description": "Solicita presupuesto o información",
+            "url": "/contacto"
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false
+}

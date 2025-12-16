@@ -139,93 +139,73 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
 
     return (
         <div className={`${styles.cartItem} ${loading || isRemoving ? styles.loading : ''} ${isRemoving ? styles.removing : ''}`}>
-            {/* Imagen con enlace al producto */}
+            {/* Imagen Izquierda */}
             <Link href={`/productos/${productSlug}`} className={styles.imageWrapper}>
                 <Image
                     src={imageUrl}
                     alt={item.productVariant.name}
                     fill
                     className={styles.image}
-                    sizes="120px"
+                    sizes="100px"
                 />
             </Link>
 
-            {/* Información del producto con enlace */}
-            <div className={styles.info}>
-                <Link href={`/productos/${productSlug}`} className={styles.nameLink}>
-                    <h3 className={styles.name}>{item.productVariant.product.name}</h3>
-                </Link>
-                {/* Mostrar nombre de variante si es diferente al producto */}
-                {item.productVariant.name !== item.productVariant.product.name && (
-                    <p className={styles.variant}>{item.productVariant.name}</p>
-                )}
-                <p className={styles.sku}>REF: {item.productVariant.sku}</p>
-                <p className={styles.price}>{unitPrice}€ / unidad</p>
-            </div>
-
-            {/* Controles de cantidad */}
-            <div className={styles.quantityControls}>
-                <button
-                    onClick={handleDecrease}
-                    disabled={loading}
-                    className={`${styles.quantityButton} ${item.quantity === 1 ? styles.quantityButtonWarning : ''}`}
-                    aria-label={item.quantity === 1 ? "Eliminar producto" : "Disminuir cantidad"}
-                >
-                    {item.quantity === 1 ? (
-                        <TrashIcon size={16} />
-                    ) : (
-                        <MinusIcon size={16} />
+            {/* Columna Derecha */}
+            <div className={styles.contentColumn}>
+                <div className={styles.titleRow}>
+                    <Link href={`/productos/${productSlug}`} className={styles.nameLink}>
+                        <h3 className={styles.name}>{item.productVariant.product.name}</h3>
+                    </Link>
+                    {item.productVariant.name !== item.productVariant.product.name && (
+                        <p className={styles.variant}>{item.productVariant.name}</p>
                     )}
-                </button>
+                </div>
 
-                <span className={quantityClasses}>{item.quantity}</span>
+                {/* Fila Inferior: Cantidad x Precio + Eliminar */}
+                <div className={styles.bottomRow}>
+                    <div className={styles.quantitySelector}>
+                        <button
+                            onClick={handleDecrease}
+                            disabled={loading}
+                            className={styles.quantityBtn}
+                            aria-label="Disminuir"
+                        >
+                            -
+                        </button>
+                        <span className={styles.quantityValue}>{item.quantity}</span>
+                        <button
+                            onClick={handleIncrease}
+                            disabled={loading}
+                            className={styles.quantityBtn}
+                            aria-label="Aumentar"
+                        >
+                            +
+                        </button>
+                    </div>
 
-                <button
-                    onClick={handleIncrease}
-                    disabled={loading}
-                    className={styles.quantityButton}
-                    aria-label="Aumentar cantidad"
-                >
-                    <PlusIcon size={16} />
-                </button>
-            </div>
+                    <span className={styles.priceX}>x {unitPrice} €</span>
 
-            {/* Confirmación de eliminación */}
-            {showRemoveConfirm && (
-                <div className={styles.removeConfirm}>
-                    <span className={styles.removeConfirmText}>¿Eliminar?</span>
                     <button
-                        className={styles.removeConfirmYes}
-                        onClick={handleRemove}
-                        aria-label="Confirmar eliminación"
+                        onClick={() => setShowRemoveConfirm(true)}
+                        disabled={loading || isRemoving}
+                        className={styles.trashBtn}
+                        aria-label="Eliminar producto"
                     >
-                        Sí
-                    </button>
-                    <button
-                        className={styles.removeConfirmNo}
-                        onClick={handleCancelRemove}
-                        aria-label="Cancelar eliminación"
-                    >
-                        No
+                        <TrashIcon size={16} />
                     </button>
                 </div>
-            )}
-
-            {/* Subtotal */}
-            <div className={styles.subtotal}>
-                <span className={styles.subtotalAmount}>{subtotal}€</span>
-                <span className={styles.taxLabel}>IVA incluido</span>
             </div>
 
-            {/* Botón eliminar */}
-            <button
-                onClick={handleRemove}
-                disabled={loading || isRemoving}
-                className={styles.removeButton}
-                aria-label="Eliminar producto"
-            >
-                <TrashIcon size={20} />
-            </button>
+            {/* Overlay de Confirmación */}
+            {showRemoveConfirm && (
+                <div className={styles.removeConfirmOverlay}>
+                    <span className={styles.removeText}>¿Eliminar?</span>
+                    <div className={styles.removeActions}>
+                        <button className={styles.confirmBtn} onClick={handleRemove}>Sí</button>
+                        <button className={styles.cancelBtn} onClick={handleCancelRemove}>No</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
