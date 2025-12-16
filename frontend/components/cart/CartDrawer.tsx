@@ -5,6 +5,7 @@ import Link from 'next/link';
 import styles from './CartDrawer.module.css';
 import { CartItem, OrderLine } from './CartItem';
 import { useFocusTrap } from '@/lib/hooks/useFocusTrap';
+import { CartIcon, CloseIcon } from '@/components/icons';
 
 /**
  * Props para el componente CartDrawer
@@ -36,22 +37,7 @@ export interface CartDrawerProps {
 /**
  * Icono de X para cerrar
  */
-const CloseIcon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-);
 
-/**
- * Icono de carrito
- */
-const CartIcon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <circle cx="9" cy="21" r="1" />
-        <circle cx="20" cy="21" r="1" />
-        <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
-    </svg>
-);
 
 /**
  * CartDrawer - Panel lateral de carrito de compras

@@ -1,0 +1,392 @@
+/**
+ * SearchFilters.module.css
+ * Estilos para componente de filtros avanzados de búsqueda
+ * 
+ * @version 1.0.0
+ */
+
+/* ========================================
+   CONTAINER
+   ======================================== */
+
+.filtersContainer {
+    width: 100%;
+    background: white;
+    border-radius: var(--border-radius-lg);
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+}
+
+.mobileDrawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    border-radius: 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
+.filtersHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-4);
+    border-bottom: 1px solid #e0e0e0;
+    background: #f9f9f9;
+}
+
+.filtersTitle {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: #333;
+    margin: 0;
+}
+
+.filtersTitle svg {
+    color: #cc0000;
+}
+
+.activeCount {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 var(--spacing-1);
+    background: #cc0000;
+    color: white;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    border-radius: var(--border-radius-full);
+}
+
+.closeBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    color: #666;
+    border-radius: var(--border-radius-full);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.closeBtn:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+/* ========================================
+   CLEAR ALL BUTTON
+   ======================================== */
+
+.clearAllBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    width: 100%;
+    padding: var(--spacing-3);
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff5f5;
+    color: #cc0000;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.clearAllBtn:hover {
+    background: #ffeeee;
+}
+
+/* ========================================
+   QUICK FILTERS
+   ======================================== */
+
+.quickFilters {
+    padding: var(--spacing-3);
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.quickFiltersLabel {
+    display: block;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: #666;
+    margin-bottom: var(--spacing-2);
+}
+
+.quickFilterTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+}
+
+.quickFilterTag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    padding: var(--spacing-1) var(--spacing-2);
+    border: 1px solid #e0e0e0;
+    background: white;
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-xs);
+    color: #666;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.quickFilterTag:hover {
+    border-color: #cc0000;
+    color: #cc0000;
+}
+
+.quickFilterTag.active {
+    background: #cc0000;
+    border-color: #cc0000;
+    color: white;
+}
+
+/* ========================================
+   FILTER SECTION
+   ======================================== */
+
+.filterSection {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.filterSection:last-child {
+    border-bottom: none;
+}
+
+.sectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: var(--spacing-3) var(--spacing-4);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.sectionHeader:hover {
+    background: #f9f9f9;
+}
+
+.sectionTitle {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: #333;
+}
+
+.chevron {
+    color: #999;
+    transition: transform var(--transition-base);
+}
+
+.chevron.expanded {
+    transform: rotate(180deg);
+}
+
+.sectionContent {
+    padding: 0 var(--spacing-4) var(--spacing-3);
+    animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   PRICE RANGE
+   ======================================== */
+
+.priceRanges {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-3);
+}
+
+.priceRangeOption {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    cursor: pointer;
+}
+
+.priceRangeOption input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #cc0000;
+    cursor: pointer;
+}
+
+.radioLabel {
+    font-size: var(--font-size-sm);
+    color: #333;
+}
+
+.customPriceRange {
+    padding-top: var(--spacing-3);
+    border-top: 1px dashed #e0e0e0;
+}
+
+.customPriceLabel {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: #666;
+    margin-bottom: var(--spacing-2);
+}
+
+.customPriceInputs {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.priceInput {
+    flex: 1;
+    padding: var(--spacing-2);
+    border: 1px solid #e0e0e0;
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-sm);
+    text-align: center;
+}
+
+.priceInput:focus {
+    outline: none;
+    border-color: #cc0000;
+}
+
+.priceSeparator {
+    color: #999;
+}
+
+.applyPriceBtn {
+    padding: var(--spacing-2) var(--spacing-3);
+    border: none;
+    background: #cc0000;
+    color: white;
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.applyPriceBtn:hover {
+    background: #aa0000;
+}
+
+/* ========================================
+   CHECKBOX OPTIONS
+   ======================================== */
+
+.checkboxOption {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-1) 0;
+    cursor: pointer;
+}
+
+.checkboxOption input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #cc0000;
+    cursor: pointer;
+}
+
+.checkboxLabel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    font-size: var(--font-size-sm);
+    color: #333;
+}
+
+.valueCount {
+    font-size: var(--font-size-xs);
+    color: #999;
+    margin-left: var(--spacing-2);
+}
+
+/* ========================================
+   MOBILE ACTIONS
+   ======================================== */
+
+.mobileActions {
+    position: sticky;
+    bottom: 0;
+    padding: var(--spacing-4);
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.applyFiltersBtn {
+    width: 100%;
+    padding: var(--spacing-3) var(--spacing-4);
+    border: none;
+    background: #cc0000;
+    color: white;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--border-radius-lg);
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.applyFiltersBtn:hover {
+    background: #aa0000;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .filtersContainer:not(.mobileDrawer) {
+        display: none;
+    }
+
+    .quickFilterTags {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: var(--spacing-2);
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .quickFilterTag {
+        flex-shrink: 0;
+    }
+}

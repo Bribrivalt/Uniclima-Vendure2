@@ -3,19 +3,21 @@
  *
  * Muestra un producto individual en el carrito de compras.
  * Permite modificar la cantidad y eliminar el producto.
+ * Incluye animaciones de actualización y feedback visual.
  *
  * La estructura de datos viene de la query GET_ACTIVE_ORDER de Vendure,
  * donde la imagen está en productVariant.product.featuredAsset
  *
  * @author Frontend Team
- * @version 1.1.0
+ * @version 2.0.0
  */
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import styles from './CartItem.module.css';
+import { TrashIcon, PlusIcon, MinusIcon } from '@/components/icons';
 
 /**
  * Interfaz que representa una línea de pedido del carrito
@@ -64,25 +66,59 @@ export interface CartItemProps {
  */
 export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: CartItemProps) {
     const [isRemoving, setIsRemoving] = useState(false);
+    const [quantityAnimation, setQuantityAnimation] = useState<'up' | 'down' | null>(null);
+    const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
+    const prevQuantityRef = useRef(item.quantity);
+    const removeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    const handleDecrease = () => {
+    // Detectar cambio de cantidad para animación
+    useEffect(() => {
+        if (item.quantity !== prevQuantityRef.current) {
+            setQuantityAnimation(item.quantity > prevQuantityRef.current ? 'up' : 'down');
+            const timer = setTimeout(() => setQuantityAnimation(null), 300);
+            prevQuantityRef.current = item.quantity;
+            return () => clearTimeout(timer);
+        }
+    }, [item.quantity]);
+
+    // Limpiar timeout al desmontar
+    useEffect(() => {
+        return () => {
+            if (removeTimeoutRef.current) {
+                clearTimeout(removeTimeoutRef.current);
+            }
+        };
+    }, []);
+
+    const handleDecrease = useCallback(() => {
         if (item.quantity > 1 && !loading) {
             onUpdateQuantity(item.id, item.quantity - 1);
+        } else if (item.quantity === 1) {
+            // Mostrar confirmación de eliminación
+            setShowRemoveConfirm(true);
+            removeTimeoutRef.current = setTimeout(() => setShowRemoveConfirm(false), 3000);
         }
-    };
+    }, [item.id, item.quantity, loading, onUpdateQuantity]);
 
-    const handleIncrease = () => {
+    const handleIncrease = useCallback(() => {
         if (!loading) {
             onUpdateQuantity(item.id, item.quantity + 1);
         }
-    };
+    }, [item.id, item.quantity, loading, onUpdateQuantity]);
 
-    const handleRemove = () => {
+    const handleRemove = useCallback(() => {
         if (!loading && !isRemoving) {
             setIsRemoving(true);
             onRemove(item.id);
         }
-    };
+    }, [item.id, loading, isRemoving, onRemove]);
+
+    const handleCancelRemove = useCallback(() => {
+        setShowRemoveConfirm(false);
+        if (removeTimeoutRef.current) {
+            clearTimeout(removeTimeoutRef.current);
+        }
+    }, []);
 
     // Obtener la imagen del producto padre (product.featuredAsset, no productVariant.featuredAsset)
     const imageUrl = item.productVariant.product.featuredAsset?.preview || '/placeholder-product.png';
@@ -93,8 +129,15 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
     // Slug del producto para el enlace
     const productSlug = item.productVariant.product.slug;
 
+    // Clases con animaciones
+    const quantityClasses = [
+        styles.quantity,
+        quantityAnimation === 'up' && styles.quantityUp,
+        quantityAnimation === 'down' && styles.quantityDown,
+    ].filter(Boolean).join(' ');
+
     return (
-        <div className={`${styles.cartItem} ${loading || isRemoving ? styles.loading : ''}`}>
+        <div className={`${styles.cartItem} ${loading || isRemoving ? styles.loading : ''} ${isRemoving ? styles.removing : ''}`}>
             {/* Imagen con enlace al producto */}
             <Link href={`/productos/${productSlug}`} className={styles.imageWrapper}>
                 <Image
@@ -123,16 +166,18 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
             <div className={styles.quantityControls}>
                 <button
                     onClick={handleDecrease}
-                    disabled={item.quantity <= 1 || loading}
-                    className={styles.quantityButton}
-                    aria-label="Disminuir cantidad"
+                    disabled={loading}
+                    className={`${styles.quantityButton} ${item.quantity === 1 ? styles.quantityButtonWarning : ''}`}
+                    aria-label={item.quantity === 1 ? "Eliminar producto" : "Disminuir cantidad"}
                 >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                    </svg>
+                    {item.quantity === 1 ? (
+                        <TrashIcon size={16} />
+                    ) : (
+                        <MinusIcon size={16} />
+                    )}
                 </button>
 
-                <span className={styles.quantity}>{item.quantity}</span>
+                <span className={quantityClasses}>{item.quantity}</span>
 
                 <button
                     onClick={handleIncrease}
@@ -140,11 +185,30 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
                     className={styles.quantityButton}
                     aria-label="Aumentar cantidad"
                 >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                    </svg>
+                    <PlusIcon size={16} />
                 </button>
             </div>
+
+            {/* Confirmación de eliminación */}
+            {showRemoveConfirm && (
+                <div className={styles.removeConfirm}>
+                    <span className={styles.removeConfirmText}>¿Eliminar?</span>
+                    <button
+                        className={styles.removeConfirmYes}
+                        onClick={handleRemove}
+                        aria-label="Confirmar eliminación"
+                    >
+                        Sí
+                    </button>
+                    <button
+                        className={styles.removeConfirmNo}
+                        onClick={handleCancelRemove}
+                        aria-label="Cancelar eliminación"
+                    >
+                        No
+                    </button>
+                </div>
+            )}
 
             {/* Subtotal */}
             <div className={styles.subtotal}>
@@ -159,14 +223,7 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
                 className={styles.removeButton}
                 aria-label="Eliminar producto"
             >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
-                </svg>
+                <TrashIcon size={20} />
             </button>
         </div>
     );

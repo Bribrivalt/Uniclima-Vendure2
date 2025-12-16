@@ -19,7 +19,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLazyQuery, gql } from '@apollo/client';
-import Link from 'next/link';
+import { SearchIcon, CloseIcon, CategoryIcon } from '@/components/icons';
 import Image from 'next/image';
 import { useSearchHistory } from '@/lib/hooks/useSearchHistory';
 import styles from './ProductSearch.module.css';
@@ -364,22 +364,11 @@ export function ProductSearch({
         <div className={wrapperClasses} ref={wrapperRef}>
             <div className={styles.searchContainer}>
                 {/* Icono de busqueda */}
-                <svg
+                <SearchIcon
                     className={styles.searchIcon}
-                    width="20"
-                    height="20"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+                    size={20}
                     aria-hidden="true"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                </svg>
+                />
 
                 {/* Campo de busqueda */}
                 <input
@@ -409,14 +398,7 @@ export function ProductSearch({
                         className={styles.clearButton}
                         aria-label="Limpiar busqueda"
                     >
-                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M6 18L18 6M6 6l12 12"
-                            />
-                        </svg>
+                        <CloseIcon size={16} />
                     </button>
                 )}
 
@@ -529,12 +511,7 @@ export function ProductSearch({
                         <div className={styles.suggestionSection}>
                             <div className={styles.sectionHeader}>
                                 <span className={styles.sectionTitle}>
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <rect x="3" y="3" width="7" height="7" />
-                                        <rect x="14" y="3" width="7" height="7" />
-                                        <rect x="14" y="14" width="7" height="7" />
-                                        <rect x="3" y="14" width="7" height="7" />
-                                    </svg>
+                                    <CategoryIcon size={14} />
                                     Categorías
                                 </span>
                             </div>
@@ -647,10 +624,7 @@ export function ProductSearch({
                                 </div>
                             ) : !loadingSuggestions && query.length >= 2 ? (
                                 <div className={styles.noSuggestions}>
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <circle cx="11" cy="11" r="8" />
-                                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                                    </svg>
+                                    <SearchIcon size={24} />
                                     <span>No se encontraron productos para "{query}"</span>
                                 </div>
                             ) : null}
@@ -662,10 +636,7 @@ export function ProductSearch({
                                     className={styles.viewAllResults}
                                     onClick={() => executeSearch()}
                                 >
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <circle cx="11" cy="11" r="8" />
-                                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                                    </svg>
+                                    <SearchIcon size={16} />
                                     Ver todos los resultados para "{query}"
                                 </button>
                             )}

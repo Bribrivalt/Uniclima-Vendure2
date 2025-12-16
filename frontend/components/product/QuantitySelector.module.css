@@ -1,0 +1,305 @@
+/**
+ * QuantitySelector Styles - Uniclima
+ * 
+ * Estilos profesionales para el selector de cantidad con animaciones.
+ * 
+ * @version 1.0.0
+ */
+
+.container {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid var(--color-border, #e0e0e0);
+    border-radius: 8px;
+    background: var(--color-surface, #ffffff);
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.container:focus-within {
+    border-color: var(--color-primary, #dc2626);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.container.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--color-background, #f5f5f5);
+}
+
+/* ============================================
+   Variants
+   ============================================ */
+
+.variant-inline {
+    flex-direction: row;
+}
+
+.variant-stacked {
+    flex-direction: column;
+}
+
+.variant-stacked .button {
+    width: 100%;
+    border-radius: 0;
+}
+
+.variant-stacked .decrementButton {
+    order: 3;
+    border-top: 1px solid var(--color-border, #e0e0e0);
+}
+
+.variant-stacked .incrementButton {
+    order: 1;
+    border-bottom: 1px solid var(--color-border, #e0e0e0);
+}
+
+.variant-stacked .valueWrapper {
+    order: 2;
+}
+
+/* ============================================
+   Sizes
+   ============================================ */
+
+.size-sm .button {
+    width: 28px;
+    height: 28px;
+}
+
+.size-sm .input {
+    width: 40px;
+    height: 28px;
+    font-size: 0.875rem;
+}
+
+.size-md .button {
+    width: 40px;
+    height: 40px;
+}
+
+.size-md .input {
+    width: 56px;
+    height: 40px;
+    font-size: 1rem;
+}
+
+.size-lg .button {
+    width: 48px;
+    height: 48px;
+}
+
+.size-lg .input {
+    width: 72px;
+    height: 48px;
+    font-size: 1.125rem;
+}
+
+/* ============================================
+   Button Styles
+   ============================================ */
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--color-text-secondary, #666);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.button:hover:not(:disabled) {
+    background: var(--color-background, #f5f5f5);
+    color: var(--color-primary, #dc2626);
+}
+
+.button:active:not(:disabled) {
+    background: var(--color-background-dark, #e0e0e0);
+    transform: scale(0.95);
+}
+
+.button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.button svg {
+    transition: transform 0.2s ease;
+}
+
+.button:hover:not(:disabled) svg {
+    transform: scale(1.1);
+}
+
+.decrementButton {
+    border-right: 1px solid var(--color-border, #e0e0e0);
+    border-radius: 8px 0 0 8px;
+}
+
+.incrementButton {
+    border-left: 1px solid var(--color-border, #e0e0e0);
+    border-radius: 0 8px 8px 0;
+}
+
+/* ============================================
+   Input Styles
+   ============================================ */
+
+.valueWrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-family: inherit;
+    font-weight: 600;
+    color: var(--color-text, #1a1a1a);
+    outline: none;
+    -moz-appearance: textfield;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input:focus {
+    background: rgba(220, 38, 38, 0.05);
+}
+
+.input:disabled {
+    cursor: not-allowed;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+.animateUp .input {
+    animation: slideUp 0.2s ease;
+}
+
+.animateDown .input {
+    animation: slideDown 0.2s ease;
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+    51% {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    51% {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   Stock Warning
+   ============================================ */
+
+.stockWarning {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: var(--color-warning, #f59e0b);
+    white-space: nowrap;
+    font-weight: 500;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+
+@media (max-width: 640px) {
+    .size-md .button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .size-md .input {
+        width: 48px;
+        height: 36px;
+    }
+}
+
+/* ============================================
+   Dark Mode Support
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    .container {
+        background: var(--color-surface-dark, #2d2d2d);
+        border-color: var(--color-border-dark, #404040);
+    }
+
+    .button:hover:not(:disabled) {
+        background: var(--color-background-dark, #3d3d3d);
+    }
+
+    .input {
+        color: var(--color-text-dark, #ffffff);
+    }
+
+    .input:focus {
+        background: rgba(220, 38, 38, 0.15);
+    }
+}
