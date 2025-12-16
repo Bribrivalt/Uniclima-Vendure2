@@ -16,8 +16,8 @@ export { ShippingMethodSelector } from './ShippingMethodSelector';
 export { PaymentMethodSelector } from './PaymentMethodSelector';
 export { OrderReview } from './OrderReview';
 
-// Componente de pago Stripe - Comentado temporalmente para desarrollo
-// export { StripePaymentForm } from './StripePaymentForm';
+// Componente de pago Stripe
+export { StripePaymentForm } from './StripePaymentForm';
 
 // Tipos existentes
 export type { CheckoutStepsProps, CheckoutStep } from './CheckoutSteps';
@@ -29,3 +29,6 @@ export type { AddressFormProps, Address } from './AddressForm';
 export type { ShippingMethodSelectorProps, ShippingMethod } from './ShippingMethodSelector';
 export type { PaymentMethodSelectorProps, PaymentMethod } from './PaymentMethodSelector';
 export type { OrderReviewProps, OrderReviewItem } from './OrderReview';
+
+// Tipos de Stripe
+export type { StripePaymentFormProps } from './StripePaymentForm';

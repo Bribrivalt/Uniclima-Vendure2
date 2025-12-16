@@ -1,116 +1,70 @@
 /**
- * StripePaymentForm - Estilos
- * 
- * @description Estilos para el formulario de pago con Stripe
+ * Estilos para StripePaymentForm
+ *
+ * Formulario de pago con Stripe Elements
  */
 
+/* ========================================
+   CONTENEDOR PRINCIPAL
+======================================== */
+
 .container {
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-6);
+    width: 100%;
+}
+
+.paymentForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* ========================================
+   ENCABEZADO
+======================================== */
+
+.header {
+    text-align: center;
+    margin-bottom: 0.5rem;
 }
 
 .title {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-    margin: 0 0 var(--spacing-2);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-primary, #1a1a2e);
+    margin: 0 0 0.5rem 0;
 }
 
-.amount {
-    font-size: var(--font-size-base);
-    color: var(--color-text-secondary);
-    margin: 0 0 var(--spacing-6);
-}
-
-.amount strong {
-    font-size: var(--font-size-xl);
-    color: var(--color-primary);
-    font-weight: var(--font-weight-bold);
-}
-
-/* Formulario */
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-4);
-}
-
-.paymentElement {
-    background: var(--color-background-secondary);
-    padding: var(--spacing-4);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-}
-
-/* Mensajes de error/éxito */
-.error,
-.success {
-    margin: var(--spacing-2) 0;
-}
-
-/* Info de seguridad */
-.securityInfo {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-2);
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-sm);
-    padding: var(--spacing-3);
-    background: var(--color-success-light, #e8f5e9);
-    border-radius: var(--radius-md);
-}
-
-.lockIcon {
-    width: 16px;
-    height: 16px;
-    color: var(--color-success);
-}
-
-/* Logos de tarjetas */
-.cardLogos {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--spacing-3);
-    padding-top: var(--spacing-4);
-    border-top: 1px solid var(--color-border-light);
-    margin-top: var(--spacing-2);
-}
-
-.cardLogos img {
-    height: 24px;
-    width: auto;
-    opacity: 0.7;
-    transition: opacity var(--transition-fast);
-}
-
-.cardLogos img:hover {
-    opacity: 1;
-}
-
-/* Estado de carga */
-.loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-8);
-    gap: var(--spacing-4);
-}
-
-.loading p {
-    color: var(--color-text-secondary);
-    font-size: var(--font-size-sm);
+.subtitle {
+    font-size: 1rem;
+    color: var(--color-text-secondary, #666);
     margin: 0;
+}
+
+.subtitle strong {
+    color: var(--color-primary, #0052CC);
+    font-size: 1.125rem;
+}
+
+/* ========================================
+   ESTADOS DE CARGA Y ERROR
+======================================== */
+
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    gap: 1rem;
+    background: var(--color-background-secondary, #f8f9fa);
+    border-radius: 8px;
 }
 
 .spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid var(--color-border);
-    border-top-color: var(--color-primary);
+    border: 3px solid var(--color-border, #e0e0e0);
+    border-top-color: var(--color-primary, #0052CC);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -121,64 +75,133 @@
     }
 }
 
-/* Métodos de pago alternativos */
-.alternativeMethods {
-    margin-top: var(--spacing-6);
-    padding-top: var(--spacing-4);
-    border-top: 1px solid var(--color-border);
+.loadingContainer p {
+    color: var(--color-text-secondary, #666);
+    font-size: 0.9375rem;
 }
 
-.alternativeMethodsTitle {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-    text-align: center;
-    margin-bottom: var(--spacing-3);
-}
-
-.methodButtons {
+.errorContainer {
     display: flex;
-    gap: var(--spacing-2);
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.methodButton {
-    flex: 1;
+.backButton {
+    align-self: flex-start;
+}
+
+/* ========================================
+   BADGE DE SEGURIDAD
+======================================== */
+
+.securityBadge {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-2);
-    padding: var(--spacing-3);
-    background: var(--color-background);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all var(--transition-fast);
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background: var(--color-success-light, #d4edda);
+    color: var(--color-success-dark, #155724);
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    font-weight: 500;
 }
 
-.methodButton:hover {
-    border-color: var(--color-primary);
-    background: var(--color-primary-light);
+.lockIcon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
 }
 
-.methodButton img {
+/* ========================================
+   STRIPE PAYMENT ELEMENT
+======================================== */
+
+.paymentElementWrapper {
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid var(--color-border, #e0e0e0);
+    border-radius: 8px;
+}
+
+/* ========================================
+   ERROR DE PAGO
+======================================== */
+
+.paymentError {
+    margin-top: -0.5rem;
+}
+
+/* ========================================
+   BOTONES
+======================================== */
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.payButton {
+    flex: 1;
+    max-width: 300px;
+    margin-left: auto;
+}
+
+/* ========================================
+   LOGOS DE TARJETAS
+======================================== */
+
+.cardLogos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border, #e0e0e0);
+}
+
+.logos {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.logos img {
     height: 20px;
     width: auto;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
 }
 
-/* Responsive */
-@media (max-width: 640px) {
-    .container {
-        padding: var(--spacing-4);
-    }
+.logos img:hover {
+    opacity: 1;
+}
 
-    .cardLogos {
-        gap: var(--spacing-2);
-    }
+/* ========================================
+   RESPONSIVE
+======================================== */
 
-    .cardLogos img {
-        height: 20px;
-    }
-
-    .methodButtons {
+@media (max-width: 600px) {
+    .actions {
         flex-direction: column;
+    }
+
+    .payButton {
+        width: 100%;
+        max-width: none;
+        margin-left: 0;
+    }
+
+    .paymentElementWrapper {
+        padding: 1rem;
+    }
+    
+    .header {
+        text-align: left;
+    }
+    
+    .securityBadge {
+        font-size: 0.75rem;
     }
 }

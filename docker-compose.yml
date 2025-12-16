@@ -83,5 +83,7 @@ services:
       - NEXT_PUBLIC_VENDURE_SHOP_API=http://localhost:3001/shop-api
       # URL interna para el servidor (SSR/rewrites) - usa el nombre del servicio Docker
       - VENDURE_INTERNAL_API=http://backend:3001
+      # Stripe - clave pública para pagos
+      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-pk_test_51SecYUBDg8deGHo12bLs55V7jj7ukBg7faIyk0pSS9r1JR80AMXJlYstepyzdrdZRdC0i9AKj7XdXduTfWDnTY5x00PsU9k5tR}
     depends_on:
       - backend

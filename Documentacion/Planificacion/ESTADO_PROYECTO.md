@@ -9,8 +9,8 @@
 | Área | Progreso | Estado |
 |------|----------|--------|
 | **Backend** | 75% | 🟢 Avanzado |
-| **Frontend** | 60% | 🟡 En progreso |
-| **Integración** | 40% | 🟡 En progreso |
+| **Frontend** | 60% | � En progreso |
+| **Integración** | 40% | � En progreso |
 | **Producción** | 10% | 🔴 Pendiente |
 
 ---

@@ -1,13 +1,28 @@
 /**
  * Configuración de Stripe
- * 
+ *
  * @description Configuración y utilidades para la integración con Stripe
  */
 
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 
 // Clave pública de Stripe (se configura en variables de entorno)
-const STRIPE_PUBLIC_KEY = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '';
+// En desarrollo, se usa un fallback para asegurar que funcione en Docker
+const getStripePublicKey = (): string => {
+    const envKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+    if (envKey) {
+        console.log('✅ Stripe key loaded from environment');
+        return envKey;
+    }
+    
+    // Fallback para desarrollo - SOLO PARA TESTING
+    // En producción, esto debe venir de las variables de entorno
+    const fallbackKey = 'pk_test_51SecYUBDg8deGHo12bLs55V7jj7ukBg7faIyk0pSS9r1JR80AMXJlYstepyzdrdZRdC0i9AKj7XdXduTfWDnTY5x00PsU9k5tR';
+    console.warn('⚠️ Using fallback Stripe key - ensure NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is set in production');
+    return fallbackKey;
+};
+
+const STRIPE_PUBLIC_KEY = getStripePublicKey();
 
 // Instancia singleton de Stripe
 let stripePromise: Promise<Stripe | null> | null = null;
@@ -19,9 +34,10 @@ let stripePromise: Promise<Stripe | null> | null = null;
 export const getStripe = (): Promise<Stripe | null> => {
     if (!stripePromise) {
         if (!STRIPE_PUBLIC_KEY) {
-            console.warn('Stripe public key not configured. Set NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY');
+            console.error('❌ Stripe public key not configured. Set NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY');
             return Promise.resolve(null);
         }
+        console.log('🔄 Loading Stripe with key:', STRIPE_PUBLIC_KEY.substring(0, 20) + '...');
         stripePromise = loadStripe(STRIPE_PUBLIC_KEY, {
             locale: 'es',
         });

@@ -1,6 +1,6 @@
 # 📋 TODO Backend - Uniclima Vendure
 
-**Desarrollador:** Backend  
+**Desarrollador:** Backend
 **Última actualización:** 16/12/2025
 
 > 🔗 = Punto de confluencia con Frontend (sincronizar antes de continuar)
@@ -43,28 +43,31 @@
 - [x] SMTP Google Workspace configurado en .env
 - [x] Script test-email-smtp.ts para pruebas
 
+### Fase 6: Stripe (COMPLETADO ✅)
+- [x] StripePlugin habilitado en [`vendure-config.ts`](../../backend/src/vendure-config.ts:178) 🔗
+- [x] Variables de entorno configuradas en .env
+- [x] Script seed-stripe-payment-method.ts creado
+- [x] Documentación STRIPE_SETUP.md creada
+- [x] Frontend Stripe Elements integrado 🔗
+- [x] StripePaymentForm componente creado 🔗
+- [x] Checkout integrado con Stripe 🔗
+
 ---
 
 ## 🔴 CRÍTICO - PENDIENTE PARA PRODUCCIÓN
 
-### 1. 💳 Integración Stripe (PRIORIDAD ALTA)
-El paquete `@vendure/payments-plugin` está instalado pero **NO está activado**.
-
-**Estado actual:**
-- ❌ `stripePaymentMethodHandler` está COMENTADO en [`vendure-config.ts`](../../backend/src/vendure-config.ts:16)
-- ✅ Frontend tiene mutations preparadas ([`stripe.ts`](../../frontend/lib/vendure/mutations/stripe.ts))
-- ✅ Frontend tiene config de Stripe Elements ([`config.ts`](../../frontend/lib/stripe/config.ts))
+### 1. 💳 Stripe - Tareas Finales (PRIORIDAD ALTA)
+El plugin de Stripe está **habilitado y configurado**. Solo falta:
 
 **Tareas pendientes:**
 | Tarea | Prioridad | Estado |
 |-------|-----------|--------|
-| Descomentar y configurar stripePaymentMethodHandler | Alta | ⏳ |
-| Configurar STRIPE_SECRET_KEY en .env | Alta | ⏳ |
-| Crear método de pago "Stripe" en Dashboard | Alta | ⏳ |
-| Configurar webhook endpoint | Alta | ⏳ |
-| Probar flujo de pago completo | Alta | ⏳ |
+| Ejecutar `seed-stripe-payment-method.ts` o crear método manualmente en Dashboard | Alta | ⏳ |
+| Configurar webhook en Stripe Dashboard (producción) | Alta | ⏳ |
+| Probar flujo de pago completo en desarrollo | Alta | ⏳ |
+| Configurar claves de producción (sk_live_...) | Alta | ⏳ (antes de producción) |
 
-### 2. 📧 Plantillas de Email (PRIORIDAD MEDIA)
+### 2. 📧 Plantillas de Email Personalizadas (PRIORIDAD MEDIA)
 **Estado actual:**
 - ❌ Directorio `static/email/templates/` está VACÍO
 - ✅ Email Plugin usa plantillas por defecto de Vendure
@@ -180,7 +183,8 @@ backend/
 ### Pendientes de Backend
 | Item | Estado | Frontend necesita | Cuándo |
 |------|--------|-------------------|--------|
-| Stripe habilitado | ⏳ | Procesar pagos reales | CRÍTICO |
+| Stripe habilitado | ✅ | Procesar pagos reales | COMPLETADO |
+| Método de pago Stripe en Dashboard | ⏳ | N/A | Antes de testing |
 | Más productos | ⏳ | Más datos para mostrar | Antes de producción |
 | Plantillas email | ⏳ | N/A (backend only) | Antes de producción |
 
@@ -189,15 +193,39 @@ backend/
 ## 🚀 PRÓXIMOS PASOS RECOMENDADOS
 
 ### Inmediato (Esta semana)
-1. **Habilitar Stripe** - Descomentar handler y configurar
-2. **Probar flujo de pago** - Crear pedido completo de prueba
+1. **Crear método de pago Stripe** - Ejecutar `npx tsx scripts/seed-stripe-payment-method.ts` o crear en Dashboard
+2. **Probar flujo de pago** - Crear pedido completo de prueba con tarjeta test
 3. **Verificar emails** - Ejecutar test-email-smtp.ts
+4. **Configurar webhook local** - `stripe listen --forward-to localhost:3001/payments/stripe`
 
 ### Antes de Producción
 1. Crear docker-compose.production.yml
 2. Configurar SSL/HTTPS
 3. Configurar backups de BD
 4. Crear plantillas de email personalizadas
+5. Configurar webhook en Stripe Dashboard (producción)
+6. Cambiar a claves de Stripe de producción
+
+---
+
+## 📝 NOTAS DE CONFIGURACIÓN STRIPE
+
+### Para Desarrollo
+```bash
+# Crear método de pago
+cd Uniclima-Vendure2/backend
+npx tsx scripts/seed-stripe-payment-method.ts
+
+# Escuchar webhooks (en otra terminal)
+stripe listen --forward-to localhost:3001/payments/stripe
+```
+
+### Tarjetas de Prueba
+- **Éxito:** 4242 4242 4242 4242
+- **Requiere 3D Secure:** 4000 0027 6000 3184
+- **Rechazada:** 4000 0000 0000 0002
+
+Ver más en: https://stripe.com/docs/testing
 
 ---
 

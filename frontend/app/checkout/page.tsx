@@ -25,7 +25,7 @@ import {
 } from '@/lib/vendure/mutations/order';
 import { useAuth } from '@/lib/auth-context';
 import { useToast } from '@/components/ui/Toast';
-import { CheckoutSteps, DEFAULT_CHECKOUT_STEPS, ShippingAddress } from '@/components/checkout';
+import { CheckoutSteps, DEFAULT_CHECKOUT_STEPS, ShippingAddress, StripePaymentForm } from '@/components/checkout';
 import { Button, Alert, Input, Dropdown } from '@/components/core';
 import styles from './page.module.css';
 
@@ -247,10 +247,33 @@ export default function CheckoutPage() {
 
     // Mutation para establecer método de envío
     const [setShippingMethod, { loading: settingShipping }] = useMutation(SET_ORDER_SHIPPING_METHOD, {
-        onCompleted: (data) => {
+        onCompleted: async (data) => {
             if (data.setOrderShippingMethod?.errorCode) {
                 setError(data.setOrderShippingMethod.message || 'Error al seleccionar método de envío');
             } else {
+                // Transicionar la orden a ArrangingPayment antes de ir al paso de pago
+                console.log('✅ Método de envío establecido, transicionando a ArrangingPayment...');
+                try {
+                    const result = await transitionOrder({
+                        variables: { state: 'ArrangingPayment' },
+                    });
+                    console.log('📋 Resultado transición:', result.data);
+                    
+                    if (result.data?.transitionOrderToState?.errorCode) {
+                        const errorMsg = result.data.transitionOrderToState.message || '';
+                        // Ignorar si ya está en ArrangingPayment
+                        if (!errorMsg.toLowerCase().includes('already')) {
+                            throw new Error(errorMsg);
+                        }
+                    }
+                } catch (transitionError: any) {
+                    console.error('⚠️ Error en transición:', transitionError);
+                    // Si la transición falla pero no es crítico, continuar
+                    if (!transitionError.message?.includes('ArrangingPayment')) {
+                        console.log('ℹ️ Continuando a pesar del error de transición');
+                    }
+                }
+                
                 refetchOrder();
                 setCurrentStep(2);
                 showToast('Método de envío seleccionado', 'success');
@@ -760,30 +783,16 @@ export default function CheckoutPage() {
                 </div>
             </div>
 
-            {/* Formulario de pago Stripe - Temporalmente deshabilitado */}
-            <div style={{ padding: '2rem', background: '#f5f5f5', borderRadius: '8px', textAlign: 'center' }}>
-                <p style={{ marginBottom: '1rem', color: '#666' }}>
-                    El pago con Stripe estará disponible próximamente.
-                </p>
-                <Button
-                    variant="primary"
-                    size="lg"
-                    onClick={() => handlePaymentSuccess(activeOrder?.code || '')}
-                >
-                    Simular pago (desarrollo)
-                </Button>
-            </div>
-
-            {/* Botón de volver */}
-            <div className={styles.backButton}>
-                <Button
-                    variant="ghost"
-                    onClick={() => setCurrentStep(1)}
-                    disabled={isLoading}
-                >
-                    ← Volver al método de envío
-                </Button>
-            </div>
+            {/* Formulario de pago con Stripe */}
+            {activeOrder && (
+                <StripePaymentForm
+                    orderCode={activeOrder.code}
+                    orderTotal={activeOrder.totalWithTax}
+                    onSuccess={handlePaymentSuccess}
+                    onError={handlePaymentError}
+                    onBack={() => setCurrentStep(1)}
+                />
+            )}
         </div>
     );
 

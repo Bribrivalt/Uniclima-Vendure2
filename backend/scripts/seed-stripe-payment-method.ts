@@ -20,7 +20,7 @@
 
 import 'dotenv/config';
 
-const API_URL = 'http://localhost:3000/admin-api';
+const API_URL = process.env.VENDURE_ADMIN_API || 'http://localhost:3001/admin-api';
 const SUPERADMIN_USERNAME = process.env.SUPERADMIN_USERNAME || 'superadmin';
 const SUPERADMIN_PASSWORD = process.env.SUPERADMIN_PASSWORD || 'superadmin';
 
