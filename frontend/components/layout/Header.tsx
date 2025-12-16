@@ -304,7 +304,7 @@ export default function Header() {
                                                             {categoria.subcategorias.map((sub) => (
                                                                 <Link
                                                                     key={sub}
-                                                                    href={`/productos?categoria=${categoria.id}&sub=${encodeURIComponent(sub.toLowerCase().replace(/ /g, '-'))}`}
+                                                                    href={`/productos?collection=${sub.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, '-')}`}
                                                                     className={styles.fullMenuSubSubItem}
                                                                     onClick={() => setIsCategoriesOpen(false)}
                                                                 >

@@ -49,6 +49,7 @@ export interface OrderLine {
             featuredAsset?: {
                 id: string;
                 preview: string;
+                source: string;
             };
         };
     };
@@ -121,7 +122,7 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
     }, []);
 
     // Obtener la imagen del producto padre (product.featuredAsset, no productVariant.featuredAsset)
-    const imageUrl = item.productVariant.product.featuredAsset?.preview || '/placeholder-product.png';
+    const imageUrl = item.productVariant.product.featuredAsset?.preview || item.productVariant.product.featuredAsset?.source || '/placeholder-product.png';
     // El precio unitario viene de unitPriceWithTax en la línea de pedido
     const unitPrice = (item.unitPriceWithTax / 100).toFixed(2);
     // Subtotal de la línea (cantidad * precio unitario)

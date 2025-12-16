@@ -33,6 +33,7 @@ export const GET_ACTIVE_ORDER = gql`
             featuredAsset {
               id
               preview
+              source
             }
           }
         }
