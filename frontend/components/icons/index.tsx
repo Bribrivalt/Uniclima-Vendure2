@@ -242,3 +242,43 @@ export const CheckIcon: React.FC<IconProps> = ({ size = 24, strokeWidth = 1.5, .
         <polyline points="20 6 9 17 4 12" />
     </svg>
 );
+
+export const CpuIcon: React.FC<IconProps> = ({ size = 24, strokeWidth = 1.5, ...props }) => (
+    <svg {...defaultProps} width={size} height={size} strokeWidth={strokeWidth} {...props}>
+        <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
+        <rect x="9" y="9" width="6" height="6" />
+        <line x1="9" y1="1" x2="9" y2="4" />
+        <line x1="15" y1="1" x2="15" y2="4" />
+        <line x1="9" y1="20" x2="9" y2="23" />
+        <line x1="15" y1="20" x2="15" y2="23" />
+        <line x1="20" y1="9" x2="23" y2="9" />
+        <line x1="20" y1="14" x2="23" y2="14" />
+        <line x1="1" y1="9" x2="4" y2="9" />
+        <line x1="1" y1="14" x2="4" y2="14" />
+    </svg>
+);
+
+export const WindIcon: React.FC<IconProps> = ({ size = 24, strokeWidth = 1.5, ...props }) => (
+    <svg {...defaultProps} width={size} height={size} strokeWidth={strokeWidth} {...props}>
+        <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2" />
+    </svg>
+);
+
+export const ActivityIcon: React.FC<IconProps> = ({ size = 24, strokeWidth = 1.5, ...props }) => (
+    <svg {...defaultProps} width={size} height={size} strokeWidth={strokeWidth} {...props}>
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+    </svg>
+);
+
+export const DropletIcon: React.FC<IconProps> = ({ size = 24, strokeWidth = 1.5, ...props }) => (
+    <svg {...defaultProps} width={size} height={size} strokeWidth={strokeWidth} {...props}>
+        <path d="M12 2.69l5.74 5.74a8 8 0 1 1-11.31 0z" />
+    </svg>
+);
+
+export const DiscIcon: React.FC<IconProps> = ({ size = 24, strokeWidth = 1.5, ...props }) => (
+    <svg {...defaultProps} width={size} height={size} strokeWidth={strokeWidth} {...props}>
+        <circle cx="12" cy="12" r="10" />
+        <circle cx="12" cy="12" r="3" />
+    </svg>
+);
