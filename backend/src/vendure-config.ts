@@ -5,15 +5,12 @@ import {
     DefaultSearchPlugin,
     VendureConfig,
     LanguageCode,
-    Injector,
-    RequestContext,
-    Order,
 } from '@vendure/core';
 import { defaultEmailHandlers, EmailPlugin, FileBasedTemplateLoader } from '@vendure/email-plugin';
 import { AssetServerPlugin } from '@vendure/asset-server-plugin';
 import { DashboardPlugin } from '@vendure/dashboard/plugin';
 import { GraphiqlPlugin } from '@vendure/graphiql-plugin';
-// import { stripePaymentMethodHandler } from '@vendure/payments-plugin/package/stripe';
+import { StripePlugin } from '@vendure/payments-plugin/package/stripe';
 import 'dotenv/config';
 import path from 'path';
 
@@ -155,6 +152,33 @@ export const config: VendureConfig = {
                     pass: process.env.SMTP_PASSWORD || '',
                 },
             },
+        }),
+        // ═══════════════════════════════════════════════════════════════════════
+        // STRIPE PLUGIN - Pagos con tarjeta
+        // ═══════════════════════════════════════════════════════════════════════
+        // El plugin de Stripe añade:
+        // - Mutation `createStripePaymentIntent` en Shop API
+        // - Webhook endpoint en `/payments/stripe` para recibir eventos de Stripe
+        //
+        // CONFIGURACIÓN:
+        // 1. Crear una cuenta en Stripe Dashboard (https://dashboard.stripe.com)
+        // 2. Obtener las claves API (publishable key y secret key)
+        // 3. Crear un webhook que apunte a: https://tu-dominio.com/payments/stripe
+        //    - Eventos: payment_intent.succeeded, payment_intent.payment_failed
+        // 4. En el Admin Dashboard de Vendure, crear un Payment Method:
+        //    - Handler: "Stripe payments"
+        //    - Configurar API Key (sk_test_... o sk_live_...)
+        //    - Configurar Webhook Secret (whsec_...)
+        //
+        // Para desarrollo local, usar Stripe CLI:
+        //   stripe listen --forward-to localhost:3000/payments/stripe
+        //
+        // Ver documentación: Documentacion/backend/STRIPE_SETUP.md
+        // ═══════════════════════════════════════════════════════════════════════
+        StripePlugin.init({
+            // Guarda el ID de cliente Stripe en el Customer de Vendure
+            // Esto permite reutilizar métodos de pago y previene uso indebido
+            storeCustomersInStripe: true,
         }),
         DashboardPlugin.init({
             route: 'dashboard',
