@@ -426,11 +426,6 @@ export default function Header() {
                             </Link>
                         )}
 
-                        {/* Búsqueda */}
-                        <Link href="/buscar" className={styles.iconButton} aria-label="Buscar">
-                            <SearchIcon />
-                        </Link>
-
                         {/* Carrito */}
                         <button
                             className={styles.cartButton}
