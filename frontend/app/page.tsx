@@ -361,84 +361,32 @@ export default function Home() {
             </section>
 
             {/* ========================================
-                CATEGORÍAS
+                CATEGORÍAS - Versión compacta
                ======================================== */}
-            <section className={styles.categoriesSection}>
+            <section className={styles.categoriesCompact}>
                 <div className={styles.container}>
-                    <div className={styles.sectionHeader}>
-                        <h2 className={styles.sectionTitle}>Nuestras Categorías</h2>
-                        <p className={styles.sectionSubtitle}>
-                            Encuentra el equipo perfecto para tu hogar o negocio
-                        </p>
-                    </div>
-
-                    {loadingCollections ? (
-                        <div className={styles.loadingGrid}>
-                            {[1, 2, 3, 4].map((i) => (
-                                <div key={i} className={styles.categorySkeleton} />
-                            ))}
-                        </div>
-                    ) : collections.length > 0 ? (
-                        <div className={styles.categoriesGrid}>
-                            {collections.map((collection) => (
-                                <Link
-                                    key={collection.id}
-                                    href={`/productos?collection=${collection.slug}`}
-                                    className={styles.categoryCard}
-                                >
-                                    <div className={styles.categoryImage}>
-                                        {collection.featuredAsset ? (
-                                            <img
-                                                src={collection.featuredAsset.preview}
-                                                alt={collection.name}
-                                            />
-                                        ) : (
-                                            <div className={styles.categoryPlaceholder}>
-                                                🌡️
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className={styles.categoryInfo}>
-                                        <h3 className={styles.categoryName}>{collection.name}</h3>
-                                        <span className={styles.categoryLink}>
-                                            Ver productos →
-                                        </span>
-                                    </div>
-                                </Link>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className={styles.categoriesGrid}>
-                            {[
-                                { name: 'Aires Acondicionados', slug: 'aires-acondicionados', icon: '❄️' },
-                                { name: 'Aerotermia', slug: 'aerotermia', icon: '🌡️' },
-                                { name: 'Calderas', slug: 'calderas', icon: '🔥' },
-                                { name: 'Repuestos', slug: 'repuestos', icon: '🔧' },
-                            ].map((cat) => (
-                                <Link
-                                    key={cat.slug}
-                                    href={`/productos?collection=${cat.slug}`}
-                                    className={styles.categoryCard}
-                                >
-                                    <div className={styles.categoryImage}>
-                                        <div className={styles.categoryPlaceholder}>
-                                            {cat.icon}
-                                        </div>
-                                    </div>
-                                    <div className={styles.categoryInfo}>
-                                        <h3 className={styles.categoryName}>{cat.name}</h3>
-                                        <span className={styles.categoryLink}>Ver productos →</span>
-                                    </div>
-                                </Link>
-                            ))}
-                        </div>
-                    )}
-
-                    <div className={styles.sectionFooter}>
-                        <Link href="/productos" className={styles.viewAllLink}>
-                            Ver todas las categorías
-                            <ArrowRightIcon />
+                    <div className={styles.categoriesCompactHeader}>
+                        <h2 className={styles.categoriesCompactTitle}>Explora nuestras categorías</h2>
+                        <Link href="/productos" className={styles.categoriesCompactLink}>
+                            Ver todo →
                         </Link>
+                    </div>
+                    <div className={styles.categoriesCompactGrid}>
+                        {[
+                            { name: 'Aires Acondicionados', slug: 'aires-acondicionados', icon: '❄️' },
+                            { name: 'Aerotermia', slug: 'aerotermia', icon: '🌡️' },
+                            { name: 'Calderas', slug: 'calderas', icon: '🔥' },
+                            { name: 'Repuestos', slug: 'repuestos', icon: '🔧' },
+                        ].map((cat) => (
+                            <Link
+                                key={cat.slug}
+                                href={`/productos?collection=${cat.slug}`}
+                                className={styles.categoryChip}
+                            >
+                                <span className={styles.categoryChipIcon}>{cat.icon}</span>
+                                <span className={styles.categoryChipName}>{cat.name}</span>
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </section>

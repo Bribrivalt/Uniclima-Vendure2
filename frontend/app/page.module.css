@@ -402,14 +402,78 @@
 }
 
 /* ========================================
-   SECCIÓN CATEGORÍAS
+   SECCIÓN CATEGORÍAS COMPACTA
    ======================================== */
 
-.categoriesSection {
-    padding: var(--spacing-20) 0;
-    background-color: var(--color-background);
+.categoriesCompact {
+    padding: var(--spacing-10) 0;
+    background-color: var(--color-gray-50);
+    border-top: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-light);
 }
 
+.categoriesCompactHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.categoriesCompactTitle {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.categoriesCompactLink {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.categoriesCompactLink:hover {
+    color: var(--color-primary-dark);
+}
+
+.categoriesCompactGrid {
+    display: flex;
+    gap: var(--spacing-3);
+    flex-wrap: wrap;
+}
+
+.categoryChip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-3) var(--spacing-5);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-full);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.categoryChip:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-alpha-10);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.categoryChipIcon {
+    font-size: var(--font-size-lg);
+}
+
+.categoryChipName {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+}
+
+/* Shared section styles */
 .sectionHeader {
     text-align: center;
     margin-bottom: var(--spacing-12);
@@ -427,101 +491,6 @@
     color: var(--color-text-secondary);
     max-width: 600px;
     margin: 0 auto;
-}
-
-.categoriesGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--spacing-6);
-}
-
-.categoryCard {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border-light);
-    border-radius: var(--border-radius-xl);
-    overflow: hidden;
-    text-decoration: none;
-    transition: all var(--transition-base);
-}
-
-.categoryCard:hover {
-    border-color: var(--color-primary);
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-card-hover);
-}
-
-.categoryImage {
-    aspect-ratio: 4/3;
-    overflow: hidden;
-    background-color: var(--color-gray-100);
-}
-
-.categoryImage img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform var(--transition-slow);
-}
-
-.categoryCard:hover .categoryImage img {
-    transform: scale(1.05);
-}
-
-.categoryPlaceholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-gray-100);
-    color: var(--color-text-tertiary);
-    font-size: 48px;
-}
-
-.categoryInfo {
-    padding: var(--spacing-5);
-}
-
-.categoryName {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-    margin-bottom: var(--spacing-2);
-}
-
-.categoryLink {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-1);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-primary);
-    transition: gap var(--transition-fast);
-}
-
-.categoryCard:hover .categoryLink {
-    gap: var(--spacing-2);
-}
-
-/* Loading skeleton */
-.loadingGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--spacing-6);
-}
-
-.categorySkeleton {
-    aspect-ratio: 4/5;
-    background: linear-gradient(90deg,
-            var(--color-gray-200) 25%,
-            var(--color-gray-100) 50%,
-            var(--color-gray-200) 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    border-radius: var(--border-radius-xl);
 }
 
 @keyframes shimmer {
