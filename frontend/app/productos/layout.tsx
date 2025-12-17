@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://uniclima.es';
 
@@ -41,5 +42,9 @@ export default function ProductosLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return <>{children}</>;
+    return (
+        <Suspense fallback={null}>
+            {children}
+        </Suspense>
+    );
 }

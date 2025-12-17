@@ -10,7 +10,8 @@
 
 :root {
   /* ========================================
-     COLORES - Paleta Corporativa
+     COLORES - Paleta Rojo Corporativo
+     Basado en uniclimasolutions.com
      ======================================== */
 
   /* Rojo Corporativo (Principal) */
@@ -18,15 +19,21 @@
   --color-primary-dark: #C62828;
   --color-primary-darker: #B71C1C;
   --color-primary-light: #EF5350;
-  --color-primary-lighter: #FF8A80;
+  --color-primary-lighter: #E57373;
   --color-primary-alpha-10: rgba(229, 57, 53, 0.1);
   --color-primary-alpha-20: rgba(229, 57, 53, 0.2);
   --color-primary-alpha-30: rgba(229, 57, 53, 0.3);
 
-  /* Negro / Oscuro (Secundario) */
+  /* Naranja (Acento) */
+  --color-accent: #FF5722;
+  --color-accent-dark: #E64A19;
+  --color-accent-light: #FF7043;
+  --color-accent-lighter: #FF8A65;
+
+  /* Negro (Secundario - profesionalismo) */
   --color-secondary: #1a1a1a;
   --color-secondary-light: #2d2d2d;
-  --color-secondary-lighter: #3d3d3d;
+  --color-secondary-lighter: #424242;
 
   /* Fondos - Modo claro y oscuro */
   --color-background: #ffffff;
@@ -101,11 +108,13 @@
   --color-info-bg: #e0f2fe;
   /* Fondo info */
 
-  /* Gradientes */
+  /* Gradientes - Rojo Corporativo */
   --gradient-primary: linear-gradient(135deg, #E53935 0%, #C62828 100%);
   --gradient-primary-hover: linear-gradient(135deg, #EF5350 0%, #E53935 100%);
   --gradient-dark: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%);
-  --gradient-hero: linear-gradient(135deg, #E53935 0%, #C62828 50%, #B71C1C 100%);
+  --gradient-hero: linear-gradient(135deg, #1a1a1a 0%, #E53935 100%);
+  --gradient-accent: linear-gradient(135deg, #FF5722 0%, #E64A19 100%);
+  --gradient-cool-warm: linear-gradient(90deg, #E53935 0%, #FF5722 100%);
 
   /* WhatsApp */
   --color-whatsapp: #25D366;

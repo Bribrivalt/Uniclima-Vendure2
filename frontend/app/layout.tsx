@@ -64,6 +64,7 @@ export default function RootLayout({
                 {/* DNS prefetch para el backend */}
                 <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_VENDURE_API_URL || 'http://localhost:3000'} />
                 {/* PWA: Apple-specific meta tags */}
+                <meta name="mobile-web-app-capable" content="yes" />
                 <meta name="apple-mobile-web-app-capable" content="yes" />
                 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
                 <meta name="apple-mobile-web-app-title" content="Uniclima" />
@@ -82,7 +83,7 @@ export default function RootLayout({
                     <main id="main-content" role="main">{children}</main>
                     <Footer />
                 </Providers>
-                
+
                 {/* Service Worker Registration */}
                 <Script
                     id="sw-register"
