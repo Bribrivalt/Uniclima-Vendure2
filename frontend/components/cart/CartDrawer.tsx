@@ -126,17 +126,7 @@ export function CartDrawer({
             >
                 {/* Header */}
                 <header className={styles.header}>
-                    <div className={styles.headerTitle}>
-                        <span className={styles.cartIconWrapper}>
-                            <CartIcon />
-                        </span>
-                        <h2 className={styles.title}>
-                            Carrito
-                            {itemCount > 0 && (
-                                <span className={styles.itemCount}>({itemCount})</span>
-                            )}
-                        </h2>
-                    </div>
+                    <h2 className={styles.title}>Carrito</h2>
                     <button
                         type="button"
                         className={styles.closeButton}
@@ -187,32 +177,29 @@ export function CartDrawer({
                 {/* Footer con totales y acciones */}
                 {items.length > 0 && (
                     <footer className={styles.footer}>
-                        {/* Resumen de precios estilo tabla */}
-                        <div className={styles.summary}>
-                            <div className={styles.summaryRowSimple}>
-                                <span>{items.reduce((acc, i) => acc + i.quantity, 0)} artículos</span>
-                                <span>{(total / 100).toFixed(2)} €</span>
-                            </div>
-                            <div className={styles.summaryRowSimple}>
-                                <span>Transporte</span>
-                                <span>0,00 €</span>
-                            </div>
-                            <hr className={styles.summaryDivider} />
-                            <div className={styles.summaryTotalRow}>
-                                <span className={styles.totalLabel}>Total (impuestos inc.)</span>
-                                <span className={styles.totalValue}>
-                                    {(total / 100).toFixed(2)} €
-                                </span>
-                            </div>
+                        {/* Subtotal centrado */}
+                        <div className={styles.subtotalRow}>
+                            <span>Subtotal:</span>
+                            <span className={styles.subtotalValue}>
+                                {(total / 100).toFixed(2).replace('.', ',')} €
+                            </span>
                         </div>
 
-                        {/* Botón de acción único */}
-                        <Link
-                            href="/checkout"
-                            className={styles.tramitarButton}
+                        {/* Botones de acción */}
+                        <button
+                            type="button"
+                            className={styles.continuarButton}
                             onClick={onClose}
                         >
-                            Tramitar Pedido
+                            Continuar comprando
+                        </button>
+
+                        <Link
+                            href="/checkout"
+                            className={styles.finalizarButton}
+                            onClick={onClose}
+                        >
+                            Finalizar compra
                         </Link>
                     </footer>
                 )}

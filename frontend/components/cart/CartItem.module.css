@@ -1,16 +1,24 @@
 /* ========================================
    Cart Item - Uniclima Solutions
-   Item individual del carrito - Diseño Compacto
+   Item individual del carrito - Diseño compacto
    ======================================== */
 
 .cartItem {
     display: flex;
-    gap: var(--spacing-3);
-    padding: var(--spacing-4) 0;
-    border-bottom: 1px solid var(--color-border-light);
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e5e7eb;
     position: relative;
     background: white;
     align-items: flex-start;
+}
+
+.cartItem:first-child {
+    border-top: 1px solid #e5e7eb;
+}
+
+.cartItem:last-child {
+    border-bottom: none;
 }
 
 .cartItem.loading {
@@ -23,17 +31,33 @@
    ======================================== */
 
 .imageWrapper {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     position: relative;
     flex-shrink: 0;
-    border-radius: var(--border-radius-md);
-    overflow: hidden;
     background: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .image {
     object-fit: contain;
+}
+
+/* Placeholder para imagen no disponible */
+.imagePlaceholder {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    color: #9ca3af;
+    font-size: 10px;
+    text-align: center;
+    line-height: 1.2;
 }
 
 /* ========================================
@@ -44,7 +68,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-2);
+    gap: 8px;
     min-width: 0;
 }
 
@@ -54,35 +78,35 @@
 }
 
 .nameLink:hover .name {
-    color: var(--color-primary);
+    color: #dc392d;
 }
 
 .name {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     color: #111827;
     margin: 0;
-    line-height: 1.35;
+    line-height: 1.4;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     transition: color 0.2s;
 }
 
 /* ========================================
-   QUANTITY ROW - Input con flechas
+   QUANTITY ROW - Con botones + y -
    ======================================== */
 
 .quantityRow {
     display: flex;
     align-items: center;
-    gap: var(--spacing-3);
-    margin-top: var(--spacing-1);
+    gap: 10px;
+    margin-top: 4px;
 }
 
-/* Input de cantidad con flechas arriba/abajo */
-.quantityInputWrapper {
+/* Selector de cantidad con - número + */
+.quantitySelector {
     display: flex;
     align-items: center;
     border: 1px solid #d1d5db;
@@ -91,55 +115,40 @@
     background: white;
 }
 
-.quantityInput {
-    width: 48px;
+.quantityBtn {
+    width: 32px;
     height: 32px;
-    border: none;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 500;
-    color: #111;
-    background: white;
-    outline: none;
-}
-
-.quantityArrows {
-    display: flex;
-    flex-direction: column;
-    border-left: 1px solid #d1d5db;
-}
-
-.arrowBtn {
-    width: 20px;
-    height: 16px;
     border: none;
     background: #f9fafb;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #6b7280;
+    color: #374151;
     transition: all 0.15s;
     padding: 0;
 }
 
-.arrowBtn:first-child {
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.arrowBtn:hover:not(:disabled) {
+.quantityBtn:hover:not(:disabled) {
     background: #e5e7eb;
     color: #111;
 }
 
-.arrowBtn:disabled {
+.quantityBtn:disabled {
     opacity: 0.3;
     cursor: not-allowed;
 }
 
-.arrowBtn svg {
-    width: 8px;
-    height: 5px;
+.quantityValue {
+    width: 36px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: #111;
+    background: white;
+    border-left: 1px solid #d1d5db;
+    border-right: 1px solid #d1d5db;
+    padding: 6px 0;
 }
 
 /* Precio multiplicador "x 7,72 €" */
@@ -150,24 +159,29 @@
     white-space: nowrap;
 }
 
-/* Botón eliminar (papelera) */
+/* Botón eliminar (papelera) - Más destacado */
 .trashBtn {
     margin-left: auto;
     background: none;
     border: none;
     cursor: pointer;
-    color: #9ca3af;
+    color: #6b7280;
     padding: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
     transition: all 0.2s;
+    border-radius: 4px;
 }
 
 .trashBtn:hover {
-    color: #374151;
-    background: #f3f4f6;
+    color: #dc2626;
+    background: #fef2f2;
+}
+
+.trashBtn svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* ========================================

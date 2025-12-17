@@ -122,32 +122,33 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
     }, []);
 
     // Obtener la imagen del producto padre (product.featuredAsset, no productVariant.featuredAsset)
-    const imageUrl = item.productVariant.product.featuredAsset?.preview || item.productVariant.product.featuredAsset?.source || '/placeholder-product.png';
+    const imageUrl = item.productVariant.product.featuredAsset?.preview || item.productVariant.product.featuredAsset?.source;
+    const hasImage = !!imageUrl;
     // El precio unitario viene de unitPriceWithTax en la línea de pedido
-    const unitPrice = (item.unitPriceWithTax / 100).toFixed(2);
+    const unitPrice = (item.unitPriceWithTax / 100).toFixed(2).replace('.', ',');
     // Subtotal de la línea (cantidad * precio unitario)
     const subtotal = (item.linePriceWithTax / 100).toFixed(2);
     // Slug del producto para el enlace
     const productSlug = item.productVariant.product.slug;
 
-    // Clases con animaciones
-    const quantityClasses = [
-        styles.quantity,
-        quantityAnimation === 'up' && styles.quantityUp,
-        quantityAnimation === 'down' && styles.quantityDown,
-    ].filter(Boolean).join(' ');
-
     return (
         <div className={`${styles.cartItem} ${loading || isRemoving ? styles.loading : ''} ${isRemoving ? styles.removing : ''}`}>
-            {/* Imagen Izquierda - Pequeña */}
+            {/* Imagen Izquierda */}
             <Link href={`/productos/${productSlug}`} className={styles.imageWrapper}>
-                <Image
-                    src={imageUrl}
-                    alt={item.productVariant.name}
-                    fill
-                    className={styles.image}
-                    sizes="60px"
-                />
+                {hasImage ? (
+                    <Image
+                        src={imageUrl}
+                        alt={item.productVariant.name}
+                        fill
+                        className={styles.image}
+                        sizes="70px"
+                    />
+                ) : (
+                    <div className={styles.imagePlaceholder}>
+                        <span>Imagen no</span>
+                        <span>disponible</span>
+                    </div>
+                )}
             </Link>
 
             {/* Contenido Central */}
@@ -157,38 +158,26 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
                     <h3 className={styles.name}>{item.productVariant.product.name}</h3>
                 </Link>
 
-                {/* Selector de cantidad con estilo input + flechas */}
+                {/* Selector de cantidad con - y + */}
                 <div className={styles.quantityRow}>
-                    <div className={styles.quantityInputWrapper}>
-                        <input
-                            type="text"
-                            value={item.quantity}
-                            readOnly
-                            className={styles.quantityInput}
-                            aria-label="Cantidad"
-                        />
-                        <div className={styles.quantityArrows}>
-                            <button
-                                onClick={handleIncrease}
-                                disabled={loading}
-                                className={styles.arrowBtn}
-                                aria-label="Aumentar cantidad"
-                            >
-                                <svg width="10" height="6" viewBox="0 0 10 6" fill="currentColor">
-                                    <path d="M5 0L10 6H0L5 0Z" />
-                                </svg>
-                            </button>
-                            <button
-                                onClick={handleDecrease}
-                                disabled={loading}
-                                className={styles.arrowBtn}
-                                aria-label="Disminuir cantidad"
-                            >
-                                <svg width="10" height="6" viewBox="0 0 10 6" fill="currentColor">
-                                    <path d="M5 6L0 0H10L5 6Z" />
-                                </svg>
-                            </button>
-                        </div>
+                    <div className={styles.quantitySelector}>
+                        <button
+                            onClick={handleDecrease}
+                            disabled={loading}
+                            className={styles.quantityBtn}
+                            aria-label="Disminuir cantidad"
+                        >
+                            <MinusIcon size={14} />
+                        </button>
+                        <span className={styles.quantityValue}>{item.quantity}</span>
+                        <button
+                            onClick={handleIncrease}
+                            disabled={loading}
+                            className={styles.quantityBtn}
+                            aria-label="Aumentar cantidad"
+                        >
+                            <PlusIcon size={14} />
+                        </button>
                     </div>
 
                     <span className={styles.priceMultiplier}>x {unitPrice} €</span>
@@ -200,7 +189,7 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
                         className={styles.trashBtn}
                         aria-label="Eliminar producto"
                     >
-                        <TrashIcon size={18} />
+                        <TrashIcon size={20} />
                     </button>
                 </div>
             </div>

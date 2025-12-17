@@ -15,7 +15,7 @@
  */
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -23,7 +23,7 @@ import { useMutation } from '@apollo/client';
 import { Product } from '@/lib/types/product';
 import { ADD_ITEM_TO_ORDER } from '@/lib/vendure/mutations/cart';
 import { GET_ACTIVE_ORDER } from '@/lib/vendure/queries/cart';
-import { CartIcon, HeartIcon, EyeIcon, CheckIcon, BadgeIcon, StockIcon } from '@/components/icons';
+import { CartIcon, CheckIcon, BadgeIcon, StockIcon } from '@/components/icons';
 import styles from './ProductCard.module.css';
 
 export interface ProductCardProps {
@@ -50,14 +50,51 @@ export function ProductCard({ product, showSpecs = true, condition, discount, or
 
     // Generar un placeholder SVG en base64 en lugar de usar una imagen externa
     const placeholderSvg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect fill='%23f3f4f6' width='400' height='400'/%3E%3Ctext fill='%239ca3af' font-family='system-ui' font-size='14' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle'%3EImagen no disponible%3C/text%3E%3C/svg%3E`;
-    const imageUrl = product.featuredAsset?.preview || product.featuredAsset?.source || placeholderSvg;
+
+    // Construir array de imágenes del producto
+    const featuredImageUrl = product.featuredAsset?.preview || product.featuredAsset?.source;
+    const additionalImages = (product.assets || [])
+        .map(asset => asset.preview || asset.source)
+        .filter((url): url is string => !!url && url !== featuredImageUrl);
+
+    // Combinar: primero la imagen principal, luego las adicionales
+    const allImages = featuredImageUrl
+        ? [featuredImageUrl, ...additionalImages]
+        : additionalImages;
+
+    // Si no hay imágenes, usar placeholder
+    const images = allImages.length > 0 ? allImages : [placeholderSvg];
+
     const customFields = product.customFields;
 
     // Estado para feedback visual
     const [isAdding, setIsAdding] = useState(false);
     const [addedSuccess, setAddedSuccess] = useState(false);
-    const [isFavorite, setIsFavorite] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [isHovering, setIsHovering] = useState(false);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Efecto para ciclar imágenes al hacer hover
+    useEffect(() => {
+        if (isHovering && images.length > 1) {
+            intervalRef.current = setInterval(() => {
+                setCurrentImageIndex((prev) => (prev + 1) % images.length);
+            }, 1000); // Cambiar imagen cada 1 segundo
+        } else {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
+            setCurrentImageIndex(0); // Volver a la primera imagen al quitar hover
+        }
+
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
+    }, [isHovering, images.length]);
 
     // Mutation para añadir al carrito
     const [addItemToOrder, { loading: addingToCart }] = useMutation(ADD_ITEM_TO_ORDER, {
@@ -108,25 +145,6 @@ export function ProductCard({ product, showSpecs = true, condition, discount, or
     }, [addItemToOrder, defaultVariant?.id]);
 
     /**
-     * Maneja el click en el botón de favoritos
-     */
-    const handleToggleFavorite = useCallback((e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setIsFavorite(prev => !prev);
-        // TODO: Implementar persistencia de favoritos
-    }, []);
-
-    /**
-     * Maneja el click en el botón de vista rápida
-     */
-    const handleQuickView = useCallback((e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        router.push(`/productos/${product.slug}`);
-    }, [router, product.slug]);
-
-    /**
      * Calcula el precio original si hay descuento
      */
     const calculatedOriginalPrice = originalPrice
@@ -146,7 +164,13 @@ export function ProductCard({ product, showSpecs = true, condition, discount, or
     const isLowStock = defaultVariant?.stockLevel === 'LOW_STOCK';
 
     return (
-        <article className={styles.card} itemScope itemType="https://schema.org/Product">
+        <article
+            className={styles.card}
+            itemScope
+            itemType="https://schema.org/Product"
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+        >
             <Link href={`/productos/${product.slug}`} className={styles.imageLink} prefetch={false}>
                 <div className={styles.imageWrapper}>
                     {/* Skeleton loader mientras carga la imagen */}
@@ -157,7 +181,7 @@ export function ProductCard({ product, showSpecs = true, condition, discount, or
                     )}
 
                     <Image
-                        src={imageUrl}
+                        src={images[currentImageIndex]}
                         alt={`${product.name} - Producto de climatización HVAC`}
                         fill
                         className={`${styles.image} ${imageLoaded ? styles.imageLoaded : ''}`}
@@ -167,23 +191,18 @@ export function ProductCard({ product, showSpecs = true, condition, discount, or
                         quality={80}
                     />
 
-                    {/* Overlay con acciones rápidas */}
-                    <div className={styles.imageOverlay}>
-                        <button
-                            className={`${styles.quickAction} ${styles.favoriteButton} ${isFavorite ? styles.isFavorite : ''}`}
-                            onClick={handleToggleFavorite}
-                            aria-label={isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}
-                        >
-                            <HeartIcon size={20} filled={isFavorite} />
-                        </button>
-                        <button
-                            className={`${styles.quickAction} ${styles.quickViewButton}`}
-                            onClick={handleQuickView}
-                            aria-label="Ver detalles del producto"
-                        >
-                            <EyeIcon size={20} />
-                        </button>
-                    </div>
+                    {/* Indicadores de imagen (dots) */}
+                    {images.length > 1 && (
+                        <div className={styles.imageIndicators}>
+                            {images.map((_, index) => (
+                                <span
+                                    key={index}
+                                    className={`${styles.indicator} ${index === currentImageIndex ? styles.indicatorActive : ''}`}
+                                />
+                            ))}
+                        </div>
+                    )}
+
 
                     {/* Badges Wrapper */}
                     <div className={styles.badgesWrapper}>
