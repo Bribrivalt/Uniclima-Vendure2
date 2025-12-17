@@ -255,6 +255,112 @@ export default function Home() {
             </section>
 
             {/* ========================================
+                TESTIMONIOS - Reseñas de Clientes
+               ======================================== */}
+            <section className={styles.testimonialsSection}>
+                <div className={styles.container}>
+                    <div className={styles.sectionHeader}>
+                        <h2 className={styles.sectionTitle}>Lo que dicen nuestros clientes</h2>
+                        <p className={styles.sectionSubtitle}>
+                            La satisfacción de nuestros clientes es nuestra mejor carta de presentación
+                        </p>
+                    </div>
+
+                    <div className={styles.testimonialsGrid}>
+                        <div className={styles.testimonialCard}>
+                            <div className={styles.testimonialStars}>
+                                {'★★★★★'}
+                            </div>
+                            <blockquote className={styles.testimonialText}>
+                                "Excelente servicio. Instalaron mi caldera en tiempo récord y el equipo fue muy profesional.
+                                El precio fue muy competitivo y la calidad del trabajo impecable."
+                            </blockquote>
+                            <div className={styles.testimonialAuthor}>
+                                <div className={styles.testimonialAvatar}>MG</div>
+                                <div className={styles.testimonialInfo}>
+                                    <span className={styles.testimonialName}>María García</span>
+                                    <span className={styles.testimonialLocation}>Madrid Centro</span>
+                                </div>
+                            </div>
+                            <span className={styles.testimonialService}>Instalación de Caldera</span>
+                        </div>
+
+                        <div className={styles.testimonialCard}>
+                            <div className={styles.testimonialStars}>
+                                {'★★★★★'}
+                            </div>
+                            <blockquote className={styles.testimonialText}>
+                                "Llevaba semanas con problemas de aire acondicionado y vinieron el mismo día.
+                                Solucionaron el problema rápidamente y a un precio muy razonable. Muy recomendables."
+                            </blockquote>
+                            <div className={styles.testimonialAuthor}>
+                                <div className={styles.testimonialAvatar}>JL</div>
+                                <div className={styles.testimonialInfo}>
+                                    <span className={styles.testimonialName}>José López</span>
+                                    <span className={styles.testimonialLocation}>Alcobendas</span>
+                                </div>
+                            </div>
+                            <span className={styles.testimonialService}>Reparación de Aire Acondicionado</span>
+                        </div>
+
+                        <div className={styles.testimonialCard}>
+                            <div className={styles.testimonialStars}>
+                                {'★★★★★'}
+                            </div>
+                            <blockquote className={styles.testimonialText}>
+                                "Contraté el mantenimiento anual y estoy encantada. Son puntuales, profesionales
+                                y siempre dejan todo limpio. El mejor servicio de climatización de Madrid."
+                            </blockquote>
+                            <div className={styles.testimonialAuthor}>
+                                <div className={styles.testimonialAvatar}>AR</div>
+                                <div className={styles.testimonialInfo}>
+                                    <span className={styles.testimonialName}>Ana Rodríguez</span>
+                                    <span className={styles.testimonialLocation}>Las Rozas</span>
+                                </div>
+                            </div>
+                            <span className={styles.testimonialService}>Mantenimiento Preventivo</span>
+                        </div>
+
+                        <div className={styles.testimonialCard}>
+                            <div className={styles.testimonialStars}>
+                                {'★★★★☆'}
+                            </div>
+                            <blockquote className={styles.testimonialText}>
+                                "Instalaron aerotermia en mi chalet y el ahorro en la factura es increíble.
+                                El equipo explicó todo el proceso y resolvió todas mis dudas. Gran inversión."
+                            </blockquote>
+                            <div className={styles.testimonialAuthor}>
+                                <div className={styles.testimonialAvatar}>CP</div>
+                                <div className={styles.testimonialInfo}>
+                                    <span className={styles.testimonialName}>Carlos Pérez</span>
+                                    <span className={styles.testimonialLocation}>Pozuelo de Alarcón</span>
+                                </div>
+                            </div>
+                            <span className={styles.testimonialService}>Instalación de Aerotermia</span>
+                        </div>
+                    </div>
+
+                    <div className={styles.testimonialsSummary}>
+                        <div className={styles.summaryItem}>
+                            <span className={styles.summaryNumber}>4.9</span>
+                            <span className={styles.summaryLabel}>Valoración media</span>
+                            <div className={styles.summaryStars}>★★★★★</div>
+                        </div>
+                        <div className={styles.summaryDivider} />
+                        <div className={styles.summaryItem}>
+                            <span className={styles.summaryNumber}>+500</span>
+                            <span className={styles.summaryLabel}>Clientes satisfechos</span>
+                        </div>
+                        <div className={styles.summaryDivider} />
+                        <div className={styles.summaryItem}>
+                            <span className={styles.summaryNumber}>15+</span>
+                            <span className={styles.summaryLabel}>Años de experiencia</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ========================================
                 CATEGORÍAS
                ======================================== */}
             <section className={styles.categoriesSection}>

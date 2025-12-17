@@ -264,6 +264,144 @@
 }
 
 /* ========================================
+   TESTIMONIOS - Reseñas de Clientes
+   ======================================== */
+
+.testimonialsSection {
+    padding: var(--spacing-20) 0;
+    background-color: var(--color-background);
+}
+
+.testimonialsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-12);
+}
+
+.testimonialCard {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--border-radius-xl);
+    padding: var(--spacing-6);
+    display: flex;
+    flex-direction: column;
+    transition: all var(--transition-base);
+}
+
+.testimonialCard:hover {
+    border-color: var(--color-primary-alpha-30);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-4px);
+}
+
+.testimonialStars {
+    color: #fbbf24;
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-4);
+    letter-spacing: 2px;
+}
+
+.testimonialText {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+    font-style: italic;
+    margin: 0 0 var(--spacing-6) 0;
+    flex-grow: 1;
+}
+
+.testimonialAuthor {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-3);
+}
+
+.testimonialAvatar {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--border-radius-full);
+    background: var(--gradient-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+}
+
+.testimonialInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonialName {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
+}
+
+.testimonialLocation {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+}
+
+.testimonialService {
+    display: inline-block;
+    background-color: var(--color-primary-alpha-10);
+    color: var(--color-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    padding: var(--spacing-1) var(--spacing-3);
+    border-radius: var(--border-radius-full);
+    align-self: flex-start;
+}
+
+/* Resumen de testimonios */
+.testimonialsSummary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-12);
+    padding: var(--spacing-8);
+    background-color: var(--color-gray-50);
+    border-radius: var(--border-radius-xl);
+}
+
+.summaryItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.summaryNumber {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    line-height: 1;
+}
+
+.summaryLabel {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--spacing-1);
+}
+
+.summaryStars {
+    color: #fbbf24;
+    font-size: var(--font-size-base);
+    margin-top: var(--spacing-1);
+}
+
+.summaryDivider {
+    width: 1px;
+    height: 60px;
+    background-color: var(--color-border);
+}
+
+/* ========================================
    SECCIÓN CATEGORÍAS
    ======================================== */
 
@@ -702,6 +840,10 @@
         grid-template-columns: repeat(3, 1fr);
     }
 
+    .testimonialsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .loadingGrid {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -722,8 +864,21 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .testimonialsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .loadingGrid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .testimonialsSummary {
+        gap: var(--spacing-8);
+        padding: var(--spacing-6);
+    }
+
+    .summaryNumber {
+        font-size: 2rem;
     }
 }
 
@@ -756,6 +911,7 @@
     .categoriesSection,
     .productsSection,
     .servicesSection,
+    .testimonialsSection,
     .ctaSection {
         padding: var(--spacing-12) 0;
     }
@@ -768,6 +924,20 @@
     .categoriesGrid,
     .productsGrid {
         grid-template-columns: 1fr;
+    }
+
+    .testimonialsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonialsSummary {
+        flex-direction: column;
+        gap: var(--spacing-6);
+    }
+
+    .summaryDivider {
+        width: 80px;
+        height: 1px;
     }
 
     .loadingGrid {
