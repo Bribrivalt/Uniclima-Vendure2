@@ -71,14 +71,15 @@
 }
 
 /* ============================================
-   GRID - Contenedor de productos
+   GRID - Contenedor de productos (Diseño Asimétrico)
    ============================================ */
 .grid {
     display: grid;
     gap: var(--spacing-4);
+    align-items: start;
 }
 
-/* Columnas en modo grid */
+/* Columnas en modo grid - Diseño uniforme */
 .grid.cols2 {
     grid-template-columns: repeat(2, 1fr);
 }
@@ -97,28 +98,59 @@
 }
 
 /* ============================================
-   GRID ITEM - Cada item del grid
+   GRID ITEM - Cada item del grid (Efecto Asimétrico)
    ============================================ */
 .gridItem {
     animation: fadeInUp 0.3s ease-out forwards;
     opacity: 0;
 }
 
+/* Efecto asimétrico: alternar altura en tarjetas para crear dinamismo */
+.grid.grid .gridItem:nth-child(4n+1) {
+    /* Primera de cada grupo de 4 */
+    transform: translateY(0);
+}
+
+.grid.grid .gridItem:nth-child(4n+2) {
+    /* Segunda de cada grupo de 4 - más abajo */
+    transform: translateY(15px);
+}
+
+.grid.grid .gridItem:nth-child(4n+3) {
+    /* Tercera de cada grupo de 4 - un poco arriba */
+    transform: translateY(-5px);
+}
+
+.grid.grid .gridItem:nth-child(4n+4) {
+    /* Cuarta de cada grupo de 4 */
+    transform: translateY(10px);
+}
+
+/* Añadir más dinamismo visual a las tarjetas pares/impares */
+.grid.grid .gridItem:nth-child(odd) {
+    --card-rotate: -0.5deg;
+}
+
+.grid.grid .gridItem:nth-child(even) {
+    --card-rotate: 0.5deg;
+}
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(20px) rotate(var(--card-rotate, 0deg));
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(var(--offset-y, 0)) rotate(0deg);
     }
 }
 
-/* Item en modo lista */
+/* Item en modo lista - sin asimetría */
 .listItem {
-    /* Los productos se muestran en horizontal en modo lista */
+    transform: translateY(0) !important;
+    --card-rotate: 0deg;
 }
 
 /* ============================================
@@ -225,6 +257,19 @@
     .grid.cols3 {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    /* Reducir efecto asimétrico en tablets */
+    .grid.grid .gridItem:nth-child(4n+2) {
+        transform: translateY(10px);
+    }
+
+    .grid.grid .gridItem:nth-child(4n+3) {
+        transform: translateY(0);
+    }
+
+    .grid.grid .gridItem:nth-child(4n+4) {
+        transform: translateY(5px);
+    }
 }
 
 @media (max-width: 640px) {
@@ -233,7 +278,16 @@
     .grid.cols3,
     .grid.cols2 {
         grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-2);
+        gap: var(--spacing-3);
+    }
+
+    /* Efecto asimétrico más sutil en móvil */
+    .grid.grid .gridItem:nth-child(odd) {
+        transform: translateY(0);
+    }
+
+    .grid.grid .gridItem:nth-child(even) {
+        transform: translateY(8px);
     }
 
     .viewToggle {
@@ -257,6 +311,11 @@
     .grid.cols3,
     .grid.cols2 {
         grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-1);
+        gap: var(--spacing-2);
+    }
+
+    /* Menor asimetría en pantallas pequeñas */
+    .grid.grid .gridItem:nth-child(even) {
+        transform: translateY(5px);
     }
 }

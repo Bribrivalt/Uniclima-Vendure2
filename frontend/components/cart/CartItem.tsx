@@ -139,59 +139,68 @@ export function CartItem({ item, onUpdateQuantity, onRemove, loading = false }: 
 
     return (
         <div className={`${styles.cartItem} ${loading || isRemoving ? styles.loading : ''} ${isRemoving ? styles.removing : ''}`}>
-            {/* Imagen Izquierda */}
+            {/* Imagen Izquierda - Pequeña */}
             <Link href={`/productos/${productSlug}`} className={styles.imageWrapper}>
                 <Image
                     src={imageUrl}
                     alt={item.productVariant.name}
                     fill
                     className={styles.image}
-                    sizes="100px"
+                    sizes="60px"
                 />
             </Link>
 
-            {/* Columna Derecha */}
+            {/* Contenido Central */}
             <div className={styles.contentColumn}>
-                <div className={styles.titleRow}>
-                    <Link href={`/productos/${productSlug}`} className={styles.nameLink}>
-                        <h3 className={styles.name}>{item.productVariant.product.name}</h3>
-                    </Link>
-                    {item.productVariant.name !== item.productVariant.product.name && (
-                        <p className={styles.variant}>{item.productVariant.name}</p>
-                    )}
-                </div>
+                {/* Nombre del producto */}
+                <Link href={`/productos/${productSlug}`} className={styles.nameLink}>
+                    <h3 className={styles.name}>{item.productVariant.product.name}</h3>
+                </Link>
 
-                {/* Fila Inferior: Cantidad x Precio + Eliminar */}
-                <div className={styles.bottomRow}>
-                    <div className={styles.quantitySelector}>
-                        <button
-                            onClick={handleDecrease}
-                            disabled={loading}
-                            className={styles.quantityBtn}
-                            aria-label="Disminuir"
-                        >
-                            -
-                        </button>
-                        <span className={styles.quantityValue}>{item.quantity}</span>
-                        <button
-                            onClick={handleIncrease}
-                            disabled={loading}
-                            className={styles.quantityBtn}
-                            aria-label="Aumentar"
-                        >
-                            +
-                        </button>
+                {/* Selector de cantidad con estilo input + flechas */}
+                <div className={styles.quantityRow}>
+                    <div className={styles.quantityInputWrapper}>
+                        <input
+                            type="text"
+                            value={item.quantity}
+                            readOnly
+                            className={styles.quantityInput}
+                            aria-label="Cantidad"
+                        />
+                        <div className={styles.quantityArrows}>
+                            <button
+                                onClick={handleIncrease}
+                                disabled={loading}
+                                className={styles.arrowBtn}
+                                aria-label="Aumentar cantidad"
+                            >
+                                <svg width="10" height="6" viewBox="0 0 10 6" fill="currentColor">
+                                    <path d="M5 0L10 6H0L5 0Z" />
+                                </svg>
+                            </button>
+                            <button
+                                onClick={handleDecrease}
+                                disabled={loading}
+                                className={styles.arrowBtn}
+                                aria-label="Disminuir cantidad"
+                            >
+                                <svg width="10" height="6" viewBox="0 0 10 6" fill="currentColor">
+                                    <path d="M5 6L0 0H10L5 6Z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
-                    <span className={styles.priceX}>x {unitPrice} €</span>
+                    <span className={styles.priceMultiplier}>x {unitPrice} €</span>
 
+                    {/* Botón eliminar */}
                     <button
                         onClick={() => setShowRemoveConfirm(true)}
                         disabled={loading || isRemoving}
                         className={styles.trashBtn}
                         aria-label="Eliminar producto"
                     >
-                        <TrashIcon size={16} />
+                        <TrashIcon size={18} />
                     </button>
                 </div>
             </div>

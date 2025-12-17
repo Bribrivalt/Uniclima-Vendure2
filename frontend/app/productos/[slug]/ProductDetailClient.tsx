@@ -7,10 +7,11 @@
  * - Añadir al carrito
  * - Galería de imágenes
  * - Tracking de productos vistos
+ * - Barra sticky de añadir al carrito
  */
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -76,6 +77,10 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
     const [quantity, setQuantity] = useState(1);
     const [addedToCart, setAddedToCart] = useState(false);
+    const [showStickyBar, setShowStickyBar] = useState(false);
+
+    // Ref para detectar cuando el botón de añadir sale de la vista
+    const addToCartRef = useRef<HTMLDivElement>(null);
 
     // Hook de toast para notificaciones
     const { showToast } = useToast();
@@ -95,6 +100,31 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             });
         }
     }, [product, addToRecentlyViewed]);
+
+    // Observador para mostrar/ocultar la barra sticky
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                // Mostrar barra sticky cuando el botón original no está visible
+                setShowStickyBar(!entry.isIntersecting);
+            },
+            {
+                root: null,
+                rootMargin: '-100px 0px 0px 0px', // Un poco antes de que salga completamente
+                threshold: 0,
+            }
+        );
+
+        if (addToCartRef.current) {
+            observer.observe(addToCartRef.current);
+        }
+
+        return () => {
+            if (addToCartRef.current) {
+                observer.unobserve(addToCartRef.current);
+            }
+        };
+    }, []);
 
     // Mutation para añadir al carrito
     const [addToCart, { loading: addingToCart }] = useMutation(ADD_ITEM_TO_ORDER, {
@@ -253,7 +283,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
                     {/* Add to Cart */}
                     {!isQuoteOnly ? (
-                        <div className={styles.addToCart}>
+                        <div className={styles.addToCart} ref={addToCartRef}>
                             <div className={styles.quantitySelector}>
                                 <button
                                     className={styles.quantityButton}
@@ -469,6 +499,60 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     ← Volver a productos
                 </Link>
             </div>
+
+            {/* Barra Sticky de Añadir al Carrito */}
+            {!isQuoteOnly && (
+                <div className={`${styles.stickyBar} ${showStickyBar ? styles.stickyBarVisible : ''}`}>
+                    <div className={styles.stickyBarContent}>
+                        <div className={styles.stickyProductInfo}>
+                            {product.featuredAsset?.preview && (
+                                <img
+                                    src={product.featuredAsset.preview}
+                                    alt={product.name}
+                                    className={styles.stickyProductImage}
+                                />
+                            )}
+                            <div className={styles.stickyProductDetails}>
+                                <span className={styles.stickyProductName}>{product.name}</span>
+                                <span className={styles.stickyProductPrice}>
+                                    {formatPrice(selectedVariant?.priceWithTax || 0)}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className={styles.stickyActions}>
+                            <div className={styles.stickyQuantitySelector}>
+                                <button
+                                    className={styles.stickyQuantityButton}
+                                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                                    disabled={quantity <= 1}
+                                    aria-label="Reducir cantidad"
+                                >
+                                    -
+                                </button>
+                                <span className={styles.stickyQuantityValue}>{quantity}</span>
+                                <button
+                                    className={styles.stickyQuantityButton}
+                                    onClick={() => setQuantity(quantity + 1)}
+                                    aria-label="Aumentar cantidad"
+                                >
+                                    +
+                                </button>
+                            </div>
+
+                            <Button
+                                variant="primary"
+                                size="lg"
+                                onClick={handleAddToCart}
+                                disabled={addingToCart}
+                                className={styles.stickyAddButton}
+                            >
+                                {addingToCart ? 'Añadiendo...' : 'Añadir al carrito'}
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </motion.div>
     );
 }
