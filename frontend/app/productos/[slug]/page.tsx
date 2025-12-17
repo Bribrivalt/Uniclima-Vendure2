@@ -61,26 +61,8 @@ interface ProductData {
         stockLevel: string;
     }>;
     customFields?: {
-        potenciaKw?: number;
-        frigorias?: number;
-        claseEnergetica?: string;
-        refrigerante?: string;
-        wifi?: boolean;
-        garantiaAnos?: number;
-        modoVenta?: string;
-        superficieRecomendada?: string;
-        seer?: number;
-        scop?: number;
-        nivelSonoroInterior?: number;
-        nivelSonoroExterior?: number;
-        dimensionesInterior?: string;
-        dimensionesExterior?: string;
-        pesoUnidadInterior?: number;
-        pesoUnidadExterior?: number;
-        alimentacion?: string;
-        cargaRefrigerante?: number;
-        longitudMaximaTuberia?: number;
-        desnivelMaximo?: number;
+        compatibilidades?: string;
+        erroresSintomas?: string;
     };
     facetValues?: Array<{
         id: string;
@@ -126,26 +108,8 @@ async function getProduct(slug: string): Promise<ProductData | null> {
                     stockLevel
                 }
                 customFields {
-                    potenciaKw
-                    frigorias
-                    claseEnergetica
-                    refrigerante
-                    wifi
-                    garantiaAnos
-                    modoVenta
-                    superficieRecomendada
-                    seer
-                    scop
-                    nivelSonoroInterior
-                    nivelSonoroExterior
-                    dimensionesInterior
-                    dimensionesExterior
-                    pesoUnidadInterior
-                    pesoUnidadExterior
-                    alimentacion
-                    cargaRefrigerante
-                    longitudMaximaTuberia
-                    desnivelMaximo
+                    compatibilidades
+                    erroresSintomas
                 }
                 facetValues {
                     id
