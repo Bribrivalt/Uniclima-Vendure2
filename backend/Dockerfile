@@ -7,6 +7,7 @@ RUN npm install --legacy-peer-deps
 
 COPY . .
 
+# 🔥 ESTA LÍNEA ES LA CLAVE
 RUN npm run build
 
 EXPOSE 3001
