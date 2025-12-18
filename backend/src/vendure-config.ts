@@ -50,7 +50,7 @@ export const config: VendureConfig = {
         port: +(process.env.DB_PORT || 5432),
         database: process.env.DB_NAME || 'postgres',
         username: process.env.DB_USERNAME || 'postgres',
-        password: process.env.DB_PASSWORD || 'postgres',
+        password: process.env.DB_PASSWORD || 'RDO1982_STRONG!',
         // See the README.md "Migrations" section for an explanation of
         // the `synchronize` and `migrations` options.
         synchronize: IS_DEV, // Auto-sync in dev, use migrations in production
