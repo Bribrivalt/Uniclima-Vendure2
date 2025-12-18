@@ -13,7 +13,7 @@
     "start": "concurrently npm:start:*",
     "import:excel": "ts-node ./scripts/import-products-excel.ts",
     "copy-dashboard": "vite build",
-    "postinstall": "npm run copy-dashboard"
+    "postinstall": ""
   },
   "dependencies": {
     "@vendure/asset-server-plugin": "3.5.1",
