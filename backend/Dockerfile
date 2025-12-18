@@ -3,11 +3,12 @@ FROM node:20-bullseye
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-
-# 🔥 CLAVE: evitar scripts postinstall
-RUN npm install --legacy-peer-deps --ignore-scripts
+RUN npm install --legacy-peer-deps
 
 COPY . .
+
+# 👇 ESTO ES LO ÚNICO QUE DEBE BUILDAR
+RUN npm run build
 
 EXPOSE 3001
 
