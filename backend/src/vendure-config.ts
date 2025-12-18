@@ -48,8 +48,8 @@ export const config: VendureConfig = {
         type: 'postgres',
         host: process.env.DB_HOST,
         port: +(process.env.DB_PORT || 5432),
-        database: process.env.DB_NAME || 'postgres',
-        username: process.env.DB_USERNAME || 'postgres',
+        database: process.env.DB_NAME || 'vendure',
+        username: process.env.DB_USERNAME || 'vendure',
         password: process.env.DB_PASSWORD,
         // See the README.md "Migrations" section for an explanation of
         // the `synchronize` and `migrations` options.
